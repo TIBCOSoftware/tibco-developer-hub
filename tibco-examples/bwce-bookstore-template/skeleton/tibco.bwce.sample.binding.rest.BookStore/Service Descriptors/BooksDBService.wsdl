@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:tns="http://xmlns.example.com/20140929140236" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BooksDBService" targetNamespace="http://xmlns.example.com/20140929140236" xmlns:extns="http://www.example.org/Books">
+    <wsdl:import namespace="http://www.example.org/Books" location="../Schemas/Books.xsd" />
+    <wsdl:types>
+    <xsd:schema elementFormDefault="unqualified" targetNamespace="http://xmlns.example.com/20140929140236">
+            <xsd:import namespace="http://www.example.org/Books"/>
+            <xsd:element name="addBooksRequest" type="extns:Books">
+      </xsd:element>
+      <xsd:element name="addBooksResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addBooksFault">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="fault" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="getAllBooksRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="getAllBooksResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="getBookByISBNRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="ISBN" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="getBookByISBNResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="updateBookRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="updateBookResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="deleteBookRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="ISBN" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="deleteBookResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="getRecentBooksRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="getRecentBooksResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+        </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="addBooksRequest">
+    <wsdl:part element="tns:addBooksRequest" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="addBooksResponse">
+    <wsdl:part element="extns:Books" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="addBooksFault">
+    <wsdl:part element="tns:addBooksFault" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="getAllBooksRequest">
+    <wsdl:part element="tns:getAllBooksRequest" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="getAllBooksResponse">
+    <wsdl:part element="extns:Books" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="getBookByISBNRequest">
+    <wsdl:part element="tns:getBookByISBNRequest" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="getBookByISBNResponse">
+    <wsdl:part element="extns:Book" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="updateBookRequest">
+    <wsdl:part element="extns:Book" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="updateBookResponse">
+    <wsdl:part element="extns:Book" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="deleteBookRequest">
+    <wsdl:part element="tns:deleteBookRequest" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="deleteBookResponse">
+    <wsdl:part element="tns:deleteBookResponse" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="getRecentBooksRequest">
+    <wsdl:part element="tns:getRecentBooksRequest" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="getRecentBooksResponse">
+    <wsdl:part element="extns:Books" name="parameters"/>
+  </wsdl:message>
+    <wsdl:portType name="Service">
+    <wsdl:operation name="addBooks">
+      <wsdl:input message="tns:addBooksRequest" name="operationInput"/>
+      <wsdl:output message="tns:addBooksResponse" name="operationOutput"/>
+      <wsdl:fault message="tns:addBooksFault" name="Fault"/>
+    </wsdl:operation>
+        <wsdl:operation name="getAllBooks">
+      <wsdl:input message="tns:getAllBooksRequest" name="operationInput0"/>
+      <wsdl:output message="tns:getAllBooksResponse" name="operationOutput0"/>
+    </wsdl:operation>
+        <wsdl:operation name="getBookByISBN">
+      <wsdl:input message="tns:getBookByISBNRequest" name="operationInput1"/>
+      <wsdl:output message="tns:getBookByISBNResponse" name="operationOutput1"/>
+    </wsdl:operation>
+        <wsdl:operation name="updateBook">
+      <wsdl:input message="tns:updateBookRequest" name="operationInput2"/>
+      <wsdl:output message="tns:updateBookResponse" name="operationOutput2"/>
+    </wsdl:operation>
+        <wsdl:operation name="deleteBook">
+      <wsdl:input message="tns:deleteBookRequest" name="operationInput3"/>
+      <wsdl:output message="tns:deleteBookResponse" name="operationOutput3"/>
+    </wsdl:operation>
+        <wsdl:operation name="getRecentBooks">
+      <wsdl:input message="tns:getRecentBooksRequest" name="operationInput4"/>
+      <wsdl:output message="tns:getRecentBooksResponse" name="operationOutput4"/>
+    </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

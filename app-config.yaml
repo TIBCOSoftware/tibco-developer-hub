@@ -1,0 +1,117 @@
+app:
+  title: The TIBCO Developer Hub
+  baseUrl: http://localhost:3000/tibco/hub
+  support:
+    url: https://support.tibco.com/s/
+    items:
+      - title: 'TIBCO Support Page'
+        icon: 'email'
+        links:
+          - url: 'https://support.tibco.com/s/'
+            title: 'TIBCO Support'
+  buildInfo:
+    version: latest
+    show: true
+
+organization:
+  name: TIBCO Software's
+
+backend:
+  # Used for enabling authentication, secret is shared by all backend plugins
+  # See https://backstage.io/docs/auth/service-to-service-auth for
+  # information on the format
+  # auth:
+  #   keys:
+  #     - secret: ${BACKEND_SECRET}
+  baseUrl: http://localhost:7007/tibco/hub
+  listen:
+    port: 7007
+    # Uncomment the following host directive to bind to all IPv4 interfaces and
+    # not just the baseUrl hostname.
+    # host: 0.0.0.0
+  # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
+  # Default Helmet Content-Security-Policy values can be removed by setting the key to false
+  cors:
+    origin: http://localhost:3000
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+
+  # This is for local development only, it is not recommended to use this in production
+  # The production database configuration is stored in app-config.production.yaml
+  database:
+    #    client: better-sqlite3
+    #    connection: ':memory:'
+    #  cache:
+    #    store: memory
+    # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
+    # config options: https://node-postgres.com/api/client
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password:
+        ${POSTGRES_PASSWORD}
+        # https://node-postgres.com/features/ssl
+        #ssl: require # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
+      #ca: # if you have a CA file and want to verify it you can uncomment this section
+      #$file: <file-path>/ca/server.crt
+
+integrations:
+  github:
+    - host: github.com
+      # apps:
+      #   - $include: github-backstage-app-credentials.yaml
+      # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+      # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+      token: ${GITHUB_TOKEN}
+    ### Example for how to add your GitHub Enterprise instance using the API:
+    # - host: ghe.example.net
+    #   apiBaseUrl: https://ghe.example.net/api/v3
+    #   token: ${GHE_TOKEN}
+
+# Reference documentation http://backstage.io/docs/features/techdocs/configuration
+# Note: After experimenting with basic setup, use CI/CD to generate docs
+# and an external cloud storage when deploying TechDocs for production use-case.
+# https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
+techdocs:
+  builder: 'local' # Alternatives - 'external'
+  generator:
+    runIn: 'docker' # Alternatives - 'local'
+    # runIn: 'docker' # Alternatives - 'local'
+    # dockerImage: 'mkdocs:local-dev'
+  publisher:
+    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+
+auth:
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
+  # uncomment 3 lines below and add organization name in place of <YOUR-ORG-NAME> to support sign in through gitHub
+  # signIn:
+  #  github:
+  #   organizations: ['<YOUR-ORG-NAME>']
+  providers:
+    github:
+      development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+    oauth2Proxy:
+      development: {}
+  enableAuthProviders: [oauth2Proxy]
+  #   Available providers:
+  #   for local deployments
+  #     [github, oauth2Proxy, guest]
+  #   for deployments in a Dataplane:
+  #    [ oauth2Proxy ]
+  # IMPORTANT! oauth2Proxy provider:
+  # If you allow oauth2Proxy in the available providers, it will be used by default over other providers.
+  # If you wish to use other providers, remove oauth2Proxy from available providers.
+
+scaffolder:
+  # see https://backstage.io/docs/features/software-templates/configuration for software template options
+  defaultAuthor:
+    name: TIBCO Developer Hub # Defaults to `Scaffolder`
+    email: test@test.com # Defaults to `scaffolder@backstage.io`
+  defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
+catalog:
+  locations: []

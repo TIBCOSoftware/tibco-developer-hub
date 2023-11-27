@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jndi:namedResource xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://xsd.tns.tibco.com/amf/models/sharedresource/jdbc" xmlns:jndi="http://xsd.tns.tibco.com/amf/models/sharedresource/jndi" xmlns:subject="http://xsd.tns.tibco.com/trinity/models/identity/subject" xmi:id="_cCZCkYcFEeWGa47wSHjUzA" name="tibco.bwce.sample.binding.rest.BookStore.JDBCConnectionResource" type="jdbc:JdbcDataSource">
+  <jndi:reference xmi:id="_cCkowIcFEeWGa47wSHjUzA" key="subjectJndiName" type="subject:SubjectConfiguration" value=""/>
+  <jndi:configuration xsi:type="jdbc:JdbcDataSource" xmi:id="_cCkowYcFEeWGa47wSHjUzA">
+    <substitutionBindings xmi:id="_gkCBwIcFEeWGa47wSHjUzA" template="username" propName="dbUserName"/>
+    <substitutionBindings xmi:id="_hhvAIIcFEeWGa47wSHjUzA" template="password" propName="dbPassword"/>
+    <connectionConfig xsi:type="jdbc:NonXaConnection" xmi:id="_cCkowocFEeWGa47wSHjUzA">
+      <substitutionBindings xmi:id="_iPJfwIcFEeWGa47wSHjUzA" template="jdbcDriver" propName="dbDriver"/>
+      <substitutionBindings xmi:id="_jTi8AIcFEeWGa47wSHjUzA" template="dbURL" propName="dbURL"/>
+    </connectionConfig>
+  </jndi:configuration>
+</jndi:namedResource>

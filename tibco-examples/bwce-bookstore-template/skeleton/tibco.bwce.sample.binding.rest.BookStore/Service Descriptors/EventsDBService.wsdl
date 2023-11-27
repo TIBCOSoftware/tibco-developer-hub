@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:extns="http://www.example.org/Events" xmlns:tns="http://xmlns.example.com/20141006121028" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="EventsDBService" targetNamespace="http://xmlns.example.com/20141006121028">
+    <wsdl:import namespace="http://www.example.org/Events" location="../Schemas/Events.xsd"/>
+    <wsdl:types>
+    <xsd:schema elementFormDefault="unqualified" targetNamespace="http://xmlns.example.com/20141006121028">
+      <xsd:element name="getAllEventsRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAllEventsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getAllEventsFault">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="fault" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="addEventsRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="addEventsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="getEventByIDRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="EventID" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="getEventByIDResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="updateEventRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="in" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="updateEventResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="deleteEventRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="EventID" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="deleteEventResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="getEventByISBNRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="ISBN" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+            <xsd:element name="getEventByISBNResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="out" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+        </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getAllEventsRequest">
+    <wsdl:part element="tns:getAllEventsRequest" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAllEventsResponse">
+    <wsdl:part element="extns:Events" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAllEventsFault">
+    <wsdl:part element="tns:getAllEventsFault" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="addEventsRequest">
+    <wsdl:part element="extns:Events" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="addEventsResponse">
+    <wsdl:part element="extns:Events" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="getEventByIDRequest">
+    <wsdl:part element="tns:getEventByIDRequest" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="getEventByIDResponse">
+    <wsdl:part element="extns:Event" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="updateEventRequest">
+    <wsdl:part element="extns:Event" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="updateEventResponse">
+    <wsdl:part element="extns:Event" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="deleteEventRequest">
+    <wsdl:part element="tns:deleteEventRequest" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="deleteEventResponse">
+    <wsdl:part element="tns:deleteEventResponse" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="getEventByISBNRequest">
+    <wsdl:part element="tns:getEventByISBNRequest" name="parameters"/>
+  </wsdl:message>
+    <wsdl:message name="getEventByISBNResponse">
+    <wsdl:part element="extns:Events" name="parameters"/>
+  </wsdl:message>
+    <wsdl:portType name="Service">
+    <wsdl:operation name="getAllEvents">
+      <wsdl:input message="tns:getAllEventsRequest" name="operationInput"/>
+      <wsdl:output message="tns:getAllEventsResponse" name="operationOutput"/>
+      <wsdl:fault message="tns:getAllEventsFault" name="Fault"/>
+    </wsdl:operation>
+        <wsdl:operation name="addEvents">
+      <wsdl:input message="tns:addEventsRequest" name="operationInput0"/>
+      <wsdl:output message="tns:addEventsResponse" name="operationOutput0"/>
+    </wsdl:operation>
+        <wsdl:operation name="getEventByID">
+      <wsdl:input message="tns:getEventByIDRequest" name="operationInput1"/>
+      <wsdl:output message="tns:getEventByIDResponse" name="operationOutput1"/>
+    </wsdl:operation>
+        <wsdl:operation name="updateEvent">
+      <wsdl:input message="tns:updateEventRequest" name="operationInput2"/>
+      <wsdl:output message="tns:updateEventResponse" name="operationOutput2"/>
+    </wsdl:operation>
+        <wsdl:operation name="deleteEvent">
+      <wsdl:input message="tns:deleteEventRequest" name="operationInput3"/>
+      <wsdl:output message="tns:deleteEventResponse" name="operationOutput3"/>
+    </wsdl:operation>
+        <wsdl:operation name="getEventByISBN">
+      <wsdl:input message="tns:getEventByISBNRequest" name="operationInput4"/>
+      <wsdl:output message="tns:getEventByISBNResponse" name="operationOutput4"/>
+    </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

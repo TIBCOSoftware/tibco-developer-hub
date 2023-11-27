@@ -1,0 +1,260 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "localhost:8080",
+  "resourcePath": "/Books",
+  "apis": [
+    {
+      "path": "/book/{ISBN}",
+      "description": "",
+      "operations": [
+        {
+          "method": "GET",
+          "nickname": "getBook",
+          "type": "Book",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "ISBN",
+              "description": "",
+              "type": "string",
+              "required": false,
+              "allowMultiple": false
+            }
+          ],
+          "summary": null,
+          "notes": null,
+          "responseMessages": [
+            {
+              "code": 503,
+              "message": "Service Unavailable"
+            },
+            {
+              "code": 200,
+              "message": "OK"
+            }
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ]
+        },
+        {
+          "method": "PUT",
+          "nickname": "putBook",
+          "type": "Book",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "ISBN",
+              "description": "",
+              "type": "string",
+              "required": false,
+              "allowMultiple": false
+            }
+          ],
+          "summary": null,
+          "notes": null,
+          "responseMessages": [],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "nickname": "deleteBook",
+          "type": "string",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "ISBN",
+              "description": "",
+              "type": "string",
+              "required": false,
+              "allowMultiple": false
+            }
+          ],
+          "summary": null,
+          "notes": null,
+          "responseMessages": [],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/books",
+      "description": "",
+      "operations": [
+        {
+          "method": "POST",
+          "nickname": "postBooks",
+          "type": "Books",
+          "parameters": [],
+          "summary": null,
+          "notes": null,
+          "responseMessages": [
+            {
+              "code": 503,
+              "message": "Service Unavailable"
+            }
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ]
+        },
+        {
+          "method": "GET",
+          "nickname": "getBooks",
+          "type": "Books",
+          "parameters": [],
+          "summary": null,
+          "notes": null,
+          "responseMessages": [],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/book/{ISBN}/events",
+      "description": "",
+      "operations": [
+        {
+          "method": "GET",
+          "nickname": "getBook",
+          "type": "Events",
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "ISBN",
+              "description": "",
+              "type": "string",
+              "required": false,
+              "allowMultiple": false
+            }
+          ],
+          "summary": null,
+          "notes": null,
+          "responseMessages": [
+            {
+              "code": 503,
+              "message": "Service Unavailable"
+            },
+            {
+              "code": 200,
+              "message": "OK"
+            }
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "produces": [
+            "application/json"
+          ]
+        }
+      ]
+    }
+  ],
+  "authorizations": {},
+  "models": {
+    "Events": {
+      "id": "Events",
+      "type": "object",
+      "properties": {
+        "Event": {
+          "type": "array",
+          "items": {
+            "$ref": "Event",
+            "uniqueItems": false
+          }
+        }
+      }
+    },
+    "Book": {
+      "id": "Book",
+      "type": "object",
+      "properties": {
+        "isbn": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "authorName": {
+          "type": "string"
+        },
+        "releaseDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "vintage": {
+          "type": "boolean"
+        },
+        "signed": {
+          "type": "boolean"
+        },
+        "price": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "Event": {
+      "id": "Event",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "authorName": {
+          "type": "string"
+        },
+        "bookIsbn": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        }
+      }
+    },
+    "Books": {
+      "id": "Books",
+      "type": "object",
+      "properties": {
+        "Book": {
+          "type": "array",
+          "items": {
+            "$ref": "Book",
+            "uniqueItems": false
+          }
+        }
+      }
+    }
+  }
+}

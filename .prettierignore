@@ -1,0 +1,12 @@
+dist
+dist-types
+coverage
+.vscode
+# ignoring helm yaml templates because they can't be parsed by prettier because
+# the template syntax can't be parsed as standard yaml
+**/helm/**/*.yaml
+**/helm/**/*.yml
+**/charts/**/*.yaml
+**/charts/**/*.yml
+
+kubernetes

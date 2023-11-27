@@ -1,0 +1,44 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "GetData",
+    "description": "",
+    "version": "1.0"
+  },
+  "tags": [],
+  "paths": {
+    "/getData": {
+      "get": {
+        "summary": "",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "response": {
+                      "type": "object"
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "response": {}
+                  }
+                ]
+              }
+            },
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}

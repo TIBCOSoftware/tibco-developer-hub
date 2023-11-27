@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import './themes/styles/button.css';
+body {
+  /* You will need to configure the Source Sans Pro font */
+  font-family: 'Source Sans Pro', 'PT Sans', Calibri, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}

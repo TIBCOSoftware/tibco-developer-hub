@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/Events" elementFormDefault="qualified" targetNamespace="http://www.example.org/Events">
+
+    <complexType name="Event">
+    	<sequence>
+    		<element minOccurs="0" name="id" type="string"/>
+            <element minOccurs="0" name="summary" type="string"/>
+            <element minOccurs="0" name="description" type="string"/>
+            <element minOccurs="0" name="authorName" type="string"/>
+            <element minOccurs="0" name="bookIsbn" type="string"/>
+    		<element minOccurs="0" name="date" type="string"/>
+    	</sequence>
+    </complexType>
+
+    <element name="Event" type="tns:Event"/>
+
+    <complexType name="Events">
+    	<sequence>
+    		<element maxOccurs="unbounded" minOccurs="0" ref="tns:Event"/>
+    	</sequence>
+    </complexType>
+
+    <element name="Events" type="tns:Events"/>
+</schema>

@@ -1,0 +1,18 @@
+# Copyright © 2023. Cloud Software Group, Inc.
+# This file is subject to the license terms contained
+# in the license file that is distributed with this file.
+
+{{- if .Values.backstage.appConfig }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backstage-app-config
+  labels: {{ include "tibcohub.platform.commonLabels" . | nindent 4 }}
+data:
+  {{/*
+    set CP URL from .Values.global.cp.cpHostname to .Values.backstage.appConfig.cpLink variable, 
+    value passed from backstage.appConfig.cpLink will have precedence
+ */}}
+  app-config.yaml: |
+    {{- include "common.tplvalues.render" ( dict "value" (merge .Values.backstage.appConfig (dict "cpLink" .Values.global.cp.cpHostname)) "context" $) | nindent 4 }}
+{{- end }}

@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tibco-templates
+  description: Tibco templates group
+spec:
+  type: organization
+  profile:
+    displayName: Tibco templates
+    email: info@acme.com
+  children: []

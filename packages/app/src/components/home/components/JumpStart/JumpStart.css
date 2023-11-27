@@ -1,0 +1,37 @@
+.tpdh-js-container {
+  margin-top: 24px;
+  border-radius: 3px;
+  padding: 16px 24px 32px 24px;
+  background: #f1f1f1;
+}
+.tpdh-js-title {
+  color: #212121;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 33px;
+}
+.tpdh-js-desc {
+  margin-top: 8px;
+  color: #212121;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  /*width: 510px;*/
+}
+.tpdh-js-container .tpdh-js-btn {
+  width: 221px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.tpdh-js-open-icon {
+  margin-left: 16px;
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  /*  display: grid;*/
+}
+.tpdh-js-open-icon-link {
+  /*display: grid;*/
+  vertical-align: middle;
+}

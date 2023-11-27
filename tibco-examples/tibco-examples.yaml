@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: example-templates-locations
+spec:
+  targets:
+    - ./template-user-group/catalog-info.yaml
+    - ./bwce-bookstore-template/bwce-bookstore-template.yaml
+    - ./docs-system/catalog-info.yaml
+    - ./docs-template/docs-template.yaml
+    - ./flogo-sample-template/flogo-sample-template.yaml

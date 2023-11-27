@@ -1,0 +1,17 @@
+{
+  "resources": [
+    {
+      "location": ".WebResources/docs.json",
+      "type": "generated"
+    },
+    {
+      "location": ".WebResources/Books",
+      "type": "generated"
+    },
+    {
+      "location": ".WebResources/Events",
+      "type": "generated"
+    }
+  ],
+  "records": []
+}

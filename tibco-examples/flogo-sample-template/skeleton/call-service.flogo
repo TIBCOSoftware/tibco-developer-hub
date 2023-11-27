@@ -1,0 +1,367 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "github.com/tibco/wi-contrib/contributions/General/activity/log",
+        "github.com/tibco/wi-contrib/contributions/General/activity/rest",
+        "github.com/tibco/wi-contrib/contributions/General/activity/httpresponse",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "rest_1 github.com/tibco/wi-contrib/contributions/General/trigger/rest",
+        "github.com/project-flogo/contrib/function/coerce"
+    ],
+    "name": "${{ values.name }}",
+    "description": "${{ values.description }}",
+    "version": "1.0.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "tags": [],
+    "triggers": [
+        {
+            "ref": "#rest_1",
+            "name": "tibco-wi-rest",
+            "description": "Simple REST Trigger",
+            "settings": {
+                "port": 9999,
+                "APISpecUpdate": true,
+                "swagger": {
+                    "filename": "GetData.json",
+                    "content": "data:application/json;base64,eyJvcGVuYXBpIjoiMy4wLjMiLCJpbmZvIjp7InRpdGxlIjoiR2V0RGF0YSIsImRlc2NyaXB0aW9uIjoiIiwidmVyc2lvbiI6IjEuMCJ9LCJ0YWdzIjpbXSwicGF0aHMiOnsiL2dldERhdGEiOnsiZ2V0Ijp7InN1bW1hcnkiOiIiLCJkZXNjcmlwdGlvbiI6IiIsInBhcmFtZXRlcnMiOltdLCJyZXNwb25zZXMiOnsiMjAwIjp7ImRlc2NyaXB0aW9uIjoic3VjY2VzcyByZXNwb25zZSIsImNvbnRlbnQiOnsiYXBwbGljYXRpb24vanNvbiI6eyJzY2hlbWEiOnsidHlwZSI6Im9iamVjdCIsInByb3BlcnRpZXMiOnsicmVzcG9uc2UiOnsidHlwZSI6Im9iamVjdCJ9fX0sImV4YW1wbGUiOlt7InJlc3BvbnNlIjp7fX1dfX0sImhlYWRlcnMiOnt9fX19fX0sImNvbXBvbmVudHMiOnsic2NoZW1hcyI6e319fQ=="
+                },
+                "swaggerVersion": "v3",
+                "apiVersion": "1.0",
+                "exposeSwaggerEndpoint": true,
+                "secureConnection": false,
+                "serverKey": "",
+                "caCertificate": ""
+            },
+            "id": "ReceiveHTTPMessage",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "APISpecPath": "/getData",
+                        "Method": "GET",
+                        "reqType": "application/json",
+                        "Path": "/getData",
+                        "OutputValidation": false
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:GetData"
+                        },
+                        "input": {
+                            "requestURI": "=$.requestURI",
+                            "method": "=$.method"
+                        },
+                        "output": {
+                            "code": "=$.code",
+                            "responseBody": "=$.responseBody"
+                        }
+                    },
+                    "reply": {
+                        "code": 200,
+                        "configureResponseCodes": true,
+                        "message": ""
+                    },
+                    "schemas": {
+                        "reply": {
+                            "responseBody": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}",
+                                "fe_metadata": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}"
+                            },
+                            "responseCodesSchema": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"responseType\":{\"type\":\"string\"},\"responseSchema\":{\"type\":\"string\"}}}}",
+                                "fe_metadata": "[{\"code\":200,\"responseType\":\"object\",\"responseSchema\":\"{\\\"type\\\":\\\"object\\\",\\\"properties\\\":{\\\"response\\\":{\\\"type\\\":\\\"object\\\"}}}\"}]"
+                            }
+                        },
+                        "output": {
+                            "headers": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                            },
+                            "multipartFormData": {
+                                "type": "json",
+                                "value": "{\"type\":\"object\",\"properties\":{}}",
+                                "fe_metadata": "{\"type\":\"object\",\"properties\":{}}"
+                            },
+                            "multipartForm": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{}}",
+                                "fe_metadata": "[]"
+                            }
+                        }
+                    },
+                    "name": "GetData"
+                }
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "id": "flow:GetData",
+            "data": {
+                "name": "GetData",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogInput",
+                        "to": "Call_Service",
+                        "type": "label",
+                        "label": "LogInput to Call_Service"
+                    },
+                    {
+                        "id": 2,
+                        "from": "Call_Service",
+                        "to": "LogResponse",
+                        "type": "label",
+                        "label": "Call_Service to LogResponse"
+                    },
+                    {
+                        "id": 3,
+                        "from": "LogResponse",
+                        "to": "ConfigureHTTPResponse",
+                        "type": "label",
+                        "label": "LogResponse to ConfigureHTTPResponse"
+                    },
+                    {
+                        "id": 4,
+                        "from": "ConfigureHTTPResponse",
+                        "to": "Return",
+                        "type": "label",
+                        "label": "ConfigureHTTPResponse to Return"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogInput",
+                        "name": "LogInput",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false
+                            }
+                        }
+                    },
+                    {
+                        "id": "Call_Service",
+                        "name": "Call_Service",
+                        "description": "Simple REST Activity",
+                        "settings": {
+                            "retryOnError": {
+                                "count": 0,
+                                "interval": 0
+                            }
+                        },
+                        "activity": {
+                            "ref": "#rest",
+                            "input": {
+                                "enableASR": false,
+                                "swagger": "",
+                                "authorization": false,
+                                "serviceName": "",
+                                "resourcePath": "",
+                                "Method": "GET",
+                                "Uri": "${{ values.urlToCall }}",
+                                "requestType": "application/json",
+                                "Use certificate for verification": false,
+                                "mutualAuth": false,
+                                "Client Certificate": "",
+                                "Client Key": "",
+                                "Server Certificate": "",
+                                "disableKeepAlives": false,
+                                "Timeout": 0,
+                                "proxy": "",
+                                "host": ""
+                            },
+                            "output": {
+                                "configureResponseCodes": false,
+                                "responseType": "application/json",
+                                "responseOutput": "JSON Object"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "headers": {
+                                        "type": "json",
+                                        "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                        "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                                    }
+                                },
+                                "output": {
+                                    "responseBody": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+                                        "fe_metadata": "{}"
+                                    },
+                                    "headers": {
+                                        "type": "json",
+                                        "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false},\"Set-Cookie\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                        "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Set-Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogResponse",
+                        "name": "LogResponse",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=coerce.toString($activity[Call_Service].responseBody)",
+                                "logLevel": ""
+                            }
+                        }
+                    },
+                    {
+                        "id": "ConfigureHTTPResponse",
+                        "name": "ConfigureHTTPResponse",
+                        "description": "Configure HTTP Response Activity",
+                        "activity": {
+                            "ref": "#httpresponse",
+                            "input": {
+                                "trigger": "ReceiveHTTPMessage",
+                                "responsecode": "200",
+                                "input": {
+                                    "mapping": {
+                                        "body": {
+                                            "response": "=$activity[Call_Service].responseBody"
+                                        }
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"object\",\"properties\":{\"response\":{\"type\":\"object\"}}}}}",
+                                        "fe_metadata": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"object\",\"properties\":{\"response\":{\"type\":\"object\"}}}}}"
+                                    }
+                                },
+                                "output": {
+                                    "response": {
+                                        "type": "json",
+                                        "value": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"object\",\"properties\":{\"response\":{\"type\":\"object\"}}}}}",
+                                        "fe_metadata": "{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"object\",\"properties\":{\"response\":{\"type\":\"object\"}}}}}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "code": "=$activity[ConfigureHTTPResponse].code",
+                                    "responseBody": "=$activity[ConfigureHTTPResponse].response"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "fe_metadata": "eyJMb2dJbnB1dCI6eyJ4Ijo1MCwieSI6NTB9LCJDYWxsX1NlcnZpY2UiOnsieCI6MjUwLCJ5Ijo1MH0sIkxvZ1Jlc3BvbnNlIjp7IngiOjQ1MCwieSI6NTB9LCJDb25maWd1cmVIVFRQUmVzcG9uc2UiOnsieCI6NjUwLCJ5Ijo1MH0sIlJldHVybiI6eyJ4Ijo4NTAsInkiOjUwfX0=",
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "requestURI",
+                            "type": "string"
+                        },
+                        {
+                            "name": "method",
+                            "type": "string"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "code",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "responseBody",
+                            "type": "object",
+                            "schema": {
+                                "type": "json",
+                                "value": "{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}"
+                            }
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"ReceiveHTTPMessage\",\"properties\":{\"requestURI\":{\"type\":\"string\",\"required\":false},\"method\":{\"type\":\"string\",\"required\":false}}}",
+                        "output": "{\"type\":\"object\",\"title\":\"Inputs\",\"properties\":{\"code\":{\"type\":\"integer\",\"required\":false},\"responseBody\":{\"type\":\"object\",\"properties\":{\"body\":{\"type\":\"any\"},\"headers\":{\"type\":\"object\"}}}},\"required\":[]}"
+                    }
+                },
+                "explicitReply": true
+            }
+        }
+    ],
+    "properties": [],
+    "connections": {},
+    "contrib": "W3siaWQiOiJHZW5lcmFsIiwicmVmIjoiZ2l0aHViLmNvbS90aWJjby93aS1jb250cmliL2NvbnRyaWJ1dGlvbnMvR2VuZXJhbCIsInZlcnNpb24iOiIxLjUuMSIsInRhZyI6IjEuNS4xLWIxMi1zd2FnZ2VyLWdlbiIsIm5hbWUiOiJHZW5lcmFsIiwiczNsb2NhdGlvbiI6IlRpYmNvL0dlbmVyYWwifV0=",
+    "metadata": {
+        "endpoints": [
+            {
+                "protocol": "http",
+                "port": "9999",
+                "spec": {
+                    "name": "MyFService2",
+                    "version": "1.0.0"
+                },
+                "title": "ReceiveHTTPMessage",
+                "swagger": {
+                    "openapi": "3.0.0",
+                    "info": {
+                        "title": "MyFService2",
+                        "version": "1.0.0",
+                        "description": "Simple REST Trigger"
+                    },
+                    "paths": {
+                        "/getData": {
+                            "get": {
+                                "summary": "GetData",
+                                "operationId": "get_getData",
+                                "parameters": [],
+                                "responses": {
+                                    "200": {
+                                        "description": "",
+                                        "content": {
+                                            "application/json": {
+                                                "schema": {
+                                                    "$ref": "#/components/schemas/schema1"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "components": {
+                        "schemas": {
+                            "schema1": {
+                                "type": "object",
+                                "properties": {
+                                    "response": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ],
+        "flogoVersion": "2.23.0"
+    }
+}

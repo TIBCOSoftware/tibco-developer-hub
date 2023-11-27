@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:extns="http://www.example.org/Books" xmlns:extns1="http://tns.tibco.com/bw/REST" xmlns:extns2="http://www.example.org/Books/REST/1411989492608/ConceptSchema" xmlns:extns3="http://www.example.org/Events" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions" xmlns:tns="http://www.example.org/Books/REST/1411989492608" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Books" targetNamespace="http://www.example.org/Books/REST/1411989492608">
+  <wsdl:import location="../Schemas/Books.xsd" namespace="http://www.example.org/Books"/>
+  <wsdl:import location="../Schemas/RESTSchema.xsd" namespace="http://tns.tibco.com/bw/REST"/>
+    <wsdl:import namespace="http://www.example.org/Books/REST/1411989492608/ConceptSchema"/>
+    <wsdl:import namespace="http://www.example.org/Events"/>
+    <wsdl:message name="postRequest">
+    <wsdl:part element="extns:Books" name="item"/>
+    <wsdl:part element="extns1:httpHeaders" name="httpHeaders" tibex:source="bw.rest"/>
+  </wsdl:message>
+  <wsdl:message name="postResponse">
+    <wsdl:part element="extns:Books" name="item"/>
+  </wsdl:message>
+  <wsdl:message name="post4XXFaultMessage">
+    <wsdl:part element="extns1:client4XXError" name="clientError"/>
+  </wsdl:message>
+  <wsdl:message name="post5XXFaultMessage">
+    <wsdl:part element="extns1:server5XXError" name="serverError"/>
+  </wsdl:message>
+  <wsdl:message name="getRequest">
+    <wsdl:part element="extns1:httpHeaders" name="httpHeaders" tibex:source="bw.rest"/>
+  </wsdl:message>
+  <wsdl:message name="getResponse">
+    <wsdl:part element="extns:Books" name="item"/>
+  </wsdl:message>
+  <wsdl:message name="get4XXFaultMessage">
+    <wsdl:part element="extns1:client4XXError" name="clientError"/>
+  </wsdl:message>
+  <wsdl:message name="get5XXFaultMessage">
+    <wsdl:part element="extns1:server5XXError" name="serverError"/>
+  </wsdl:message>
+    <wsdl:message name="getRequest1">
+    <wsdl:part element="extns1:httpHeaders" name="httpHeaders" tibex:source="bw.rest"/>
+    <wsdl:part element="extns2:BookParameters" name="parameters" tibex:source="bw.rest"/>
+  </wsdl:message>
+    <wsdl:message name="getResponse1">
+    <wsdl:part element="extns:Book" name="item"/>
+  </wsdl:message>
+    <wsdl:message name="get4XXFaultMessage1">
+    <wsdl:part element="extns1:client4XXError" name="clientError"/>
+  </wsdl:message>
+    <wsdl:message name="get5XXFaultMessage1">
+    <wsdl:part element="extns1:server5XXError" name="serverError"/>
+  </wsdl:message>
+    <wsdl:message name="putRequest">
+    <wsdl:part element="extns:Book" name="item"/>
+    <wsdl:part element="extns1:httpHeaders" name="httpHeaders" tibex:source="bw.rest"/>
+    <wsdl:part element="extns2:BookParameters" name="parameters" tibex:source="bw.rest"/>
+  </wsdl:message>
+    <wsdl:message name="putResponse">
+    <wsdl:part element="extns:Book" name="item"/>
+  </wsdl:message>
+    <wsdl:message name="put4XXFaultMessage">
+    <wsdl:part element="extns1:client4XXError" name="clientError"/>
+  </wsdl:message>
+    <wsdl:message name="put5XXFaultMessage">
+    <wsdl:part element="extns1:server5XXError" name="serverError"/>
+  </wsdl:message>
+    <wsdl:message name="deleteRequest">
+    <wsdl:part element="extns1:httpHeaders" name="httpHeaders" tibex:source="bw.rest"/>
+    <wsdl:part element="extns2:BookParameters" name="parameters" tibex:source="bw.rest"/>
+  </wsdl:message>
+    <wsdl:message name="deleteResponse">
+    <wsdl:part name="msg" type="xsd:string"/>
+  </wsdl:message>
+    <wsdl:message name="delete4XXFaultMessage">
+    <wsdl:part element="extns1:client4XXError" name="clientError"/>
+  </wsdl:message>
+    <wsdl:message name="delete5XXFaultMessage">
+    <wsdl:part element="extns1:server5XXError" name="serverError"/>
+  </wsdl:message>
+    <wsdl:message name="getRequest2">
+    <wsdl:part element="extns1:httpHeaders" name="httpHeaders" tibex:source="bw.rest"/>
+    <wsdl:part element="extns2:Book1Parameters" name="parameters" tibex:source="bw.rest"/>
+  </wsdl:message>
+    <wsdl:message name="getResponse2">
+    <wsdl:part element="extns3:Events" name="item"/>
+  </wsdl:message>
+    <wsdl:message name="get4XXFaultMessage2">
+    <wsdl:part element="extns1:client4XXError" name="clientError"/>
+  </wsdl:message>
+    <wsdl:message name="get5XXFaultMessage2">
+    <wsdl:part element="extns1:server5XXError" name="serverError"/>
+  </wsdl:message>
+    <wsdl:portType name="Books" tibex:source="bw.rest">
+    <wsdl:documentation/>
+    <wsdl:operation name="post">
+      <wsdl:input message="tns:postRequest" name="postInput"/>
+      <wsdl:output message="tns:postResponse" name="postOutput"/>
+      <wsdl:fault message="tns:post4XXFaultMessage" name="clientFault"/>
+      <wsdl:fault message="tns:post5XXFaultMessage" name="serverFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="get">
+      <wsdl:input message="tns:getRequest" name="getInput"/>
+      <wsdl:output message="tns:getResponse" name="getOutput"/>
+      <wsdl:fault message="tns:get4XXFaultMessage" name="clientFault"/>
+      <wsdl:fault message="tns:get5XXFaultMessage" name="serverFault"/>
+    </wsdl:operation>
+  </wsdl:portType>
+    <wsdl:portType name="Book" tibex:source="bw.rest">
+    <wsdl:documentation/>
+    <wsdl:operation name="get">
+      <wsdl:input message="tns:getRequest1" name="getInput"/>
+      <wsdl:output message="tns:getResponse1" name="getOutput"/>
+      <wsdl:fault message="tns:get4XXFaultMessage1" name="clientFault"/>
+      <wsdl:fault message="tns:get5XXFaultMessage1" name="serverFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="put">
+      <wsdl:input message="tns:putRequest" name="putInput"/>
+      <wsdl:output message="tns:putResponse" name="putOutput"/>
+      <wsdl:fault message="tns:put4XXFaultMessage" name="clientFault"/>
+      <wsdl:fault message="tns:put5XXFaultMessage" name="serverFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="delete">
+      <wsdl:input message="tns:deleteRequest" name="deleteInput"/>
+      <wsdl:output message="tns:deleteResponse" name="deleteOutput"/>
+      <wsdl:fault message="tns:delete4XXFaultMessage" name="clientFault"/>
+      <wsdl:fault message="tns:delete5XXFaultMessage" name="serverFault"/>
+    </wsdl:operation>
+  </wsdl:portType>
+    <wsdl:portType name="Book1" tibex:source="bw.rest">
+    <wsdl:documentation/>
+    <wsdl:operation name="get">
+      <wsdl:input message="tns:getRequest2" name="getInput"/>
+      <wsdl:output message="tns:getResponse2" name="getOutput"/>
+      <wsdl:fault message="tns:get4XXFaultMessage2" name="clientFault"/>
+      <wsdl:fault message="tns:get5XXFaultMessage2" name="serverFault"/>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

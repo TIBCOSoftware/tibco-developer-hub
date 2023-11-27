@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:tns="http://tibco.com/bw/bw6/system/ModuleActivator" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ModuleActivator" targetNamespace="http://tibco.com/bw/bw6/system/ModuleActivator">
+    <wsdl:message name="onStartupRequest">
+	</wsdl:message>
+    <wsdl:message name="onShutdownRequest">
+    </wsdl:message>
+    <wsdl:portType name="ModuleActivator">
+    	<wsdl:operation name="onStartup">
+    		<wsdl:input message="tns:onStartupRequest"/>
+    	</wsdl:operation>
+    	<wsdl:operation name="onShutdown">
+    		<wsdl:input message="tns:onShutdownRequest"/>
+    	</wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

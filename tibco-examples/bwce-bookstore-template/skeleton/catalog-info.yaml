@@ -1,0 +1,23 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{values.name | dump}}
+  description: ${{values.description | dump}}
+  annotations:
+    github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-id: ${{values.destination.repo}}
+spec:
+  type: service
+  lifecycle: development
+  system: data-table-exposure
+  owner: ${{values.owner | dump}}
+  providesApis: ['${{values.name}}-api']
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: ${{values.name}}-api-location
+spec:
+  targets:
+    - ./catalog-api.yaml

@@ -1,0 +1,22 @@
+.tpdh-intro-container {
+  padding: 48px 24px 24px 24px;
+}
+.tpdh-intro-title {
+  color: #212121;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 38px;
+}
+.tpdh-intro-desc {
+  color: #212121;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  /*  width: 50%;*/
+  /*width: 507px;*/
+}
+.tpdh-intro-buttons {
+  margin-top: 20px !important;
+  font-size: 16px;
+  line-height: 24px;
+}

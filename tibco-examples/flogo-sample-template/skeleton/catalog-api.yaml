@@ -1,0 +1,22 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: '${{values.name}}-api'
+  description: 'API for ${{values.description}}'
+  tags:
+    - store
+    - rest
+  links:
+    - url: ${{"https://github.com/" + values.destination.owner + "/" + values.destination.repo}}
+      title: GitHub Repo
+      icon: github
+#    - url: ${{"https://github.com/" + values.destination.owner + "/" + values.destination.repo + "/blob/master/api-spec/APISpec.yaml"}}
+#      title: API Spec
+#      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: ${{values.owner | dump}}
+  apiConsumedBy: ['component:${{values.name}}']
+  definition:
+    $text: ./api-spec/GetData.yaml

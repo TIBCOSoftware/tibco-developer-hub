@@ -1,0 +1,41 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      NODE_OPTIONS: --max-old-space-size=4096
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: yarn install
+      - name: validate config
+        run: yarn backstage-cli config:check --lax
+      - name: type checking and declarations
+        run: yarn tsc:full
+      - name: prettier
+        run: yarn prettier:check
+      - name: build all packages
+        run: yarn backstage-cli repo build --all
+      - name: fetch branch main
+        # needed so the linter can run only against changed files
+        run: git fetch origin main
+      - name: lint changed packages
+        run: yarn lint
+      - name: ensure clean working directory
+        run: |
+          if files=$(git ls-files --exclude-standard --others --modified) && [[ -z "$files" ]]; then
+            exit 0
+          else
+            echo ""
+            echo "Working directory has been modified:"
+            echo ""
+            git status --short
+            echo ""
+            exit 1
+          fi

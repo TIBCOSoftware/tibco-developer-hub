@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sca:composite xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BW="http://xsd.tns.tibco.com/amf/models/sca/implementationtype/BW" xmlns:XMLSchema="http://www.w3.org/2001/XMLSchema" xmlns:compositeext="http://schemas.tibco.com/amx/3.0/compositeext" xmlns:property="http://ns.tibco.com/bw/property" xmlns:rest="http://xsd.tns.tibco.com/bw/models/binding/rest" xmlns:sca="http://www.osoa.org/xmlns/sca/1.0" xmlns:scact="http://xsd.tns.tibco.com/amf/models/sca/componentType" xmlns:scaext="http://xsd.tns.tibco.com/amf/models/sca/extensions" xmi:id="_7bgyYEeyEeSkBPbNLcPWbg" targetNamespace="http://tns.tibco.com/bw/composite/tibco.bwce.sample.binding.rest.BookStore" name="tibco.bwce.sample.binding.rest.BookStore" compositeext:version="1.0.0" compositeext:description="Using REST to Manage Books for a Bookstore" compositeext:formatVersion="2">
+  <sca:service xmi:id="_TTYvAEfKEeSkBPbNLcPWbg" name="Books" promote="ComponentBooks/Books">
+    <sca:interface.wsdl xmi:id="_TT0M0EfKEeSkBPbNLcPWbg" interface="http://www.example.org/Books/REST/1411989492608#wsdl.interface(Books)" scaext:wsdlLocation="../Service%20Descriptors/Books.wsdl"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_TUs9oEfKEeSkBPbNLcPWbg" name="RestService" path="/books" docBasePath="http://localhost:7777/tibco.bwce.sample.binding.rest.BookStore" docResourcePath="Books" connector="tibco.bwce.sample.binding.rest.BookStore.Books" structuredData="true">
+      <operation xmi:id="_TdqFUEfKEeSkBPbNLcPWbg" operationName="post" nickname="postBooks" httpMethod="POST">
+        <responseStatus xmi:id="_3c9lkJBXEeadY9iADHMKpQ" statusCode="503" reasonPhrase="Service Unavailable"/>
+      </operation>
+      <operation xmi:id="_TdqFUUfKEeSkBPbNLcPWbg" operationName="get" nickname="getBooks" httpMethod="GET"/>
+      <parameters xmi:id="_TkP1gEfKEeSkBPbNLcPWbg"/>
+      <clientFormat>JSON</clientFormat>
+      <advancedConfig xmi:id="_NKK48EycEeq9-dedsk3IXA" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_TjdyYEfKEeSkBPbNLcPWbg" bindingName="RestService"/>
+  </sca:service>
+  <sca:service xmi:id="_Iz_QUErdEeS93bY8WesVyA" name="Book" promote="ComponentBooks/Book">
+    <sca:interface.wsdl xmi:id="_I0wFUErdEeS93bY8WesVyA" interface="http://www.example.org/Books/REST/1411989492608#wsdl.interface(Book)" scaext:wsdlLocation="../Service%20Descriptors/Books.wsdl"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_I1NYUErdEeS93bY8WesVyA" name="RestService1" path="/book/{ISBN}" docBasePath="http://localhost:7777/tibco.bwce.sample.binding.rest.BookStore" docResourcePath="Books" connector="tibco.bwce.sample.binding.rest.BookStore.Books" structuredData="true">
+      <operation xmi:id="_I1N_YErdEeS93bY8WesVyA" operationName="get" nickname="getBook" httpMethod="GET" statusLines="__WzaoE1BEeSYSaTTdRUCfg __2CUUE1BEeSYSaTTdRUCfg"/>
+      <operation xmi:id="_I1N_YUrdEeS93bY8WesVyA" operationName="put" nickname="putBook" httpMethod="PUT"/>
+      <operation xmi:id="_I1N_YkrdEeS93bY8WesVyA" operationName="delete" nickname="deleteBook" httpMethod="DELETE"/>
+      <parameters xmi:id="_I1iIcErdEeS93bY8WesVyA">
+        <parameterMapping xmi:id="_I1lLwErdEeS93bY8WesVyA" parameterName="ISBN" parameterType="Path"/>
+      </parameters>
+      <clientFormat>JSON</clientFormat>
+      <statusLines xmi:id="__WzaoE1BEeSYSaTTdRUCfg" statusCode="200" reasonPhrase="OK"/>
+      <statusLines xmi:id="__2CUUE1BEeSYSaTTdRUCfg" statusCode="503" reasonPhrase="Service Unavailable"/>
+      <advancedConfig xmi:id="_NKK48UycEeq9-dedsk3IXA" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_I1dP8ErdEeS93bY8WesVyA" bindingName="RestService1"/>
+  </sca:service>
+  <sca:service xmi:id="_Y9dy8E0aEeSwT9tZj1fQjw" name="Book1" promote="ComponentBooks/Book1">
+    <sca:interface.wsdl xmi:id="_Y-aOIE0aEeSwT9tZj1fQjw" interface="http://www.example.org/Books/REST/1411989492608#wsdl.interface(Book1)" scaext:wsdlLocation="../Service%20Descriptors/Books.wsdl"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_Y-dRcE0aEeSwT9tZj1fQjw" name="RestService2" path="/book/{ISBN}/events" docBasePath="http://localhost:7777/tibco.bwce.sample.binding.rest.BookStore" docResourcePath="Books" connector="tibco.bwce.sample.binding.rest.BookStore.Books" structuredData="true">
+      <operation xmi:id="_Y-d4gE0aEeSwT9tZj1fQjw" operationName="get" nickname="getBook" httpMethod="GET" statusLines="_CURRUE1CEeSYSaTTdRUCfg _CqkRcE1CEeSYSaTTdRUCfg"/>
+      <parameters xmi:id="_Y_Im4E0aEeSwT9tZj1fQjw">
+        <parameterMapping xmi:id="_Y_Im4U0aEeSwT9tZj1fQjw" parameterName="ISBN" parameterType="Path"/>
+      </parameters>
+      <clientFormat>JSON</clientFormat>
+      <statusLines xmi:id="_CURRUE1CEeSYSaTTdRUCfg" statusCode="200" reasonPhrase="OK"/>
+      <statusLines xmi:id="_CqkRcE1CEeSYSaTTdRUCfg" statusCode="503" reasonPhrase="Service Unavailable"/>
+      <advancedConfig xmi:id="_NKLgAEycEeq9-dedsk3IXA" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_Y_GKoE0aEeSwT9tZj1fQjw" bindingName="RestService2"/>
+  </sca:service>
+  <sca:service xmi:id="_EZ7wkE0yEeSgU7p4E9ti_Q" name="Events" promote="ComponentEvents/Events">
+    <sca:interface.wsdl xmi:id="_EbBVsE0yEeSgU7p4E9ti_Q" interface="http://www.example.org/Events/REST/1412583816215#wsdl.interface(Events)" scaext:wsdlLocation="../Service%20Descriptors/Events.wsdl"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_EbEZAE0yEeSgU7p4E9ti_Q" name="RestService3" path="/events" docBasePath="http://localhost:7777/tibco.bwce.sample.binding.rest.BookStore" docResourcePath="Events" connector="tibco.bwce.sample.binding.rest.BookStore.Books" structuredData="true">
+      <operation xmi:id="_EbEZAU0yEeSgU7p4E9ti_Q" operationName="post" nickname="postEvents" httpMethod="POST">
+        <responseStatus xmi:id="_7H9QoJBXEeadY9iADHMKpQ" statusCode="503" reasonPhrase="Service Unavailable"/>
+      </operation>
+      <operation xmi:id="_EbEZAk0yEeSgU7p4E9ti_Q" operationName="get" nickname="getEvents" httpMethod="GET"/>
+      <parameters xmi:id="_ErvSQE0yEeSgU7p4E9ti_Q"/>
+      <clientFormat>JSON</clientFormat>
+      <advancedConfig xmi:id="_NKMHEEycEeq9-dedsk3IXA" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_ErtdEE0yEeSgU7p4E9ti_Q" bindingName="RestService3"/>
+  </sca:service>
+  <sca:service xmi:id="_eP16ck05EeSgU7p4E9ti_Q" name="Event" promote="ComponentEvents/Event">
+    <sca:interface.wsdl xmi:id="_eP2hgU05EeSgU7p4E9ti_Q" interface="http://www.example.org/Events/REST/1412583816215#wsdl.interface(Event)"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_eQA5kE05EeSgU7p4E9ti_Q" name="RestService4" path="/event/{EventID}" docBasePath="http://localhost:7777/tibco.bwce.sample.binding.rest.BookStore" docResourcePath="Events" connector="tibco.bwce.sample.binding.rest.BookStore.Books" structuredData="true">
+      <operation xmi:id="_eQA5kU05EeSgU7p4E9ti_Q" operationName="get" nickname="getEvent" httpMethod="GET" statusLines="_FmMVEE1CEeSYSaTTdRUCfg _GAmZIE1CEeSYSaTTdRUCfg"/>
+      <operation xmi:id="_eQA5kk05EeSgU7p4E9ti_Q" operationName="put" nickname="putEvent" httpMethod="PUT"/>
+      <operation xmi:id="_eQA5k005EeSgU7p4E9ti_Q" operationName="delete" nickname="deleteEvent" httpMethod="DELETE"/>
+      <parameters xmi:id="_eSEIAE05EeSgU7p4E9ti_Q">
+        <parameterMapping xmi:id="_eSEIAU05EeSgU7p4E9ti_Q" parameterName="EventID" parameterType="Path"/>
+      </parameters>
+      <clientFormat>JSON</clientFormat>
+      <statusLines xmi:id="_FmMVEE1CEeSYSaTTdRUCfg" statusCode="200" reasonPhrase="OK"/>
+      <statusLines xmi:id="_GAmZIE1CEeSYSaTTdRUCfg" statusCode="503" reasonPhrase="Service Unavailable"/>
+      <advancedConfig xmi:id="_NKMHEUycEeq9-dedsk3IXA" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_eSC54E05EeSgU7p4E9ti_Q" bindingName="RestService4"/>
+  </sca:service>
+  <sca:property xmi:id="_9uxOcEeyEeSkBPbNLcPWbg" name="BW.APPNODE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_9v9hQEeyEeSkBPbNLcPWbg" name="BW.HOST.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_9v_WcEeyEeSkBPbNLcPWbg" name="BW.MODULE.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_9wAkkEeyEeSkBPbNLcPWbg" name="BW.DEPLOYMENTUNIT.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_9wDn4EeyEeSkBPbNLcPWbg" name="BW.DEPLOYMENTUNIT.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_9wKVkEeyEeSkBPbNLcPWbg" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_PFAPkEe1EeSkBPbNLcPWbg" name="dbDriver" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_PG330Ee1EeSkBPbNLcPWbg" name="dbPassword" type="property:password" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_PIiEsEe1EeSkBPbNLcPWbg" name="dbURL" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_PKZs8Ee1EeSkBPbNLcPWbg" name="dbUserName" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_cYKcsGbkEeWUZJX06Fex6w" name="BW.CLOUD.PORT" type="XMLSchema:int" scalable="true"/>
+  <sca:component xmi:id="_TRR2MEfKEeSkBPbNLcPWbg" name="ComponentBooks" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_TRR2MUfKEeSkBPbNLcPWbg" processName="tibco.bwce.sample.binding.rest.bookstore.Books"/>
+    <sca:service xmi:id="_TS94QEfKEeSkBPbNLcPWbg" name="Books">
+      <sca:interface.wsdl xmi:id="_TTT2gEfKEeSkBPbNLcPWbg" interface="http://www.example.org/Books/REST/1411989492608#wsdl.interface(Books)" scaext:wsdlLocation="../Service%20Descriptors/Books.wsdl"/>
+    </sca:service>
+    <sca:service xmi:id="_IzycAErdEeS93bY8WesVyA" name="Book">
+      <sca:interface.wsdl xmi:id="_Iz80EErdEeS93bY8WesVyA" interface="http://www.example.org/Books/REST/1411989492608#wsdl.interface(Book)" scaext:wsdlLocation="../Service%20Descriptors/Books.wsdl"/>
+    </sca:service>
+    <sca:service xmi:id="_Y9EKUE0aEeSwT9tZj1fQjw" name="Book1">
+      <sca:interface.wsdl xmi:id="_Y9ZhgE0aEeSwT9tZj1fQjw" interface="http://www.example.org/Books/REST/1411989492608#wsdl.interface(Book1)" scaext:wsdlLocation="../Service%20Descriptors/Books.wsdl"/>
+    </sca:service>
+  </sca:component>
+  <sca:component xmi:id="_EZJtcE0yEeSgU7p4E9ti_Q" name="ComponentEvents" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_EZJtcU0yEeSgU7p4E9ti_Q" processName="tibco.bwce.sample.binding.rest.bookstore.Events"/>
+    <sca:service xmi:id="_EZNX0E0yEeSgU7p4E9ti_Q" name="Events">
+      <sca:interface.wsdl xmi:id="_EZg50E0yEeSgU7p4E9ti_Q" interface="http://www.example.org/Events/REST/1412583816215#wsdl.interface(Events)" scaext:wsdlLocation="../Service%20Descriptors/Events.wsdl"/>
+    </sca:service>
+    <sca:service xmi:id="_eP16cE05EeSgU7p4E9ti_Q" name="Event">
+      <sca:interface.wsdl xmi:id="_eP16cU05EeSgU7p4E9ti_Q" interface="http://www.example.org/Events/REST/1412583816215#wsdl.interface(Event)"/>
+    </sca:service>
+  </sca:component>
+  <sca:component xmi:id="_fY76gGbuEeWUZJX06Fex6w" name="ComponentActivator" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_fY76gWbuEeWUZJX06Fex6w" processName="tibco.bwce.sample.binding.rest.bookstore.Activator"/>
+  </sca:component>
+</sca:composite>

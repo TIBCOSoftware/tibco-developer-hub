@@ -1,0 +1,24 @@
+.tpdh-home-container {
+  padding: 48px 24px 48px 24px;
+  /*width: 1016px;*/
+  position: relative;
+}
+.tpdh-home-content {
+  padding: 0 !important;
+}
+/*.tpdh-home-sub-container{
+    width: 984px;
+    position: relative;
+}*/
+.tpdh-home-grid {
+  padding-top: 24px;
+}
+.tpdh-home-header-img {
+  width: 100%;
+  height: auto;
+  /* position: absolute;
+  top: 96px;
+  right: 0;
+  height: 304px;
+  width: 750px;*/
+}

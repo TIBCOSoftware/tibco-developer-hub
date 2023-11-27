@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tibco Bw Sample Binding Rest BookStore Module
+Bundle-SymbolicName: tibco.bwce.sample.binding.rest.BookStore
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: TIBCO Software Inc.
+TIBCO-BW-ApplicationModule: META-INF/module.bwm
+TIBCO-BW-ConfigProfile: META-INF/default.substvar
+TIBCO-BW-Edition: bwcf
+TIBCO-BW-JobSharedVariables: META-INF/module.jsv
+Require-Capability: com.tibco.bw.model; filter:="(name=bwext)",
+ com.tibco.bw.palette; filter:="(name=bw.generalactivities)",
+ com.tibco.bw.palette; filter:="(name=bw.jdbc)",
+ com.tibco.bw.sharedresource.model; filter:="(name=bw.httpconnector)",
+ com.tibco.bw.sharedresource.model; filter:="(name=bw.jdbc)",
+ com.tibco.bw.binding.model; filter:="(name=bw.rest)"
+TIBCO-BW-ModuleSharedVariables: META-INF/module.msv
+TIBCO-BW-Version: 1.2.0 V18 2014-09-27

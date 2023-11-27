@@ -1,0 +1,42 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: DocGeneration
+  description: A system that generates documentations.
+spec:
+  type: organization
+  profile:
+    displayName: Doc Generation
+    email: info@acme.com
+  children: []
+---
+# apiVersion: backstage.io/v1alpha1
+# kind: Group
+# metadata:
+#   name: tibco-developer-hub
+#   description: The TIBCO Developer Hub
+# spec:
+#   type: department
+#   profile:
+#     displayName: The TIBCO Developer Hub
+#     email: info@acme.com
+#     picture: https://en.wikipedia.org/wiki/Finance#/media/File:Philippine-stock-market-board.jpg
+#   parent: DocGeneration
+#   children: []
+# ---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: documentation
+  description: A group of documents
+spec:
+  owner: DocGeneration
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: all-docs-related-components
+  description: A collection of all Documentation components
+spec:
+  targets:
+    - ./doc-generation-system.yaml

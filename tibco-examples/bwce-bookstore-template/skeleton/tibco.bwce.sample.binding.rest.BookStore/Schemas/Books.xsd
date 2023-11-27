@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.example.org/Books" elementFormDefault="qualified" targetNamespace="http://www.example.org/Books">
+
+    <complexType name="Book">
+    	<sequence>
+    		<element minOccurs="0" name="isbn" type="string"/>
+    		<element minOccurs="0" name="name" type="string"/>
+    		<element minOccurs="0" name="description" type="string"/>
+    		<element minOccurs="0" name="authorName" type="string"/>
+    		<element minOccurs="0" name="releaseDate" type="date"/>
+    		<element minOccurs="0" name="vintage" type="boolean"/>
+    		<element minOccurs="0" name="signed" type="boolean"/>
+    		<element minOccurs="0" name="price" type="float"/>
+    	</sequence>
+    </complexType>
+
+    <element name="Book" type="tns:Book"/>
+
+    <complexType name="Books">
+    	<sequence>
+    		<element maxOccurs="unbounded" minOccurs="0" ref="tns:Book"/>
+    	</sequence>
+    </complexType>
+
+    <element name="Books" type="tns:Books"/>
+</schema>
