@@ -2,16 +2,7 @@
 # then make any updates as needed
 # all *.local.yaml files are ignored by git so it's safe to define secrets in that file
 
-app:
-  baseUrl: http://localhost:3000
-
 backend:
-  baseUrl: http://localhost:7007
-  listen:
-    port: 7007
-  cors:
-    origin: http://localhost:7007
-
   database:
     client: pg
     connection:
@@ -21,37 +12,35 @@ backend:
       user: postgres
       password: example
 
-integrations:
-  github:
-    - host: github.com
-      # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
-      # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
-      token: ${GITHUB_TOKEN}
+## Uncomment the below github integrations config to add a PAT to try out\ 
+## new component creation using one of the available templates. 
+# integrations:
+#   github:
+#     - host: github.com
+#       # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+#       # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+#       token: ${GITHUB_TOKEN}  #Enter your Github token here
 
 # Uncomment the below catalog config to add the default(example) entities to your software catalog while running developer instance locally using yarn
 # The example entities had been placed inside the 'tibco-examples' folder under the project root folder
-# catalog:
-# locations:
-#  - type: file
-#    target: ../../tibco-examples/tibco-examples.yaml
-#    rules:
-#      - allow: [Group, Template, System, Domain]
+catalog:
+  locations:
+    - type: file
+      target: ../../tibco-examples/tibco-examples.yaml
+      rules:
+        - allow: [Group, Template, System, Domain, Location]
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
-  signIn:
-    domains: ['tibco.com']
-    github:
-      organizations: ['TIBCO-Hub-Backstage']
-  providers:
-  # needs to be enabled if you want to try out github auth
-  # github:
-  #   development:
-  #     clientId: ${AUTH_GITHUB_CLIENT_ID}
-  #     clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
-  # Available providers:
-  # on local developer setups only github and guest auth providers are available
-  # tibco and oauthproxy will only be available in Dataplane deployments.
-  # [github, guest]
-  enableAuthProviders: [github]
+  # providers:
+  # # needs to be enabled if you want to try out github auth 
+  # # use this config to input the Github credentails directly for your local development use. 
+  #   github:
+  #     development:
+  #       clientId: ${AUTH_GITHUB_CLIENT_ID}
+  #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+  # Available providers: [github, guest]
+  # # on local developer setups only github and guest auth providers are available
+  # # oauthproxy will only be available in Dataplane deployments.
+  enableAuthProviders: [guest]
