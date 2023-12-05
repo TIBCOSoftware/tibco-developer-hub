@@ -10,7 +10,6 @@ app:
         links:
           - url: 'https://support.tibco.com/s/'
             title: 'TIBCO Support'
-  
 
 organization:
   name: TIBCO Software's

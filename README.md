@@ -68,6 +68,7 @@ You can run start both backend and frontend at once by running:
 ```sh
 yarn dev
 ```
+
 When the command finishes running, it should open up a browser window displaying your app. If not, you can open a browser and directly navigate to the frontend at http://localhost:3000/tibco/hub .
 
 For development purposes it might be more convenient to start the backend and the frontend server in different terminals.
