@@ -9,9 +9,6 @@ app:
         links:
           - url: 'https://support.tibco.com/s/'
             title: 'TIBCO Support'
-  buildInfo:
-    version: latest
-    show: true
 
 organization:
   name: TIBCO Software's
@@ -86,7 +83,8 @@ techdocs:
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
-  # uncomment 3 lines below and add organization name in place of <YOUR-ORG-NAME> to support sign in through gitHub
+  ## uncomment 3 lines below and add organization name in place of <YOUR-ORG-NAME>\
+  ## to only allow members of a <YOUR-ORG-NAME> to sign in through gitHub.
   # signIn:
   #  github:
   #   organizations: ['<YOUR-ORG-NAME>']
@@ -97,7 +95,7 @@ auth:
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
     oauth2Proxy:
       development: {}
-  enableAuthProviders: [oauth2Proxy]
+  enableAuthProviders: [guest]
   #   Available providers:
   #   for local deployments
   #     [github, oauth2Proxy, guest]
@@ -113,5 +111,6 @@ scaffolder:
     name: TIBCO Developer Hub # Defaults to `Scaffolder`
     email: test@test.com # Defaults to `scaffolder@backstage.io`
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
+
 catalog:
   locations: []

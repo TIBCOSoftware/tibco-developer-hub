@@ -10,9 +10,6 @@ app:
         links:
           - url: 'https://support.tibco.com/s/'
             title: 'TIBCO Support'
-  buildInfo:
-    version: latest
-    show: true
 
 organization:
   name: TIBCO Software's
@@ -62,15 +59,16 @@ integrations:
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
 
+## If needed uncomment these lines to add the default(example) entities to your software catalog
+#catalog:
+#  locations:
+#    - type: file
+#      target: ./tibco-examples/tibco-examples.yaml
+#      rules:
+#        - allow: [Group, Template, System, Domain]
+
 catalog:
-  # Overrides the default list locations from app-config.yaml as these contain example data.
-  # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
-  # on how to get entities into the catalog.
-  locations:
-    - type: file
-      target: ./tibco-examples/tibco-examples.yaml
-      rules:
-        - allow: [Group, Template, System, Domain]
+  locations: []
 
 techdocs:
   builder: 'local' # Alternatives - 'external'
