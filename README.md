@@ -94,3 +94,19 @@ yarn start
 [Packages](./packages/README.md)\
 [Plugins](./plugins/README.md)\
 [Example Templates, Group and System](./tibco-examples/README.md)
+
+## Licenses
+
+This project (TIBCO Developer Hub) is licensed under the [Apache 2.0 License](LICENSE.TXT).
+
+### Other Software
+
+When you use some of the TIBCO Developer Hub, you fetch and use other charts that might fetch other container images, each with its own licenses. A partial summary of the third party software and licenses used in this project is available [here](./docs/third-party-software-licenses.md).
+
+---
+
+Copyright 2023 Cloud Software Group, Inc.
+
+License. This project is Licensed under the Apache License, Version 2.0 (the "License").
+You may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
