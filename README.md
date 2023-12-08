@@ -102,6 +102,7 @@ This project (TIBCO® Developer Hub) is licensed under the [Apache 2.0 License](
 ### Other Software
 
 When you use some of the TIBCO® Developer Hub, you fetch and use other charts that might fetch other container images, each with its own licenses.
+
 A partial summary of the third party software and licenses used in this project is available [here](./docs/third-party-software-licenses.txt).
 
 ---
