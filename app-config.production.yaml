@@ -1,5 +1,5 @@
 app:
-  title: The TIBCO® Developer Hub
+  title: TIBCO® Developer Hub
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
   baseUrl: http://localhost:7007/tibco/hub
   support:

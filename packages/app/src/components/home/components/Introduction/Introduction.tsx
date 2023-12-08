@@ -8,7 +8,7 @@ export const Introduction = () => {
     <div className="tpdh-intro-container">
       <div className="tpdh-intro-title">What is the TIBCO® Developer Hub ?</div>
       <p className="tpdh-intro-desc">
-        Welcome to the TIBCO® Developer Hub. This is a one-stop shop for a
+        Welcome to the TIBCO® Developer Hub. This is a one-stop shop for
         developers on TIBCO Platform, here you can find and share documentation
         and assets with other developers. Aso you can create new TIBCO assets
         based on templates, you can manage and view your build pipelines and

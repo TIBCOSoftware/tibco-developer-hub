@@ -1,5 +1,5 @@
 app:
-  title: The TIBCO® Developer Hub
+  title: TIBCO® Developer Hub
   baseUrl: http://localhost:3000/tibco/hub
   support:
     url: https://support.tibco.com/s/
