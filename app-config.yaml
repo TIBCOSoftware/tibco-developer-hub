@@ -1,5 +1,5 @@
 app:
-  title: The TIBCO Developer Hub
+  title: TIBCO® Developer Hub
   baseUrl: http://localhost:3000/tibco/hub
   support:
     url: https://support.tibco.com/s/
@@ -108,7 +108,7 @@ auth:
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
   defaultAuthor:
-    name: TIBCO Developer Hub # Defaults to `Scaffolder`
+    name: TIBCO® Developer Hub # Defaults to `Scaffolder`
     email: test@test.com # Defaults to `scaffolder@backstage.io`
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
 

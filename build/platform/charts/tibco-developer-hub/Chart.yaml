@@ -1,6 +1,6 @@
 apiVersion: v2
 name: tibco-developer-hub
-description: A Helm chart for TIBCO Developer Hub
+description: A Helm chart for TIBCO® Developer Hub
 type: application
 
 # This is the chart version. This version number should be incremented each time you make changes

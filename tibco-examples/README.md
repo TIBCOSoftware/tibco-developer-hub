@@ -1,6 +1,6 @@
 ## Introduction
 
-TIBCO Developer Hub provides three example templates, one example group and one example system, which will be added to the software catalog as the default catalog configuration (If catalog configuration is not overwritten). These templates will kickstart a sample project for you which you can develop further.
+TIBCO® Developer Hub provides three example templates, one example group and one example system, which will be added to the software catalog as the default catalog configuration (If catalog configuration is not overwritten). These templates will kickstart a sample project for you which you can develop further.
 
 ## Included Templates
 

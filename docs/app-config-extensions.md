@@ -1,6 +1,6 @@
 # App config extensions
 
-This document describes TIBCO Developer Hub custom extensions to the `app-config.yaml` schema.
+This document describes TIBCO® Developer Hub custom extensions to the `app-config.yaml` schema.
 
 These are also described in the [`config.d.ts` file](../config.d.ts) with more details about each field.
 
@@ -51,5 +51,5 @@ Example config:
 cpLink: 'https://control-plane.domain.com'
 
 No need to provide this in configuration.
-This is filled automatically while provisioing Tibco Developer Hub for a data plane.
+This is filled automatically while provisioing TIBCO® Developer Hub for a data plane.
 ```
