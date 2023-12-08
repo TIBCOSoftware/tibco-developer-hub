@@ -1,6 +1,6 @@
-# [The TIBCO Developer Hub](https://backstage.io)
+# [The TIBCO® Developer Hub](https://backstage.io)
 
-The TIBCO Developer Hub is powered by the Backstage platform. See the Backstage.io documentation for more details.
+The TIBCO® Developer Hub is powered by the Backstage platform. See the Backstage.io documentation for more details.
 
 ## Architecture
 
@@ -97,11 +97,12 @@ yarn start
 
 ## Licenses
 
-This project (TIBCO Developer Hub) is licensed under the [Apache 2.0 License](LICENSE.TXT).
+This project (TIBCO® Developer Hub) is licensed under the [Apache 2.0 License](LICENSE.TXT).
 
 ### Other Software
 
-When you use some of the TIBCO Developer Hub, you fetch and use other charts that might fetch other container images, each with its own licenses. A partial summary of the third party software and licenses used in this project is available [here](./docs/third-party-software-licenses.md).
+When you use some of the TIBCO® Developer Hub, you fetch and use other charts that might fetch other container images, each with its own licenses.
+A partial summary of the third party software and licenses used in this project is available [here](./docs/third-party-software-licenses.txt).
 
 ---
 

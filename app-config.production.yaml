@@ -1,5 +1,5 @@
 app:
-  title: The TIBCO Developer Hub
+  title: The TIBCO® Developer Hub
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
   baseUrl: http://localhost:7007/tibco/hub
   support:
@@ -95,6 +95,6 @@ auth:
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
   defaultAuthor:
-    name: TIBCO Developer Hub # Defaults to `Scaffolder`
+    name: TIBCO® Developer Hub # Defaults to `Scaffolder`
     email: test@test.com # Defaults to `scaffolder@backstage.io`
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
