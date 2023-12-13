@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: document-generation-system
+  name: document-generation-system-sagar
   description: 'TIBCO® Developer Hub Document generation system'
   annotations:
     # github.com/project-slug: TIBCO-Hub-Backstage/tibco-next-demo
