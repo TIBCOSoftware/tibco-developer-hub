@@ -14,11 +14,11 @@ spec:
 # kind: Group
 # metadata:
 #   name: tibco-developer-hub
-#   description: The TIBCO® Developer Hub
+#   description: TIBCO® Developer Hub
 # spec:
 #   type: department
 #   profile:
-#     displayName: The TIBCO® Developer Hub
+#     displayName: TIBCO® Developer Hub
 #     email: info@acme.com
 #     picture: https://en.wikipedia.org/wiki/Finance#/media/File:Philippine-stock-market-board.jpg
 #   parent: DocGeneration

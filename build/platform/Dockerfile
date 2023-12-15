@@ -91,6 +91,6 @@ ENV NODE_ENV production
 ENV HUB_CONFIGFILE "app-config.production.yaml"
 
 ARG BID
-ENV APP_CONFIG_app_buildInfo_version="${BID}"
+ENV APP_CONFIG_app_buildVersion="${BID}"
 
 CMD node packages/backend --config "${HUB_CONFIGFILE}"

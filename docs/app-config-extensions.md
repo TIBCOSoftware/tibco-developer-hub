@@ -14,12 +14,22 @@ Example config:
 app:
   title: The TIBCO Hub
   baseUrl: http://localhost:3000
-  buildInfo:
-    version: some.version.number
-    show: true
+  showBuildVersion: true
 ```
 
 The CI/CD pipeline automatically adds the build number to all docker images.
+
+## Catalog Refresh Delay
+
+GitHub rate limits API requests to 5,000 per hour (or more for Enterprise accounts). The default catalog backend refreshes data every 100 seconds, which issues an API request for each discovered location.
+
+This means if you have more than ~140 catalog entities, you may get throttled by rate limiting. You can change the refresh rate of the catalog in by using the example config:
+
+```yaml
+catalogRefreshDelayInSec: 300
+```
+
+Allowed range is 100 to 900 milliseconds. Increase the rate limit to avoid throttling from GitHub API.
 
 ## Walk Through
 
@@ -43,13 +53,13 @@ walkThrough:
 
 ## Cp Link
 
-Control plane link for the Developer Hub.
+Control plane link for the TIBCO® Developer Hub.
 
 Example config:
 
 ```yaml
 cpLink: 'https://control-plane.domain.com'
+```
 
 No need to provide this in configuration.
-This is filled automatically while provisioing TIBCO® Developer Hub for a data plane.
-```
+This is filled automatically while provisioning TIBCO® Developer Hub for a data plane.

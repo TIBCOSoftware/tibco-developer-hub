@@ -104,5 +104,47 @@ export function oAuth2ProxyProviderFactory(env: PluginEnvironment) {
         });
       },
     },
+    authHandler: async result => {
+      let DEV_JWT_TOKEN: string | undefined;
+      try {
+        DEV_JWT_TOKEN = env.config
+          .getOptionalConfig('oauth2-jwt-token')
+          ?.getOptionalString('token');
+      } catch (e) {
+        env.logger.error(
+          'oauth2-jwt-token.token passed in app.config must be a string',
+        );
+        env.logger.error(e);
+      }
+
+      let token: string =
+        result.getHeader('x-atmosphere-token')?.toString() || '';
+      if (!token && DEV_JWT_TOKEN) {
+        token = DEV_JWT_TOKEN;
+      }
+      if (!token) {
+        throw new Error('Missing x-atmosphere-token in header');
+      }
+      if (typeof token !== 'string') {
+        throw new Error(
+          'Invalid x-atmosphere-token in header, x-atmosphere-token must be a string',
+        );
+      }
+      let decoded: any;
+      try {
+        decoded = jwtDecode(token);
+      } catch (error) {
+        throw new Error('Unable to decode JWT token');
+      }
+      if (!(decoded && decoded.fn)) {
+        throw new Error('Invalid JWT token, missing fn');
+      }
+      const displayName = decoded.fn + (decoded.ln ? ` ${decoded.ln}` : '');
+      return {
+        profile: {
+          displayName,
+        },
+      };
+    },
   });
 }
