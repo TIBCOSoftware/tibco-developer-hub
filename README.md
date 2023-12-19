@@ -1,4 +1,4 @@
-# [The TIBCO® Developer Hub](https://backstage.io)
+# The TIBCO® Developer Hub
 
 The TIBCO® Developer Hub is powered by the Backstage platform. See the Backstage.io documentation for more details.
 
