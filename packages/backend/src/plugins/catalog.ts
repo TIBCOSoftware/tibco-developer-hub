@@ -14,6 +14,31 @@ export default async function createPlugin(
   env: PluginEnvironment,
 ): Promise<Router> {
   const builder = await CatalogBuilder.create(env);
+  const config = env.config;
+  let catalogRefreshDelay: number | undefined = config?.getOptionalNumber(
+    'catalogRefreshDelayInSec',
+  );
+
+  if (catalogRefreshDelay) {
+    if (typeof catalogRefreshDelay === 'number') {
+      if (catalogRefreshDelay < 100) {
+        catalogRefreshDelay = 100;
+        console.warn(
+          'Catalog Refresh Delay cannot be less than 100, resetting it to 100',
+        );
+      } else if (catalogRefreshDelay > 900) {
+        catalogRefreshDelay = 900;
+        console.warn(
+          'Catalog Refresh Delay cannot be greater than 900, resetting it to 900',
+        );
+      }
+      builder.setProcessingIntervalSeconds(catalogRefreshDelay);
+    } else {
+      console.error(
+        'Catalog Refresh Delay must be a number between 100 and 900',
+      );
+    }
+  }
 
   builder.addProcessor(new ScaffolderEntitiesProcessor());
 

@@ -25,7 +25,7 @@ recipe:
   helmCharts:
     - name: tibco-developer-hub
       namespace: ${NAMESPACE}
-      version: 1.0.27
+      version: 1.0.32
       repository:
         chartMuseum:
           host: ${HELM_REPO}

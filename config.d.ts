@@ -28,18 +28,16 @@ export interface Config {
      * Build information.
      * Control the display of the build information in the Homepage UI.
      */
-    buildInfo?: {
-      /**
-       * Version number to display
-       * @visibility frontend
-       */
-      version?: string | number;
-      /**
-       * Show build number. False by default. Has to be set explicitly as true to enable it.
-       * @visibility frontend
-       */
-      show?: boolean;
-    };
+    /**
+     * Version number to display
+     * @visibility frontend
+     */
+    buildVersion?: string | number;
+    /**
+     * Show build number. False by default. Has to be set explicitly as true to enable it.
+     * @visibility frontend
+     */
+    showBuildVersion?: boolean;
   };
   // enable and configure loading org entities into catalog
   orgCatalog?: {
@@ -80,8 +78,13 @@ export interface Config {
     items: WalkThrough[];
   };
   /**
-   * Control plain link for the Developer Hub
+   * Control plain link for the TIBCO® Developer Hub
    * @visibility frontend
    */
   cpLink?: string;
+  /**
+   * Frontend root URL
+   * @visibility frontend
+   */
+  catalogRefreshDelayInSec?: number;
 }

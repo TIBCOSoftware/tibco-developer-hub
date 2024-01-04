@@ -4,17 +4,12 @@ import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
 export function BuildInfo() {
   const configApi = useApi(configApiRef);
-  const buildInfoConf = configApi.getOptionalConfig('app.buildInfo');
-  const showBuildNumber =
-    buildInfoConf &&
-    buildInfoConf.getOptionalBoolean('show') !== false &&
-    buildInfoConf.has('version');
+  const buildInfoConf = configApi.getOptional('app.buildVersion');
+  const showBuildVersion = configApi.getOptionalBoolean('app.showBuildVersion');
+  const showBuildNumber = buildInfoConf && showBuildVersion;
+
   if (showBuildNumber) {
-    return (
-      <Box sx={{ color: 'text.secondary' }}>
-        Build: {buildInfoConf.getOptional<string | number>('version')}
-      </Box>
-    );
+    return <Box sx={{ color: 'text.secondary' }}>Build: {buildInfoConf}</Box>;
   }
   return null;
 }

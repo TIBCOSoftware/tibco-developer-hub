@@ -83,8 +83,7 @@ techdocs:
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
-  ## uncomment 3 lines below and add organization name in place of <YOUR-ORG-NAME>\
-  ## to only allow members of a <YOUR-ORG-NAME> to sign in through gitHub.
+  # uncomment 3 lines below and add organization name in place of <YOUR-ORG-NAME> to support sign in through gitHub
   # signIn:
   #  github:
   #   organizations: ['<YOUR-ORG-NAME>']
@@ -95,7 +94,7 @@ auth:
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
     oauth2Proxy:
       development: {}
-  enableAuthProviders: [guest]
+  enableAuthProviders: [oauth2Proxy]
   #   Available providers:
   #   for local deployments
   #     [github, oauth2Proxy, guest]
@@ -111,6 +110,10 @@ scaffolder:
     name: TIBCO® Developer Hub # Defaults to `Scaffolder`
     email: test@test.com # Defaults to `scaffolder@backstage.io`
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
-
 catalog:
   locations: []
+# GitHub rate limits API requests to 5,000 per hour (or more for Enterprise accounts).
+# For more information, visit https://backstage.io/docs/integrations/github/discovery/#github-api-rate-limits-1
+# You can set the refresh rate of catalog (in milliseconds) for catalog API to fetch changes from GitHub, by using the below config.
+# The allowed range is [100,900]
+# catalogRefreshDelayInSec: 300

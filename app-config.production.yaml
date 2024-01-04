@@ -59,14 +59,6 @@ integrations:
     #   apiBaseUrl: https://ghe.example.net/api/v3
     #   token: ${GHE_TOKEN}
 
-## If needed uncomment these lines to add the default(example) entities to your software catalog
-#catalog:
-#  locations:
-#    - type: file
-#      target: ./tibco-examples/tibco-examples.yaml
-#      rules:
-#        - allow: [Group, Template, System, Domain]
-
 catalog:
   locations: []
 

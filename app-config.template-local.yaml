@@ -12,7 +12,7 @@ backend:
       user: postgres
       password: example
 
-## Uncomment the below github integrations config to add a PAT to try out\
+## Uncomment the below github integrations config to add a PAT to try out
 ## new component creation using one of the available templates.
 # integrations:
 #   github:
