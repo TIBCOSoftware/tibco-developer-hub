@@ -17,17 +17,25 @@ export const Introduction = () => {
       <Grid container spacing={3} className="tpdh-intro-buttons">
         <Grid item>
           <Link to="/create">
-            <button type="button" className="pl-button pl-button--primary">
+            <button
+              type="button"
+              className="pl-button pl-button--primary"
+              id="tpdh-home-btn-get-started"
+            >
               Get started
             </button>
           </Link>
         </Grid>
         <Grid item>
           <Link
-            to="https://docs.tibco.com/go/platform-cp/1.0.1/doc/html#cshid=developer_hub_overview"
+            to="https://docs.tibco.com/go/platform-cp/1.1.0/doc/html#cshid=developer_hub_overview"
             target="_blank"
           >
-            <button type="button" className="pl-button pl-button--secondary">
+            <button
+              type="button"
+              className="pl-button pl-button--secondary"
+              id="tpdh-home-btn-see-how-it-works"
+            >
               See how it works
             </button>
           </Link>

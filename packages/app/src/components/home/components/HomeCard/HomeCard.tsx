@@ -67,6 +67,7 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                 data.type === HomeCardType.WalkThrough ? '_blank' : undefined
               }
               className="tpdh-card-view-link"
+              id="tpdh-home-card-view-link"
               to={
                 /* eslint-disable */
                 data.type === HomeCardType.WalkThrough
@@ -104,6 +105,7 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                 <Grid container spacing={0} alignItems="center">
                   <Link
                     className="tpdh-card-item-title"
+                    id="tpdh-home-card-item-title"
                     target={
                       data.type === HomeCardType.WalkThrough && element.link
                         ? '_blank'

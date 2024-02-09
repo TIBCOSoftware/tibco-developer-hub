@@ -1,5 +1,5 @@
 # Stage 1 - Create yarn install skeleton layer
-FROM --platform=$BUILDPLATFORM node:16-bullseye-slim AS packages
+FROM --platform=$BUILDPLATFORM node:18-bookworm-slim AS packages
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -12,7 +12,7 @@ COPY plugins plugins
 RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -exec rm -rf {} \+
 
 # Stage 2 - Install dependencies and build packages
-FROM --platform=$BUILDPLATFORM node:16-bullseye-slim AS build
+FROM --platform=$BUILDPLATFORM node:18-bookworm-slim AS build
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -42,7 +42,7 @@ RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
     && tar xzf packages/backend/dist/bundle.tar.gz -C packages/backend/dist/bundle
 
 # Stage 3 - Build the actual backend image and install production dependencies
-FROM --platform=$TARGETPLATFORM node:16-bullseye-slim
+FROM --platform=$TARGETPLATFORM node:18-bookworm-slim
 
 # Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
 # in which case you should also move better-sqlite3 to "devDependencies" in package.json.
@@ -59,7 +59,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get install -y --no-install-recommends python3 g++ build-essential python3-pip && \
     yarn config set python /usr/bin/python3
 
-RUN pip3 install mkdocs-techdocs-core==1.1.7
+RUN pip3 install mkdocs-techdocs-core==1.1.7 --break-system-packages
 
 # From here on we use the least-privileged `node` user to run the backend.
 USER node
@@ -80,8 +80,6 @@ COPY --from=build --chown=node:node /app/packages/backend/dist/bundle/ ./
 
 # Copy any other files that we need at runtime
 COPY --chown=node:node app-config.yaml app-config.production.yaml ./
-
-COPY --chown=node:node tibco-examples ./tibco-examples
 
 # Copy license file
 COPY --chown=node:node LICENSE.TXT /opt/tibco/license/

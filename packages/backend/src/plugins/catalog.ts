@@ -2,10 +2,11 @@ import {
   CatalogBuilder,
   EntityProvider,
 } from '@backstage/plugin-catalog-backend';
-import { ScaffolderEntitiesProcessor } from '@backstage/plugin-scaffolder-backend';
+import { ScaffolderEntitiesProcessor } from '@backstage/plugin-catalog-backend-module-scaffolder-entity-model';
 import {
   GithubEntityProvider,
   GithubOrgEntityProvider,
+  GithubLocationAnalyzer,
 } from '@backstage/plugin-catalog-backend-module-github';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
@@ -43,7 +44,13 @@ export default async function createPlugin(
   builder.addProcessor(new ScaffolderEntitiesProcessor());
 
   builder.addEntityProvider(getGithubProviders(env));
-
+  builder.addLocationAnalyzers(
+    new GithubLocationAnalyzer({
+      discovery: env.discovery,
+      config: env.config,
+      tokenManager: env.tokenManager,
+    }),
+  );
   const { processingEngine, router } = await builder.build();
   await processingEngine.start();
   return router;

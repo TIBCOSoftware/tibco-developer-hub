@@ -59,6 +59,7 @@ export const JumpStart = () => {
                 <button
                   type="button"
                   className="pl-button pl-button--secondary tpdh-js-btn"
+                  id="tpdh-home-btn-create-new-component"
                 >
                   Create new component
                 </button>
@@ -69,6 +70,7 @@ export const JumpStart = () => {
                 <button
                   type="button"
                   className="pl-button pl-button--no-border tpdh-js-btn"
+                  id="tpdh-home-btn-register-existing"
                 >
                   Register existing component
                 </button>

@@ -6,10 +6,6 @@ import {
   CatalogIndexPage,
   catalogPlugin,
 } from '@backstage/plugin-catalog';
-import {
-  CatalogImportPage,
-  catalogImportPlugin,
-} from '@backstage/plugin-catalog-import';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
@@ -27,11 +23,19 @@ import { apis } from './apis';
 import { entityPage } from './components/catalog/EntityPage';
 import { searchPage } from './components/search/SearchPage';
 import { Root } from './components/Root';
-import { AlertDisplay, OAuthRequestDialog } from '@backstage/core-components';
+import {
+  AlertDisplay,
+  ErrorPanel,
+  OAuthRequestDialog,
+} from '@backstage/core-components';
 import { createApp } from '@backstage/app-defaults';
-import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
+import {
+  AppRouter,
+  ErrorBoundaryFallbackProps,
+  FlatRoutes,
+} from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
-import { PermissionedRoute } from '@backstage/plugin-permission-react';
+import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
@@ -55,6 +59,11 @@ import { tibcoOIDCAuthApiRef } from './apis';
 
 import { tibcoLightTheme } from './themes/tibcoThemeLight';
 import { settingsPage } from './components/settings/settings';
+import {
+  CatalogImportPage,
+  catalogImportPlugin,
+} from './components/catalog-import/CatalogImportPage';
+import { Button } from '@material-ui/core';
 
 export const generateProviders = (providerConfig: string[]): any[] => {
   const providers: any[] = [];
@@ -90,6 +99,24 @@ export const generateProviders = (providerConfig: string[]): any[] => {
 
   return providers;
 };
+const DefaultErrorBoundaryFallback = ({
+  error,
+  resetError,
+  plugin,
+}: ErrorBoundaryFallbackProps) => {
+  error.stack = undefined;
+  return (
+    <ErrorPanel
+      title={`Error in ${plugin?.getId()}`}
+      defaultExpanded
+      error={error}
+    >
+      <Button variant="outlined" onClick={resetError}>
+        Retry
+      </Button>
+    </ErrorPanel>
+  );
+};
 
 const app = createApp({
   apis,
@@ -104,6 +131,7 @@ const app = createApp({
       }
       return <SignInPage {...props} providers={availableProviders} />;
     },
+    ErrorBoundaryFallback: DefaultErrorBoundaryFallback,
   },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
@@ -168,10 +196,13 @@ const routes = (
       path="/tech-radar"
       element={<TechRadarPage width={1500} height={800} />}
     />
-    <PermissionedRoute
+    <Route
       path="/catalog-import"
-      permission={catalogEntityCreatePermission}
-      element={<CatalogImportPage />}
+      element={
+        <RequirePermission permission={catalogEntityCreatePermission}>
+          <CatalogImportPage />
+        </RequirePermission>
+      }
     />
     <Route path="/search" element={<SearchPage />}>
       {searchPage}

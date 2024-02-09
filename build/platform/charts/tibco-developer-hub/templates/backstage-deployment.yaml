@@ -87,8 +87,13 @@ spec:
       {{- end }}
       {{- end }}
       {{- end }}
-      {{- if .Values.backstage.initContainers }}
       initContainers:
+        - name: check-db-ready
+          image: {{ include "postgresql.initContainer.image" . }}
+          command: ['sh', '-c', 
+            'until pg_isready -U {{ .Values.postgresql.auth.username }} -h {{ include "backstage.postgresql.host" . }} -p 5432; 
+            do echo waiting for database; sleep 2; done;']
+      {{- if .Values.backstage.initContainers }}      
         {{- include "common.tplvalues.render" ( dict "value" .Values.backstage.initContainers "context" $) | nindent 8 }}
       {{- end }}
       containers:
