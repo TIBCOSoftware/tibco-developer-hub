@@ -86,11 +86,13 @@ Start the frontend server
 ```sh
 yarn start
 ```
+
 ### Steps to build
 
 ```sh
 docker build -t <customImageName:customImageTag> .
 ```
+
 ## Helpful Documentation
 
 [Docker configuration](./docker/README.md)\
