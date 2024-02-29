@@ -1,0 +1,44 @@
+# Cars Database (DB)
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: cars-database
+  description: Database that contains all the car details
+  tags:
+    - database
+    - car-details
+spec:
+  type: database
+  lifecycle: production
+  owner: operational-department
+  apiConsumedBy: ['component:db-adapter']
+#    Car Promotional Material (S3 Bucket)
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: cars-promotional-materials
+  description: S3 Bucket that contains all the promotional materials
+  tags:
+    - s3-bucket
+    - promotional-materials
+spec:
+  type: s3-bucket
+  lifecycle: production
+  owner: operational-department
+  apiConsumedBy: ['component:car-information-provider']
+# Market Price Provider (External API)
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: market-price-provider
+  description: API that provides all the active market prices
+  tags:
+    - external
+    - api
+spec:
+  type: external-api
+  lifecycle: production
+  owner: finance-department
+  apiConsumedBy: ['component:discount-calculator']
