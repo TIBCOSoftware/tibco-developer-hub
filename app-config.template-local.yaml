@@ -40,7 +40,6 @@ catalog:
             System,
             Resource,
           ]
-
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
