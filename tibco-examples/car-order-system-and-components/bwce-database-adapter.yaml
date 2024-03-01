@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: "db-adapter"
-  description: "Database Adapter"
+  name: 'db-adapter'
+  description: 'Database Adapter'
   tags:
     - backend
     - data-layer
@@ -21,15 +21,15 @@ spec:
   lifecycle: production
   system: car-order-system
   owner: operational-department
-  providesApis: ["car-details-api"]
+  providesApis: ['car-details-api']
   dependsOn:
     - resource:default/cars-database
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: "car-details-api"
-  description: "An API that provides car details"
+  name: 'car-details-api'
+  description: 'An API that provides car details'
   tags:
     - store
     - rest
@@ -43,8 +43,8 @@ metadata:
 spec:
   type: openapi
   lifecycle: production
-  owner: "CarImporter"
+  owner: 'CarImporter'
   apiConsumedBy:
-    ["component:discount-calculator", "component:car-information-provider"]
+    ['component:discount-calculator', 'component:car-information-provider']
   definition:
     $text: ./sample-api.json

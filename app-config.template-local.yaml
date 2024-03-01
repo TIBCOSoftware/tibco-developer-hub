@@ -28,18 +28,7 @@ catalog:
     - type: file
       target: ../../tibco-examples/tibco-examples.yaml
       rules:
-        - allow:
-          [
-            Component,
-            API,
-            Location,
-            Template,
-            User,
-            Group,
-            Domain,
-            System,
-            Resource,
-          ]
+        - allow:[ Component, API, Location, Template, User, Group, Domain, System, Resource ]
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development

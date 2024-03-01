@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: "car-information-provider"
-  description: "Car Information Provider Service"
+  name: 'car-information-provider'
+  description: 'Car Information Provider Service'
   tags:
     - backend
     - data-layer
@@ -15,7 +15,7 @@ spec:
   lifecycle: production
   system: car-order-system
   owner: operational-department
-  providesApis: ["car-information-api"]
+  providesApis: ['car-information-api']
   consumesApis:
     - car-details-api
   dependsOn:
@@ -24,8 +24,8 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: "car-information-api"
-  description: "An API that provides car details, and points to resources"
+  name: 'car-information-api'
+  description: 'An API that provides car details, and points to resources'
   tags:
     - store
     - rest
@@ -34,6 +34,6 @@ spec:
   lifecycle: production
   system: car-order-system
   owner: operational-department
-  apiConsumedBy: ["component:car-order-ui"]
+  apiConsumedBy: ['component:car-order-ui']
   definition:
     $text: ./sample-api.json

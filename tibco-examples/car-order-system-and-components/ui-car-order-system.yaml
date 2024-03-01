@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: "car-order-ui"
-  description: "Car Order-UI"
+  name: 'car-order-ui'
+  description: 'Car Order-UI'
   tags:
     - angular
     - frontend

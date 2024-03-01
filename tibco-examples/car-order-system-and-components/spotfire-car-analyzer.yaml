@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: "car-analyzer"
-  description: "Car Analytical Report"
+  name: 'car-analyzer'
+  description: 'Car Analytical Report'
   tags:
     - spotfire
     - data-layer

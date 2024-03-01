@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: "discount-calculator"
-  description: "Car Discount Calculation Service"
+  name: 'discount-calculator'
+  description: 'Car Discount Calculation Service'
   tags:
     - backend
     - data-layer
@@ -22,15 +22,15 @@ spec:
   lifecycle: production
   system: car-order-system
   owner: finance-department
-  providesApis: ["car-discount-api"]
+  providesApis: ['car-discount-api']
   consumesApis:
     - car-details-api
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: "car-discount-api"
-  description: "An API that provides car discounts"
+  name: 'car-discount-api'
+  description: 'An API that provides car discounts'
   tags:
     - finance
     - rest
@@ -45,6 +45,6 @@ spec:
   type: openapi
   lifecycle: production
   owner: finance-department
-  apiConsumedBy: ["component:car-order-ui"]
+  apiConsumedBy: ['component:car-order-ui']
   definition:
     $text: ./sample-api.json
