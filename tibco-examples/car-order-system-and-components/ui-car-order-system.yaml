@@ -1,0 +1,22 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'car-order-ui'
+  description: 'Car Order-UI'
+  tags:
+    - angular
+    - frontend
+  links:
+    - title: Angular Home
+      url: https://angular.io/
+  annotations:
+    github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: service
+  lifecycle: production
+  system: car-order-system
+  owner: operational-department
+  consumesApis:
+    - car-discount-api
+    - car-information-api

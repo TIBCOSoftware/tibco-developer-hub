@@ -108,7 +108,7 @@ backstage:
     jfrogRepository: tibco-platform-local-docker/dx/tibco-hub
 
     # -- Backstage image tag (immutable tags are recommended)
-    tag: "319"
+    tag: "381"
 
     # -- Specify a imagePullPolicy.
     # Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -404,3 +404,13 @@ autoscaling:
   targetCPUUtilizationPercentage: 70
 
   targetMemoryUtilizationPercentage: 70
+
+# Configuration needed for initContainer for deployment
+
+initContainer:
+  image:
+    registry: ""
+    repository: pdx/postgresql
+    jfrogRepository: tibco-platform-local-docker/dx/postgresql
+    tag: 14.5.0-debian-11-r35
+    digest: ""

@@ -19,13 +19,13 @@
 capabilityId: tibcohub
 version:
   - 1
-  - 0
+  - 1
   - 0
 recipe:
   helmCharts:
     - name: tibco-developer-hub
       namespace: ${NAMESPACE}
-      version: 1.0.32
+      version: 1.1.6
       repository:
         chartMuseum:
           host: ${HELM_REPO}

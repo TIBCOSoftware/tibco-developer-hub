@@ -1,0 +1,8 @@
+site_name: 'car-importer-demo'
+site_description: 'A system to import Cars'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

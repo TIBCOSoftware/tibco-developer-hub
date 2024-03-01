@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: all-car-importer-components
+  description: A collection of all Car Importer components
+spec:
+  targets:
+    - ./catalog-info.yaml
+    - ./ci-resources.yaml
+    - ./car-order-system.yaml
+    - ./bwce-database-adapter.yaml
+    - ./flogo-car-information-provider.yaml
+    - ./flogo-discount-calculator.yaml
+    - ./spotfire-car-analyzer.yaml
+    - ./ui-car-order-system.yaml

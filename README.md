@@ -87,13 +87,19 @@ Start the frontend server
 yarn start
 ```
 
+### Steps to build
+
+```sh
+docker build -t <customImageName:customImageTag> .
+```
+
 ## Helpful Documentation
 
 [Docker configuration](./docker/README.md)\
 [Docs](./docs/app-config-extensions.md)\
 [Packages](./packages/README.md)\
 [Plugins](./plugins/README.md)\
-[Example Templates, Group and System](./tibco-examples/README.md)
+[Example Templates, Group and System](https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/README.md)
 
 ## Licenses
 

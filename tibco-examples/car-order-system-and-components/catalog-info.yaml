@@ -1,0 +1,45 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: CarImporter
+  description: A company that imports cars
+spec:
+  type: organization
+  profile:
+    displayName: Car Importer
+    email: info@acme.com
+  children: [finance-department, operational-department]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: finance-department
+  description: The Finance Department
+spec:
+  type: department
+  profile:
+    displayName: The Finance Department
+    email: info@acme.com
+  parent: CarImporter
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: operational-department
+  description: The Operational Department
+spec:
+  type: department
+  profile:
+    displayName: The Operational Department
+    email: info@acme.com
+  parent: CarImporter
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: cars
+  description: Everything related to Cars
+spec:
+  owner: group:CarImporter

@@ -53,42 +53,37 @@ const baseTibcoTheme = createTheme({
     },
   },
 
-  defaultPageTheme: 'home',
+  defaultPageTheme: 'other',
   fontFamily: "'Source Sans Pro', 'PT Sans', Calibri, sans-serif",
   // as per TIBCO UXPL
   htmlFontSize: 16,
   pageTheme: {
-    home: genPageTheme({ colors: ['#0e4f9e'], shape: 'none' }),
-    messaging: genPageTheme({
-      colors: ['#039145'],
-      shape: 'none',
-    }),
-    /*   home: genPageTheme({ colors: ['#c2d3e7', '#0e4f9e'], shape: bgImage }),
-    // home: { color: '#c2d3e7' },
-    documentation: genPageTheme({
-      colors: ['#c2d3e7', '#0e4f9e'],
-      shape: bgImage,
-    }),
-    tool: genPageTheme({ colors: ['#c2d3e7', '#0e4f9e'], shape: shapes.round }),
+    /* home: genPageTheme({ colors: ['#FAFAFA'], shape: 'none' }),
+    apis: genPageTheme({ colors: ['#FAFAFA'], shape: 'none' }),
+    app: genPageTheme({ colors: ['#FAFAFA'], shape: 'none' }),
+    documentation: genPageTheme({ colors: ['#FAFAFA'], shape: 'none' }),
+    tool: genPageTheme({ colors: ['#FAFAFA'], shape: 'none' }),*/
     service: genPageTheme({
-      colors: ['#c2d3e7', '#0e4f9e'],
-      shape: bgImage,
-    }),
-    website: genPageTheme({
-      colors: ['#c2d3e7', '#0e4f9e'],
-      shape: shapes.wave,
-    }),
-    groups: genPageTheme({
-      colors: ['#0e4f9e'],
+      colors: ['#13405B'],
       shape: 'none',
     }),
     library: genPageTheme({
-      colors: ['#c2d3e7', '#0e4f9e'],
-      shape: bgImage,
+      colors: ['#7DC95E'],
+      shape: 'none',
     }),
-    other: genPageTheme({ colors: ['#c2d3e7', '#0e4f9e'], shape: shapes.wave }),
-    app: genPageTheme({ colors: ['#c2d3e7', '#0e4f9e'], shape: shapes.wave }),
-    apis: genPageTheme({ colors: ['#c2d3e7', '#0e4f9e'], shape: bgImage }),*/
+    website: genPageTheme({
+      colors: ['#1B998B'],
+      shape: 'none',
+    }),
+    integration: genPageTheme({
+      colors: ['#259BC2'],
+      shape: 'none',
+    }),
+    messaging: genPageTheme({
+      colors: ['#A74064'],
+      shape: 'none',
+    }),
+    other: genPageTheme({ colors: ['#0E4F9E'], shape: 'none' }),
   },
 });
 
@@ -106,6 +101,11 @@ export const createCustomThemeOverrides = (
         textTransform: 'capitalize',
       },
     },
+    /*   MuiIconButton:{
+      colorInherit:{
+        color: '#212121 !important'
+      }
+    },*/
     CatalogReactUserListPicker: {
       title: {
         textTransform: 'capitalize',
@@ -139,9 +139,60 @@ export const createCustomThemeOverrides = (
 
     BackstageHeader: {
       header: {
-        backgroundPosition: 'top left',
+        backgroundImage: 'none',
+        boxShadow: 'none',
+        '& a': {
+          color: '#1774e5',
+          '& div': {
+            color: '#1774e5',
+          },
+        },
+        '& button': {
+          color: '#212121',
+        },
+      },
+      leftItemsBox: {
+        color: '#212121',
+      },
+      rightItemsBox: {
+        color: '#212121',
+      },
+      title: {
+        color: '#212121',
+      },
+      breadcrumb: {
+        color: '#212121',
+      },
+      breadcrumbTitle: {
+        color: '#212121',
+      },
+      breadcrumbType: {
+        color: '#212121',
+      },
+      type: {
+        color: '#212121',
+      },
+      subtitle: {
+        color: '#212121',
       },
     },
+    BackstageHeaderLabel: {
+      root: {
+        color: '#212121',
+      },
+      value: {
+        color: '#212121',
+      },
+      label: {
+        color: '#212121',
+      },
+    },
+    PluginCatalogEntityContextMenu: {
+      button: {
+        color: '#212121',
+      },
+    },
+
     BackstageItemCardHeader: {
       root: {
         color: '#fff',

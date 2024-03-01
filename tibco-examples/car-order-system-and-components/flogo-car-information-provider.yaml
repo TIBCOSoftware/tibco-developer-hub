@@ -1,0 +1,39 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'car-information-provider'
+  description: 'Car Information Provider Service'
+  tags:
+    - backend
+    - data-layer
+    - flogo
+  annotations:
+    github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: service
+  lifecycle: production
+  system: car-order-system
+  owner: operational-department
+  providesApis: ['car-information-api']
+  consumesApis:
+    - car-details-api
+  dependsOn:
+    - resource:default/cars-promotional-materials
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: 'car-information-api'
+  description: 'An API that provides car details, and points to resources'
+  tags:
+    - store
+    - rest
+spec:
+  type: openapi
+  lifecycle: production
+  system: car-order-system
+  owner: operational-department
+  apiConsumedBy: ['component:car-order-ui']
+  definition:
+    $text: ./sample-api.json

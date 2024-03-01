@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: car-order-system
+  description: 'A system to Order New Cars'
+  annotations:
+    github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - cars
+    - tibco-examples
+spec:
+  owner: group:CarImporter
+  domain: cars

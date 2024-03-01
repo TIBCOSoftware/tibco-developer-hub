@@ -1,0 +1,50 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'discount-calculator'
+  description: 'Car Discount Calculation Service'
+  tags:
+    - backend
+    - data-layer
+    - flogo
+  links:
+    - title: Project Flogo
+      url: https://www.flogo.io/
+    - title: Repository
+      url: https://github.com/TIBCOSoftware/flogo
+    - title: Flogo - Open Source
+      url: https://github.com/project-flogo
+  annotations:
+    github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: service
+  lifecycle: production
+  system: car-order-system
+  owner: finance-department
+  providesApis: ['car-discount-api']
+  consumesApis:
+    - car-details-api
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: 'car-discount-api'
+  description: 'An API that provides car discounts'
+  tags:
+    - finance
+    - rest
+  links:
+    - url: https://github.com/TIBCO-Hub-Backstage/tibco-examples
+      title: GitHub Repo
+      icon: github
+    - url: https://github.com/TIBCO-Hub-Backstage/tibco-examples/blob/master/sample-api.json
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: finance-department
+  apiConsumedBy: ['component:car-order-ui']
+  definition:
+    $text: ./sample-api.json
