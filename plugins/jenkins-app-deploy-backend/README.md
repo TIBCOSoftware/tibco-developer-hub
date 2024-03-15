@@ -18,8 +18,7 @@ You need to configure the action in your backend:
 ## From your Backstage root directory
 
 ```
-cd packages/backend
-yarn add @internal/plugin-jenkins-app-deploy-backend
+yarn --cwd packages/backend add @internal/plugin-jenkins-app-deploy-backend@^0.1.0
 ```
 
 Configure the action:

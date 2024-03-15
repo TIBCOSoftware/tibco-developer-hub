@@ -110,7 +110,7 @@ export function triggerJenkinsJobAction(config: Config){
       }
       ctx.logger.info(`---Jenkins Instructions: ${  jenkinsInstructions}`);
 
-      const jenkinsCallURl = `${jenkinsBaseUrl}job/${jenkinsJob}/buildWithParameters?token=${jenkinsJobToken}&repo_host=${repoUrl.host}&repo_owner=${repoUrl.owner}&repo_name=${repoUrl.repo}${jenkinsInstructions}`;
+      const jenkinsCallURl = `${jenkinsBaseUrl}/job/${jenkinsJob}/buildWithParameters?token=${jenkinsJobToken}&repo_host=${repoUrl.host}&repo_owner=${repoUrl.owner}&repo_name=${repoUrl.repo}${jenkinsInstructions}`;
       ctx.logger.info(
         '-------------------------------------------------------------------------------------------',
       );
