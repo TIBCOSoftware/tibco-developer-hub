@@ -1,0 +1,72 @@
+{
+	"name" : "TestSecret",
+	"version" : "1.0",
+	"type" : "bwce",
+	"defaultProfile" : "default.substvar",
+	"appProperties" : [
+		{
+			"profile" : "default.substvar",
+			"properties" : [
+			]
+		}
+	],
+	"endpoints" : [
+		{
+			"name" : "Resource",
+			"protocol" : "http",
+			"port" : "8080",
+			"spec" : {
+				"name" : "TestSecret",
+				"version" : "v1"
+			},
+			"swagger" : {
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0",
+    "title" : "Resource",
+    "description" : "Resource service"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/",
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/getSecret" : {
+      "get" : {
+        "summary" : "getResource",
+        "description" : "getResource",
+        "operationId" : "get-getSecret",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "a NewOperationResponse to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/NewOperationResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "NewOperationResponse" : {
+      "type" : "object",
+      "required" : [ "out" ],
+      "properties" : {
+        "out" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
+		},
+		{
+			"type" : "private",
+			"pingable" : true,
+			"protocol" : "http",
+			"port" : "8090"
+		}
+	]
+}
