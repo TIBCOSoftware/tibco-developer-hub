@@ -17,6 +17,12 @@
       <version>6.2.1900</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.tibco.plugins</groupId>
+      <artifactId>com.tibco.bw.palette.shared</artifactId>
+      <version>6.2.1901</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
