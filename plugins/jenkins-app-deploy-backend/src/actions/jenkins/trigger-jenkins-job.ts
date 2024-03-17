@@ -21,13 +21,13 @@ export function triggerJenkinsJobAction(config: Config){
     repoUrl: {host: string; owner: string; repo: string};
     job: string;
     jobAuthToken?: string;
-    secret: { [key: string]: string; };
+    secret?: { [key: string]: string; };
     jenkinsInstructions?: string;
   }>({
     id: 'tibco:jenkins-trigger-ear-build',
     schema: {
       input: {
-        required: ['repoUrl', 'job', 'secret' ],
+        required: ['repoUrl', 'job' ],
         type: 'object',
         properties: {
           repoUrl: {
