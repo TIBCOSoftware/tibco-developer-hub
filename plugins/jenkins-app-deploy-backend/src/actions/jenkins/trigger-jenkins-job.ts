@@ -2,32 +2,59 @@ import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import axios from 'axios';
 import { Config } from '@backstage/config';
 import { encryptSecret } from './encryption';
-import {randomBytes} from 'crypto';
+import { randomBytes } from 'crypto';
 
-export function triggerJenkinsJobAction(config: Config){
+type RepoUrl = {
+  host: string;
+  owner: string;
+  repo: string;
+};
+function generateJenkinsCallURl(
+  jenkinsBaseUrl: string,
+  jenkinsJob: string,
+  jenkinsJobToken: string,
+  repoUrl: RepoUrl,
+  jenkinsInstructions: string,
+): string {
+  return `${jenkinsBaseUrl}/job/${jenkinsJob}/buildWithParameters?token=${jenkinsJobToken}&repo_host=${repoUrl.host}&repo_owner=${repoUrl.owner}&repo_name=${repoUrl.repo}${jenkinsInstructions}`;
+}
+
+export function triggerJenkinsJobAction(config: Config) {
   // Get from config
   const jenkinsBaseUrl = config.getString('jenkins.baseUrl');
   const jenkinsUser = config.getString('jenkins.username');
   const jenkinsApiKey = config.getString('jenkins.apiKey');
-  const jenkinsJobAuthToken = config.getString('jenkins.jenkinsActionJobAuthToken');
-  const jenkinsSecretEncryptionKey = config.getString(
-    'jenkins.jenkinsActionSecretEncryptionKey'
+  const jenkinsJobAuthToken = config.getString(
+    'jenkins.jenkinsActionJobAuthToken',
   );
-  if(!(jenkinsBaseUrl && jenkinsUser && jenkinsApiKey && jenkinsJobAuthToken && jenkinsSecretEncryptionKey)){
-    throw new Error('Invalid configuration in app-config, missing one of the following property in jenkins object, baseUrl, username, apiKey, jenkinsActionJobAuthToken or jenkinsActionSecretEncryptionKey');
+  const jenkinsSecretEncryptionKey = config.getString(
+    'jenkins.jenkinsActionSecretEncryptionKey',
+  );
+  if (
+    !(
+      jenkinsBaseUrl &&
+      jenkinsUser &&
+      jenkinsApiKey &&
+      jenkinsJobAuthToken &&
+      jenkinsSecretEncryptionKey
+    )
+  ) {
+    throw new Error(
+      'Invalid configuration in app-config, missing one of the following property in jenkins object, baseUrl, username, apiKey, jenkinsActionJobAuthToken or jenkinsActionSecretEncryptionKey',
+    );
   }
 
   return createTemplateAction<{
-    repoUrl: {host: string; owner: string; repo: string};
+    repoUrl: RepoUrl;
     job: string;
     jobAuthToken?: string;
-    secret?: { [key: string]: string; };
+    secret?: { [key: string]: string };
     jenkinsInstructions?: string;
   }>({
     id: 'tibco:jenkins-trigger-ear-build',
     schema: {
       input: {
-        required: ['repoUrl', 'job' ],
+        required: ['repoUrl', 'job'],
         type: 'object',
         properties: {
           repoUrl: {
@@ -43,7 +70,8 @@ export function triggerJenkinsJobAction(config: Config){
           jobAuthToken: {
             type: 'string',
             title: 'job authentication token',
-            description: 'The authentication token needed to construct URL and trigger build remotely:',
+            description:
+              'The authentication token needed to construct URL and trigger build remotely:',
           },
           secret: {
             type: 'object',
@@ -95,22 +123,27 @@ export function triggerJenkinsJobAction(config: Config){
       ctx.logger.info(
         '-------------------------------------------------------------------------------------------',
       );
-      if(jenkinsSecretObj){
-        for (const sec in jenkinsSecretObj){
-          if(jenkinsSecretObj.hasOwnProperty(sec)){
-            ctx.logger.info(
-              '------ Adding secret in jenkinsInstructions ... ',
-            );
+      if (jenkinsSecretObj) {
+        for (const sec in jenkinsSecretObj) {
+          if (jenkinsSecretObj.hasOwnProperty(sec)) {
+            ctx.logger.info('------ Adding secret in jenkinsInstructions ... ');
             const key = Buffer.from(jenkinsSecretEncryptionKey, 'hex');
             const iv = randomBytes(16);
             const encrypted = encryptSecret(key, iv, jenkinsSecretObj[sec]);
-            jenkinsInstructions = `${jenkinsInstructions }&${ sec  }=${ encrypted}`;
+            jenkinsInstructions = `${jenkinsInstructions}&${sec}=${encrypted}`;
           }
         }
       }
-      ctx.logger.info(`---Jenkins Instructions: ${  jenkinsInstructions}`);
+      ctx.logger.info(`---Jenkins Instructions: ${jenkinsInstructions}`);
 
-      const jenkinsCallURl = `${jenkinsBaseUrl}/job/${jenkinsJob}/buildWithParameters?token=${jenkinsJobToken}&repo_host=${repoUrl.host}&repo_owner=${repoUrl.owner}&repo_name=${repoUrl.repo}${jenkinsInstructions}`;
+      const jenkinsCallURl = generateJenkinsCallURl(
+        jenkinsBaseUrl,
+        jenkinsJob,
+        jenkinsJobToken,
+        repoUrl,
+        jenkinsInstructions,
+      );
+
       ctx.logger.info(
         '-------------------------------------------------------------------------------------------',
       );

@@ -44,6 +44,7 @@ return await createRouter({
     catalogClient,
 });
 ```
+
 # app-config
 
 ```yaml
@@ -136,7 +137,7 @@ spec:
       name: Publish
       action: publish:github
       input:
-        allowedHosts: ["github.com"]
+        allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
 
@@ -145,7 +146,7 @@ spec:
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: "/catalog-info.yaml"
+        catalogInfoPath: '/catalog-info.yaml'
 
     - id: jenkinsEarBuild
       name: Trigger Jenkins EAR Build & Platform Deployment
@@ -155,8 +156,8 @@ spec:
         job: Build_BWCE_EAR_Maven_Secret
         authToken: test
         secret:
-          SECRET1 : ${{ secrets.db_pass }}
-          SECRET2 : ${{ secrets.app_pass }}
+          SECRET1: ${{ secrets.db_pass }}
+          SECRET2: ${{ secrets.app_pass }}
         jenkinsInstructions: '&bw_project_folder=TestSecret'
 
   output:
@@ -169,5 +170,4 @@ spec:
       - title: Open Jenkins Job
         icon: dashboard
         url: ${{ steps.jenkinsEarBuild.output.jobLink }}
-
 ```

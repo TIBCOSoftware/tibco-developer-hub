@@ -1,14 +1,16 @@
 # Introduction
+
 This document describes an example and the steps to run a template (bwce) which supports multiple secrets and uses the custom jenkins action to deploy the bwce application in the data plane.
 
 # Steps
+
 ## Create a template
 
 In the 'template' directory, we have placed an example bwce template, which has 2 secrets as 'db_pass' and 'app_pass' and the template also uses the custom jenkins action 'tibco:jenkins-trigger-ear-build'.
 
 There is a sample bwce project template exists inside the 'template' directory named as 'test-secret' which is used in 'fetch:template' step of the template'.
 
-In this 'test-secret' folder, in the below files, in place of the secret we have added the texts as  @@SECRET1@@ and @@SECRET2@@, which will be replaced by the input values 'db_pass' and 'app_pass', entered by user while running the template, in 'tibco:jenkins-trigger-ear-build' action while deploying the application.
+In this 'test-secret' folder, in the below files, in place of the secret we have added the texts as @@SECRET1@@ and @@SECRET2@@, which will be replaced by the input values 'db_pass' and 'app_pass', entered by user while running the template, in 'tibco:jenkins-trigger-ear-build' action while deploying the application.
 
 Files:
 
@@ -42,7 +44,7 @@ In our example jenkins is running in http://localhost:8080/
 
 Go to http://localhost:8080/manage/configure and add the below Environment variables under Global properties
 
-Environment variables: 
+Environment variables:
 BW_OBFUSCATE_FOLDER : Path to the bin folder where bwce studo has been installed ex: /Users/sgantayat/tibco-home/bwce/bwce/2.9/bin
 PATH: Add path of node js and mavel ex: $PATH:/Users/sgantayat/.nvm/versions/node/v18.17.0/bin:/usr/local/bin
 
@@ -63,7 +65,6 @@ SECRET1 (Password Parameter)
 SECRET2 (Password Parameter)
 
 > Note: We have added SECRET1 and SECRET2 as parameter because we have passed these 2 secrets as input via secret object while creating the template, check [Here](#create-a-template)
-
 
 ![img.png](readme_images/img_2.png)
 
@@ -99,6 +100,7 @@ export BASE_VERSION="2.9.1"
 export BASE_IMAGE_TAG="101-2.9.1-V52.3.2-GA-debian"
 ./generate_ear.sh
 ```
+
 > Note: The scripts needs to be changes accordingly for the secret values and number of secret values passed
 
 > Note: The scripts clones the repository provided in repo_name parameter using SSH, so GIT should be configured correctly in the system
@@ -121,6 +123,7 @@ jenkins:
   jenkinsActionSecretEncryptionKey: xxxxxxxxxxxxxxxxx
   jenkinsActionJobAuthToken: BuildEARToken
 ```
+
 Here provide the apiKey as the Jenkins API token we have generated in the previous step.
 
 jenkinsActionSecretEncryptionKey is the encryption key to be used to encrypt/decrypt the secret, which we have also added while configuring Jenkins.
@@ -149,6 +152,7 @@ catalog:
         - System
         - Resource
 ```
+
 > Note: GitHub PAT should be set previously in app.config
 
 Now run the Tibco hub application using 'yarn dev' and run the template filling the required inputs added in the previous step.
@@ -164,12 +168,3 @@ Go through the documentation mentioned in https://www.npmjs.com/package/@backsta
 Now we can see the CI/CD tab in the catalog detail page where we can find the Jenkins projects and details.
 
 ![img.png](readme_images/img_12.png)
-
-
-
-
-
-
-
-
-

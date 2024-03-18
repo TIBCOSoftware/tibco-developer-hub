@@ -1,10 +1,8 @@
-BWCE Documentation for: ${{ values.name }}
--------
+## BWCE Documentation for: ${{ values.name }}
 
 ${{ values.description }}
 
-This BWCE service does the following:
-===========================
+# This BWCE service does the following:
 
 - First item
 - Second item

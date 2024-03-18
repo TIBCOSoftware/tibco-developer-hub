@@ -25,6 +25,7 @@
   "dependencies": {
     "@backstage/backend-common": "^0.20.0",
     "@backstage/config": "^1.1.1",
+    "@backstage/plugin-scaffolder-node": "^0.3.3",
     "@types/express": "*",
     "axios": "^1.6.7",
     "express": "^4.17.1",

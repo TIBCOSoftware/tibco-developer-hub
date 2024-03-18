@@ -1,4 +1,4 @@
-import {createCipheriv} from 'crypto';
+import { createCipheriv } from 'crypto';
 
 const ALGORITHM = 'aes-256-cbc'; // Using AES encryption
 export interface EncryptionSecret {
@@ -6,12 +6,12 @@ export interface EncryptionSecret {
   encryptedData: string;
 }
 
-export function encryptSecret(key: Buffer, iv: Buffer, secret: string):EncryptionSecret{
-  const cipher = createCipheriv(
-      ALGORITHM,
-      Buffer.from(key),
-      iv,
-  );
+export function encryptSecret(
+  key: Buffer,
+  iv: Buffer,
+  secret: string,
+): EncryptionSecret {
+  const cipher = createCipheriv(ALGORITHM, Buffer.from(key), iv);
   let encrypted = cipher.update(secret);
   encrypted = Buffer.concat([encrypted, cipher.final()]);
   return {

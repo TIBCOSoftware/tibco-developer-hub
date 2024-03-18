@@ -50,6 +50,7 @@ walkThrough:
       text: 'Some description'
       link: 'http://www.some-external-link.com/walk-through2'
 ```
+
 ## Walk Through
 
 Show the Walk-through card on home page if the config is present.
