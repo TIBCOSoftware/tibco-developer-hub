@@ -36,6 +36,8 @@ Go through the readme file inside the plugin to add the custom action to develop
 
 [Install node js (Tested with Version 18.17.0)](https://nodejs.org/en/download)
 
+[Install Java (Tested with Version 20)](https://nodejs.org/en/download)
+
 [Install maven (Tested with Version 3.9.6)](https://maven.apache.org/install.html)
 
 [Install TIBCO Business Studio for BusinessWorks (Tested with Version 2.9.1)](http://reldist.na.tibco.com/package/bwce/2.9.1/V52.3.2-GA)
@@ -46,7 +48,7 @@ Go to http://localhost:8080/manage/configure and add the below Environment varia
 
 Environment variables:
 BW_OBFUSCATE_FOLDER : Path to the bin folder where bwce studo has been installed ex: /Users/sgantayat/tibco-home/bwce/bwce/2.9/bin
-PATH: Add path of node js and mavel ex: $PATH:/Users/sgantayat/.nvm/versions/node/v18.17.0/bin:/usr/local/bin
+PATH: Add path of node js and maven ex: $PATH:/Users/sgantayat/.nvm/versions/node/v18.17.0/bin:/usr/local/bin
 
 ![img.png](readme_images/img.png)
 
@@ -86,7 +88,7 @@ Add another secret text. Provide variable name as 'secret_encryption_key'. Add C
 
 ![img.png](readme_images/img_7.png)
 
-Create a folder in the file system of the computer, ex: /Users/sgantayat/jenkin and copy the decrypt.js file and ganerate-ear.sh form this folder to the newly created folder.
+Create a folder in the file system of the computer, ex: /Users/sgantayat/jenkin and copy the decrypt.js file, replaceInDir.js and ganerate-ear.sh file form the current folder (same folder where this readme file is) to the newly created folder.
 
 Add a Build Step as 'Execute shell' under 'Build Steps' section and provide the below command to run the shell script copied in the previous step.
 
