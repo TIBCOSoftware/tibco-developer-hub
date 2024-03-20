@@ -13,10 +13,14 @@ function generateJenkinsCallURl(
   jenkinsBaseUrl: string,
   jenkinsJob: string,
   jenkinsJobToken: string,
-  repoUrl: RepoUrl,
+  repoUrl: RepoUrl | undefined,
   jenkinsInstructions: string,
 ): string {
-  return `${jenkinsBaseUrl}/job/${jenkinsJob}/buildWithParameters?token=${jenkinsJobToken}&repo_host=${repoUrl.host}&repo_owner=${repoUrl.owner}&repo_name=${repoUrl.repo}${jenkinsInstructions}`;
+  let uri = `${jenkinsBaseUrl}/job/${jenkinsJob}/buildWithParameters?token=${jenkinsJobToken}${jenkinsInstructions}`;
+  if(repoUrl){
+    uri += `&repo_host=${repoUrl.host}&repo_owner=${repoUrl.owner}&repo_name=${repoUrl.repo}`
+  }
+  return uri;
 }
 
 export function triggerJenkinsJobAction(config: Config) {
@@ -51,10 +55,10 @@ export function triggerJenkinsJobAction(config: Config) {
     secret?: { [key: string]: string };
     jenkinsInstructions?: string;
   }>({
-    id: 'tibco:jenkins-trigger-ear-build',
+    id: 'tibco:trigger-jenkins-job',
     schema: {
       input: {
-        required: ['repoUrl', 'job'],
+        required: ['job'],
         type: 'object',
         properties: {
           repoUrl: {
@@ -110,7 +114,7 @@ export function triggerJenkinsJobAction(config: Config) {
         '-------------------------------------------------------------------------------------------',
       );
       ctx.logger.info(
-        '------------------- STARTING JENKINS JOB TO BUILD THE EAR FILE  ---------------------------',
+        '------------------- STARTING THE JENKINS JOB  ---------------------------',
       );
       ctx.logger.info(
         '-------------------------------------------------------------------------------------------',
@@ -118,7 +122,9 @@ export function triggerJenkinsJobAction(config: Config) {
       ctx.logger.info(`------ Jenkins BASE URL: ${jenkinsBaseUrl}`);
       ctx.logger.info(`------ Jenkins Username: ${jenkinsUser}`);
       ctx.logger.info(`------      Jenkins Job: ${jenkinsJob}`);
-      ctx.logger.info(`------     Repo Name: ${repoUrl.repo}`);
+      if(repoUrl){
+        ctx.logger.info(`------     Repo Name: ${repoUrl?.repo}`);
+      }
       ctx.logger.info(`---Jenkins Instructions: ${jenkinsInstructions}`);
       ctx.logger.info(
         '-------------------------------------------------------------------------------------------',

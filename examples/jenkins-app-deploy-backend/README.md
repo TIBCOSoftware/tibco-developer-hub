@@ -6,11 +6,11 @@ This document describes an example and the steps to run a template (bwce) which 
 
 ## Create a template
 
-In the 'template' directory, we have placed an example bwce template, which has 2 secrets as 'db_pass' and 'app_pass' and the template also uses the custom jenkins action 'tibco:jenkins-trigger-ear-build'.
+In the 'template' directory, we have placed an example bwce template, which has 2 secrets as 'db_pass' and 'app_pass' and the template also uses the custom jenkins action 'tibco:trigger-jenkins-job'.
 
 There is a sample bwce project template exists inside the 'template' directory named as 'test-secret' which is used in 'fetch:template' step of the template'.
 
-In this 'test-secret' folder, in the below files, in place of the secret we have added the texts as @@SECRET1@@ and @@SECRET2@@, which will be replaced by the input values 'db_pass' and 'app_pass', entered by user while running the template, in 'tibco:jenkins-trigger-ear-build' action while deploying the application.
+In this 'test-secret' folder, in the below files, in place of the secret we have added the texts as @@SECRET1@@ and @@SECRET2@@, which will be replaced by the input values 'db_pass' and 'app_pass', entered by user while running the template, in 'tibco:trigger-jenkins-job' action while deploying the application.
 
 Files:
 
@@ -18,11 +18,11 @@ Files:
 
 /test-secret/TestSecret.module/META-INF/default.substvar
 
-We have passed secrets as an object in the 'tibco:jenkins-trigger-ear-build' action, ex: SECRET1 and SECRET2
+We have passed secrets as an object in the 'tibco:trigger-jenkins-job' action, ex: SECRET1 and SECRET2
 
 We can crate our own template or modify the above template as per the requirement.
 
-## Install custom jenkins action (tibco:jenkins-trigger-ear-build)
+## Install custom jenkins action (tibco:trigger-jenkins-job)
 
 We have exported the custom jenkins action named as 'jenkins-app-deploy-backend', as a plugin which is inside the 'plugins' folder of the root of the project.
 

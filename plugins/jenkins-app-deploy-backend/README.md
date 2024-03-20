@@ -4,7 +4,7 @@ Welcome to the jenkins-app-deploy backend plugin!
 
 This contains a collection of actions:
 
-- `tibco:jenkins-trigger-ear-build`
+- `tibco:trigger-jenkins-job`
 
 ## Getting started
 
@@ -150,7 +150,7 @@ spec:
 
     - id: jenkinsEarBuild
       name: Trigger Jenkins EAR Build & Platform Deployment
-      action: tibco:jenkins-trigger-ear-build
+      action: tibco:trigger-jenkins-job
       input:
         repoUrl: ${{ parameters.repoUrl | parseRepoUrl}}
         job: Build_BWCE_EAR_Maven_Secret
