@@ -51,8 +51,8 @@ return await createRouter({
 jenkins:
   baseUrl: https://jenkins.example.com
   username: backstage-bot
-  apiKey: 123456789abcdef0123456789abcedf012
-  jenkinsActionSecretEncryptionKey: 707ffeeed90cef9b11959ba0988e83fd09607477493388ca34df1b
+  apiKey: xxxxxxxxxxxxx
+  jenkinsActionSecretEncryptionKey: xxxxxxxxxxxxxx
   jenkinsActionJobAuthToken: BuildEARToken
 ```
 
