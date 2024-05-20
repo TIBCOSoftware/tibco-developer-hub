@@ -9,6 +9,12 @@ app:
         links:
           - url: 'https://support.tibco.com/s/'
             title: 'TIBCO Support'
+      - title: 'TIBCO Documentation Page'
+        icon: 'docs'
+        links:
+          - url: 'https://docs.tibco.com/go/platform-cp/1.2.0/doc/html#cshid=developer_hub_overview'
+            title: 'TIBCO® Developer Hub Documentation'
+  developerHubVersion: 1.2.0
 
 organization:
   name: TIBCO Software's
@@ -60,7 +66,7 @@ integrations:
       # apps:
       #   - $include: github-backstage-app-credentials.yaml
       # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
-      # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+      # about setting up the GitHub integration here: https://backstage.io/docs/integrations/github/locations#configuration
       token: ${GITHUB_TOKEN}
     ### Example for how to add your GitHub Enterprise instance using the API:
     # - host: ghe.example.net
@@ -88,6 +94,7 @@ auth:
   #  github:
   #   organizations: ['<YOUR-ORG-NAME>']
   providers:
+    # See https://backstage.io/docs/auth/guest/provider
     github:
       development:
         clientId: ${AUTH_GITHUB_CLIENT_ID}

@@ -40,8 +40,6 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
-import { ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import LightIcon from '@material-ui/icons/WbSunny';
 
 import '@fontsource/source-sans-pro';
@@ -57,13 +55,14 @@ import { SignInPage } from '@backstage/core-components';
 
 import { tibcoOIDCAuthApiRef } from './apis';
 
-import { tibcoLightTheme } from './themes/tibcoThemeLight';
+import { tibcoThemeLight } from './themes/tibcoThemeLight';
 import { settingsPage } from './components/settings/settings';
 import {
   CatalogImportPage,
   catalogImportPlugin,
 } from './components/catalog-import/CatalogImportPage';
 import { Button } from '@material-ui/core';
+import { UnifiedThemeProvider } from '@backstage/theme';
 
 export const generateProviders = (providerConfig: string[]): any[] => {
   const providers: any[] = [];
@@ -157,9 +156,7 @@ const app = createApp({
       variant: 'light',
       icon: <LightIcon />,
       Provider: ({ children }) => (
-        <ThemeProvider theme={tibcoLightTheme}>
-          <CssBaseline>{children}</CssBaseline>
-        </ThemeProvider>
+        <UnifiedThemeProvider theme={tibcoThemeLight} children={children} />
       ),
     },
   ],
@@ -190,7 +187,19 @@ const routes = (
         <ReportIssue />
       </TechDocsAddons>
     </Route>
-    <Route path="/create" element={<ScaffolderPage />} />
+    <Route
+      path="/create"
+      element={
+        <ScaffolderPage
+          headerOptions={{
+            pageTitleOverride: 'Develop a new component',
+            title: 'Develop a new component',
+            subtitle:
+              'Develop new software components using standard templates in your organization',
+          }}
+        />
+      }
+    />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
       path="/tech-radar"
