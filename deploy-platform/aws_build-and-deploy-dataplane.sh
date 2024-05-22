@@ -9,11 +9,10 @@ kube_config_file=${1}
 if test -z "$kube_config_file"
 then
       echo "Error: No KUBE Config file found, please specify a kubernetes config file"
+      # NOTE: Kubectl is only used for the deployment, if you only do the building you can remove this part.
       exit 1
 fi
 export KUBECONFIG="$kube_config_file"
-
-kubectl get ns
 
 # Get Other variables
 aws_profile=${2}
@@ -49,13 +48,12 @@ docker tag "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$v
 docker push "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version"
 docker push "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:latest"
 
-echo "Now do the manual upgrade..."
-echo "Container Image ULR: |$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version|"
-
 # Use this part to automate the deployment (please note that control plane would be unaware of this deployment)
 # echo "Updating Container Image on Deployment..."
 # kubectl set image deployment/<deployment> <container>=<image>
 # kubectl set image "deployment/tibco-developer-hub-${dataplane_id}" backstage-backend="$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version" -n "$tibco_hub_namespace"
+# echo "To see the deployment complete run |kubectl get pods -n $tibco_hub_namespace -w|"
+
 
 # Command to SSH into the pod
 # kubectl exec -n <namespace> --stdin --tty <pod-name> -- /bin/bash
@@ -64,8 +62,8 @@ echo "Container Image ULR: |$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$c
 # Command to tail the logs of the pod
 # kubectl logs <pod-name> -n <namespace>
 # kubectl logs tibco-developer-hub-cn1tgq58el1deih7pkvg-667b8d6469-rdc4k  -n tibcopilot-ns
+# kubectl get pods -n "$tibco_hub_namespace"
 
-kubectl get pods -n "$tibco_hub_namespace"
 
 # Timing
 end_deploy=$(date +%s)
@@ -79,8 +77,9 @@ convertsecs() {
 }
 # Calculate minutes
 echo "-------------------------------------------------------------------------";
-echo "     --------------------- DEPLOYMENT DONE !!----------------------";
+echo "            ------  DOCKER CONTAINER IMAGE UPLOADED !! ------";
 echo "-------------------------------------------------------------------------";
 echo "-- It took $(convertsecs $runtime_deploy) for the deployment of the TIBCO Hub into the Dataplane..."
 echo "-------------------------------------------------------------------------";
-echo "To see the deployment complete run |kubectl get pods -n $tibco_hub_namespace -w|"
+echo "Now install the custom version of the Developer Hub in the control plane, using the following container URL..."
+echo "Container Image URL: |$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version|"
