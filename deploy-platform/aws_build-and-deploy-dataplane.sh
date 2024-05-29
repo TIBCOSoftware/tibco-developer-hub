@@ -33,14 +33,12 @@ echo "                   version: |$version|"
 
 # Step 1] Build the code
 cd ./../
-yarn tsc
-yarn build
 
 #Step 2] Login for AWS CLI:
 aws ecr get-login-password --region "$aws_region" --profile "$aws_profile" | docker login --username AWS --password-stdin "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com"
 #Step 3] Build container
 echo "Building container: |$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version|"
-docker build -f ./deploy-platform/resources/docker_file_aws_tibco_hub/Dockerfile -t "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version" .
+docker build -f ./Dockerfile -t "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version" .
 cd ./deploy-platform
 #Step 4] Tag container
 docker tag "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version" "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:latest"
@@ -54,7 +52,6 @@ docker push "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:l
 # kubectl set image "deployment/tibco-developer-hub-${dataplane_id}" backstage-backend="$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version" -n "$tibco_hub_namespace"
 # echo "To see the deployment complete run |kubectl get pods -n $tibco_hub_namespace -w|"
 
-
 # Command to SSH into the pod
 # kubectl exec -n <namespace> --stdin --tty <pod-name> -- /bin/bash
 # kubectl exec -n tibcopilot-ns --stdin --tty tibco-developer-hub-cn1tgq58el1deih7pkvg-f5c4b7594-7rpsj -- /bin/bash
@@ -63,7 +60,6 @@ docker push "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:l
 # kubectl logs <pod-name> -n <namespace>
 # kubectl logs tibco-developer-hub-cn1tgq58el1deih7pkvg-667b8d6469-rdc4k  -n tibcopilot-ns
 # kubectl get pods -n "$tibco_hub_namespace"
-
 
 # Timing
 end_deploy=$(date +%s)
