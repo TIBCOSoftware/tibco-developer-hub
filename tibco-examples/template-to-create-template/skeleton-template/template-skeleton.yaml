@@ -52,15 +52,14 @@ spec:
       name: Debug Log
       action: debug:log
       input:
-        message: "Logging template"
+        message: 'Logging template'
         listWorkspace: true
 
   output:
     # Make sure to add these steps to add the links
     links:
       - title: Repository
-        url:  ${{ '${{ steps.publish.output.remoteUrl }}' }}
+        url: ${{ '${{ steps.publish.output.remoteUrl }}' }}
       - title: Open in catalog
         icon: catalog
         entityRef: ${{ '${{ steps.register.output.entityRef }}' }}
-
