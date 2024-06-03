@@ -1,34 +1,20 @@
 #!/bin/bash
 set -e
-echo "----------------------- Build & Deploy TIBCO Hub To Dataplane ---------------------------------";
+echo "----------------------- Build & push TIBCO Developer Hub container To ECR ---------------------------------";
 start_deploy=$(date +%s)
 version=v$(date +%s)
 # version=v1679073350
 
-kube_config_file=${1}
-if test -z "$kube_config_file"
-then
-      echo "Error: No KUBE Config file found, please specify a kubernetes config file"
-      # NOTE: Kubectl is only used for the deployment, if you only do the building you can remove this part.
-      exit 1
-fi
-export KUBECONFIG="$kube_config_file"
-
 # Get Other variables
-aws_profile=${2}
-aws_region=${3}
-aws_account_nr=${4}
-container_name=${5}
-tibco_hub_namespace=${6}
-dataplane_id=${7}
+aws_profile=${1}
+aws_region=${2}
+aws_account_nr=${3}
+container_name=${4}
 
 echo "            aws_account_nr: |$aws_account_nr|";
 echo "               aws_profile: |$aws_profile|";
 echo "                aws_region: |$aws_region|";
-echo "          kube_config_file: |$kube_config_file|";
 echo "container image repository: |$container_name|"
-echo "       tibco_hub_namespace: |$tibco_hub_namespace|"
-echo "              dataplane ID: |$dataplane_id|"
 echo "                   version: |$version|"
 
 # Step 1] Build the code
@@ -39,27 +25,19 @@ aws ecr get-login-password --region "$aws_region" --profile "$aws_profile" | doc
 #Step 3] Build container
 echo "Building container: |$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version|"
 docker build -f ./Dockerfile -t "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version" .
-cd ./deploy-platform
+cd ./platform-scripts
 #Step 4] Tag container
 docker tag "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version" "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:latest"
 #Step 5] Push container
 docker push "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version"
 docker push "$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:latest"
 
-# Use this part to automate the deployment (please note that control plane would be unaware of this deployment)
-# echo "Updating Container Image on Deployment..."
-# kubectl set image deployment/<deployment> <container>=<image>
-# kubectl set image "deployment/tibco-developer-hub-${dataplane_id}" backstage-backend="$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version" -n "$tibco_hub_namespace"
-# echo "To see the deployment complete run |kubectl get pods -n $tibco_hub_namespace -w|"
-
 # Command to SSH into the pod
 # kubectl exec -n <namespace> --stdin --tty <pod-name> -- /bin/bash
-# kubectl exec -n tibcopilot-ns --stdin --tty tibco-developer-hub-cn1tgq58el1deih7pkvg-f5c4b7594-7rpsj -- /bin/bash
 
 # Command to tail the logs of the pod
 # kubectl logs <pod-name> -n <namespace>
-# kubectl logs tibco-developer-hub-cn1tgq58el1deih7pkvg-667b8d6469-rdc4k  -n tibcopilot-ns
-# kubectl get pods -n "$tibco_hub_namespace"
+
 
 # Timing
 end_deploy=$(date +%s)
@@ -75,7 +53,7 @@ convertsecs() {
 echo "-------------------------------------------------------------------------";
 echo "            ------  DOCKER CONTAINER IMAGE UPLOADED !! ------";
 echo "-------------------------------------------------------------------------";
-echo "-- It took $(convertsecs $runtime_deploy) for the deployment of the TIBCO Hub into the Dataplane..."
+echo "-- It took $(convertsecs $runtime_deploy) for the building of the TIBCO Developer Hub custom docker image and pushing it to ECR..."
 echo "-------------------------------------------------------------------------";
-echo "Now install the custom version of the Developer Hub in the control plane, using the following container URL..."
+echo "Now install the custom version of the TIBCO Developer Hub in the control plane, using the following container URL..."
 echo "Container Image URL: |$aws_account_nr.dkr.ecr.$aws_region.amazonaws.com/$container_name:$version|"
