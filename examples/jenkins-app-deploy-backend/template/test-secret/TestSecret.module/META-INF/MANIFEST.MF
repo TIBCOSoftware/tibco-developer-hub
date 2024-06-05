@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TestSecret Module
+Bundle-SymbolicName: TestSecret.module
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: TIBCO Software Inc.
+TIBCO-BW-ApplicationModule: META-INF/module.bwm
+TIBCO-BW-ConfigProfile: META-INF/default.substvar
+TIBCO-BW-Edition: bwcf
+TIBCO-BW-JobSharedVariables: META-INF/module.jsv
+Require-Capability: com.tibco.bw.model; filter:="(name=bwext)",
+ com.tibco.bw.palette; filter:="(name=bw.generalactivities)",
+ com.tibco.bw.sharedresource.model; filter:="(name=bw.httpconnector)",
+ com.tibco.bw.sharedresource.model; filter:="(name=bw.smtp)",
+ com.tibco.bw.binding.model; filter:="(name=bw.rest)"
+TIBCO-BW-ModuleSharedVariables: META-INF/module.msv
+TIBCO-BW-Version: 2.9.0 V23 2023-11-10

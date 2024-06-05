@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sca:composite xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BW="http://xsd.tns.tibco.com/amf/models/sca/implementationtype/BW" xmlns:XMLSchema="http://www.w3.org/2001/XMLSchema" xmlns:compositeext="http://schemas.tibco.com/amx/3.0/compositeext" xmlns:property="http://ns.tibco.com/bw/property" xmlns:rest="http://xsd.tns.tibco.com/bw/models/binding/rest" xmlns:sca="http://www.osoa.org/xmlns/sca/1.0" xmlns:scact="http://xsd.tns.tibco.com/amf/models/sca/componentType" xmlns:scaext="http://xsd.tns.tibco.com/amf/models/sca/extensions" xmi:id="_D1-yYLt9Ee6eC8ugAZMvIQ" targetNamespace="http://tns.tibco.com/bw/composite/TestSecret.module" name="TestSecret.module" compositeext:version="1.0.0" compositeext:formatVersion="2">
+  <sca:service xmi:id="_bf_CMLuAEe6eC8ugAZMvIQ" name="getSecret" promote="ComponentGetSecret/getSecret">
+    <sca:interface.wsdl xmi:id="_bgHlELuAEe6eC8ugAZMvIQ" interface="http://xmlns.example.com/20240125134952PLT#wsdl.interface(getSecret)" scaext:wsdlLocation="../Processes/testsecret/module/GetSecret.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_bglfILuAEe6eC8ugAZMvIQ" name="RestService" path="/getSecret" docBasePath="http://localhost:7777/TestSecret.module" docResourcePath="Resource" basePath="/" connector="testsecret.module.Resource" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/testsecret.module.GetSecret-Resource.json">
+      <operation xmi:id="_bg5BILuAEe6eC8ugAZMvIQ" operationName="get" nickname="get-getSecret" httpMethod="GET" notes="getResource" responseStyle="element" requestStyle="element" outputPartName="item">
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <parameters xmi:id="_bjHOsLuAEe6eC8ugAZMvIQ"/>
+      <advancedConfig xmi:id="_bg2k4LuAEe6eC8ugAZMvIQ" blockingQueueSize="8192"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_bg5BIbuAEe6eC8ugAZMvIQ" bindingName="RestService"/>
+  </sca:service>
+  <sca:property xmi:id="_FZ9toLt9Ee6eC8ugAZMvIQ" name="BW.APPNODE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_FabnsLt9Ee6eC8ugAZMvIQ" name="BW.DEPLOYMENTUNIT.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_FakKkLt9Ee6eC8ugAZMvIQ" name="BW.HOST.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_Faxl8Lt9Ee6eC8ugAZMvIQ" name="BW.DEPLOYMENTUNIT.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_Fa7-ALt9Ee6eC8ugAZMvIQ" name="BW.MODULE.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_FbFH8Lt9Ee6eC8ugAZMvIQ" name="BW.CLOUD.PORT" type="XMLSchema:int" scalable="true"/>
+  <sca:property xmi:id="_FbQHELt9Ee6eC8ugAZMvIQ" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_LjWGsLt9Ee6eC8ugAZMvIQ" name="secret" type="property:password" scaext:simpleValue="#!tx0oTmsH2Ys0pYANaiTk0A==" publicAccess="true" scalable="true"/>
+  <sca:component xmi:id="_Ey0OELt9Ee6eC8ugAZMvIQ" name="ComponentProcess" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_Ey9YALt9Ee6eC8ugAZMvIQ" processName="testsecret.module.ShowObfuscatedSecretOnStart"/>
+  </sca:component>
+  <sca:component xmi:id="_O3AvgLuAEe6eC8ugAZMvIQ" name="ComponentGetSecret" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_O3BWkLuAEe6eC8ugAZMvIQ" processName="testsecret.module.GetSecret"/>
+    <sca:service xmi:id="_bf47kLuAEe6eC8ugAZMvIQ" name="getSecret">
+      <sca:interface.wsdl xmi:id="_bf7X0LuAEe6eC8ugAZMvIQ" interface="http://xmlns.example.com/20240125134952PLT#wsdl.interface(getSecret)"/>
+    </sca:service>
+  </sca:component>
+</sca:composite>

@@ -1,0 +1,9 @@
+{
+  "records": [],
+  "resources": [
+    {
+      "location": "Service Descriptors/testsecret.module.GetSecret-Resource.json",
+      "type": "generated"
+    }
+  ]
+}
