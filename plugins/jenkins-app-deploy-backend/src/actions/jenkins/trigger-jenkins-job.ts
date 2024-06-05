@@ -17,8 +17,8 @@ function generateJenkinsCallURl(
   jenkinsInstructions: string,
 ): string {
   let uri = `${jenkinsBaseUrl}/job/${jenkinsJob}/buildWithParameters?token=${jenkinsJobToken}${jenkinsInstructions}`;
-  if(repoUrl){
-    uri += `&repo_host=${repoUrl.host}&repo_owner=${repoUrl.owner}&repo_name=${repoUrl.repo}`
+  if (repoUrl) {
+    uri += `&repo_host=${repoUrl.host}&repo_owner=${repoUrl.owner}&repo_name=${repoUrl.repo}`;
   }
   return uri;
 }
@@ -122,7 +122,7 @@ export function triggerJenkinsJobAction(config: Config) {
       ctx.logger.info(`------ Jenkins BASE URL: ${jenkinsBaseUrl}`);
       ctx.logger.info(`------ Jenkins Username: ${jenkinsUser}`);
       ctx.logger.info(`------      Jenkins Job: ${jenkinsJob}`);
-      if(repoUrl){
+      if (repoUrl) {
         ctx.logger.info(`------     Repo Name: ${repoUrl?.repo}`);
       }
       ctx.logger.info(`---Jenkins Instructions: ${jenkinsInstructions}`);
