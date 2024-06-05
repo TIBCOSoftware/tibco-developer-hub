@@ -141,5 +141,4 @@ environment.sh
 .idea
 # E2E test reports
 e2e-test-report/
-/KUBECONFIG.yaml
-/build_and_deploy_to_aws_dataplane_mine.sh
+
