@@ -16,6 +16,11 @@ export interface Config {
      * @visibility frontend
      */
     showBuildVersion?: boolean;
+    /**
+     * Show developer hub version. String value. Displays currently deployed version.
+     * @visibility frontend
+     */
+    developerHubVersion?: string;
   };
   // enable and configure loading org entities into catalog
   orgCatalog?: {
@@ -77,10 +82,15 @@ export interface Config {
     }[];
   };
   /**
-   * Control plain link for the TIBCO® Developer Hub
+   * Control plane link for the TIBCO® Developer Hub
    * @visibility frontend
    */
   cpLink?: string;
+  /**
+   * Custom version name for the TIBCO® Developer Hub
+   * @visibility frontend
+   */
+  tibcoDeveloperHubCustomAppVersion?: string;
   /**
    * Frontend root URL
    * @visibility frontend

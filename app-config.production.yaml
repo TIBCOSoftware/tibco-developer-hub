@@ -10,6 +10,11 @@ app:
         links:
           - url: 'https://support.tibco.com/s/'
             title: 'TIBCO Support'
+      - title: 'TIBCO Documentation Page'
+        icon: 'docs'
+        links:
+          - url: 'https://docs.tibco.com/go/platform-cp/1.2.0/doc/html#cshid=developer_hub_overview'
+            title: 'TIBCO® Developer Hub Documentation'
 
 organization:
   name: TIBCO Software's

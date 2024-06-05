@@ -1,0 +1,65 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: ${{values.name | dump}}
+  title: ${{values.title | dump}}
+  description: ${{values.description | dump}}
+  tags:
+    - tags-to-set
+spec:
+  owner: ${{values.owner | dump}}
+  type: ${{values.template_type | dump }}
+
+  parameters:
+    - title: Fill in some steps
+      required:
+        - name
+        - description
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the Project
+          ui:field: EntityNamePicker
+          ui:autofocus: true
+        description:
+          title: Description
+          type: string
+          description: A description for the Project
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  # This template has one simple sample step:
+  steps:
+    - id: Log Debug
+      name: Debug Log
+      action: debug:log
+      input:
+        message: 'Logging template'
+        listWorkspace: true
+
+  output:
+    # Make sure to add these steps to add the links
+    links:
+      - title: Repository
+        url: ${{ '${{ steps.publish.output.remoteUrl }}' }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ '${{ steps.register.output.entityRef }}' }}

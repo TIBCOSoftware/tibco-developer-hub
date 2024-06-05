@@ -1,5 +1,5 @@
 # Stage 1 - Create yarn install skeleton layer
-FROM --platform=$BUILDPLATFORM node:18-bookworm-slim AS packages
+FROM node:18-bookworm-slim AS packages
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -12,7 +12,7 @@ COPY plugins plugins
 RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -exec rm -rf {} \+
 
 # Stage 2 - Install dependencies and build packages
-FROM --platform=$BUILDPLATFORM node:18-bookworm-slim AS build
+FROM node:18-bookworm-slim AS build
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
@@ -42,7 +42,7 @@ RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
     && tar xzf packages/backend/dist/bundle.tar.gz -C packages/backend/dist/bundle
 
 # Stage 3 - Build the actual backend image and install production dependencies
-FROM --platform=$TARGETPLATFORM node:18-bookworm-slim
+FROM --platform=linux/amd64 node:18-bookworm-slim
 
 # Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
 # in which case you should also move better-sqlite3 to "devDependencies" in package.json.

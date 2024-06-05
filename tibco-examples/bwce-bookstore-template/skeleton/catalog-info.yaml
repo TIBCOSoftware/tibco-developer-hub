@@ -10,7 +10,7 @@ metadata:
 spec:
   type: service
   lifecycle: development
-#  system: data-table-exposure
+  #  system: data-table-exposure
   owner: ${{values.owner | dump}}
   providesApis: ['${{values.name}}-api']
 ---

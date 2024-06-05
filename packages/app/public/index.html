@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Backstage is an open platform for building developer portals"
+      content="Backstage is an open source framework for building developer portals"
     />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -24,7 +24,9 @@
       type="image/x-icon"
     />
 
-    <title><%= config.getString('app.title') %></title>
+    <title>
+      <%= config.getOptionalString('app.title') ?? 'TIBCO® Developer Hub' %>
+    </title>
 
     <% if (config.has('app.googleAnalyticsTrackingId')) { %>
     <script
