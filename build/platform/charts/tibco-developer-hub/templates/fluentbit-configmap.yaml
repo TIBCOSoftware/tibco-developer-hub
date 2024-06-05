@@ -2,7 +2,7 @@
 # This file is subject to the license terms contained
 # in the license file that is distributed with this file.
 
-{{- if .Values.enableLogging }}
+{{- if .Values.global.cp.logging.fluentbit.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

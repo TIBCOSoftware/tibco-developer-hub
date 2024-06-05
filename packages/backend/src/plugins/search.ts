@@ -59,6 +59,7 @@ export default async function createPlugin(
   return await createRouter({
     engine: indexBuilder.getSearchEngine(),
     types: indexBuilder.getDocumentTypes(),
+    discovery: env.discovery,
     permissions: env.permissions,
     config: env.config,
     logger: env.logger,

@@ -3,10 +3,8 @@ import {
   Entity,
   stringifyEntityRef,
 } from '@backstage/catalog-model';
-import {
-  providers,
-  AuthResolverCatalogUserQuery,
-} from '@backstage/plugin-auth-backend';
+import { providers } from '@backstage/plugin-auth-backend';
+import { AuthResolverCatalogUserQuery } from '@backstage/plugin-auth-node';
 import { PluginEnvironment } from '../../types';
 import jwtDecode from 'jwt-decode';
 

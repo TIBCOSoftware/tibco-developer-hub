@@ -63,7 +63,7 @@ spec:
           configMap:
             name: backstage-app-config
         {{- end }}
-        {{- if .Values.enableLogging }}
+        {{- if .Values.global.cp.logging.fluentbit.enabled }}
         - name: podlogs
           hostPath:
             path: /var/log/pods
@@ -75,7 +75,7 @@ spec:
         - name: config-volume
           configMap:
             name: tibco-developer-hub-fluentbit-config
-  {{- end }}
+        {{- end }}
       {{- if or .Values.backstage.image.pullSecrets .Values.global.cp.containerRegistry.secret }}
       imagePullSecrets:
       {{- if .Values.global.cp.containerRegistry.secret }}
@@ -207,10 +207,14 @@ spec:
               {{- include "common.tplvalues.render" ( dict "value" .Values.backstage.extraVolumeMounts "context" $ ) | nindent 12 }}
             {{- end }}
           {{- end }}
-        {{- if .Values.enableLogging }}
+        {{- if .Values.global.cp.logging.fluentbit.enabled }}
         - name: fluentbit
           image: {{ include "fluentbit.image" . }}
           imagePullPolicy: {{ .Values.fluentbit.image.pullPolicy }}
+          {{- if .Values.fluentbit.securityContext }}
+          securityContext:
+            {{- toYaml .Values.fluentbit.securityContext | nindent 12 }}
+          {{- end }}
           env:
             - name: POD_NAMESPACE
               valueFrom:

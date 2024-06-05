@@ -3,11 +3,11 @@ import {
   stringifyEntityRef,
 } from '@backstage/catalog-model';
 import { Config } from '@backstage/config';
+import { providers } from '@backstage/plugin-auth-backend';
 import {
-  providers,
   AuthResolverContext,
   AuthProviderFactory,
-} from '@backstage/plugin-auth-backend';
+} from '@backstage/plugin-auth-node';
 import { Octokit } from 'octokit';
 import { RequestError } from '@octokit/request-error';
 import { PluginEnvironment } from '../../types';

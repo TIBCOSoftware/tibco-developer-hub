@@ -25,10 +25,12 @@ global:
     containerRegistry:
       secret: ""
       url: ""
+    logging:
+      fluentbit:
+        enabled: true
   # -- Global Docker registry secret names as an array
   # </br> E.g. `imagePullSecrets: [myRegistryKeySecretName]`
   imagePullSecrets: []
-
 
 # -- Common parameters
 
@@ -108,7 +110,7 @@ backstage:
     jfrogRepository: tibco-platform-local-docker/dx/tibco-hub
 
     # -- Backstage image tag (immutable tags are recommended)
-    tag: "381"
+    tag: "463"
 
     # -- Specify a imagePullPolicy.
     # Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -177,11 +179,28 @@ backstage:
   # -- Security settings for a Pod.
   #  The security settings that you specify for a Pod apply to all Containers in the Pod.
   # <br /> Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
-  podSecurityContext: {}
+  # This configuration ensures that the pod is run with non-root privileges for enhanced security.
+  # The user, group, and filesystem group IDs are all set to 1000.
+  # The filesystem group change policy is set to "Always", meaning the filesystem group is always set to the fsGroup.
+  # The seccomp (secure computing mode) profile is set to RuntimeDefault, which means it uses the default profile provided by the runtime.
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    fsGroupChangePolicy: "Always"
+    seccompProfile:
+      type: RuntimeDefault
 
   # -- Security settings for a Container.
   # <br /> Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
-  containerSecurityContext: {}
+  # It specifies that privilege escalation is not allowed for security reasons.
+  # Additionally, it drops all capabilities, which is a common security practice to minimize potential risks.
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
   # Allows to define the appConfig as a multiline string that generates a ConfigMap
   # automatically, not requiring to have it pre provisioned as with the extraAppConfig key.
@@ -292,7 +311,7 @@ postgresql:
     registry: ""
     repository: pdx/postgresql
     jfrogRepository: tibco-platform-local-docker/dx/postgresql
-    tag: 14.5.0-debian-11-r35
+    tag: 14.12.0-debian-12-r4
   commonLabels: '{{- include "tibcohub.platform.commonLabels" . -}}'
 
   # -- The authentication details of the Postgres database
@@ -318,6 +337,32 @@ postgresql:
 
       # -- The key in which Postgres will look for, for the replication password, in the existing Secret
       replicationPasswordKey: replication-password
+  primary:
+    # This configuration ensures that the pod is run with non-root privileges for enhanced security.
+    # The user, group, and filesystem group IDs are all set to 1000.
+    # The filesystem group change policy is set to "Always", meaning the filesystem group is always set to the fsGroup.
+    # The seccomp (secure computing mode) profile is set to RuntimeDefault, which means it uses the default profile provided by the runtime.
+    podSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      runAsGroup: 1001
+      fsGroup: 1001
+      fsGroupChangePolicy: "Always"
+      seccompProfile:
+        type: RuntimeDefault
+
+    # # -- Security settings for a Container.
+    # # <br /> Ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-container
+    # # It specifies that privilege escalation is not allowed for security reasons.
+    # # Additionally, it drops all capabilities, which is a common security practice to minimize potential risks.
+    containerSecurityContext:
+      runAsNonRoot: true
+      runAsUser: 1001
+      runAsGroup: 0   # see https://github.com/bitnami/charts/issues/13985#issuecomment-1411654273
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
 
   # -- PostgreSQL architecture (`standalone` or `replication`)
   architecture: standalone
@@ -381,16 +426,20 @@ metrics:
     # <br /> Note that the /metrics endpoint is NOT present in a freshly scaffolded Backstage app. To setup, follow the [Prometheus metrics tutorial](https://github.com/backstage/backstage/blob/master/contrib/docs/tutorials/prometheus-metrics.md).
     path: /metrics
 
-# Configuration needed for Fluentbit Sidecar for logging
-enableLogging: true
-
 fluentbit:
   image:
     registry: ""
     repository: pdx/fluent-bit
     jfrogRepository: tibco-platform-local-docker/dx/fluent-bit
-    tag: 2.1.6
+    tag: 3.0.2
     pullPolicy: Always
+  securityContext:
+    runAsNonRoot: false
+    runAsUser: 0
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
 
 autoscaling:
 
@@ -412,5 +461,5 @@ initContainer:
     registry: ""
     repository: pdx/postgresql
     jfrogRepository: tibco-platform-local-docker/dx/postgresql
-    tag: 14.5.0-debian-11-r35
+    tag: 14.12.0-debian-12-r4
     digest: ""

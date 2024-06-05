@@ -14,5 +14,9 @@ data:
     value passed from backstage.appConfig.cpLink will have precedence
  */}}
   app-config.yaml: |
+{{- if .Values.backstage.tibcoDeveloperHubCustomAppVersion }}
+    {{- include "common.tplvalues.render" ( dict "value" (merge .Values.backstage.appConfig (dict "cpLink" .Values.global.cp.cpHostname) (dict "tibcoDeveloperHubCustomAppVersion" .Values.backstage.tibcoDeveloperHubCustomAppVersion)) "context" $) | nindent 4 }}
+{{- else }}
     {{- include "common.tplvalues.render" ( dict "value" (merge .Values.backstage.appConfig (dict "cpLink" .Values.global.cp.cpHostname)) "context" $) | nindent 4 }}
+{{- end }}  
 {{- end }}

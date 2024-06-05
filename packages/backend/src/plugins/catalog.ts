@@ -1,7 +1,5 @@
-import {
-  CatalogBuilder,
-  EntityProvider,
-} from '@backstage/plugin-catalog-backend';
+import { CatalogBuilder } from '@backstage/plugin-catalog-backend';
+import { EntityProvider } from '@backstage/plugin-catalog-node';
 import { ScaffolderEntitiesProcessor } from '@backstage/plugin-catalog-backend-module-scaffolder-entity-model';
 import {
   GithubEntityProvider,

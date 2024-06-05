@@ -1,0 +1,105 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: template-for-template
+  title: A template to create templates
+  description: Create a new template to use in your TIBCO Developer Hub
+  tags:
+    - tibco
+    - template
+    - developer-hub
+spec:
+  owner: tibco-templates
+  type: service
+
+  parameters:
+    - title: Fill in some steps
+      required:
+        - name
+        - description
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the Template
+          ui:field: EntityNamePicker
+          ui:autofocus: true
+        description:
+          title: Description
+          type: string
+          description: A description for the Template
+        title:
+          title: Title
+          type: string
+          description: Title of the template
+        template_type:
+          title: Type of the Template
+          description: Type of the Template
+          type: string
+          ui:widget: select
+          default: integration
+          enum:
+            - messaging
+            - bwce-service
+            - library
+            - website
+            - integration
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the template
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  # This template is meant to be used on top of an existing template.
+  # By adding the following and fetching from an absolute URL you can
+  # add in the docs template
+  steps:
+    - id: fetch
+      name: Template Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton-template
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          title: ${{ parameters.title }}
+          template_type: ${{ parameters.template_type }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          owner: ${{ parameters.owner }}
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/template-skeleton.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
