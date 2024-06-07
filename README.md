@@ -8,7 +8,7 @@ See the [architecture overview](https://backstage.io/docs/overview/architecture-
 
 ## Pre-requisites
 
-- NodeJs 16.x
+- NodeJs 18.x
 - yarn 1.22.19
 - Docker (with docker compose) -- to run the database
 
