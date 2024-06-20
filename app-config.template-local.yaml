@@ -26,7 +26,7 @@ backend:
 catalog:
   locations:
     - type: file
-      target: ../../tibco-examples/tibco-examples.yaml
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
       rules:
         - allow:
             [
