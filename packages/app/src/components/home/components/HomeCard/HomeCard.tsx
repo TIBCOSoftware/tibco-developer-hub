@@ -11,6 +11,7 @@ import ComponentsIcon from '../../images/components-icon.svg';
 import ApisIcon from '../../images/apis-icon.svg';
 import DocumentsIcon from '../../images/documents-icon.svg';
 import WalkthroughsIcon from '../../images/walkthroughs-icon.svg';
+import ImportflowsIcon from '../../images/importflow-icon.svg';
 import { Link } from 'react-router-dom';
 
 const addExtraInfo = (type: HomeCardType): ExtraInfo => {
@@ -42,6 +43,10 @@ const addExtraInfo = (type: HomeCardType): ExtraInfo => {
     case HomeCardType.WalkThrough:
       extraInfo.subTitle = 'Development & functionality demos';
       extraInfo.icon = WalkthroughsIcon;
+      break;
+    case HomeCardType.ImportFlow:
+      extraInfo.subTitle = 'Import existing applications';
+      extraInfo.icon = ImportflowsIcon;
       break;
     default:
   }
@@ -76,6 +81,8 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                   ? '/docs'
                   : data.type === HomeCardType.API
                   ? '/api-docs'
+                  : data.type === HomeCardType.ImportFlow
+                  ? '/import-flow'
                   : '/catalog?filters[kind]=' + data.type.toLowerCase()
               }
             >
@@ -115,11 +122,12 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                       /* eslint-disable */
                       data.type === HomeCardType.WalkThrough
                         ? element.link || '#'
-                        : data.type === HomeCardType.Template
+                        : data.type === HomeCardType.Template ||
+                          data.type === HomeCardType.ImportFlow
                         ? '/create/templates/' +
                           element.namespace +
                           '/' +
-                          element.title
+                          element.name
                         : (data.type === HomeCardType.Document
                             ? '/docs'
                             : '/catalog') +
@@ -128,10 +136,10 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                           '/' +
                           element.kind?.toLowerCase() +
                           '/' +
-                          element.title
+                          element.name
                     }
                   >
-                    {element.title}
+                    {element.title || element.name}
                   </Link>
                   {element.star ? (
                     <img src={Star} height={16} width={16} alt="logo" />

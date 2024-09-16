@@ -4,11 +4,14 @@ import {
   UserSettingsGeneral,
   UserSettingsAuthProviders,
 } from '@backstage/plugin-user-settings';
+import './settings.css';
 
 export const settingsPage = (
   <SettingsLayout>
     <SettingsLayout.Route path="general" title="General">
-      <UserSettingsGeneral />
+      <div className="th-settings-page">
+        <UserSettingsGeneral />
+      </div>
     </SettingsLayout.Route>
     <SettingsLayout.Route
       path="auth-providers"
