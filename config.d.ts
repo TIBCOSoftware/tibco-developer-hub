@@ -1,4 +1,4 @@
-import { TaskScheduleDefinitionConfig } from '@backstage/backend-tasks';
+import { SchedulerServiceTaskScheduleDefinitionConfig } from '@backstage/backend-plugin-api';
 
 export interface Config {
   app?: {
@@ -35,9 +35,9 @@ export interface Config {
          */
         orgUrl: string;
         /**
-         * (Optional) TaskScheduleDefinition for the refresh.
+         * (Optional) SchedulerServiceTaskScheduleDefinitionConfig for the refresh.
          */
-        schedule?: TaskScheduleDefinitionConfig;
+        schedule?: SchedulerServiceTaskScheduleDefinitionConfig;
       };
     };
   };

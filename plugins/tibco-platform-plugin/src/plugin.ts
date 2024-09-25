@@ -24,15 +24,14 @@ export const PlatformApplicationDeploymentsPage = tibcoPlatformPlugin.provide(
 );
 
 /** @public */
-export const PlatformApplicationDeploymentsCard: (props: {}) => JSX.Element =
-  tibcoPlatformPlugin.provide(
-    createComponentExtension({
-      name: 'PlatformApplicationDeploymentsCard',
-      component: {
-        lazy: () =>
-          import('./components/ApplicationDeploymentsCard').then(
-            m => m.ApplicationDeploymentsCard,
-          ),
-      },
-    }),
-  );
+export const PlatformApplicationDeploymentsCard = tibcoPlatformPlugin.provide(
+  createComponentExtension({
+    name: 'PlatformApplicationDeploymentsCard',
+    component: {
+      lazy: () =>
+        import('./components/ApplicationDeploymentsCard').then(
+          m => m.ApplicationDeploymentsCard,
+        ),
+    },
+  }),
+);

@@ -14,12 +14,14 @@ app:
         links:
           - url: 'https://docs.tibco.com/go/platform-cp/1.2.0/doc/html#cshid=developer_hub_overview'
             title: 'TIBCO® Developer Hub Documentation'
-  developerHubVersion: 1.2.0
+  developerHubVersion: 1.3.0
 
 organization:
   name: TIBCO Software's
 
 backend:
+  auth:
+    dangerouslyDisableDefaultAuthPolicy: true
   # Used for enabling authentication, secret is shared by all backend plugins
   # See https://backstage.io/docs/auth/service-to-service-auth for
   # information on the format
@@ -95,6 +97,7 @@ auth:
   #   organizations: ['<YOUR-ORG-NAME>']
   providers:
     # See https://backstage.io/docs/auth/guest/provider
+    guest: null
     github:
       development:
         clientId: ${AUTH_GITHUB_CLIENT_ID}

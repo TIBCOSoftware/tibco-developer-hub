@@ -1,16 +1,18 @@
 export enum HomeCardType {
   System = 'System',
-  API = 'API',
   Component = 'Component',
-  Template = 'Template',
   Document = 'Document',
+  API = 'API',
+  Template = 'Template',
+  ImportFlow = 'Import flow',
   WalkThrough = 'Walk-through',
 }
 
 type CardInfo = {
   tags?: string[];
   link?: string;
-  title: string;
+  title?: string;
+  name: string;
   text: string;
   star?: boolean;
   namespace?: string;
