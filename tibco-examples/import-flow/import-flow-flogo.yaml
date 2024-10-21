@@ -87,7 +87,7 @@ spec:
 #           directoryPath: <Directory path>
 #           regex: <Regex>
 
-    - id: crateYaml
+    - id: createYaml
       name: Create YAML
       action: tibco:create-yaml
       input:
@@ -108,7 +108,7 @@ spec:
                 url: https://docs.tibco.com/products/tibco-flogo-enterprise
             annotations:
               github.com/project-slug: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
-              backstage.io/techdocs-ref: dir:.
+              # backstage.io/techdocs-ref: dir:.
           spec:
             type: flogo
             lifecycle: production
