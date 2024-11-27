@@ -101,6 +101,22 @@ docker build -t <customImageName:customImageTag> .
 [Plugins](./plugins/README.md)\
 [Example Templates, Group and System](https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/README.md)
 
+## Compatability Matrix
+
+| TIBCO Developer Hub Version | TIBCO Platform Version |
+|-----------------------------|------------------------|
+| 1.3.2                       | 1.3.0                  |
+| 1.3.1                       | 1.3.0                  |
+| 1.3.0                       | 1.3.0                  |
+| 1.2.2                       | 1.2.0                  |
+| 1.2.1                       | 1.2.0                  |
+| 1.2.0                       | 1.2.0                  |
+| 1.1.0                       | 1.1.0                  |
+| 1.0.1                       | 1.0.0                  |
+| 1.0.0                       | 1.0.0                  |
+
+**Note:** The TIBCO Hosted Control Plane (SaaS) is always on the latest version, it is recommended to use the compatible of the TIBCO Developer Hub with that. It is not supported to deploy older versions of the TIBCO Developer Hub newer minor versions of the platform.
+
 ## Licenses
 
 This project (TIBCO® Developer Hub) is licensed under the [Apache 2.0 License](LICENSE.TXT).
