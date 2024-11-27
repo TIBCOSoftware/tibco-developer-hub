@@ -115,7 +115,7 @@ docker build -t <customImageName:customImageTag> .
 | 1.0.1                       | 1.0.0                  |
 | 1.0.0                       | 1.0.0                  |
 
-**Note:** The TIBCO Hosted Control Plane (SaaS) is always on the latest version, it is recommended to use the compatible of the TIBCO Developer Hub with that. It is not supported to deploy older versions of the TIBCO Developer Hub newer minor versions of the platform.
+**Note:** The TIBCO Hosted Control Plane (SaaS) is always on the latest version, it is recommended to use the compatible version of the TIBCO Developer Hub with that. It is not supported to deploy older versions of the TIBCO Developer Hub to newer minor versions of the platform.
 
 ## Licenses
 
