@@ -81,12 +81,19 @@ techdocs:
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
-  # uncomment 3 lines below and add organization name in place of <YOUR-ORG-NAME> to support sign in through gitHub
-  # signIn:
-  #  github:
-  #   organizations: ['<YOUR-ORG-NAME>']
   providers:
     guest: null
+# Needs to be enabled if you want to try out Github auth
+# See https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
+# While creating OAuth App on GitHub, The Homepage URL should point to TIBCO® Developer Hub frontend including '/tibco/hub' in the URL ,while the Authorization callback URL will point to the TIBCO® Developer Hub backend which also includes '/tibco/hub' in the URL
+# AUTH_GITHUB_CLIENT_ID and AUTH_GITHUB_CLIENT_SECRET should be set using kubernetes secrets in the data plane
+# Example:
+# Homepage URL: http://devhub-host/tibco/hub
+# Authorization callback URL: http://devhub-host/tibco/hub/api/auth/github/handler/frame
+#   github:
+#     development:
+#       clientId: ${AUTH_GITHUB_CLIENT_ID}
+#       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
     oauth2Proxy:
       development: {}
   enableAuthProviders: [oauth2Proxy]

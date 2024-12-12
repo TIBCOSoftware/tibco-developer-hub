@@ -13,12 +13,10 @@ import {
   createOAuthProviderFactory,
 } from '@backstage/plugin-auth-node';
 import { Config } from '@backstage/config';
-import { Octokit } from 'octokit';
-import { RequestError } from '@octokit/request-error';
 
 function isGuestAuthEnabled(config: Config): boolean {
   const enabledProviders =
-    config.getOptionalStringArray('auth.enableAuthProviders') || [];
+      config.getOptionalStringArray('auth.enableAuthProviders') || [];
   return enabledProviders.includes('guest');
 }
 
@@ -34,42 +32,6 @@ function issueGuestToken(ctx: AuthResolverContext) {
       ent: [userRef],
     },
   });
-}
-
-async function validateUserOrgMembership({
-  orgNames,
-  accessToken,
-}: {
-  orgNames: string[];
-  accessToken: string;
-}): Promise<void> {
-  const octokit = new Octokit({ auth: accessToken });
-  try {
-    // https://docs.github.com/en/rest/orgs/members?apiVersion=2022-11-28#list-organization-memberships-for-the-authenticated-user
-    const response = await octokit.request(`GET /user/memberships/orgs`, {
-      headers: {
-        'X-GitHub-Api-Version': '2022-11-28',
-      },
-    });
-    const orgNamesLowercase = orgNames.map(o => o.toLowerCase());
-    const foundOrg = response.data.find(org => {
-      const orgName = org.organization_url.substring(
-        org.organization_url.lastIndexOf('/') + 1,
-      );
-      return orgNamesLowercase.includes(orgName.toLowerCase());
-    });
-    if (!foundOrg) {
-      throw new Error('Could not find org');
-    }
-  } catch (e) {
-    if (e instanceof RequestError && (e.status === 302 || e.status === 404)) {
-      throw new Error(
-        `Could not determine user membership to any allowed orgs".
-            User didn't grant Github organization access or user doesn't belong to this org.`,
-      );
-    }
-    throw new Error('Unknown error occurred on login');
-  }
 }
 
 async function checkUserInCatalog(ctx: AuthResolverContext, userId: string) {
@@ -104,27 +66,16 @@ export default createBackendModule({
             authenticator: githubAuthenticator,
             async signInResolver({ result }, ctx) {
               if (
-                isGuestAuthEnabled(config) &&
-                result.fullProfile.id === 'guest'
+                  isGuestAuthEnabled(config) &&
+                  result.fullProfile.id === 'guest'
               ) {
                 return issueGuestToken(ctx);
-              }
-
-              const allowedOrgs = config.getOptionalStringArray(
-                'auth.signIn.github.organizations',
-              );
-              if (allowedOrgs && allowedOrgs.length > 0) {
-                await validateUserOrgMembership({
-                  orgNames: allowedOrgs,
-                  // @ts-ignore
-                  accessToken: result.accessToken,
-                });
               }
 
               const userId: string | undefined = result.fullProfile.username;
               if (!userId) {
                 throw new Error(
-                  `GitHub user profile does not contain a username`,
+                    `GitHub user profile does not contain a username`,
                 );
               }
 
