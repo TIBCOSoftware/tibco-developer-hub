@@ -5,11 +5,6 @@ import {
   ExtractParametersAction,
   createYamlAction,
 } from '@internal/backstage-plugin-scaffolder-backend-module-import-flow';
-import {
-  coreServices,
-  createServiceFactory,
-} from '@backstage/backend-plugin-api';
-import { HostDiscovery } from '@backstage/backend-defaults/discovery';
 import { rootHttpRouterServiceFactory } from '@backstage/backend-defaults/rootHttpRouter';
 import { NextFunction, Request, Response, Router } from 'express';
 
@@ -33,26 +28,13 @@ backend.add(
         next();
       };
       app.use('/tibco/hub', mw, routes);
+      app.use('/', mw, routes);
       app.use(middleware.notFound());
       app.use(middleware.error());
     },
   }),
 );
 
-const discoveryServiceFactory = createServiceFactory({
-  service: coreServices.discovery,
-  deps: {
-    config: coreServices.rootConfig,
-    pluginMd: coreServices.pluginMetadata,
-  },
-  factory({ config, pluginMd }) {
-    return HostDiscovery.fromConfig(config, {
-      basePath: pluginMd.getId() === 'proxy' ? '/api' : '/tibco/hub/api',
-    });
-  },
-});
-
-backend.add(discoveryServiceFactory);
 backend.add(import('@backstage/plugin-app-backend/alpha'));
 backend.add(import('@backstage/plugin-proxy-backend/alpha'));
 const scaffolderModuleCustomExtensions = createBackendModule({
@@ -61,8 +43,7 @@ const scaffolderModuleCustomExtensions = createBackendModule({
   register(env) {
     env.registerInit({
       deps: {
-        scaffolder: scaffolderActionsExtensionPoint,
-        config: coreServices.rootConfig,
+        scaffolder: scaffolderActionsExtensionPoint
       },
       async init({ scaffolder }) {
         scaffolder.addActions(new (ExtractParametersAction as any)());
