@@ -31,7 +31,6 @@
     "lint:all": "backstage-cli repo lint",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
-    "new": "backstage-cli new --scope internal"
     "create-plugin": "backstage-cli create-plugin --scope internal",
     "remove-plugin": "backstage-cli remove-plugin",
     "new": "backstage-cli new --scope internal"

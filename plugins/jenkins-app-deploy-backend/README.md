@@ -18,7 +18,7 @@ You need to configure the action in your backend:
 ## From your Backstage root directory
 
 ```
-yarn --cwd packages/backend add @internal/plugin-jenkins-app-deploy-backend@^0.1.0
+yarn --cwd packages/backend add @internal/plugin-jenkins-app-deploy-backend@^1.3.0
 ```
 
 Configure the action:
@@ -29,19 +29,25 @@ Import the action that you'd like to register to your backstage instance.
 ```typescript
 // packages/backend/src/plugins/scaffolder.ts
 import { triggerJenkinsJobAction } from '@internal/plugin-jenkins-app-deploy-backend';
+import {coreServices} from '@backstage/backend-plugin-api';
 ...
 
-const actions = [...builtInActions, triggerJenkinsJobAction(env.config)];
-
-return await createRouter({
-    actions,
-    logger: env.logger,
-    config: env.config,
-    database: env.database,
-    reader: env.reader,
-    permissions: env.permissions,
-    identity: env.identity,
-    catalogClient,
+const scaffolderModuleCustomExtensions = createBackendModule({
+    pluginId: 'scaffolder', // name of the plugin that the module is targeting
+    moduleId: 'custom-extensions',
+    register(env) {
+        env.registerInit({
+            deps: {
+                scaffolder: scaffolderActionsExtensionPoint,
+                config: coreServices.rootConfig,
+            },
+            async init({ scaffolder, config }) {
+                scaffolder.addActions(new (triggerJenkinsJobAction as any)(config));
+                scaffolder.addActions(new (ExtractParametersAction as any)());
+                scaffolder.addActions(new (createYamlAction as any)());
+            },
+        });
+    },
 });
 ```
 

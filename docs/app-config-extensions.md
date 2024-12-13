@@ -51,26 +51,6 @@ walkThrough:
       link: 'http://www.some-external-link.com/walk-through2'
 ```
 
-## Walk Through
-
-Show the Walk-through card on home page if the config is present.
-
-Example config:
-
-```yaml
-walkThrough:
-  viewAllLink: 'http://www.some-external-link.com'
-  items:
-    - title: 'Walk Through 1'
-      tags: ['Tag1', 'Tag2']
-      text: 'Some description'
-      link: 'http://www.some-external-link.com/walk-through1'
-    - title: 'Walk Through 2'
-      tags: ['Tag1', 'Tag2']
-      text: 'Some description'
-      link: 'http://www.some-external-link.com/walk-through2'
-```
-
 ## Cp Link
 
 Control plane link for the TIBCO® Developer Hub.
