@@ -72,12 +72,17 @@ export const HomePage = () => {
                 const fields = [
                   'kind',
                   'metadata.name',
+                  'metadata.title',
                   'metadata.tags',
                   'metadata.description',
                   'metadata.namespace',
                 ];
-
-                if (type === HomeCardType.Document) {
+                if (type === HomeCardType.ImportFlow) {
+                  filter = {
+                    kind: [HomeCardType.Template],
+                    'metadata.tags': 'import-flow',
+                  };
+                } else if (type === HomeCardType.Document) {
                   filter = {
                     'metadata.annotations.backstage.io/techdocs-ref':
                       CATALOG_FILTER_EXISTS,
@@ -104,7 +109,15 @@ export const HomePage = () => {
                   card.viewAllLink = walkthrough.viewAllLink;
                   card.itemsInfo = walkthrough.items || [];
                 } else {
-                  const items = result[index]?.items;
+                  let items = result[index]?.items;
+                  if (card.type === HomeCardType.Template) {
+                    items = items.filter(
+                      (item: any) =>
+                        !item.metadata.tags
+                          ?.map((v: any) => v.toLowerCase())
+                          .includes('import-flow'),
+                    );
+                  }
                   if (items) {
                     let itemsInfo = [];
                     if (stars && stars.length > 0) {
@@ -136,7 +149,8 @@ export const HomePage = () => {
                     }
                     card.itemsInfo = itemsInfo.map((item: any) => {
                       return {
-                        title: item.metadata?.name,
+                        title: item.metadata?.title,
+                        name: item.metadata?.name,
                         kind: item.kind,
                         star: item.star,
                         namespace: item.metadata?.namespace,
@@ -200,26 +214,6 @@ export const HomePage = () => {
               </Grid>
             ))}
           </Grid>
-          {/*  {[...Array(cards.length)].map(
-            // @ts-ignore
-            (val, index) =>
-              (index === 0 || index % 3 === 0) && (
-                <Grid
-                  key={index}
-                  container
-                  className="tpdh-home-grid"
-                  justifyContent="space-between"
-                  alignItems="stretch"
-                  spacing={0}
-                >
-                  {[0, 1, 2].map((num, i) => (
-                    <Grid item key={i}>
-                      <HomeCard cardData={cards[index + num]} />
-                    </Grid>
-                  ))}
-                </Grid>
-              ),
-          )}*/}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', my: 1 }}>
             <BuildInfo />
           </Box>

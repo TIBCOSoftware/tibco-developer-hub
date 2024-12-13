@@ -9,7 +9,6 @@ import {
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
-import { TechRadarPage } from '@backstage/plugin-tech-radar';
 import {
   DefaultTechDocsHome,
   TechDocsIndexPage,
@@ -57,12 +56,11 @@ import { tibcoOIDCAuthApiRef } from './apis';
 
 import { tibcoThemeLight } from './themes/tibcoThemeLight';
 import { settingsPage } from './components/settings/settings';
-import {
-  CatalogImportPage,
-  catalogImportPlugin,
-} from './components/catalog-import/CatalogImportPage';
+import { CatalogImportPage } from './components/catalog-import/CatalogImportPage';
+import { catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { Button } from '@material-ui/core';
 import { UnifiedThemeProvider } from '@backstage/theme';
+import { ImportFlowPage } from '@internal/backstage-plugin-import-flow';
 
 export const generateProviders = (providerConfig: string[]): any[] => {
   const providers: any[] = [];
@@ -188,9 +186,40 @@ const routes = (
       </TechDocsAddons>
     </Route>
     <Route
+      path="/import-flow"
+      element={
+        <ScaffolderPage
+          templateFilter={entity =>
+            !!entity.metadata.tags
+              ?.map(v => v.toLowerCase())
+              .includes('import-flow')
+          }
+          groups={[
+            {
+              title: 'Import Flows',
+              filter: () => true,
+            },
+          ]}
+          components={{
+            EXPERIMENTAL_TemplateListPageComponent: ImportFlowPage,
+          }}
+          headerOptions={{
+            pageTitleOverride: 'Import Flow',
+            title: 'Import Flow',
+            subtitle: 'Import new software components using import flows',
+          }}
+        />
+      }
+    />
+    <Route
       path="/create"
       element={
         <ScaffolderPage
+          templateFilter={entity =>
+            !entity.metadata.tags
+              ?.map(v => v.toLowerCase())
+              .includes('import-flow')
+          }
           headerOptions={{
             pageTitleOverride: 'Develop a new component',
             title: 'Develop a new component',
@@ -201,10 +230,6 @@ const routes = (
       }
     />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
-    <Route
-      path="/tech-radar"
-      element={<TechRadarPage width={1500} height={800} />}
-    />
     <Route
       path="/catalog-import"
       element={

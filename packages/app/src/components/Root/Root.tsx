@@ -138,6 +138,7 @@ const SidebarCustom = () => {
     'tibcoDeveloperHubCustomAppVersion',
   );
   let cpLink = config.getOptionalString('cpLink') as string;
+  const baseURL = config.getString('app.baseUrl');
   if (cpLink) {
     const pattern = /^((http|https|ftp):\/\/)/;
     if (!pattern.test(cpLink)) {
@@ -147,6 +148,9 @@ const SidebarCustom = () => {
       cpLink = `https://${cpLink}`;
     }
   }
+  const redirectToCP = () => {
+    window.location.href = `${baseURL}/oauth2/sign_out?rd=${cpLink}`;
+  };
   return (
     <div
       className={
@@ -193,6 +197,11 @@ const SidebarCustom = () => {
           to="create"
           text="Develop..."
         />
+        <SidebarItem
+          icon={() => <TibcoIcon iconName="pl-icon-upload" />}
+          to="import-flow"
+          text="Import..."
+        />
         {/* End global nav */}
       </SidebarGroup>
       <SidebarDivider className={classes.divider} />
@@ -202,6 +211,11 @@ const SidebarCustom = () => {
         label="Settings"
       >
         <SidebarSettings />
+        <SidebarItem
+          icon={() => <TibcoIcon iconName="pl-icon-sign-out" />}
+          text="Sign out"
+          onClick={() => redirectToCP()}
+        />
         <div className={classes.versionContainer}>
           <div>
             {developerHubVersion ? `Version : ${developerHubVersion}` : ''}

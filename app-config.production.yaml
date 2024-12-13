@@ -20,6 +20,8 @@ organization:
   name: TIBCO Software's
 
 backend:
+  auth:
+    dangerouslyDisableDefaultAuthPolicy: true
   # Note that the baseUrl should be the URL that the browser and other clients
   # should use when communicating with the backend, i.e. it needs to be
   # reachable not just from within the backend host, but from all of your
@@ -84,6 +86,7 @@ auth:
   #  github:
   #   organizations: ['<YOUR-ORG-NAME>']
   providers:
+    guest: null
     oauth2Proxy:
       development: {}
   enableAuthProviders: [oauth2Proxy]

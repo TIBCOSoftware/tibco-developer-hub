@@ -1,0 +1,3 @@
+.th-settings-page button[data-testid='user-settings-menu'] {
+  display: none;
+}
