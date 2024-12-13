@@ -24,6 +24,17 @@ backend:
 # Uncomment the below catalog config to add the default(example) entities to your software catalog while running developer instance locally using yarn
 # The example entities had been placed inside the 'tibco-examples' folder under the project root folder
 catalog:
+  rules:
+    - allow:
+        - Component
+        - API
+        - Location
+        - Template
+        - User
+        - Group
+        - Domain
+        - System
+        - Resource
   locations:
     - type: url
       target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml

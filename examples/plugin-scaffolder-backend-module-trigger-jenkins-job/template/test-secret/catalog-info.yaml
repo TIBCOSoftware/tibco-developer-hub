@@ -1,0 +1,21 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{values.name | dump}}
+  description: ${{values.description | dump}}
+  links:
+    - title: TIBCO Cloud Home
+      url: https://cloud.tibco.com/
+    - title: Documentation
+      url: https://eu.integration.cloud.tibco.com/docs/index.html
+    - title: TIBCO Cloud Integration
+      url: https://eu.integration.cloud.tibco.com/applications
+  annotations:
+    github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-id: ${{values.destination.repo}}
+    jenkins.io/job-full-name: Build_BWCE_EAR_Maven_Secret
+spec:
+  type: service
+  lifecycle: development
+  owner: ${{values.owner | dump}}

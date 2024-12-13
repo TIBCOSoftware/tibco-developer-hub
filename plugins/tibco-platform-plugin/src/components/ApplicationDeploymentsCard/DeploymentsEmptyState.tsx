@@ -60,7 +60,7 @@ export function DeploymentsEmptyState() {
         variant="contained"
         color="primary"
         target="_blank"
-        href="https://docs.tibco.com/go/platform-cp/1.2.0/doc/html#cshid=platform_app_deployment"
+        href="https://docs.tibco.com/go/platform-cp/1.3.0/doc/html#cshid=platform_app_deployment"
       >
         Read more
       </Button>

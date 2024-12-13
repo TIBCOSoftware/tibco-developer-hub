@@ -16,7 +16,7 @@ import { Config } from '@backstage/config';
 
 function isGuestAuthEnabled(config: Config): boolean {
   const enabledProviders =
-      config.getOptionalStringArray('auth.enableAuthProviders') || [];
+    config.getOptionalStringArray('auth.enableAuthProviders') || [];
   return enabledProviders.includes('guest');
 }
 
@@ -66,8 +66,8 @@ export default createBackendModule({
             authenticator: githubAuthenticator,
             async signInResolver({ result }, ctx) {
               if (
-                  isGuestAuthEnabled(config) &&
-                  result.fullProfile.id === 'guest'
+                isGuestAuthEnabled(config) &&
+                result.fullProfile.id === 'guest'
               ) {
                 return issueGuestToken(ctx);
               }
@@ -75,7 +75,7 @@ export default createBackendModule({
               const userId: string | undefined = result.fullProfile.username;
               if (!userId) {
                 throw new Error(
-                    `GitHub user profile does not contain a username`,
+                  `GitHub user profile does not contain a username`,
                 );
               }
 

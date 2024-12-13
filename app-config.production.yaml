@@ -13,7 +13,7 @@ app:
       - title: 'TIBCO Documentation Page'
         icon: 'docs'
         links:
-          - url: 'https://docs.tibco.com/go/platform-cp/1.2.0/doc/html#cshid=developer_hub_overview'
+          - url: 'https://docs.tibco.com/go/platform-cp/1.3.0/doc/html#cshid=developer_hub_overview'
             title: 'TIBCO® Developer Hub Documentation'
 
 organization:
@@ -83,17 +83,17 @@ auth:
   environment: development
   providers:
     guest: null
-# Needs to be enabled if you want to try out Github auth
-# See https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
-# While creating OAuth App on GitHub, The Homepage URL should point to TIBCO® Developer Hub frontend including '/tibco/hub' in the URL ,while the Authorization callback URL will point to the TIBCO® Developer Hub backend which also includes '/tibco/hub' in the URL
-# AUTH_GITHUB_CLIENT_ID and AUTH_GITHUB_CLIENT_SECRET should be set using kubernetes secrets in the data plane
-# Example:
-# Homepage URL: http://devhub-host/tibco/hub
-# Authorization callback URL: http://devhub-host/tibco/hub/api/auth/github/handler/frame
-#   github:
-#     development:
-#       clientId: ${AUTH_GITHUB_CLIENT_ID}
-#       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+    # Needs to be enabled if you want to try out Github auth
+    # See https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
+    # While creating OAuth App on GitHub, The Homepage URL should point to TIBCO® Developer Hub frontend including '/tibco/hub' in the URL ,while the Authorization callback URL will point to the TIBCO® Developer Hub backend which also includes '/tibco/hub' in the URL
+    # AUTH_GITHUB_CLIENT_ID and AUTH_GITHUB_CLIENT_SECRET should be set using kubernetes secrets in the data plane
+    # Example:
+    # Homepage URL: http://devhub-host/tibco/hub
+    # Authorization callback URL: http://devhub-host/tibco/hub/api/auth/github/handler/frame
+    #   github:
+    #     development:
+    #       clientId: ${AUTH_GITHUB_CLIENT_ID}
+    #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
     oauth2Proxy:
       development: {}
   enableAuthProviders: [oauth2Proxy]
