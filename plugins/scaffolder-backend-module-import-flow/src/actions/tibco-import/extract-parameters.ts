@@ -9,6 +9,7 @@ import { Logger } from 'winston';
 import { glob } from 'glob';
 import { select } from 'xpath';
 import { DOMParser } from '@xmldom/xmldom';
+import { examples } from './extract-parameters.examples';
 
 type JsonValue = JsonObject | JsonArray | JsonPrimitive;
 
@@ -47,11 +48,11 @@ type TibcoImportWorkspace = {
   regex: string;
 };
 type TibcoImport =
-  | TibcoImportXmlXpath
-  | TibcoImportXmlJsonPath
-  | TibcoImportJson
-  | TibcoImportFile
-  | TibcoImportWorkspace;
+    | TibcoImportXmlXpath
+    | TibcoImportXmlJsonPath
+    | TibcoImportJson
+    | TibcoImportFile
+    | TibcoImportWorkspace;
 
 interface ExtractParameters {
   [key: string]: TibcoImport;
@@ -62,36 +63,36 @@ interface ExtractOutput {
 }
 
 const importSchemaXMLXpath = z
-  .object({
-    type: z.literal(TibcoImportType.xml),
-    filePath: z.string(),
-    xPath: z.string(),
-  })
-  .required();
+    .object({
+      type: z.literal(TibcoImportType.xml),
+      filePath: z.string(),
+      xPath: z.string(),
+    })
+    .required();
 
 const importSchemaXMLJsonPath = z
-  .object({
-    type: z.literal(TibcoImportType.xml),
-    filePath: z.string(),
-    jsonPath: z.string(),
-  })
-  .required();
+    .object({
+      type: z.literal(TibcoImportType.xml),
+      filePath: z.string(),
+      jsonPath: z.string(),
+    })
+    .required();
 
 const importSchemaJson = z
-  .object({
-    type: z.literal(TibcoImportType.json),
-    filePath: z.string(),
-    jsonPath: z.string(),
-  })
-  .required();
+    .object({
+      type: z.literal(TibcoImportType.json),
+      filePath: z.string(),
+      jsonPath: z.string(),
+    })
+    .required();
 
 const importSchemaFile = z
-  .object({
-    type: z.literal(TibcoImportType.file),
-    filePath: z.string(),
-    regex: z.string(),
-  })
-  .required();
+    .object({
+      type: z.literal(TibcoImportType.file),
+      filePath: z.string(),
+      regex: z.string(),
+    })
+    .required();
 
 const importSchemaWorkspace = z.object({
   type: z.literal(TibcoImportType.workspace),
@@ -102,10 +103,10 @@ const importSchemaWorkspace = z.object({
 });
 
 async function ExtractParameter(
-  params: ExtractParameters,
-  workspacePath: string,
-  logger: Logger,
-  failOnError?: boolean,
+    params: ExtractParameters,
+    workspacePath: string,
+    logger: Logger,
+    failOnError?: boolean,
 ): Promise<ExtractOutput> {
   const out: ExtractOutput = {};
   for (const key in params) {
@@ -115,24 +116,24 @@ async function ExtractParameter(
         switch (param.type) {
           case TibcoImportType.xml: {
             logger.info(
-              `Extracting parameter: ${key}, Type: ${TibcoImportType.xml}, File path: ${param.filePath}`,
+                `Extracting parameter: ${key}, Type: ${TibcoImportType.xml}, File path: ${param.filePath}`,
             );
             const filePath = resolveSafeChildPath(
-              workspacePath,
-              param.filePath,
+                workspacePath,
+                param.filePath,
             );
             logger.info(`Workspace file path: ${filePath}`);
             const xmlContent = await promises.readFile(filePath, 'utf8');
             if ((param as TibcoImportXmlXpath).xPath) {
               const doc = new DOMParser().parseFromString(
-                xmlContent,
-                'text/xml',
+                  xmlContent,
+                  'text/xml',
               );
               const result = [];
               const nodes = select(
-                (param as TibcoImportXmlXpath).xPath,
-                doc,
-                false,
+                  (param as TibcoImportXmlXpath).xPath,
+                  doc,
+                  false,
               );
               if (Array.isArray(nodes)) {
                 for (const node of nodes) {
@@ -151,19 +152,19 @@ async function ExtractParameter(
             });
             const xmlParsedContent = parser.parse(xmlContent);
             out[key] = jp.query(
-              xmlParsedContent,
-              (param as TibcoImportXmlJsonPath).jsonPath,
+                xmlParsedContent,
+                (param as TibcoImportXmlJsonPath).jsonPath,
             );
             logger.info(`Successfully Extracted parameter: ${key}`);
             break;
           }
           case TibcoImportType.json: {
             logger.info(
-              `Extracting parameter: ${key}, Type: ${TibcoImportType.json}, File path: ${param.filePath}`,
+                `Extracting parameter: ${key}, Type: ${TibcoImportType.json}, File path: ${param.filePath}`,
             );
             const filePath = resolveSafeChildPath(
-              workspacePath,
-              param.filePath,
+                workspacePath,
+                param.filePath,
             );
             logger.info(`Workspace file path: ${filePath}`);
             const jsonContent = await promises.readFile(filePath, 'utf8');
@@ -174,11 +175,11 @@ async function ExtractParameter(
           }
           case TibcoImportType.file: {
             logger.info(
-              `Extracting parameter: ${key}, Type: ${TibcoImportType.file}, File path: ${param.filePath}`,
+                `Extracting parameter: ${key}, Type: ${TibcoImportType.file}, File path: ${param.filePath}`,
             );
             const filePath = resolveSafeChildPath(
-              workspacePath,
-              param.filePath,
+                workspacePath,
+                param.filePath,
             );
             logger.info(`Workspace file path: ${filePath}`);
             const fileContent = await promises.readFile(filePath, 'utf8');
@@ -188,12 +189,12 @@ async function ExtractParameter(
           }
           case TibcoImportType.workspace: {
             logger.info(
-              `Extracting parameter: ${key}, Type: ${TibcoImportType.workspace}, File path: ${param.directoryPath}`,
+                `Extracting parameter: ${key}, Type: ${TibcoImportType.workspace}, File path: ${param.directoryPath}`,
             );
             logger.info(`Directory path: ${param.directoryPath}`);
             const directoryFullPath = resolveSafeChildPath(
-              workspacePath,
-              param.directoryPath || '',
+                workspacePath,
+                param.directoryPath || '',
             );
             logger.info(`Workspace directory path: ${directoryFullPath}`);
             let allPaths: (string | any)[] = await glob(param.glob || `**/*`, {
@@ -237,42 +238,62 @@ export function ExtractParametersAction() {
     extractParameters: ExtractParameters;
   }>({
     id: 'tibco:extract-parameters',
-    description: 'Tibco Platform Extract Parameter Action',
+    description:
+        'Tibco platform extract parameters action, refer to examples for extractParameters and output schema',
+    examples,
     schema: {
       input: z.object({
-        failOnError: z.boolean().optional(),
-        sourcePath: z.string().optional(),
-        extractParameters: z.record(
-          z.string(),
-          z.union([
-            importSchemaXMLXpath,
-            importSchemaXMLJsonPath,
-            importSchemaJson,
-            importSchemaFile,
-            importSchemaWorkspace,
-          ]),
-        ),
+        failOnError: z
+            .boolean()
+            .optional()
+            .describe(
+                'Boolean flag to stop the task when there is an error, optional, default is false, when true task execution will be stopped in this step when there is an error',
+            ),
+        sourcePath: z
+            .string()
+            .optional()
+            .describe(
+                'Source path relative to workspace, optional, path within the workspace that will be used as the repository root',
+            ),
+        extractParameters: z
+            .record(
+                z.string(),
+                z.union([
+                  importSchemaXMLXpath,
+                  importSchemaXMLJsonPath,
+                  importSchemaJson,
+                  importSchemaFile,
+                  importSchemaWorkspace,
+                ]),
+            )
+            .describe(
+                'A object/record containing key as the parameters to be extracted and value as the object containing keys as per the extract type',
+            ),
       }),
-      output: z.record(z.string(), z.any()),
+      output: z
+          .record(z.string(), z.array(z.string()))
+          .describe(
+              'A object/record containing key as the parameters to be extracted provided as input and value as an array of result',
+          ),
     },
     async handler(ctx) {
       ctx.logger.info(
-        `Source path relative to workspace: ${ctx.input.sourcePath || ''}`,
+          `Source path relative to workspace: ${ctx.input.sourcePath || ''}`,
       );
       ctx.logger.info(
-        `Fail on error: ${ctx.input.failOnError ? 'True' : 'False'}`,
+          `Fail on error: ${ctx.input.failOnError ? 'True' : 'False'}`,
       );
       ctx.logger.info(`Extract Parameters: `, ctx.input.extractParameters);
       const relativeWorkspacePath = resolveSafeChildPath(
-        ctx.workspacePath,
-        ctx.input.sourcePath || '',
+          ctx.workspacePath,
+          ctx.input.sourcePath || '',
       );
       ctx.logger.info(`Final workspace path: ${relativeWorkspacePath}`);
       const output = await ExtractParameter(
-        ctx.input.extractParameters,
-        relativeWorkspacePath,
-        ctx.logger,
-        ctx.input.failOnError,
+          ctx.input.extractParameters,
+          relativeWorkspacePath,
+          ctx.logger,
+          ctx.input.failOnError,
       );
       for (const key in output) {
         if (output.hasOwnProperty(key)) {
