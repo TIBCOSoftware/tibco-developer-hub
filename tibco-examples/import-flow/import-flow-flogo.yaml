@@ -44,11 +44,11 @@ spec:
             allowedKinds:
               - Group
 
-# The import flow consist out of 4 steps:
-# 1. Fetch the project from GitHub
-# 2. Generate the Component YAML
-# 3. Commit the Component YAML file back to the GitHub project branch creating a pull request
-# 4. Register the Component in the catalog
+  # The import flow consist out of 4 steps:
+  # 1. Fetch the project from GitHub
+  # 2. Generate the Component YAML
+  # 3. Commit the Component YAML file back to the GitHub project branch creating a pull request
+  # 4. Register the Component in the catalog
 
   steps:
     - id: fetch
@@ -72,20 +72,20 @@ spec:
             filePath: ${{ parameters.application }}
             jsonPath: $.description
 
-# extractParameters type xml, file and workspace also supported
-#         example_parameter1:
-#           type: xml
-#           filePath: <File path>
-#           xPath: <xpath>
-#         example_parameter2:
-#           type: file
-#           filePath: <File path>
-#           regex: <Regex>
-#         example_parameter3:
-#           type: workspace
-#           onlyName: true
-#           directoryPath: <Directory path>
-#           regex: <Regex>
+    # extractParameters type xml, file and workspace also supported
+    #         example_parameter1:
+    #           type: xml
+    #           filePath: <File path>
+    #           xPath: <xpath>
+    #         example_parameter2:
+    #           type: file
+    #           filePath: <File path>
+    #           regex: <Regex>
+    #         example_parameter3:
+    #           type: workspace
+    #           onlyName: true
+    #           directoryPath: <Directory path>
+    #           regex: <Regex>
 
     - id: createYaml
       name: Create YAML
@@ -114,17 +114,17 @@ spec:
             lifecycle: production
             owner: ${{ parameters.owner }}
 
-# The import flow debug step, enable it for debugging
+    # The import flow debug step, enable it for debugging
 
-#   - id: Log Debug
-#     name: Debug Log
-#     action: debug:log
-#     input:
-#       message: "Fetched the Flogo Skeleton template"
-#       listWorkspace: true
-#       flogo_project_name: ${{ steps.extract.output.flogo_project_name[0] }}
-#       flogo_project_description: ${{ steps.extract.output.flogo_project_description[0] }}
-#       repoUrl: ${{ parameters.repoUrl }}
+    #   - id: Log Debug
+    #     name: Debug Log
+    #     action: debug:log
+    #     input:
+    #       message: "Fetched the Flogo Skeleton template"
+    #       listWorkspace: true
+    #       flogo_project_name: ${{ steps.extract.output.flogo_project_name[0] }}
+    #       flogo_project_description: ${{ steps.extract.output.flogo_project_description[0] }}
+    #       repoUrl: ${{ parameters.repoUrl }}
 
     - id: cpr
       name: Create Pull Request in Current Repo
@@ -136,16 +136,16 @@ spec:
         title: ${{ parameters.application }}
         description: This PR adds a Component YAML file to this Repository.
 
-# Optionally you can leave this step out, if your developer hub synchronize with the GitHub organization
-# When the pull request is merged, the component will be registered by the GitHub catalog provider, below is the example configuration
-# catalog:
-#   providers:
-#     github:
-#       providerId:
-#         organization: '<organization>'
-#         catalogPath: '**/*catalog-info.yaml'
-#         schedule:
-#           frequency: { minutes: 30 }
+    # Optionally you can leave this step out, if your developer hub synchronize with the GitHub organization
+    # When the pull request is merged, the component will be registered by the GitHub catalog provider, below is the example configuration
+    # catalog:
+    #   providers:
+    #     github:
+    #       providerId:
+    #         organization: '<organization>'
+    #         catalogPath: '**/*catalog-info.yaml'
+    #         schedule:
+    #           frequency: { minutes: 30 }
 
     - id: register
       name: Register
@@ -155,7 +155,7 @@ spec:
 
   output:
     links:
-# If you are not using register step above, remove the below Open in catalog link.
+      # If you are not using register step above, remove the below Open in catalog link.
       - title: Open in catalog
         icon: catalog
         entityRef: ${{ steps.register.output.entityRef }}
