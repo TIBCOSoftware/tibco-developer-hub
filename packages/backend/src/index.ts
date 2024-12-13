@@ -43,7 +43,7 @@ const scaffolderModuleCustomExtensions = createBackendModule({
   register(env) {
     env.registerInit({
       deps: {
-        scaffolder: scaffolderActionsExtensionPoint
+        scaffolder: scaffolderActionsExtensionPoint,
       },
       async init({ scaffolder }) {
         scaffolder.addActions(new (ExtractParametersAction as any)());

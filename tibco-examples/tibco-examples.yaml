@@ -11,5 +11,3 @@ spec:
     - ./flogo-sample-template/flogo-sample-template.yaml
     - ./car-order-system-and-components/car-order-locations.yaml
     - ./import-flow/catalog-info.yaml
-
-
