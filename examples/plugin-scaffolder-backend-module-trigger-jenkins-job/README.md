@@ -24,7 +24,7 @@ We can crate our own template or modify the above template as per the requiremen
 
 ## Install custom jenkins action (tibco:trigger-jenkins-job)
 
-We have exported the custom jenkins action named as 'jenkins-app-deploy-backend', as a plugin which is inside the 'plugins' folder of the root of the project.
+We have exported the custom jenkins action named as 'plugin-scaffolder-backend-module-trigger-jenkins-job', as a plugin which is inside the 'plugins' folder of the root of the project.
 
 Go through the readme file inside the plugin to add the custom action to developer hub.
 
@@ -141,7 +141,7 @@ catalog:
   locations:
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file
-      target: ../../examples/jenkins-app-deploy-backend/template/template-test-secret.yaml
+      target: ../../examples/plugin-scaffolder-backend-module-trigger-jenkins-job/template/template-test-secret.yaml
   rules:
     - allow:
         - Component

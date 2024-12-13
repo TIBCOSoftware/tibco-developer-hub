@@ -18,7 +18,7 @@ You need to configure the action in your backend:
 ## From your Backstage root directory
 
 ```
-yarn --cwd packages/backend add @internal/plugin-jenkins-app-deploy-backend@^1.3.0
+yarn --cwd packages/backend add @internal/plugin-scaffolder-backend-module-trigger-jenkins-job@^1.3.0
 ```
 
 Configure the action:
@@ -27,8 +27,8 @@ Configure the action:
 Import the action that you'd like to register to your backstage instance.
 
 ```typescript
-// packages/backend/src/plugins/scaffolder.ts
-import { triggerJenkinsJobAction } from '@internal/plugin-jenkins-app-deploy-backend';
+// packages/backend/src/index.ts
+import { triggerJenkinsJobAction } from '@internal/plugin-scaffolder-backend-module-trigger-jenkins-job';
 import {coreServices} from '@backstage/backend-plugin-api';
 ...
 
