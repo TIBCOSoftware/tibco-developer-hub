@@ -56,6 +56,7 @@ auth:
   environment: development
   # providers:
   # # needs to be enabled if you want to try out github auth
+  # # see https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
   # # use this config to input the Github credentails directly for your local development use.
   #   github:
   #     development:
@@ -63,5 +64,5 @@ auth:
   #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
   # Available providers: [github, guest]
   # # on local developer setups only github and guest auth providers are available
-  # # oauthproxy will only be available in Dataplane deployments.
+  # # Oauthproxy will only be available in Dataplane deployments.
   enableAuthProviders: [guest]
