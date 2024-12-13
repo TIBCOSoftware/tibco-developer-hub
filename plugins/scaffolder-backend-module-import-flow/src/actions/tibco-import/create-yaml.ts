@@ -4,6 +4,7 @@ import { Entity } from '@backstage/catalog-model';
 import { dump } from 'js-yaml';
 import { promises } from 'fs';
 import { resolveSafeChildPath } from '@backstage/backend-plugin-api';
+import { examples } from './create-yaml.examples';
 
 export function createYamlAction() {
   return createTemplateAction<{
@@ -13,22 +14,32 @@ export function createYamlAction() {
     outputStructure: Entity;
   }>({
     id: 'tibco:create-yaml',
-    description: 'Tibco Platform Create Yaml Action',
+    description:
+      'Tibco platform create yaml action, refer to examples for outputStructure schema',
+    examples,
     schema: {
       input: z.object({
-        failOnError: z.boolean().optional(),
-        sourcePath: z.string().optional(),
-        outputFile: z.string().optional(),
+        failOnError: z
+          .boolean()
+          .optional()
+          .describe(
+            'Boolean flag to stop the task when there is an error, optional, default is false, when true task execution will be stopped in this step when there is an error',
+          ),
+        sourcePath: z
+          .string()
+          .optional()
+          .describe(
+            'Source path relative to workspace, optional, path within the workspace that will be used as the repository root',
+          ),
+        outputFile: z
+          .string()
+          .optional()
+          .describe(
+            'The name of the output yaml file, optional, default is catalog-info.yaml',
+          ),
         outputStructure: z.record(z.union([z.string(), z.number(), z.any()]), {
           description: 'Output structure',
         }),
-        /*     outputStructure: z.object({
-          apiVersion: z.string(),
-          kind: z.string(),
-          metadata: z.object({
-            name: z.string()
-          })
-        })*/
       }),
     },
     async handler(ctx) {

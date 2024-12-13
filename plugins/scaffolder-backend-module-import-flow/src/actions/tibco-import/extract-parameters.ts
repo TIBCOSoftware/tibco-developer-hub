@@ -9,6 +9,7 @@ import { Logger } from 'winston';
 import { glob } from 'glob';
 import { select } from 'xpath';
 import { DOMParser } from '@xmldom/xmldom';
+import { examples } from './extract-parameters.examples';
 
 type JsonValue = JsonObject | JsonArray | JsonPrimitive;
 
@@ -237,23 +238,43 @@ export function ExtractParametersAction() {
     extractParameters: ExtractParameters;
   }>({
     id: 'tibco:extract-parameters',
-    description: 'Tibco Platform Extract Parameter Action',
+    description:
+      'Tibco platform extract parameters action, refer to examples for extractParameters and output schema',
+    examples,
     schema: {
       input: z.object({
-        failOnError: z.boolean().optional(),
-        sourcePath: z.string().optional(),
-        extractParameters: z.record(
-          z.string(),
-          z.union([
-            importSchemaXMLXpath,
-            importSchemaXMLJsonPath,
-            importSchemaJson,
-            importSchemaFile,
-            importSchemaWorkspace,
-          ]),
-        ),
+        failOnError: z
+          .boolean()
+          .optional()
+          .describe(
+            'Boolean flag to stop the task when there is an error, optional, default is false, when true task execution will be stopped in this step when there is an error',
+          ),
+        sourcePath: z
+          .string()
+          .optional()
+          .describe(
+            'Source path relative to workspace, optional, path within the workspace that will be used as the repository root',
+          ),
+        extractParameters: z
+          .record(
+            z.string(),
+            z.union([
+              importSchemaXMLXpath,
+              importSchemaXMLJsonPath,
+              importSchemaJson,
+              importSchemaFile,
+              importSchemaWorkspace,
+            ]),
+          )
+          .describe(
+            'A object/record containing key as the parameters to be extracted and value as the object containing keys as per the extract type',
+          ),
       }),
-      output: z.record(z.string(), z.any()),
+      output: z
+        .record(z.string(), z.array(z.string()))
+        .describe(
+          'A object/record containing key as the parameters to be extracted provided as input and value as an array of result',
+        ),
     },
     async handler(ctx) {
       ctx.logger.info(
