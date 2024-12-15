@@ -13,6 +13,8 @@ import {coreServices} from '@backstage/backend-plugin-api';
 
 const backend = createBackend();
 
+
+
 backend.add(
   rootHttpRouterServiceFactory({
     configure: async ({ app, middleware, routes }) => {
@@ -88,5 +90,6 @@ backend.add(
 backend.add(import('@backstage/plugin-search-backend/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
-
+backend.add(import('@backstage-community/plugin-jenkins-backend'));
+backend.add(import('@backstage-community/plugin-scaffolder-backend-module-jenkins'));
 backend.start();

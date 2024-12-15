@@ -11,15 +11,14 @@ backend:
       port: 5432
       user: postgres
       password: postgres
-## Uncomment the below github integrations config to add a PAT to try out
-## new component creation using one of the available templates.
-# integrations:
-#   github:
-#     - host: github.com
-#       # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
-#       # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
-#       token: ${GITHUB_TOKEN}  #Enter your Github token here
-
+      ## Uncomment the below github integrations config to add a PAT to try out
+      ## new component creation using one of the available templates.
+  integrations:
+    github:
+      - host: github.com
+        #       # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+        #       # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+        token: ${GITHUB_TOKEN} #Enter your Github token here
 # Uncomment the below catalog config to add the default(example) entities to your software catalog while running developer instance locally using yarn
 # The example entities had been placed inside the 'tibco-examples' folder under the project root folder
 catalog:
@@ -54,3 +53,18 @@ auth:
   # # on local developer setups only github and guest auth providers are available
   # # Oauthproxy will only be available in Dataplane deployments.
   enableAuthProviders: [guest]
+proxy:
+  '/jenkins/api':
+    target: ${JENKINS_URL}
+    #'https://jenkins.localhost.dataplanes.pro/'
+    changeOrigin: true
+    headers:
+      Authorization: Basic ${JENKINS_BASIC_AUTH_HEADER}
+jenkins:
+  baseUrl: ${JENKINS_URL}
+  #https://jenkins.localhost.dataplanes.pro/
+  username: devhub-bot
+  apiKey: ${JENKINS_BASIC_AUTH_HEADER}
+  jenkinsActionSecretEncryptionKey: ZGVtbzEyMw==
+  jenkinsActionJobAuthToken: ${JENKINS_JOB_AUTH}
+  #BuildEARToken
