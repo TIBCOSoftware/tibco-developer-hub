@@ -7,6 +7,8 @@ import {
 } from '@internal/backstage-plugin-scaffolder-backend-module-import-flow';
 import { rootHttpRouterServiceFactory } from '@backstage/backend-defaults/rootHttpRouter';
 import { NextFunction, Request, Response, Router } from 'express';
+import { triggerJenkinsJobAction } from '@internal/plugin-scaffolder-backend-module-trigger-jenkins-job';
+import {coreServices} from '@backstage/backend-plugin-api';
 
 const backend = createBackend();
 
@@ -37,21 +39,25 @@ backend.add(
 
 backend.add(import('@backstage/plugin-app-backend/alpha'));
 backend.add(import('@backstage/plugin-proxy-backend/alpha'));
+
 const scaffolderModuleCustomExtensions = createBackendModule({
   pluginId: 'scaffolder', // name of the plugin that the module is targeting
   moduleId: 'custom-extensions',
   register(env) {
-    env.registerInit({
-      deps: {
-        scaffolder: scaffolderActionsExtensionPoint,
-      },
-      async init({ scaffolder }) {
-        scaffolder.addActions(new (ExtractParametersAction as any)());
-        scaffolder.addActions(new (createYamlAction as any)());
-      },
-    });
+      env.registerInit({
+          deps: {
+              scaffolder: scaffolderActionsExtensionPoint,
+              config: coreServices.rootConfig,
+          },
+          async init({ scaffolder, config }) {
+              scaffolder.addActions(new (triggerJenkinsJobAction as any)(config));
+              scaffolder.addActions(new (ExtractParametersAction as any)());
+              scaffolder.addActions(new (createYamlAction as any)());
+          },
+      });
   },
 });
+
 backend.add(scaffolderModuleCustomExtensions);
 backend.add(import('@backstage/plugin-scaffolder-backend/alpha'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
