@@ -120,7 +120,7 @@ dist-types
 site
 
 # Local configuration files
-*.local.yaml
+#*.local.yaml
 
 # Sensitive credentials
 *-credentials.yaml

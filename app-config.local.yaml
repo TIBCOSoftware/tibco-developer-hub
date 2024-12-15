@@ -10,8 +10,7 @@ backend:
       host: localhost
       port: 5432
       user: postgres
-      password: example
-
+      password: postgres
 ## Uncomment the below github integrations config to add a PAT to try out
 ## new component creation using one of the available templates.
 # integrations:
@@ -39,18 +38,7 @@ catalog:
     - type: url
       target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
       rules:
-        - allow:
-            [
-              Component,
-              API,
-              Location,
-              Template,
-              User,
-              Group,
-              Domain,
-              System,
-              Resource,
-            ]
+        - allow: [Component, API, Location, Template, User, Group, Domain, System, Resource]
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
@@ -62,7 +50,7 @@ auth:
   #     development:
   #       clientId: ${AUTH_GITHUB_CLIENT_ID}
   #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
-  # Available providers: [github, guest]
+  Available providers: [github, guest]
   # # on local developer setups only github and guest auth providers are available
   # # Oauthproxy will only be available in Dataplane deployments.
   enableAuthProviders: [guest]

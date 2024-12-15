@@ -82,7 +82,7 @@ auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
   providers:
-    guest: null
+    #guest: null
     # Needs to be enabled if you want to try out Github auth
     # See https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
     # While creating OAuth App on GitHub, The Homepage URL should point to TIBCO® Developer Hub frontend including '/tibco/hub' in the URL ,while the Authorization callback URL will point to the TIBCO® Developer Hub backend which also includes '/tibco/hub' in the URL

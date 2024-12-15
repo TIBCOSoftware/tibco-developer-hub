@@ -1,0 +1,56 @@
+# copy this file and rename it to app-config.local.yaml
+# then make any updates as needed
+# all *.local.yaml files are ignored by git so it's safe to define secrets in that file
+
+backend:
+  database:
+    client: pg
+    connection:
+      # replace these to match your environment
+      host: localhost
+      port: 5432
+      user: postgres
+      password: postgres
+## Uncomment the below github integrations config to add a PAT to try out
+## new component creation using one of the available templates.
+# integrations:
+#   github:
+#     - host: github.com
+#       # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+#       # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+#       token: ${GITHUB_TOKEN}  #Enter your Github token here
+
+# Uncomment the below catalog config to add the default(example) entities to your software catalog while running developer instance locally using yarn
+# The example entities had been placed inside the 'tibco-examples' folder under the project root folder
+catalog:
+  rules:
+    - allow:
+        - Component
+        - API
+        - Location
+        - Template
+        - User
+        - Group
+        - Domain
+        - System
+        - Resource
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
+      rules:
+        - allow: [Component, API, Location, Template, User, Group, Domain, System, Resource]
+auth:
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
+  # providers:
+  # # needs to be enabled if you want to try out github auth
+  # # see https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
+  # # use this config to input the Github credentails directly for your local development use.
+  #   github:
+  #     development:
+  #       clientId: ${AUTH_GITHUB_CLIENT_ID}
+  #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+  Available providers: [github, guest]
+  # # on local developer setups only github and guest auth providers are available
+  # # Oauthproxy will only be available in Dataplane deployments.
+  enableAuthProviders: [guest]
