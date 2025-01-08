@@ -8,6 +8,8 @@ metadata:
     - tibco
     - bwce
     - recommended
+    - test
+    - user01
 spec:
   owner: tibco-templates
   type: bwce
