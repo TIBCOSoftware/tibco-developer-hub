@@ -27,6 +27,8 @@
     "@backstage/backend-defaults": "^0.4.0",
     "@backstage/backend-plugin-api": "^0.7.0",
     "@backstage/config": "^1.2.0",
+    "@backstage/plugin-scaffolder-node": "^0.6.2",
+    "axios": "^1.7.9",
     "express": "^4.17.1",
     "express-promise-router": "^4.1.0",
     "node-fetch": "^2.6.7"
@@ -38,8 +40,8 @@
     "@backstage/plugin-auth-backend-module-guest-provider": "^0.1.7",
     "@types/express": "*",
     "@types/supertest": "^2.0.12",
-    "supertest": "^6.2.4",
-    "msw": "^2.3.1"
+    "msw": "^2.3.1",
+    "supertest": "^6.2.4"
   },
   "files": [
     "dist"

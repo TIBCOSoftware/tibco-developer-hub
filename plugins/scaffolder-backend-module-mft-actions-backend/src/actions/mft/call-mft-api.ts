@@ -31,14 +31,14 @@ export async function callMFT(config: MFTConfig, endpoint: string, method = 'get
         })
     } catch (error: any) {
         config.logger.error('Error calling MFT API...');
-        config.logger.error('Status: ' + error.status);
+        config.logger.error(`Status: ${  error.status}`);
         if(error.response?.data) {
             let eMes = error.response.data
             if(typeof error.response.data === 'object'){
                 eMes = JSON.stringify(error.response.data, null, 2);
-                config.logger.error('Error Data: ' + JSON.stringify(error.response.data, null, 2));
+                config.logger.error(`Error Data: ${  JSON.stringify(error.response.data, null, 2)}`);
             }
-            config.logger.error('Error Data: ' + eMes);
+            config.logger.error(`Error Data: ${  eMes}`);
             throw new Error(eMes);
         }
 
@@ -46,12 +46,12 @@ export async function callMFT(config: MFTConfig, endpoint: string, method = 'get
         throw error;
     }
 
-    if(mRes.data) {
+    // if(mRes.data) {
         return mRes.data;
-    } else {
-        return
-    }
-
+    // } else {
+    //     return
+    // }
+    
 }
 
 
@@ -126,7 +126,7 @@ export function callMftApi(config: Config) {
             ctx.logger.info(`--- MFT Endpoint: ${ctx.input.endpoint}`);
             // TODO: Add method and input data
             ctx.logger.info(`--- MFT Method: ${ctx.input.method}`);
-            ctx.logger.info('--- MFT Input: \n' + JSON.stringify(ctx.input.mftInput, null, 2));
+            ctx.logger.info(`--- MFT Input: \n${  JSON.stringify(ctx.input.mftInput, null, 2)}`);
 
             ctx.logger.info(DIV);
             ctx.logger.info('--- Calling MFT API...');
