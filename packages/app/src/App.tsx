@@ -61,6 +61,7 @@ import { catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { Button } from '@material-ui/core';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import { ImportFlowPage } from '@internal/backstage-plugin-import-flow';
+import { MftWrapperPage } from 'backstage-plugin-mft-wrapper';
 
 export const generateProviders = (providerConfig: string[]): any[] => {
   const providers: any[] = [];
@@ -245,6 +246,7 @@ const routes = (
       {settingsPage}
     </Route>
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+    <Route path="/mft-wrapper" element={<MftWrapperPage />} />
   </FlatRoutes>
 );
 export default app.createRoot(
