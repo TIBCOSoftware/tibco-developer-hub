@@ -12,7 +12,6 @@ export interface MFTConfig {
     password: string;
 }
 
-
 export async function callMFT(config: MFTConfig, endpoint: string, method = 'get', data?: any) {
     let mRes;
 
@@ -142,72 +141,6 @@ export function callMftApi(config: Config) {
             ctx.logger.info(JSON.stringify(mftResult, null, 2));
             ctx.logger.info(DIV);
 
-            // const jenkinsJobToken = ctx.input.jobAuthToken || jenkinsJobAuthToken;
-            // const repoUrl = ctx.input.repoUrl;
-            // const jenkinsJob = ctx.input.job;
-            // const jenkinsSecretObj = ctx.input.secret;
-            // let jenkinsInstructions = ctx.input.jenkinsInstructions || '';
-            //
-            // ctx.logger.info(
-            //     '-------------------------------------------------------------------------------------------',
-            // );
-            // ctx.logger.info(
-            //     '------------------- STARTING THE JENKINS JOB  ---------------------------',
-            // );
-            // ctx.logger.info(
-            //     '-------------------------------------------------------------------------------------------',
-            // );
-            // ctx.logger.info(`------ Jenkins BASE URL: ${jenkinsBaseUrl}`);
-            // ctx.logger.info(`------ Jenkins Username: ${jenkinsUser}`);
-            // ctx.logger.info(`------      Jenkins Job: ${jenkinsJob}`);
-            // if (repoUrl) {
-            //     ctx.logger.info(`------     Repo Name: ${repoUrl?.repo}`);
-            // }
-            // ctx.logger.info(`---Jenkins Instructions: ${jenkinsInstructions}`);
-            // ctx.logger.info(
-            //     '-------------------------------------------------------------------------------------------',
-            // );
-            // if (jenkinsSecretObj) {
-            //     for (const sec in jenkinsSecretObj) {
-            //         if (jenkinsSecretObj.hasOwnProperty(sec)) {
-            //             ctx.logger.info('------ Adding secret in jenkinsInstructions ... ');
-            //             const key = Buffer.from(jenkinsSecretEncryptionKey, 'hex');
-            //             const iv = randomBytes(16);
-            //             const encrypted = encryptSecret(key, iv, jenkinsSecretObj[sec]);
-            //             jenkinsInstructions = `${jenkinsInstructions}&${sec}=${encrypted}`;
-            //         }
-            //     }
-            // }
-            // ctx.logger.info(`---Jenkins Instructions: ${jenkinsInstructions}`);
-            //
-            // const jenkinsCallURl = generateJenkinsCallURl(
-            //     jenkinsBaseUrl,
-            //     jenkinsJob,
-            //     jenkinsJobToken,
-            //     repoUrl,
-            //     jenkinsInstructions,
-            // );
-            //
-            // ctx.logger.info(
-            //     '-------------------------------------------------------------------------------------------',
-            // );
-            // ctx.logger.info('---Calling Jenkins URL...');
-            // ctx.logger.info(
-            //     '-------------------------------------------------------------------------------------------',
-            // );
-            //
-            // const jResponse = await axios.get(jenkinsCallURl, {
-            //     auth: {
-            //         username: jenkinsUser,
-            //         password: jenkinsApiKey,
-            //     },
-            // });
-            // const jobLink = `${jenkinsBaseUrl}/job/${jenkinsJob}/`;
-            // ctx.logger.info(`------ Job Started: ${jResponse.statusText}`);
-            // ctx.logger.info(`------    Job Link: ${jobLink}`);
-            // ctx.logger.info(
-            //     '------------------------------------------------------------------------------------------',
-            // );
             ctx.output('mftResult', mftResult);
         },
     });
