@@ -203,17 +203,15 @@ const SidebarCustom = () => {
           to="import-flow"
           text="Import..."
         />
+        <SidebarItem
+          icon={() => <TibcoIcon iconName="pl-icon-upload" />}
+          to="catalog-import"
+          text="Register..."
+        />
         {/* End global nav */}
       </SidebarGroup>
       <SidebarDivider className={classes.divider} />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>
-        <SidebarItem
-            icon={() => <TableChartIcon />}
-            to="/mft-wrapper"
-            text="Manged File Transfer"
-        />
-      </SidebarGroup>
-      <SidebarDivider className={classes.divider} />
+     
       <SidebarGroup
         icon={<TibcoIcon iconName="pl-icon-settings" />}
         to="/settings"

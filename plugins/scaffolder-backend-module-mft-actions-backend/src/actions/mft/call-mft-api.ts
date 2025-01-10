@@ -53,8 +53,6 @@ export async function callMFT(config: MFTConfig, endpoint: string, method = 'get
         return
     }
 
-
-
 }
 
 
