@@ -17,7 +17,6 @@ import { TibcoIcon } from '../../icons/TibcoIcon';
 import CpIcon from '../../icons/cp.svg';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { Link } from 'react-router-dom';
-import TableChartIcon from '@material-ui/icons/TableChart';
 
 const useSidebarLogoStyles = makeStyles({
   logoContainer: {
