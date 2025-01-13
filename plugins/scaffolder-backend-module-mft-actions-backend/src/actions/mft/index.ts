@@ -1,0 +1,1 @@
+export { callMftApi } from './call-mft-api';

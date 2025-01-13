@@ -1,12 +1,14 @@
 import { createBackend } from '@backstage/backend-defaults';
 import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
-import { createBackendModule } from '@backstage/backend-plugin-api';
+import {coreServices, createBackendModule} from '@backstage/backend-plugin-api';
 import {
   ExtractParametersAction,
   createYamlAction,
 } from '@internal/backstage-plugin-scaffolder-backend-module-import-flow';
 import { rootHttpRouterServiceFactory } from '@backstage/backend-defaults/rootHttpRouter';
 import { NextFunction, Request, Response, Router } from 'express';
+
+import {callMftApi} from '@internal/backstage-plugin-scaffolder-backend-module-mft-actions-backend'
 
 const backend = createBackend();
 
@@ -44,10 +46,12 @@ const scaffolderModuleCustomExtensions = createBackendModule({
     env.registerInit({
       deps: {
         scaffolder: scaffolderActionsExtensionPoint,
+        config: coreServices.rootConfig,
       },
-      async init({ scaffolder }) {
+      async init({ scaffolder, config }) {
         scaffolder.addActions(new (ExtractParametersAction as any)());
         scaffolder.addActions(new (createYamlAction as any)());
+        scaffolder.addActions(new (callMftApi as any)(config));
       },
     });
   },
@@ -82,4 +86,5 @@ backend.add(import('@backstage/plugin-search-backend/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-catalog/alpha'));
 backend.add(import('@backstage/plugin-search-backend-module-techdocs/alpha'));
 
+// backend.add(import('backstage-plugin-scaffolder-backend-module-mft-actions-backend'));
 backend.start();

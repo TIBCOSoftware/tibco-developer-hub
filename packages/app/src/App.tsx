@@ -245,6 +245,7 @@ const routes = (
       {settingsPage}
     </Route>
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+    
   </FlatRoutes>
 );
 export default app.createRoot(
