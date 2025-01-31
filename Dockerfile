@@ -1,5 +1,5 @@
 # Build Python environment in a separate builder stage
-FROM cgr.dev/chainguard/python:latest-dev as python-builder
+FROM cgr.dev/chainguard/python@sha256:3d576a0d94b05c0da7fba83c8dbf1d909a61a95132d3f65b409b3eb01bf18633 as python-builder
 
 ENV PATH=/venv/bin:$PATH
 
@@ -9,7 +9,7 @@ RUN --mount=type=cache,target=/home/nonroot/.cache/pip,uid=65532,gid=65532 \
     /home/nonroot/venv/bin/pip install setuptools
 
 # Stage 1 - Create yarn install skeleton layer
-FROM cgr.dev/chainguard/wolfi-base:latest AS packages
+FROM cgr.dev/chainguard/wolfi-base@sha256:2148be123cd047f10c93e2bc88010d4abba1fc56a367d6287a251099ed5f006a AS packages
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -24,7 +24,7 @@ COPY plugins plugins
 
 RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -exec rm -rf {} \+
 
-FROM cgr.dev/chainguard/wolfi-base:latest as build
+FROM cgr.dev/chainguard/wolfi-base@sha256:2148be123cd047f10c93e2bc88010d4abba1fc56a367d6287a251099ed5f006a as build
 
 ENV NODE_VERSION="18=~18.20"
 
@@ -59,7 +59,7 @@ RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
     && tar xzf packages/backend/dist/skeleton.tar.gz -C packages/backend/dist/skeleton \
     && tar xzf packages/backend/dist/bundle.tar.gz -C packages/backend/dist/bundle
 
-FROM cgr.dev/chainguard/wolfi-base:latest as node-builder
+FROM cgr.dev/chainguard/wolfi-base@sha256:2148be123cd047f10c93e2bc88010d4abba1fc56a367d6287a251099ed5f006a as node-builder
 
 ENV NODE_VERSION="18=~18.20"
 
@@ -83,9 +83,9 @@ COPY --from=build --chown=65532:65532  /app/.yarnrc.yml  ./
 COPY --from=build --chown=65532:65532 /app/yarn.lock /app/package.json /app/packages/backend/dist/skeleton/ ./
 
 RUN --mount=type=cache,target=/home/nonroot/.yarn/berry/cache,sharing=locked,uid=65532,gid=65532 \
-    yarn workspaces focus --all && yarn cache clean --all
+    yarn workspaces focus --all --production && yarn cache clean --all
 
-FROM --platform=linux/amd64 cgr.dev/chainguard/wolfi-base:latest
+FROM --platform=linux/amd64 cgr.dev/chainguard/wolfi-base@sha256:2148be123cd047f10c93e2bc88010d4abba1fc56a367d6287a251099ed5f006a
 
 ENV PYTHON_VERSION="3.12=~3.12"
 ENV NODE_VERSION="18=~18.20"
