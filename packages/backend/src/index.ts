@@ -7,6 +7,10 @@ import { WinstonLogger } from '@backstage/backend-defaults/rootLogger';
 // eslint-disable-next-line
 import { transports } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
+import 'global-agent/bootstrap';
+import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
+
+setGlobalDispatcher(new EnvHttpProxyAgent());
 
 import {
   ExtractParametersAction,
