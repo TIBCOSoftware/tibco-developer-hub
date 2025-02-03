@@ -1,5 +1,3 @@
-import { SchedulerServiceTaskScheduleDefinitionConfig } from '@backstage/backend-plugin-api';
-
 export interface Config {
   app?: {
     /**
@@ -21,25 +19,6 @@ export interface Config {
      * @visibility frontend
      */
     developerHubVersion?: string;
-  };
-  // enable and configure loading org entities into catalog
-  orgCatalog?: {
-    providers?: {
-      github?: {
-        /**
-         * A unique, stable identifier for this provider.
-         */
-        providerId: string;
-        /**
-         * (Required) Url of your org account/workspace.
-         */
-        orgUrl: string;
-        /**
-         * (Optional) SchedulerServiceTaskScheduleDefinitionConfig for the refresh.
-         */
-        schedule?: SchedulerServiceTaskScheduleDefinitionConfig;
-      };
-    };
   };
   auth?: {
     /**
@@ -91,9 +70,4 @@ export interface Config {
    * @visibility frontend
    */
   tibcoDeveloperHubCustomAppVersion?: string;
-  /**
-   * Frontend root URL
-   * @visibility frontend
-   */
-  catalogRefreshDelayInSec?: number;
 }

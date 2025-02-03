@@ -52,8 +52,6 @@ import { ProxiedSignInPage } from '@backstage/core-components';
 
 import { SignInPage } from '@backstage/core-components';
 
-import { tibcoOIDCAuthApiRef } from './apis';
-
 import { tibcoThemeLight } from './themes/tibcoThemeLight';
 import { settingsPage } from './components/settings/settings';
 import { CatalogImportPage } from './components/catalog-import/CatalogImportPage';
@@ -73,14 +71,6 @@ export const generateProviders = (providerConfig: string[]): any[] => {
           title: 'GitHub',
           message: 'Sign in using GitHub',
           apiRef: githubAuthApiRef,
-        });
-        break;
-      case 'tibco':
-        providers.push({
-          id: 'tibco',
-          title: 'TIBCO',
-          message: 'Sign in using TIBCO',
-          apiRef: tibcoOIDCAuthApiRef,
         });
         break;
       case 'guest':

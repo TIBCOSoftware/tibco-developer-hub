@@ -13,9 +13,9 @@ app:
       - title: 'TIBCO Documentation Page'
         icon: 'docs'
         links:
-          - url: 'https://docs.tibco.com/go/platform-cp/1.3.0/doc/html#cshid=developer_hub_overview'
+          - url: 'https://docs.tibco.com/go/platform-cp/1.4.0/doc/html#cshid=developer_hub_overview'
             title: 'TIBCO® Developer Hub Documentation'
-
+  developerHubVersion: 1.4.0
 organization:
   name: TIBCO Software's
 
@@ -80,9 +80,8 @@ techdocs:
 
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
-  environment: development
+  environment: production
   providers:
-    guest: null
     # Needs to be enabled if you want to try out Github auth
     # See https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
     # While creating OAuth App on GitHub, The Homepage URL should point to TIBCO® Developer Hub frontend including '/tibco/hub' in the URL ,while the Authorization callback URL will point to the TIBCO® Developer Hub backend which also includes '/tibco/hub' in the URL
@@ -91,11 +90,11 @@ auth:
     # Homepage URL: http://devhub-host/tibco/hub
     # Authorization callback URL: http://devhub-host/tibco/hub/api/auth/github/handler/frame
     #   github:
-    #     development:
+    #     production:
     #       clientId: ${AUTH_GITHUB_CLIENT_ID}
     #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
     oauth2Proxy:
-      development: {}
+      production: {}
   enableAuthProviders: [oauth2Proxy]
   # Available providers:
   # [oauth2Proxy]

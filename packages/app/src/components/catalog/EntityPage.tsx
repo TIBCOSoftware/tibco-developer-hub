@@ -59,6 +59,10 @@ import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
 import { PlatformApplicationDeploymentsCard } from '@internal/plugin-tibco-platform-plugin';
 import { useEntity } from '@backstage/plugin-catalog-react';
+import {
+  EntityKubernetesContent,
+  isKubernetesAvailable,
+} from '@backstage/plugin-kubernetes';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -184,7 +188,13 @@ const serviceEntityPage = (
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
-
+    <EntityLayout.Route
+      path="/kubernetes"
+      title="Kubernetes"
+      if={isKubernetesAvailable}
+    >
+      <EntityKubernetesContent />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/api" title="API">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
@@ -222,7 +232,13 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
-
+    <EntityLayout.Route
+      path="/kubernetes"
+      title="Kubernetes"
+      if={isKubernetesAvailable}
+    >
+      <EntityKubernetesContent />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>

@@ -1,8 +1,8 @@
 # App config extensions
 
-This document describes TIBCO® Developer Hub custom extensions to the `app-config.yaml` schema.
+This document describes TIBCO® Developer Hub custom extensions to the `packages/app/app-config.yaml` schema.
 
-These are also described in the [`config.d.ts` file](../config.d.ts) with more details about each field.
+These are also described in the [`config.d.ts` file](../packages/app/config.d.ts) with more details about each field.
 
 ## Build Info
 
@@ -18,18 +18,6 @@ app:
 ```
 
 The CI/CD pipeline automatically adds the build number to all docker images.
-
-## Catalog Refresh Delay
-
-GitHub rate limits API requests to 5,000 per hour (or more for Enterprise accounts). The default catalog backend refreshes data every 100 seconds, which issues an API request for each discovered location.
-
-This means if you have more than ~140 catalog entities, you may get throttled by rate limiting. You can change the refresh rate of the catalog in by using the example config:
-
-```yaml
-catalogRefreshDelayInSec: 300
-```
-
-Allowed range is 100 to 900 milliseconds. Increase the rate limit to avoid throttling from GitHub API.
 
 ## Walk Through
 

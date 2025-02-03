@@ -28,7 +28,7 @@ export const Introduction = () => {
         </Grid>
         <Grid item>
           <Link
-            to="https://docs.tibco.com/go/platform-cp/1.3.0/doc/html#cshid=developer_hub_overview"
+            to="https://docs.tibco.com/go/platform-cp/1.4.0/doc/html#cshid=developer_hub_overview"
             target="_blank"
           >
             <button
