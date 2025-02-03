@@ -1,8 +1,21 @@
+# Build Python environment in a separate builder stage
+FROM cgr.dev/chainguard/python@sha256:3d576a0d94b05c0da7fba83c8dbf1d909a61a95132d3f65b409b3eb01bf18633 as python-builder
+
+ENV PATH=/venv/bin:$PATH
+
+RUN --mount=type=cache,target=/home/nonroot/.cache/pip,uid=65532,gid=65532 \
+    python3 -m venv /home/nonroot/venv && \
+    /home/nonroot/venv/bin/pip install mkdocs-techdocs-core==1.3.3 &&  \
+    /home/nonroot/venv/bin/pip install setuptools
+
 # Stage 1 - Create yarn install skeleton layer
-FROM node:18.20-alpine3.19 AS packages
+FROM cgr.dev/chainguard/wolfi-base@sha256:2148be123cd047f10c93e2bc88010d4abba1fc56a367d6287a251099ed5f006a AS packages
 
 WORKDIR /app
 COPY package.json yarn.lock ./
+COPY .yarn ./.yarn
+COPY .yarnrc.yml ./
+
 
 COPY packages packages
 
@@ -11,83 +24,101 @@ COPY plugins plugins
 
 RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -exec rm -rf {} \+
 
-# Stage 2 - Install dependencies and build packages
-FROM node:18.20-alpine3.19 AS build
+FROM cgr.dev/chainguard/wolfi-base@sha256:2148be123cd047f10c93e2bc88010d4abba1fc56a367d6287a251099ed5f006a as build
 
-RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
-    --mount=type=cache,target=/var/lib/apk,sharing=locked \
+ENV NODE_VERSION="18=~18.20"
+
+RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
+    --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
     apk update && \
-    apk add python3 g++ make && \
-    yarn config set python /usr/bin/python3
+    apk add nodejs-$NODE_VERSION yarn \
+    # Install isolate-vm dependencies, these are needed by the @backstage/plugin-scaffolder-backend.
+    openssl-dev brotli-dev c-ares-dev nghttp2-dev icu-dev zlib-dev gcc-12 libuv-dev build-base
 
-USER node
 WORKDIR /app
+RUN chown -R nonroot:nonroot /app
 
-COPY --from=packages --chown=node:node /app .
+RUN mkdir -p /home/nonroot/.yarn/berry && chown -R 65532:65532 /home/nonroot/.yarn/berry
 
-RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000 \
-    yarn install --frozen-lockfile --network-timeout 600000
+USER nonroot
 
-COPY --chown=node:node . .
+COPY --from=packages --chown=65532:65532  /app .
+COPY --from=packages --chown=65532:65532  /app/.yarn ./.yarn
+COPY --from=packages --chown=65532:65532  /app/.yarnrc.yml  ./
+
+RUN --mount=type=cache,target=/home/nonroot/.yarn/berry/cache,sharing=locked,uid=65532,gid=65532 \
+    yarn install --immutable
+
+COPY --chown=65532:65532 . .
 
 RUN yarn tsc
 RUN yarn --cwd packages/backend build
-# If you have not yet migrated to package roles, use the following command instead:
-# RUN yarn --cwd packages/backend backstage-cli backend:bundle --build-dependencies
+
 
 RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
     && tar xzf packages/backend/dist/skeleton.tar.gz -C packages/backend/dist/skeleton \
     && tar xzf packages/backend/dist/bundle.tar.gz -C packages/backend/dist/bundle
 
-# Stage 3 - Build the actual backend image and install production dependencies
-FROM --platform=linux/amd64 chainguard/wolfi-base
+FROM cgr.dev/chainguard/wolfi-base@sha256:2148be123cd047f10c93e2bc88010d4abba1fc56a367d6287a251099ed5f006a as node-builder
 
-ENV NODE_VERSION 18=~18.20
-ENV PYTHON_VERSION 3.12=~3.12
+ENV NODE_VERSION="18=~18.20"
 
-RUN apk update && apk add nodejs-$NODE_VERSION yarn
-
-# Install sqlite3 dependencies. You can skip this if you don't use sqlite3 in the image,
-# in which case you should also move better-sqlite3 to "devDependencies" in package.json.
-# Additionally, we install dependencies for `techdocs.generator.runIn: local`.
-# https://backstage.io/docs/features/techdocs/getting-started#disabling-docker-in-docker-situation-optional
-RUN --mount=type=cache,target=/var/cache/apk,sharing=locked \
-    --mount=type=cache,target=/var/lib/apk,sharing=locked \
+RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
+    --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
     apk update && \
-    apk add python-$PYTHON_VERSION make py3-pip python-3-dev py3-setuptools build-base gcc libffi-dev glibc-dev openssl-dev brotli-dev c-ares-dev nghttp2-dev icu-dev zlib-dev gcc-12 libuv-dev && \
-    yarn config set python /usr/bin/python3
-
-# Set up a virtual environment for mkdocs-techdocs-core.
-ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN pip3 install setuptools
-
-RUN pip3 install mkdocs-techdocs-core==1.3.3
+    apk add nodejs-$NODE_VERSION yarn \
+    # Install isolate-vm dependencies, these are needed by the @backstage/plugin-scaffolder-backend.
+    openssl-dev brotli-dev c-ares-dev nghttp2-dev icu-dev zlib-dev gcc-12 libuv-dev build-base
 
 WORKDIR /app
-# Copy the install dependencies from the build stage and context
-COPY --from=build /app/yarn.lock /app/package.json /app/packages/backend/dist/skeleton/ ./
+RUN chown -R nonroot:nonroot /app
 
-RUN --mount=type=cache,target=/home/node/.cache/yarn,sharing=locked,uid=1000,gid=1000 \
-    yarn install --frozen-lockfile --production --network-timeout 600000
+RUN mkdir -p /home/nonroot/.yarn/berry && chown -R 65532:65532 /home/nonroot/.yarn/berry
 
-# Copy the built packages from the build stage
-COPY --from=build /app/packages/backend/dist/bundle/ ./
+USER nonroot
 
-# Copy any other files that we need at runtime
-COPY app-config.yaml app-config.production.yaml ./
+COPY --from=build --chown=65532:65532  /app/.yarn ./.yarn
+COPY --from=build --chown=65532:65532  /app/.yarnrc.yml  ./
 
+COPY --from=build --chown=65532:65532 /app/yarn.lock /app/package.json /app/packages/backend/dist/skeleton/ ./
+
+RUN --mount=type=cache,target=/home/nonroot/.yarn/berry/cache,sharing=locked,uid=65532,gid=65532 \
+    yarn workspaces focus --all --production && yarn cache clean --all
+
+FROM --platform=linux/amd64 cgr.dev/chainguard/wolfi-base@sha256:2148be123cd047f10c93e2bc88010d4abba1fc56a367d6287a251099ed5f006a
+
+ENV PYTHON_VERSION="3.12=~3.12"
+ENV NODE_VERSION="18=~18.20"
+ENV NODE_ENV=production
+
+RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
+    --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
+    apk update && \
+    apk add \
+    # add node for backstage
+    nodejs-$NODE_VERSION \
+    # add python for backstage techdocs
+    python-$PYTHON_VERSION \
+    # add tini for init process
+    tini
+
+WORKDIR /app
+
+COPY package.json app-config.yaml app-config.production.yaml ./
 # Copy license file
 COPY LICENSE.TXT /opt/tibco/license/
 
-# This switches many Node.js dependencies to production mode.
-ENV NODE_ENV production
-ENV HUB_CONFIGFILE "app-config.production.yaml"
+RUN chown -R 65532:65532 /app
+RUN chown -R 65532:65532 /tmp
+USER 65532:65532
 
-ARG BID
-ENV APP_CONFIG_app_buildVersion="${BID}"
+COPY --from=build --chown=65532:65532 /app/packages/backend/dist/bundle/ ./
+COPY --from=node-builder --chown=65532:65532 /app/node_modules ./node_modules
+COPY --from=python-builder --chown=65532:65532 /home/nonroot/venv /home/nonroot/venv
+ENV PATH=/home/nonroot/venv/bin:$PATH
 
-RUN chmod -R 777 /app/node_modules/@backstage/plugin-techdocs-backend
+ENV GIT_PYTHON_REFRESH="quiet"
 
-CMD node packages/backend --config "${HUB_CONFIGFILE}"
+ENTRYPOINT ["tini", "--"]
+
+CMD ["node", "packages/backend", "--config", "app-config.production.yaml"]
