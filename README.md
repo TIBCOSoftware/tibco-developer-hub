@@ -104,7 +104,7 @@ docker build -t <customImageName:customImageTag> .
 ## Compatability Matrix
 
 | TIBCO Developer Hub Version | TIBCO Platform Version |
-|-----------------------------|------------------------|
+| --------------------------- | ---------------------- |
 | 1.4.0                       | 1.4.0                  |
 | 1.3.2                       | 1.3.0                  |
 | 1.3.1                       | 1.3.0                  |
