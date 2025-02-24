@@ -1,3 +1,4 @@
+define: &docUrl 'https://docs.tibco.com/go/platform-cp/1.5.0/doc/html#cshid=developer_hub_overview'
 app:
   title: TIBCO® Developer Hub
   baseUrl: http://localhost:3000/tibco/hub
@@ -12,9 +13,9 @@ app:
       - title: 'TIBCO Documentation Page'
         icon: 'docs'
         links:
-          - url: 'https://docs.tibco.com/go/platform-cp/1.4.0/doc/html#cshid=developer_hub_overview'
+          - url: *docUrl
             title: 'TIBCO® Developer Hub Documentation'
-  developerHubVersion: 1.4.0
+  docUrl: *docUrl
 
 organization:
   name: TIBCO Software's
@@ -125,8 +126,3 @@ scaffolder:
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
 catalog:
   locations: []
-# GitHub rate limits API requests to 5,000 per hour (or more for Enterprise accounts).
-# For more information, visit https://backstage.io/docs/integrations/github/discovery/#github-api-rate-limits-1
-# You can set the refresh rate of catalog (in milliseconds) for catalog API to fetch changes from GitHub, by using the below config.
-# The allowed range is [100,900]
-# catalogRefreshDelayInSec: 300

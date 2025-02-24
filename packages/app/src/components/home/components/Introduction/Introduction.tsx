@@ -2,8 +2,11 @@ import React from 'react';
 import './Introduction.css';
 import { Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
 export const Introduction = () => {
+  const configApi = useApi(configApiRef);
+  const docUrl: string = configApi.get('app.docUrl');
   return (
     <div className="tpdh-intro-container">
       <div className="tpdh-intro-title">What is the TIBCO® Developer Hub ?</div>
@@ -27,10 +30,7 @@ export const Introduction = () => {
           </Link>
         </Grid>
         <Grid item>
-          <Link
-            to="https://docs.tibco.com/go/platform-cp/1.4.0/doc/html#cshid=developer_hub_overview"
-            target="_blank"
-          >
+          <Link to={docUrl} target="_blank">
             <button
               type="button"
               className="pl-button pl-button--secondary"

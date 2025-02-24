@@ -48,12 +48,8 @@ export const HomePage = () => {
   const identityApi = useApi(identityApiRef);
   const starredApi = useApi(starredEntitiesApiRef);
   const { value, loading, error } = useAsync(async () => {
-    try {
-      const data = await identityApi.getProfileInfo();
-      return data.displayName;
-    } catch (err) {
-      throw error;
-    }
+    const data = await identityApi.getProfileInfo();
+    return data.displayName;
   });
   const title = config.getOptionalString('app.title');
   useEffect(
@@ -100,72 +96,66 @@ export const HomePage = () => {
                 );
               }
             }
-            try {
-              const result: any[] = await Promise.all(apiCalls);
-              const newCards = [];
-              for (const [index, card] of cards.entries()) {
-                card.loading = false;
-                if (card.type === HomeCardType.WalkThrough) {
-                  card.viewAllLink = walkthrough.viewAllLink;
-                  card.itemsInfo = walkthrough.items || [];
-                } else {
-                  let items = result[index]?.items;
-                  if (card.type === HomeCardType.Template) {
-                    items = items.filter(
-                      (item: any) =>
-                        !item.metadata.tags
-                          ?.map((v: any) => v.toLowerCase())
-                          .includes('import-flow'),
-                    );
-                  }
-                  if (items) {
-                    let itemsInfo = [];
-                    if (stars && stars.length > 0) {
-                      for (const item of items) {
-                        const inx = getIndex(item, stars);
-                        if (inx > -1) {
-                          item.star = true;
-                          itemsInfo.push(item);
-                        }
-                        if (itemsInfo.length >= 3) {
-                          break;
-                        }
-                      }
-                      for (const item of items) {
-                        if (itemsInfo.length >= 3) {
-                          break;
-                        }
-                        const ind = getIndex(item, stars);
-                        if (ind > -1) {
-                          continue;
-                        }
+
+            const result: any[] = await Promise.all(apiCalls);
+            const newCards = [];
+            for (const [index, card] of cards.entries()) {
+              card.loading = false;
+              if (card.type === HomeCardType.WalkThrough) {
+                card.viewAllLink = walkthrough.viewAllLink;
+                card.itemsInfo = walkthrough.items || [];
+              } else {
+                let items = result[index]?.items;
+                if (card.type === HomeCardType.Template) {
+                  items = items.filter(
+                    (item: any) =>
+                      !item.metadata.tags
+                        ?.map((v: any) => v.toLowerCase())
+                        .includes('import-flow'),
+                  );
+                }
+                if (items) {
+                  let itemsInfo = [];
+                  if (stars && stars.length > 0) {
+                    for (const item of items) {
+                      const inx = getIndex(item, stars);
+                      if (inx > -1) {
+                        item.star = true;
                         itemsInfo.push(item);
                       }
-                    } else {
-                      itemsInfo = result[index]?.items?.slice(
-                        0,
-                        ITEMS_PER_CARD,
-                      );
+                      if (itemsInfo.length >= 3) {
+                        break;
+                      }
                     }
-                    card.itemsInfo = itemsInfo.map((item: any) => {
-                      return {
-                        title: item.metadata?.title,
-                        name: item.metadata?.name,
-                        kind: item.kind,
-                        star: item.star,
-                        namespace: item.metadata?.namespace,
-                        tags: item.metadata?.tags?.slice(0, 3),
-                        text: `${item.metadata?.description}`,
-                      };
-                    });
+                    for (const item of items) {
+                      if (itemsInfo.length >= 3) {
+                        break;
+                      }
+                      const ind = getIndex(item, stars);
+                      if (ind > -1) {
+                        continue;
+                      }
+                      itemsInfo.push(item);
+                    }
+                  } else {
+                    itemsInfo = result[index]?.items?.slice(0, ITEMS_PER_CARD);
                   }
+                  card.itemsInfo = itemsInfo.map((item: any) => {
+                    return {
+                      title: item.metadata?.title,
+                      name: item.metadata?.name,
+                      kind: item.kind,
+                      star: item.star,
+                      namespace: item.metadata?.namespace,
+                      tags: item.metadata?.tags?.slice(0, 3),
+                      text: `${item.metadata?.description}`,
+                    };
+                  });
                 }
-                newCards.push(card);
               }
-              setCards(newCards);
-            } catch (err) {
-              throw err;
+              newCards.push(card);
             }
+            setCards(newCards);
           })();
         },
         err => {

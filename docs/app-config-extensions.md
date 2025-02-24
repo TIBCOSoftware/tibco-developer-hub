@@ -17,6 +17,26 @@ app:
   showBuildVersion: true
 ```
 
+## Developer Hub Version
+
+Show developer hub version. Displays currently deployed version the left bottom of the Home Page UI
+
+Example config:
+
+```yaml
+app:
+  developerHubVersion: '1.5.0'
+```
+
+## Doc Url
+
+Documentation url
+
+```yaml
+app:
+  docUrl: 'https://docs.tibco.com/go/platform-cp/1.5.0/doc/html#cshid=developer_hub_overview'
+```
+
 The CI/CD pipeline automatically adds the build number to all docker images.
 
 ## Walk Through
