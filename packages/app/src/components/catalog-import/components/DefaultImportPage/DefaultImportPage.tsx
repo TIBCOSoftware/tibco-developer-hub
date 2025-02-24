@@ -52,7 +52,7 @@ export const DefaultImportPage = () => {
       <ImportStepper />
     </Grid>,
   ];
-
+  const reverseContentItems = [...contentItems].reverse();
   return (
     <Page themeId="home">
       <Header title="Register an existing component" />
@@ -65,7 +65,7 @@ export const DefaultImportPage = () => {
         </ContentHeader>
 
         <Grid container spacing={2}>
-          {isMobile ? contentItems : contentItems.reverse()}
+          {isMobile ? contentItems : reverseContentItems}
         </Grid>
       </Content>
     </Page>

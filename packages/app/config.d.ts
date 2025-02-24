@@ -19,6 +19,11 @@ export interface Config {
      * @visibility frontend
      */
     developerHubVersion?: string;
+    /**
+     * Documentation url. String value.
+     * @visibility frontend
+     */
+    docUrl: string;
   };
   auth?: {
     /**
