@@ -2,10 +2,12 @@ import { createBackend } from '@backstage/backend-defaults';
 import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
 import { createBackendModule } from '@backstage/backend-plugin-api';
 import proxy from 'express-http-proxy';
+import { promises, existsSync } from 'fs';
 import { DevHubConfig } from './config';
 import { WinstonLogger } from '@backstage/backend-defaults/rootLogger';
 // eslint-disable-next-line
 import { transports } from 'winston';
+import { join } from 'path';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import 'global-agent/bootstrap';
 import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
@@ -46,6 +48,40 @@ backend.add(
           CP_Url_copy = CP_Url;
           CP_Url = `https://${CP_Url}`;
         }
+        const CP_CERTIFICATE_SECRET_PATH =
+          process.env.CP_CERTIFICATE_SECRET_PATH;
+        const ca: Buffer[] = [];
+        if (CP_CERTIFICATE_SECRET_PATH) {
+          if (existsSync(CP_CERTIFICATE_SECRET_PATH)) {
+            try {
+              const files = await promises.readdir(CP_CERTIFICATE_SECRET_PATH);
+              for (const file of files) {
+                if (file.endsWith('.pem')) {
+                  try {
+                    const fileName = join(CP_CERTIFICATE_SECRET_PATH, file);
+                    const fileContent = await promises.readFile(fileName);
+                    ca.push(fileContent);
+                  } catch (err) {
+                    logger.error(
+                      `Error while reading PEM file ${file} in CP_CERTIFICATE_SECRET_PATH`,
+                      err as Error,
+                    );
+                  }
+                }
+              }
+              if (ca.length === 0) {
+                logger.error('No PEM file found in CP_CERTIFICATE_SECRET_PATH');
+              }
+            } catch (err) {
+              logger.error(
+                'Error while reading files from CP_CERTIFICATE_SECRET_PATH',
+                err as Error,
+              );
+            }
+          } else {
+            logger.error('CP_CERTIFICATE_SECRET_PATH does not exist');
+          }
+        }
         router.get(
           DevHubConfig.wellKnownApiPath,
           proxy(CP_Url, {
@@ -55,7 +91,9 @@ backend.add(
             // @ts-ignore
             proxyReqOptDecorator: proxyReqOpts => {
               proxyReqOpts.headers['x-cp-host'] = CP_Url_copy;
-              proxyReqOpts.rejectUnauthorized = false;
+              if (ca.length > 0) {
+                proxyReqOpts.ca = ca;
+              }
               proxyReqOpts.method = 'GET';
               return proxyReqOpts;
             },
@@ -69,7 +107,6 @@ backend.add(
       router.get('/health', (_request, response) => {
         response.send({ status: 'ok' });
       });
-      // @ts-ignore
       app.use('/tibco/hub', router);
       const mw = (req: Request, _res: Response, next: NextFunction) => {
         if (!req.path.startsWith('/api/techdocs')) {
@@ -77,9 +114,7 @@ backend.add(
         }
         next();
       };
-      // @ts-ignore
       app.use('/tibco/hub', mw, routes);
-      // @ts-ignore
       app.use('/', mw, routes);
       app.use(middleware.notFound());
       app.use(middleware.error());

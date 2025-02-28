@@ -151,7 +151,7 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                 <Grid container spacing={0}>
                   {element.tags &&
                     element.tags.length > 0 &&
-                    element.tags!.map((tag, i) => (
+                    element.tags.map((tag, i) => (
                       <div className="tpdh-card-item-tag" key={i}>
                         {tag}
                       </div>

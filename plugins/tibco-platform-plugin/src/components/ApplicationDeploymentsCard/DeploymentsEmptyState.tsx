@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { CodeSnippet } from '@backstage/core-components';
+import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
 const ENTITY_YAML = `metadata:
   name: example
@@ -39,7 +40,8 @@ const useStyles = makeStyles(
 
 export function DeploymentsEmptyState() {
   const classes = useStyles();
-
+  const configApi = useApi(configApiRef);
+  const docUrl: string = configApi.get('app.docUrl');
   return (
     <>
       <Typography variant="body1">
@@ -56,12 +58,7 @@ export function DeploymentsEmptyState() {
           customStyle={{ background: 'inherit', fontSize: '115%' }}
         />
       </div>
-      <Button
-        variant="contained"
-        color="primary"
-        target="_blank"
-        href="https://docs.tibco.com/go/platform-cp/1.4.0/doc/html#cshid=platform_app_deployment"
-      >
+      <Button variant="contained" color="primary" target="_blank" href={docUrl}>
         Read more
       </Button>
     </>

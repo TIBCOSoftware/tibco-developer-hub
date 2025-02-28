@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "engines": {
     "node": "20 || 22"
@@ -47,7 +47,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@kubernetes/client-node": "^1.0.0-rc7",
-    "jsonpath-plus": "^10.0.7"
+    "jsonpath-plus": "^10.3.0"
   },
   "prettier": "@spotify/prettier-config",
   "lint-staged": {
