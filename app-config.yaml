@@ -1,4 +1,4 @@
-define: &docUrl 'https://docs.tibco.com/go/platform-cp/1.5.0/doc/html#cshid=developer_hub_overview'
+define: &docUrl 'https://docs.tibco.com/go/platform-cp/1.5.1/doc/html#cshid=developer_hub_overview'
 app:
   title: TIBCO® Developer Hub
   baseUrl: http://localhost:3000/tibco/hub
