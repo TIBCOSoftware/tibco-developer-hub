@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import { makeStyles, Box } from '@material-ui/core';
 import React from 'react';
 import { Link } from '@backstage/core-components';

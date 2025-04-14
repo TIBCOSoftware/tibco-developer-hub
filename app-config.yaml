@@ -1,4 +1,4 @@
-define: &docUrl 'https://docs.tibco.com/go/platform-cp/1.5.1/doc/html#cshid=developer_hub_overview'
+define: &docUrl 'https://docs.tibco.com/go/platform-cp/1.6.0/doc/html#cshid=developer_hub_overview'
 app:
   title: TIBCO® Developer Hub
   baseUrl: http://localhost:3000/tibco/hub
@@ -52,7 +52,9 @@ backend:
     # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
     # config options: https://node-postgres.com/api/client
     client: pg
+    pluginDivisionMode: ${PLUGIN_DIVISION_MODE}
     connection:
+      database: ${POSTGRES_DB}
       host: ${POSTGRES_HOST}
       port: ${POSTGRES_PORT}
       user: ${POSTGRES_USER}
@@ -126,3 +128,6 @@ scaffolder:
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
 catalog:
   locations: []
+  # Experimental: Always use the search method in UrlReaderProcessor.
+  # New adopters are encouraged to enable it as this behavior will be the default in a future release.
+  useUrlReadersSearch: true
