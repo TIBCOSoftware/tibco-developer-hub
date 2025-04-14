@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import { test, expect } from '@playwright/test';
 
 test('App should render the welcome page', async ({ page }) => {

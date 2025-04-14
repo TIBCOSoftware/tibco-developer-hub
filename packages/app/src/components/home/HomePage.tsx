@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import { Box, Grid } from '@material-ui/core';
 import {
   configApiRef,
@@ -138,7 +142,7 @@ export const HomePage = () => {
                       itemsInfo.push(item);
                     }
                   } else {
-                    itemsInfo = result[index]?.items?.slice(0, ITEMS_PER_CARD);
+                    itemsInfo = items?.slice(0, ITEMS_PER_CARD);
                   }
                   card.itemsInfo = itemsInfo.map((item: any) => {
                     return {

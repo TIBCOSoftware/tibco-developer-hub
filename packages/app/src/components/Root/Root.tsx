@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import React, { PropsWithChildren } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { Settings as SidebarSettings } from '@backstage/plugin-user-settings';
@@ -17,6 +21,7 @@ import { TibcoIcon } from '../../icons/TibcoIcon';
 import CpIcon from '../../icons/cp.svg';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { Link } from 'react-router-dom';
+import DevHubLogo from './images/devhub-logo.svg';
 
 const useSidebarLogoStyles = makeStyles({
   logoContainer: {
@@ -117,11 +122,7 @@ const SidebarLogo = () => {
         )}
       >
         <Link to="/">
-          <img
-            src="/tibco/hub/devhub-logo.svg"
-            className={classes.img}
-            alt="logo"
-          />
+          <img src={DevHubLogo} className={classes.img} alt="logo" />
         </Link>
       </SidebarItem>
     </div>

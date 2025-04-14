@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import { ExtraInfo, HomeCardProps, HomeCardType } from '../../types';
 import { Grid } from '@material-ui/core';
 import SystemsIcon from '../../images/systems-icon.svg';
