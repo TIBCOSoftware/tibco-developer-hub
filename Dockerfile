@@ -1,5 +1,5 @@
 # Build Python environment in a separate builder stage
-FROM cgr.dev/chainguard/python@sha256:3d576a0d94b05c0da7fba83c8dbf1d909a61a95132d3f65b409b3eb01bf18633 as python-builder
+FROM cgr.dev/chainguard/python@sha256:3d576a0d94b05c0da7fba83c8dbf1d909a61a95132d3f65b409b3eb01bf18633  as python-builder
 
 ENV PATH=/venv/bin:$PATH
 
@@ -15,7 +15,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 COPY .yarn ./.yarn
 COPY .yarnrc.yml ./
-
+COPY backstage.json ./
 
 COPY packages packages
 
@@ -44,7 +44,8 @@ USER nonroot
 
 COPY --from=packages --chown=65532:65532  /app .
 COPY --from=packages --chown=65532:65532  /app/.yarn ./.yarn
-COPY --from=packages --chown=65532:65532  /app/.yarnrc.yml  ./
+COPY --from=packages --chown=65532:65532  /app/.yarnrc.yml ./
+COPY --from=packages --chown=65532:65532  /app/backstage.json ./
 
 RUN --mount=type=cache,target=/home/nonroot/.yarn/berry/cache,sharing=locked,uid=65532,gid=65532 \
     yarn install --immutable
@@ -61,7 +62,8 @@ RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
 
 FROM cgr.dev/chainguard/wolfi-base@sha256:7afaeb1ffbc9c33c21b9ddbd96a80140df1a5fa95aed6411b210bcb404e75c11 as node-builder
 
-ENV NODE_VERSION="18=~18.20"
+ENV NODE_VERSION="20=~20.11"
+ENV NODE_ENV=production
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
     --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
@@ -78,7 +80,8 @@ RUN mkdir -p /home/nonroot/.yarn/berry && chown -R 65532:65532 /home/nonroot/.ya
 USER nonroot
 
 COPY --from=build --chown=65532:65532  /app/.yarn ./.yarn
-COPY --from=build --chown=65532:65532  /app/.yarnrc.yml  ./
+COPY --from=build --chown=65532:65532  /app/.yarnrc.yml ./
+COPY --from=build --chown=65532:65532  /app/backstage.json ./
 
 COPY --from=build --chown=65532:65532 /app/yarn.lock /app/package.json /app/packages/backend/dist/skeleton/ ./
 
@@ -88,7 +91,7 @@ RUN --mount=type=cache,target=/home/nonroot/.yarn/berry/cache,sharing=locked,uid
 FROM --platform=linux/amd64 cgr.dev/chainguard/wolfi-base@sha256:7afaeb1ffbc9c33c21b9ddbd96a80140df1a5fa95aed6411b210bcb404e75c11
 
 ENV PYTHON_VERSION="3.12=~3.12"
-ENV NODE_VERSION="18=~18.20"
+ENV NODE_VERSION="20=~20.19"
 ENV NODE_ENV=production
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
@@ -116,7 +119,8 @@ COPY --from=build --chown=65532:65532 /app/packages/backend/dist/bundle/ ./
 COPY --from=node-builder --chown=65532:65532 /app/node_modules ./node_modules
 COPY --from=python-builder --chown=65532:65532 /home/nonroot/venv /home/nonroot/venv
 ENV PATH=/home/nonroot/venv/bin:$PATH
-
+# This disables node snapshot for Node 20 to work with the Scaffolder
+ENV NODE_OPTIONS="--no-node-snapshot"
 ENV GIT_PYTHON_REFRESH="quiet"
 
 ENTRYPOINT ["tini", "--"]
