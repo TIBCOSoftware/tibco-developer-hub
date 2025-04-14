@@ -1,5 +1,5 @@
 # Build Python environment in a separate builder stage
-FROM cgr.dev/chainguard/python@sha256:3d576a0d94b05c0da7fba83c8dbf1d909a61a95132d3f65b409b3eb01bf18633  as python-builder
+FROM cgr.dev/chainguard/python@sha256:3d576a0d94b05c0da7fba83c8dbf1d909a61a95132d3f65b409b3eb01bf18633 as python-builder
 
 ENV PATH=/venv/bin:$PATH
 
@@ -9,7 +9,7 @@ RUN --mount=type=cache,target=/home/nonroot/.cache/pip,uid=65532,gid=65532 \
     /home/nonroot/venv/bin/pip install setuptools
 
 # Stage 1 - Create yarn install skeleton layer
-FROM cgr.dev/chainguard/wolfi-base@sha256:7afaeb1ffbc9c33c21b9ddbd96a80140df1a5fa95aed6411b210bcb404e75c11 AS packages
+FROM cgr.dev/chainguard/wolfi-base@sha256:7afaeb1ffbc9c33c21b9ddbd96a80140df1a5fa95aed6411b210bcb404e75c11 as packages
 
 WORKDIR /app
 COPY package.json yarn.lock ./
