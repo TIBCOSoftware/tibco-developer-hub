@@ -2,11 +2,11 @@ apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
   name: tibco-imported
-  description: Tibco importer group
+  description: TIBCO importer group
 spec:
   type: organization
   profile:
-    displayName: Tibco imported
+    displayName: TIBCO imported
     email: info@acme.com
   children: []
 ---
