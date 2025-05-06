@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { resolveSafeChildPath } from '@backstage/backend-plugin-api';
 import { z } from 'zod';

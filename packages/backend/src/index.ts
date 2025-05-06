@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import { createBackend } from '@backstage/backend-defaults';
 import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
 import { createBackendModule } from '@backstage/backend-plugin-api';
@@ -11,9 +15,6 @@ import { join } from 'path';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import 'global-agent/bootstrap';
 import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
-
-setGlobalDispatcher(new EnvHttpProxyAgent());
-
 import {
   ExtractParametersAction,
   createYamlAction,
@@ -24,6 +25,8 @@ import {
 } from '@backstage/backend-plugin-api';
 import { rootHttpRouterServiceFactory } from '@backstage/backend-defaults/rootHttpRouter';
 import { NextFunction, Request, Response, Router } from 'express';
+
+setGlobalDispatcher(new EnvHttpProxyAgent());
 
 const backend = createBackend();
 
@@ -104,17 +107,16 @@ backend.add(
           'CP_URL not found as an environmental variable, .well-known api is not registered',
         );
       }
-      router.get('/health', (_request, response) => {
+      router.get('/health', (_request: Request, response: Response) => {
         response.send({ status: 'ok' });
       });
-      app.use('/tibco/hub', router);
+      app.use(router);
       const mw = (req: Request, _res: Response, next: NextFunction) => {
         if (!req.path.startsWith('/api/techdocs')) {
           req.headers.authorization = undefined;
         }
         next();
       };
-      app.use('/tibco/hub', mw, routes);
       app.use('/', mw, routes);
       app.use(middleware.notFound());
       app.use(middleware.error());

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import React from 'react';
 import './Introduction.css';
 import { Grid } from '@material-ui/core';

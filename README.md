@@ -8,7 +8,7 @@ See the [architecture overview](https://backstage.io/docs/overview/architecture-
 
 ## Pre-requisites
 
-- NodeJs 18.x
+- NodeJs 20.x
 - yarn 1.22.19
 - Docker (with docker compose) -- to run the database
 
@@ -87,6 +87,21 @@ Start the frontend server
 yarn start
 ```
 
+### Use of .env.yarn file to load environment variables
+
+To start TIBCO® Developer Hub with predefined environment variables, create a .env.yarn file under root of the project directory.
+
+You can define the environment variables in this file by following the blow format.
+
+Example:
+
+File name: .env.yarn
+
+```
+DOC_URL="https://docs.tibco.com/go/platform-cp/1.6.0/doc/html#cshid=developer_hub_overview"
+GITHUB_TOKEN=xxxxxxxxxx
+```
+
 ### Steps to build
 
 ```sh
@@ -103,19 +118,21 @@ docker build -t <customImageName:customImageTag> .
 
 ## Compatability Matrix
 
-| TIBCO Developer Hub Version | TIBCO Platform Version |
-| --------------------------- | ---------------------- |
-| 1.5.0                       | 1.4.0                  |
-| 1.4.0                       | 1.4.0                  |
-| 1.3.2                       | 1.3.0                  |
-| 1.3.1                       | 1.3.0                  |
-| 1.3.0                       | 1.3.0                  |
-| 1.2.2                       | 1.2.0                  |
-| 1.2.1                       | 1.2.0                  |
-| 1.2.0                       | 1.2.0                  |
-| 1.1.0                       | 1.1.0                  |
-| 1.0.1                       | 1.0.0                  |
-| 1.0.0                       | 1.0.0                  |
+| TIBCO Developer Hub Version | Minimum TIBCO Platform Version |
+|-----------------------------|--------------------------------|
+| 1.6.0                       | 1.6.0                          |
+| 1.5.1                       | 1.4.0                          |
+| 1.5.0                       | 1.4.0                          |
+| 1.4.0                       | 1.4.0                          |
+| 1.3.2                       | 1.3.0                          |
+| 1.3.1                       | 1.3.0                          |
+| 1.3.0                       | 1.3.0                          |
+| 1.2.2                       | 1.2.0                          |
+| 1.2.1                       | 1.2.0                          |
+| 1.2.0                       | 1.2.0                          |
+| 1.1.0                       | 1.1.0                          |
+| 1.0.1                       | 1.0.0                          |
+| 1.0.0                       | 1.0.0                          |
 
 **Note:** The TIBCO Hosted Control Plane (SaaS) is always on the latest version, it is recommended to use the compatible version of the TIBCO Developer Hub with that. It is not supported to deploy older versions of the TIBCO Developer Hub to newer minor versions of the platform.
 

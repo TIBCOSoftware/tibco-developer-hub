@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import React from 'react';
 import { Route } from 'react-router';
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
@@ -40,9 +44,7 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
 import LightIcon from '@material-ui/icons/WbSunny';
-
 import '@fontsource/source-sans-pro';
-
 import {
   configApiRef,
   githubAuthApiRef,
@@ -59,6 +61,7 @@ import { catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { Button } from '@material-ui/core';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import { ImportFlowPage } from '@internal/backstage-plugin-import-flow';
+import { catalogMessages } from './translations/catalogIndex';
 
 export const generateProviders = (providerConfig: string[]): any[] => {
   const providers: any[] = [];
@@ -119,6 +122,10 @@ const app = createApp({
       return <SignInPage {...props} providers={availableProviders} />;
     },
     ErrorBoundaryFallback: DefaultErrorBoundaryFallback,
+  },
+  __experimentalTranslations: {
+    availableLanguages: ['en'],
+    resources: [catalogMessages],
   },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {

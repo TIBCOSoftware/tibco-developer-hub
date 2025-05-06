@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ */
+
 import { createRoutableExtension } from '@backstage/core-plugin-api';
 import { catalogImportPlugin } from '@backstage/plugin-catalog-import';
 /**
