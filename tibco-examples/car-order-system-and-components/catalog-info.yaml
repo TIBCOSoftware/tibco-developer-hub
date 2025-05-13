@@ -13,6 +13,18 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Group
 metadata:
+  name: KB
+  description: Kobi Begas
+spec:
+  type: organization
+  profile:
+    displayName: KB
+    email: info@acme.com
+  children: [finance-department, operational-department]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
   name: finance-department
   description: The Finance Department
 spec:
