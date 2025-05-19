@@ -85,6 +85,8 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                   ? '/docs'
                   : data.type === HomeCardType.API
                   ? '/api-docs'
+                  : data.type === HomeCardType.Template
+                  ? '/create'
                   : data.type === HomeCardType.ImportFlow
                   ? '/import-flow'
                   : '/catalog?filters[kind]=' + data.type.toLowerCase()
@@ -126,9 +128,13 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                       /* eslint-disable */
                       data.type === HomeCardType.WalkThrough
                         ? element.link || '#'
-                        : data.type === HomeCardType.Template ||
-                          data.type === HomeCardType.ImportFlow
+                        : data.type === HomeCardType.Template
                         ? '/create/templates/' +
+                          element.namespace +
+                          '/' +
+                          element.name
+                        : data.type === HomeCardType.ImportFlow
+                        ? '/import-flow/templates/' +
                           element.namespace +
                           '/' +
                           element.name

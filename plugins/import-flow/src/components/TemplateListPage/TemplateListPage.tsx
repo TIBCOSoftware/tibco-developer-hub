@@ -65,7 +65,7 @@ const createGroupsWithOther = (
 ): TemplateGroupFilter[] => [
   ...groups,
   {
-    title: 'Other Templates',
+    title: 'Other Import Flows',
     filter: e => ![...groups].some(({ filter }) => filter(e)),
   },
 ];
@@ -152,7 +152,7 @@ export const TemplateListPage = (props: TemplateListPageProps) => {
           <ScaffolderPageContextMenu {...scaffolderPageContextMenuProps} />
         </Header>
         <Content>
-          <ContentHeader title="Available Import Flows">
+          <ContentHeader>
             <RegisterExistingButton
               title="Register Existing Import Flow"
               to={registerComponentLink && registerComponentLink()}

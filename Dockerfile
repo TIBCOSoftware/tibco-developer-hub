@@ -97,7 +97,7 @@ ENV NODE_ENV=production
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
     --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
     apk update && \
-    apk add \
+    apk add git \
     # add node for backstage
     nodejs-$NODE_VERSION \
     # add python for backstage techdocs
