@@ -1,0 +1,42 @@
+# Debug inputs
+#                    owner: ${{ values.owner | dump}}
+#                  repoUrl: ${{ values.repoUrl | dump}}
+#          ems_server_name: ${{ values.ems_server_name | dump}}
+#        ems_server_routes: ${{ values.ems_server_routes | dump}}
+#        ems_server_topics: ${{ values.ems_server_topics | dump}}
+# ems_server_global_topics: ${{ values.ems_server_global_topics | dump}}
+#        ems_server_queues: ${{ values.ems_server_queues | dump}}
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: EMS-Servers
+  description: A group for all EMS Servers
+spec:
+  type: organization
+  profile:
+    displayName: EMS Servers
+    email: info@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: ems-servers
+  description: EMS Servers Domain
+spec:
+  owner: group:BW6-Projects
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: EMS-Server-Topology
+  description: A system for all EMS Servers
+  annotations:
+     github.com/project-slug: ${{ "https://"  + (values.repoUrl | parseRepoUrl).host + "/" + (values.repoUrl | parseRepoUrl).owner + "/" +  (values.repoUrl | parseRepoUrl).repo }}
+  tags:
+    - tibco-ems
+    - imported 
+spec:
+  owner: group:EMS-Servers
+  domain: ems-servers

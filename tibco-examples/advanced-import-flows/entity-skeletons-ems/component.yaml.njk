@@ -1,0 +1,34 @@
+# Debug inputs
+#                    owner: ${{ values.owner | dump}}
+#                  repoUrl: ${{ values.repoUrl | dump}}
+#          ems_server_name: ${{ values.ems_server_name | dump}}
+#        ems_server_routes: ${{ values.ems_server_routes | dump}}
+#        ems_server_topics: ${{ values.ems_server_topics | dump}}
+# ems_server_global_topics: ${{ values.ems_server_global_topics | dump}}
+#        ems_server_queues: ${{ values.ems_server_queues | dump}}
+
+# An EMS Server becomes a componnent
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+    name: ${{ values.ems_server_name }}
+    description: ${{ "EMS Server [" +  values.ems_server_name + "]" }}
+    tags:
+      - ems-server
+    links:
+      - title: TIBCO Enterprise Message Service
+        url: https://docs.tibco.com/products/tibco-enterprise-message-service-10-3-0
+    annotations:
+      github.com/project-slug: ${{ "https://"  + (values.repoUrl | parseRepoUrl).host + "/" + (values.repoUrl | parseRepoUrl).owner + "/" +  (values.repoUrl | parseRepoUrl).repo }}
+spec:
+    type: ems-server
+    lifecycle: production
+    owner: ${{ values.owner }}
+    system: EMS-Server-Topology    
+{%- if(values.ems_server_routes.length) %}
+    dependsOn:
+    {%- for route in values.ems_server_routes %}
+      - ${{ "component:default/" + route }}
+    {%- endfor %}
+{%- endif %}

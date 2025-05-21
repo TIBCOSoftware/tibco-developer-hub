@@ -55,7 +55,7 @@ spec:
   # 4. Register the Component in the catalog
 
   steps:
-    # Get the repo with the BW5 Soure code
+    # Get the repo with the BW5 Source code
     - id: clone
       name: Clone the Project
       action: tibco:git:clone
@@ -119,7 +119,8 @@ spec:
 #      input:
 #        message: "Fetched the bw5 Skeleton template"
 #        listWorkspace: true
-#
+
+    # Create the Developer Hub YAML Files from the templates, using the input values
     - id: fetchRS
       name: Resource Skeleton
       action: fetch:template
@@ -161,7 +162,7 @@ spec:
             to: ${{ parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
             overwrite: true
 
-# Push the result back into the repository
+# Push the resulting YAML files back into the repository
     - id: push
       name: Push Current Repo
       action: tibco:git:push

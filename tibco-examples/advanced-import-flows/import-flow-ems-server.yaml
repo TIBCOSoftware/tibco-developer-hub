@@ -1,0 +1,171 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: import-flow-ems-server
+  title: Import flow for EMS Server
+  description: Import existing EMS Server topologies with routed queues into TIBCO Developer Hub
+  tags:
+    - import-flow
+    - tibco
+    - template
+    - developer-hub
+    - ems
+spec:
+  owner: group:default/tibco-imported
+  type: messaging
+
+  parameters:
+    - title: Repository Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: GitHub repository with Existing EMS Server Configuration
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+    - title: Fill in some steps
+      required:
+        - ems_config_file
+        - owner
+      properties:
+        ems_config_file:
+          title: EMS Server Configuration File
+          type: string
+          description: JSON File with EMS Configuration
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the template
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+
+  # The import flow consist out of 4 steps:
+  # 1. Fetch the project from GitHub
+  # 2. Generate the Component YAML
+  # 3. Commit the Component YAML file back to the GitHub project branch creating a pull request
+  # 4. Register the Component in the catalog
+
+  steps:
+    # Get the repo with the EMS Configuration
+    - id: clone
+      name: Clone the Project
+      action: tibco:git:clone
+      input:
+        repoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
+
+    - id: extract
+      name: Extract Parameters
+      action: tibco:extract-parameters
+      input:
+        failOnError: true
+        extractParameters:
+          ems_server_name:
+            type: json
+            filePath: ${{ parameters.ems_config_file }}
+            jsonPath: "$.tibemsd.server"
+          ems_server_routes:
+            type: json
+            filePath: ${{ parameters.ems_config_file }}
+            jsonPath: "$.routes[*].name"
+          ems_server_topics:
+            type: json
+            filePath: ${{ parameters.ems_config_file }}
+            jsonPath: "$.topics[*].name"
+          ems_server_global_topics:
+            type: json
+            filePath: ${{ parameters.ems_config_file }}
+            jsonPath: "$.topics[?(@.global == true)].name"
+          ems_server_queues:
+            type: json
+            filePath: ${{ parameters.ems_config_file }}
+            jsonPath: "$.queues[*].name"
+
+    # The import flow debug step, enable it for debugging
+#    - id: log-debug
+#      name: Debug Logs
+#      action: debug:log
+#      input:
+#        message: "Fetched the EMS Skeleton template"
+#        listWorkspace: true
+
+    # Create the Developer Hub YAML Files from the templates, using the input values
+    - id: fetchRS
+      name: Resource Skeleton
+      action: fetch:template
+      input:
+        url: ./entity-skeletons-ems/
+        targetPath: ./tibco-developer-hub-resources
+        templateFileExtension: true
+        values:
+          owner: ${{ parameters.owner }}
+          repoUrl: ${{ parameters.repoUrl }}
+          routes: ${{ steps.extract.output.routes }}
+          ems_server_name: ${{ steps.extract.output.ems_server_name[0] }}
+          ems_server_routes: ${{ steps.extract.output.ems_server_routes }}
+          ems_server_topics: ${{ steps.extract.output.ems_server_topics }}
+          ems_server_global_topics: ${{ steps.extract.output.ems_server_global_topics }}
+          ems_server_queues: ${{ steps.extract.output.ems_server_queues }}
+
+    # Rename files
+    - id: rename
+      name: Rename Descriptor Files
+      action: fs:rename
+      input:
+        files:
+          - from: "./tibco-developer-hub-resources/system.yaml"
+            to: ${{ "./tibco-developer-hub-resources/system-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
+            overwrite: true
+          - from: "./tibco-developer-hub-resources/component.yaml"
+            to: ${{ "./tibco-developer-hub-resources/component-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
+            overwrite: true
+          - from:  "./tibco-developer-hub-resources/resources.yaml"
+            to: ${{ "./tibco-developer-hub-resources/resources-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
+            overwrite: true
+
+    # Push the resulting YAML files back into the repository
+    - id: push
+      name: Push Current Repo
+      action: tibco:git:push
+
+# Register the System, Component & Resources in the catalog
+    - id: registerSystem
+      name: Register System
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/tibco-developer-hub-resources/system-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
+
+    - id: registerComponent
+      name: Register Component
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/tibco-developer-hub-resources/component-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
+
+    - id: registerResources
+      name: Register Resources
+      if: ${{ (steps.extract.output.ems_server_topics.length > 0) or (steps.extract.output.ems_server_queues.length > 0) }}
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/tibco-developer-hub-resources/resources-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
+
+  output:
+    links:
+      - title: Open in catalog (System)
+        icon: catalog
+        entityRef: ${{ steps.registerSystem.output.entityRef }}
+      - title: Open in catalog (Component)
+        icon: catalog
+        entityRef: ${{ steps.registerComponent.output.entityRef }}
+      - title: Open in catalog (Resources)
+        icon: catalog
+        entityRef: ${{ steps.registerResources.output.entityRef }}
+      - title: Repository (Pull Request)
+        url: ${{ steps.cpr.output.remoteUrl }}

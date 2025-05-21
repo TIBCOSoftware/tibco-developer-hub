@@ -1,0 +1,194 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: import-flow-flogo-ems
+  title: Import flow for Flogo projects with EMS
+  description: Import existing Flogo projects, connected to EMS, into TIBCO Developer Hub
+  tags:
+    - import-flow
+    - tibco
+    - template
+    - developer-hub
+spec:
+  owner: group:default/tibco-imported
+  type: messaging
+
+  parameters:
+    - title: Repository Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: GitHub repository with Existing Flogo Project
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+    - title: Fill in some steps
+      required:
+        - application
+        - owner
+      properties:
+        application_folder:
+          title: Flogo Application Folder
+          type: string
+          description: Folder of Flogo Application to import
+        application:
+          title: Flogo Application
+          type: string
+          description: Name of the Flogo Application to import
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the template
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+
+  # The import flow consist out of 4 steps:
+  # 1. Fetch the project from GitHub
+  # 2. Generate the Component YAML
+  # 3. Commit the Component YAML file back to the GitHub project branch creating a pull request
+  # 4. Register the Component in the catalog
+
+  steps:
+    # Get the repo with the Flogo/EMS source code
+    - id: clone
+      name: Clone the Project
+      action: tibco:git:clone
+      input:
+        repoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
+
+    - id: extract
+      name: Extract Parameters
+      action: tibco:extract-parameters
+      input:
+        failOnError: true
+        extractParameters:
+          flogo_project_name:
+            type: json
+            filePath: ${{ parameters.application_folder + "/" + parameters.application }}
+            jsonPath: $.name
+          flogo_project_description:
+            type: json
+            filePath: ${{ parameters.application_folder + "/" + parameters.application }}
+            jsonPath: $.description
+          flogo_ems_queue_receivers:
+            type: json
+            filePath: ${{ parameters.application_folder + "/" + parameters.application }}
+            jsonPath: "$.triggers[?(@.ref == '#receivemessage')].handlers[?(@.settings.destinationType == 'Queue')].settings.destination"
+          flogo_ems_queue_senders:
+            type: json
+            filePath: ${{ parameters.application_folder + "/" + parameters.application }}
+            jsonPath: "$.resources[*].data.tasks[?(@.activity.ref == '#sendmessage' && @.activity.settings.destinationType == 'Queue' )].activity.settings.settingDestination"
+          flogo_task_ids:
+            type: json
+            filePath: ${{ parameters.application_folder + "/" + parameters.application }}
+            jsonPath: "$.resources[*].data.tasks[*].id"
+          flogo_tasks:
+            type: json
+            filePath: ${{ parameters.application_folder + "/" + parameters.application }}
+            jsonPath: "$.resources[*].data.tasks[*]"
+          flogo_api_names:
+            type: json
+            filePath: ${{ parameters.application_folder + "/" + parameters.application }}
+            jsonPath: "$.triggers[?(@.ref == '#rest')].settings.swagger.filename"
+          flogo_api_swagger_b64:
+            type: json
+            filePath: ${{ parameters.application_folder + "/" + parameters.application }}
+            jsonPath: "$.triggers[?(@.ref == '#rest')].settings.swagger.content"
+          flogo_api_swagger_triggers:
+            type: json
+            filePath: ${{ parameters.application_folder + "/" + parameters.application }}
+            jsonPath: "$.triggers[?(@.ref == '#rest')]"
+
+    # The import flow debug step, enable it for debugging
+#    - id: log-debug
+#      name: Debug Logs
+#      action: debug:log
+#      input:
+#        message: "Fetched the Flogo Skeleton template"
+#        listWorkspace: true
+
+    # Create the Developer Hub YAML Files from the templates, using the input values
+    - id: fetchRS
+      name: Resource Skeleton
+      action: fetch:template
+      input:
+        url: ./entity-skeletons-flogo/
+        targetPath: ${{ parameters.application_folder }}
+        templateFileExtension: true
+        values:
+          flogo_project_name: ${{ steps.extract.output.flogo_project_name[0] }}
+          flogo_project_description: ${{ steps.extract.output.flogo_project_description[0] }}
+          repoUrl: ${{ parameters.repoUrl }}
+          flogo_ems_queue_receivers: ${{ steps.extract.output.flogo_ems_queue_receivers }}
+          flogo_ems_queue_senders: ${{ steps.extract.output.flogo_ems_queue_senders }}
+          flogo_task_ids: ${{ steps.extract.output.flogo_task_ids }}
+          flogo_tasks: ${{ steps.extract.output.flogo_tasks }}
+          owner: ${{ parameters.owner }}
+          flogo_api_names: ${{ steps.extract.output.flogo_api_names }}
+          flogo_api_swagger_b64: ${{ steps.extract.output.flogo_api_swagger_b64 }}
+          flogo_api_swagger_triggers: ${{ steps.extract.output.flogo_api_swagger_triggers }}
+
+
+    # Rename files
+    - id: rename
+      name: Rename Descriptor Files
+      action: fs:rename
+      input:
+        files:
+          - from: ${{ parameters.application_folder + "/component.yaml" }}
+            to: ${{ parameters.application_folder + "/component-" + parameters.application + ".yaml" }}
+            overwrite: true
+          - from:  ${{ parameters.application_folder + "/resources.yaml" }}
+            to: ${{ parameters.application_folder + "/resources-" + parameters.application + ".yaml" }}
+            overwrite: true
+          - from:  ${{ parameters.application_folder + "/apis.yaml" }}
+            to: ${{ parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
+            overwrite: true
+
+    # Push the resulting YAML files back into the repository
+    - id: push
+      name: Push Current Repo
+      action: tibco:git:push
+
+# Register the Component, Resources & API's in the catalog
+    - id: registerComponent
+      name: Register Component
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/component-" + parameters.application + ".yaml" }}
+
+    - id: registerResources
+      name: Register Resources
+      if: ${{ (steps.extract.output.flogo_ems_queue_receivers.length > 0) or (steps.extract.output.flogo_ems_queue_senders.length > 0) }}
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/resources-" + parameters.application + ".yaml" }}
+
+    - id: registerAPIs
+      name: Register APIs
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
+
+  output:
+    links:
+      - title: Open in catalog (Component)
+        icon: catalog
+        entityRef: ${{ steps.registerComponent.output.entityRef }}
+      - title: Open in catalog (Resources)
+        icon: catalog
+        entityRef: ${{ steps.registerResources.output.entityRef }}
+      - title: Open in catalog (APIs)
+        icon: catalog
+        entityRef: ${{ steps.registerAPIs.output.entityRef }}
+      - title: Repository (Pull Request)
+        url: ${{ steps.cpr.output.remoteUrl }}
