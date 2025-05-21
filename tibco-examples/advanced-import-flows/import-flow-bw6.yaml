@@ -66,13 +66,8 @@ spec:
       name: Clone the Project
       action: tibco:git:clone
       input:
+        failOnError: true
         repoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
-
-#    - id: fetch
-#      name: Fetch project
-#      action: fetch:plain
-#      input:
-#        url: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
 
     - id: extract
       name: Extract Parameters
@@ -145,6 +140,8 @@ spec:
     - id: push
       name: Push Current Repo
       action: tibco:git:push
+      input:
+        failOnError: true
 
     # Register the BW6/CE System & Components in the catalog
     - id: registerSystem

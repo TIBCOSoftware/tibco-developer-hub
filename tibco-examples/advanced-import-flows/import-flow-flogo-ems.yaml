@@ -60,7 +60,9 @@ spec:
       name: Clone the Project
       action: tibco:git:clone
       input:
+        failOnError: true
         repoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
+
 
     - id: extract
       name: Extract Parameters
@@ -155,6 +157,8 @@ spec:
     - id: push
       name: Push Current Repo
       action: tibco:git:push
+      input:
+        failOnError: true
 
 # Register the Component, Resources & API's in the catalog
     - id: registerComponent
