@@ -59,6 +59,34 @@ walkThrough:
       link: 'http://www.some-external-link.com/walk-through2'
 ```
 
+## Template Groups
+
+Configuration for the template groups in template page when click on the Develop button
+
+Example config:
+
+```yaml
+templateGroups:
+  - name: templateGroup1
+    tagFilters: ['bwce', 'recommended']
+  - name: templateGroup2
+    tagFilters: ['flogo']
+```
+
+## Import Flow Groups
+
+Configuration for the import flow groups in import flow page when click on the Import Flow button
+
+Example config:
+
+```yaml
+importFlowGroups:
+  - name: importFlowGroup1
+    tagFilters: ['bwce', 'recommended']
+  - name: importFlowGroup2
+    tagFilters: ['flogo']
+```
+
 ## Cp Link
 
 Control plane link for the TIBCO® Developer Hub.

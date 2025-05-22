@@ -1,0 +1,173 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: import-flow-bw6
+  title: Import flow for BW6/CE projects
+  description: Import existing BW6/CE projects into TIBCO Developer Hub
+  tags:
+    - import-flow
+    - tibco
+    - business-works-6
+    - business-works-container-edition
+    - developer-hub
+    - bwce
+spec:
+  owner: group:default/tibco-imported
+  type: integration
+
+  parameters:
+    - title: Repository Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: GitHub repository with Existing BusinessWorks 6 Project
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+    - title: Fill in some steps
+      required:
+        - application
+        - owner
+      properties:
+        application_folder:
+          title: BusinessWorks 6 Application Folder
+          type: string
+          description: Folder of BusinessWorks 6 Application to import
+        application:
+          title: BusinessWorks 6 Application
+          type: string
+          description: Name of the BusinessWorks 6 Application to import
+        system:
+          title: BusinessWorks 6 System
+          type: string
+          description: System of which the BW6 project is part of
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the template
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+
+  # The import flow consist out of 4 steps:
+  # 1. Fetch the project from GitHub
+  # 2. Generate the Component YAML
+  # 3. Commit the Component YAML file back to the GitHub project branch creating a pull request
+  # 4. Register the Component in the catalog
+
+  steps:
+    # Get the repo with the BW6/CE Source code
+    - id: clone
+      name: Clone the Project
+      action: tibco:git:clone
+      input:
+        failOnError: true
+        repoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
+
+    - id: extract
+      name: Extract Parameters
+      action: tibco:extract-parameters
+      input:
+        failOnError: true
+        extractParameters:
+          bw6_project_name:
+            type: xml
+            filePath: ${{ parameters.application_folder + "/" + parameters.application + "/.project" }}
+            jsonPath: "$.projectDescription.name"
+          bw6_project_description:
+            type: xml
+            filePath: ${{ parameters.application_folder + "/" + parameters.application + "/.project"}}
+            jsonPath: "$.projectDescription.comment"
+          bw6_project_manifest:
+            type: file
+            filePath: ${{ parameters.application_folder + "/" + parameters.application + "/META-INF/MANIFEST.MF" }}
+            regex: "(.*)(.*)"
+          bw6_project_dependencies:
+            type: file
+            filePath: ${{ parameters.application_folder + "/" + parameters.application + "/META-INF/MANIFEST.MF" }}
+            regex:
+              regexPattern: "name=([A-Za-z0-9_\\.]+)"
+              regexFlags: gm
+
+
+    # The import flow debug step, enable it for debugging
+#    - id: log-debug
+#      name: Debug Logs
+#      action: debug:log
+#      input:
+#        message: "Fetched the bw6 Skeleton template"
+#        listWorkspace: false
+
+# Create the Developer Hub YAML Files from the templates, using the input values
+    - id: fetchRS
+      name: Resource Skeleton
+      action: fetch:template
+      input:
+        url: ./entity-skeletons-bw6/
+        targetPath: ${{ parameters.application_folder }}
+        templateFileExtension: true
+        values:
+          repoUrl: ${{ parameters.repoUrl }}
+          owner: ${{ parameters.owner }}
+          application_folder: ${{ parameters.application_folder }}
+          application: ${{ parameters.application }}
+          bw6_system: ${{ parameters.system }}
+          bw6_project_name: ${{ steps.extract.output.bw6_project_name[0] }}
+          bw6_project_description: ${{ steps.extract.output.bw6_project_description[0] }}
+          bw6_project_manifest: ${{ steps.extract.output.bw6_project_manifest }}
+          bw6_project_dependencies: ${{ steps.extract.output.bw6_project_dependencies }}
+
+
+    # Rename files
+    - id: rename
+      name: Rename Descriptor Files
+      action: fs:rename
+      input:
+        files:
+          - from:  ${{ parameters.application_folder + "/system.yaml" }}
+            to: ${{ parameters.application_folder + "/system-" + parameters.application + ".yaml" }}
+            overwrite: true
+          - from: ${{ parameters.application_folder + "/component.yaml" }}
+            to: ${{ parameters.application_folder + "/components-" + parameters.application + ".yaml" }}
+            overwrite: true
+
+# Push the resulting YAML files back into the repository
+    - id: push
+      name: Push Current Repo
+      action: tibco:git:push
+      input:
+        failOnError: true
+
+    # Register the BW6/CE System & Components in the catalog
+    - id: registerSystem
+      name: Register System
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/system-" + parameters.application + ".yaml" }}
+
+    - id: registerComponents
+      name: Register Components
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/components-" + parameters.application + ".yaml" }}
+
+  output:
+    links:
+      - title: Business Works 6 Documentation
+        icon: catalog
+        url: https://docs.tibco.com/products/tibco-activematrix-businessworks-6-10-0
+      - title: Open in catalog (System)
+        icon: catalog
+        entityRef: ${{ steps.registerSystem.output.entityRef }}
+      - title: Open in catalog (Components)
+        icon: catalog
+        entityRef: ${{ steps.registerComponents.output.entityRef }}
+      - title: Repository (Pull Request)
+        url: ${{ steps.cpr.output.remoteUrl }}

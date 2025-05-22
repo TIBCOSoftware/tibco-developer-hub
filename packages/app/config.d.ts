@@ -70,6 +70,38 @@ export interface Config {
     }[];
   };
   /**
+   * Template groups configuration
+   * @visibility frontend
+   */
+  templateGroups?: {
+    /**
+     * Name of the group
+     * @visibility frontend
+     */
+    name: string;
+    /**
+     * Tags in array
+     * @visibility frontend
+     */
+    tagFilters: string[];
+  }[];
+  /**
+   * Importflow groups configuration
+   * @visibility frontend
+   */
+  importFlowGroups?: {
+    /**
+     * Name of the group
+     * @visibility frontend
+     */
+    name: string;
+    /**
+     * Tags in array
+     * @visibility frontend
+     */
+    tagFilters: string[];
+  }[];
+  /**
    * Control plane link for the TIBCO® Developer Hub
    * @visibility frontend
    */

@@ -1,4 +1,4 @@
-define: &docUrl 'https://docs.tibco.com/go/platform-cp/1.6.0/doc/html#cshid=developer_hub_overview'
+define: &docUrl ${DOC_URL}
 app:
   title: TIBCO® Developer Hub
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
@@ -7,16 +7,22 @@ app:
     url: https://support.tibco.com/s/
     items:
       - title: 'TIBCO Support Page'
-        icon: 'email'
+        icon: email
         links:
           - url: 'https://support.tibco.com/s/'
             title: 'TIBCO Support'
       - title: 'TIBCO Documentation Page'
-        icon: 'docs'
+        icon: docs
         links:
           - url: *docUrl
             title: 'TIBCO® Developer Hub Documentation'
+      - title: 'TIBCO® Developer Hub Open Source Repository'
+        icon: github
+        links:
+          - url: 'https://github.com/TIBCOSoftware/tibco-developer-hub'
+            title: 'TIBCO® Developer Hub Open Source Repository'
   docUrl: *docUrl
+
 organization:
   name: TIBCO Software's
 
@@ -88,6 +94,7 @@ auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: production
   providers:
+    guest: null
     # Needs to be enabled if you want to try out Github auth
     # See https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
     # While creating OAuth App on GitHub, The Homepage URL should point to TIBCO® Developer Hub frontend including '/tibco/hub' in the URL ,while the Authorization callback URL will point to the TIBCO® Developer Hub backend which also includes '/tibco/hub' in the URL

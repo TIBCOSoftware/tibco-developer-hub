@@ -1,0 +1,63 @@
+# Debug inputs
+#        flogo_project_name: ${{values.flogo_project_name | dump}}
+# flogo_project_description: ${{values.flogo_project_description | dump}}
+#                   repoUrl: ${{values.repoUrl | dump}}
+# flogo_ems_queue_receivers: ${{values.flogo_ems_queue_receivers | dump}}
+#   flogo_ems_queue_senders: ${{values.flogo_ems_queue_senders | dump}}
+#            flogo_task_ids: ${{values.flogo_task_ids | dump}}
+#               flogo_tasks: ${{values.flogo_tasks | dump}}
+#                     owner: ${{ values.owner | dump}}
+
+{%- if(values.flogo_tasks.length) %}
+  {%- for ftask in values.flogo_tasks %}
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: ${{ values.flogo_project_name + "_" + ftask.name + "_FLOGO_TASK" }}
+{%- if(ftask.description) %}
+  description: ${{ ftask.description }}
+{%- endif %}
+  tags:
+    - flogo-task
+spec:
+  type: flogo-task
+  lifecycle: production
+  owner: ${{ values.owner }}
+  dependsOn: ['${{ 'component:default/' + values.flogo_project_name + "_FLOGO_APP"}}']
+    {%- endfor %}
+{%- endif %}
+{%- if(values.flogo_ems_queue_receivers.length) %}
+  {%- for qres in values.flogo_ems_queue_receivers %}
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: ${{ qres + "_EMS_QUEUE" }}
+  description: ${{ "EMS Queue:" + qres }}
+  tags:
+    - ems-queue
+spec:
+  type: ems-queue
+  lifecycle: production
+  owner: ${{ values.owner }}
+  dependsOn: ['${{'component:default/' + values.flogo_project_name + "_FLOGO_APP"}}']
+    {%- endfor %}
+{%- endif %}
+{%- if(values.flogo_ems_queue_senders.length) %}
+  {%- for qsend in values.flogo_ems_queue_senders %}
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: ${{ qsend + "_EMS_QUEUE" }}
+  description: ${{ "EMS Queue:" + qsend }}
+  tags:
+    - ems-queue
+spec:
+  type: ems-queue
+  lifecycle: production
+  owner: ${{ values.owner }}
+  dependsOn: ['${{'component:default/' + values.flogo_project_name + "_FLOGO_APP"}}']
+    {%- endfor %}
+{%- endif %}

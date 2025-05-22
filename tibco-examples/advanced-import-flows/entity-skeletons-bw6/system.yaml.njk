@@ -1,0 +1,44 @@
+# Debug inputs
+#       application_folder: ${{ values.application_folder | dump}}
+#              application: ${{ values.application | dump}}
+#               bw6_system: ${{ values.bw6_system | dump}}
+#         bw6_project_name: ${{ values.bw6_project_name | dump}}
+#  bw6_project_description: ${{ values.bw6_project_description | dump}}
+#     bw6_project_manifest: ${{ values.bw6_project_manifest | dump}}
+# bw6_project_dependencies: ${{ values.bw6_project_dependencies | dump}}
+#                  repoUrl: ${{ values.repoUrl | dump}}
+#                    owner: ${{ values.owner | dump}}
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: BW6-Projects
+  description: A group for all BW6 Projects
+spec:
+  type: organization
+  profile:
+    displayName: BW6 Projects
+    email: info@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: bw6
+  description: BW6 Domain
+spec:
+  owner: group:BW6-Projects
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: ${{values.bw6_system}}
+  description: ${{values.bw6_system}}
+  annotations:
+     github.com/project-slug: ${{ "https://"  + (values.repoUrl | parseRepoUrl).host + "/" + (values.repoUrl | parseRepoUrl).owner + "/" +  (values.repoUrl | parseRepoUrl).repo }}
+  tags:
+    - tibco-bw6
+    - imported 
+spec:
+  owner: group:BW6-Projects
+  domain: bw6

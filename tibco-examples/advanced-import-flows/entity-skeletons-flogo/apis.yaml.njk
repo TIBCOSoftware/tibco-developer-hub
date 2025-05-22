@@ -1,0 +1,39 @@
+ # Debug inputs
+ #        flogo_project_name: ${{values.flogo_project_name | dump}}
+ # flogo_project_description: ${{values.flogo_project_description | dump}}
+ #                   repoUrl: ${{values.repoUrl | dump}}
+ # flogo_ems_queue_receivers: ${{values.flogo_ems_queue_receivers | dump}}
+ #   flogo_ems_queue_senders: ${{values.flogo_ems_queue_senders | dump}}
+ #            flogo_task_ids: ${{values.flogo_task_ids | dump}}
+ #               flogo_tasks: ${{values.flogo_tasks | dump}}
+ #                     owner: ${{ values.owner | dump}}
+ #           flogo_api_names: ${{ values.flogo_api_names | dump}}
+ #     flogo_api_swagger_b64: ${{ values.flogo_api_swagger_b64 | dump}}
+ #flogo_api_swagger_triggers: ${{ values.flogo_api_swagger_triggers | dump}}
+
+
+ {%- if(values.flogo_api_swagger_triggers.length) %}
+   {%- for fapi in values.flogo_api_swagger_triggers %}
+     {%- if(fapi.settings.swagger.filename) and (fapi.settings.swagger.content) %}
+ apiVersion: backstage.io/v1alpha1
+ kind: API
+ metadata:
+   name: ${{ fapi.settings.swagger.filename | replace(".json", "") }}
+   description: ${{ 'An API for ' + fapi.settings.swagger.filename | replace(".json", "") }}
+   tags:
+     - store
+     - rest
+   links:
+     - url: https://github.com/TIBCO-Hub-Backstage/tibco-examples
+       title: GitHub Repo
+       icon: github
+ spec:
+   type: openapi
+   lifecycle: production
+   owner: ${{ values.owner }}
+   apiProvidedBy: ['${{ 'component:default/' + values.flogo_project_name + "_FLOGO_APP"}}']
+   definition: |
+                      ${{ fapi.settings.swagger.content | replace("data:application/json;base64,", "") | decodeBase64 | replace("\n", "")}}
+         {%- endif %}
+     {%- endfor %}
+ {%- endif %}

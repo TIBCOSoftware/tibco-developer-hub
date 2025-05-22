@@ -1,0 +1,51 @@
+# Debug inputs
+#       application_folder: ${{ values.application_folder | dump}}
+#              application: ${{ values.application | dump}}
+#         bw5_project_name: ${{values.bw5_project_name | dump}}
+#              bw5_project: ${{ values.bw5_project | dump}}
+#         bw5_project_name: ${{ values.bw5_project_name | dump}}
+#  bw5_project_description: ${{ values.bw5_project_description | dump}}
+#                  repoUrl: ${{ values.repoUrl | dump}}
+#                    owner: ${{ values.owner | dump}}
+#                api_files: ${{ values.api_files | dump}}
+#          api_files_names: ${{ values.api_files_names | dump}}
+#                 db_files: ${{ values.db_files | dump}}
+#           db_files_names: ${{ values.db_files_names | dump}}
+#            process_files: ${{ values.process_files | dump}}
+#      process_files_names: ${{ values.process_files_names | dump}}
+
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: BW5-Projects
+  description: A group for all BW5 Projects
+spec:
+  type: organization
+  profile:
+    displayName: BW5 Projects
+    email: info@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: bw5
+  description: BW5 Domain
+spec:
+  owner: group:BW5-Projects
+---
+{# We only want 1 BW5 System #}
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: bw5-projects
+  description: Business Works 5 Projects
+  annotations:
+     github.com/project-slug: ${{ "https://"  + (values.repoUrl | parseRepoUrl).host + "/" + (values.repoUrl | parseRepoUrl).owner + "/" +  (values.repoUrl | parseRepoUrl).repo }}
+  tags:
+    - tibco-bw5
+    - imported
+spec:
+  owner: group:BW5-Projects
+  domain: bw5
+

@@ -1,0 +1,38 @@
+# Debug inputs
+#       application_folder: ${{ values.application_folder | dump}}
+#              application: ${{ values.application | dump}}
+#               bw6_system: ${{ values.bw6_system | dump}}
+#         bw6_project_name: ${{ values.bw6_project_name | dump}}
+#  bw6_project_description: ${{ values.bw6_project_description | dump}}
+#     bw6_project_manifest: ${{ values.bw6_project_manifest | dump}}
+# bw6_project_dependencies: ${{ values.bw6_project_dependencies | dump}}
+#                  repoUrl: ${{ values.repoUrl | dump}}
+#                    owner: ${{ values.owner | dump}}
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+    name: ${{ values.bw6_project_name }}
+{%- if(values.flogo_project_description) %}    
+    description: ${{ values.bw6_project_description }}
+{%- endif %}
+    tags:
+      - bw6-project
+    links:
+      - title: Business Works 6
+        url: https://docs.tibco.com/products/tibco-activematrix-businessworks-6-10-0
+    annotations:
+      github.com/project-slug: ${{ "https://"  + (values.repoUrl | parseRepoUrl).host + "/" + (values.repoUrl | parseRepoUrl).owner + "/" +  (values.repoUrl | parseRepoUrl).repo }}
+spec:
+    type: bw-6-project
+    lifecycle: production
+    owner: ${{ values.owner }}
+    system: ${{ values.bw6_system }}
+{%- if(values.bw6_project_dependencies.length > 2) %}
+    dependsOn:
+    {%- for dep in values.bw6_project_dependencies %}
+        {%- if(dep != "name=bwext" and dep != "name=bw.generalactivities") %}
+        - ${{ "component:default/" + dep | replace("name=", "") }}
+        {%- endif %}
+    {%- endfor %}   
+{%- endif %}

@@ -14,6 +14,7 @@ import { glob } from 'glob';
 import { select } from 'xpath';
 import { DOMParser } from '@xmldom/xmldom';
 import { examples } from './extract-parameters.examples';
+import RegexParser from 'regex-parser';
 
 type JsonValue = JsonObject | JsonArray | JsonPrimitive;
 
@@ -39,17 +40,21 @@ type TibcoImportJson = {
   filePath: string;
   jsonPath: string;
 };
+type RegexStatement = {
+  regexPattern: string;
+  regexFlags?: string;
+};
 type TibcoImportFile = {
   type: TibcoImportType.file;
   filePath: string;
-  regex: string;
+  regex: string | RegexStatement;
 };
 type TibcoImportWorkspace = {
   type: TibcoImportType.workspace;
   directoryPath?: string;
   glob?: string;
   onlyName?: boolean;
-  regex: string;
+  regex: string | RegexStatement;
 };
 type TibcoImport =
   | TibcoImportXmlXpath
@@ -94,7 +99,13 @@ const importSchemaFile = z
   .object({
     type: z.literal(TibcoImportType.file),
     filePath: z.string(),
-    regex: z.string(),
+    regex: z.union([
+      z.string(),
+      z.object({
+        regexPattern: z.string(),
+        regexFlags: z.string().optional(),
+      }),
+    ]),
   })
   .required();
 
@@ -103,7 +114,13 @@ const importSchemaWorkspace = z.object({
   directoryPath: z.string().optional(),
   glob: z.string().optional(),
   onlyName: z.boolean().optional(),
-  regex: z.string(),
+  regex: z.union([
+    z.string(),
+    z.object({
+      regexPattern: z.string(),
+      regexFlags: z.string().optional(),
+    }),
+  ]),
 });
 
 async function ExtractParameter(
@@ -187,7 +204,16 @@ async function ExtractParameter(
             );
             logger.info(`Workspace file path: ${filePath}`);
             const fileContent = await promises.readFile(filePath, 'utf8');
-            out[key] = fileContent.match(param.regex) || [];
+            if (typeof param.regex === 'object' && param.regex.regexPattern) {
+              out[key] =
+                fileContent.match(
+                  new RegExp(param.regex.regexPattern, param.regex.regexFlags),
+                ) || [];
+            } else if (typeof param.regex === 'string') {
+              out[key] = fileContent.match(RegexParser(param.regex)) || [];
+            } else {
+              out[key] = [];
+            }
             logger.info(`Successfully Extracted parameter: ${key}`);
             break;
           }
@@ -211,7 +237,15 @@ async function ExtractParameter(
             }
             const workspaceOut: string[] = [];
             for (const p of allPaths) {
-              if (p.match(param.regex)) {
+              let match = false;
+              if (typeof param.regex === 'object' && param.regex.regexPattern) {
+                match = p.match(
+                  new RegExp(param.regex.regexPattern, param.regex.regexFlags),
+                );
+              } else if (typeof param.regex === 'string') {
+                match = p.match(RegexParser(param.regex));
+              }
+              if (match) {
                 workspaceOut.push(p);
               }
             }

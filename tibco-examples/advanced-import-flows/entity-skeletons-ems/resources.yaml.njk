@@ -1,0 +1,49 @@
+# Debug inputs
+#                    owner: ${{ values.owner | dump}}
+#                  repoUrl: ${{ values.repoUrl | dump}}
+#          ems_server_name: ${{ values.ems_server_name | dump}}
+#        ems_server_routes: ${{ values.ems_server_routes | dump}}
+#        ems_server_topics: ${{ values.ems_server_topics | dump}}
+# ems_server_global_topics: ${{ values.ems_server_global_topics | dump}}
+#        ems_server_queues: ${{ values.ems_server_queues | dump}}
+
+
+{%- if(values.ems_server_topics.length) %}
+  {%- for topic in values.ems_server_topics %}
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: ${{ topic + "_TOPIC" }}
+  description: ${{ "Topic on " + values.ems_server_name }}
+  tags:
+    - ems
+    - ems-topic
+spec:
+  type: ems-topic
+  lifecycle: production
+  owner: ${{ values.owner }}
+#  system: EMS-Server-Topology
+  dependsOn: ['${{ 'component:default/' + values.ems_server_name }}']
+    {%- endfor %}
+{%- endif %}
+
+{%- if(values.ems_server_queues.length) %}
+  {%- for queue in values.ems_server_queues %}
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: ${{ queue | replace("@", "") + "_QUEUE"  }}
+  description: ${{ "Queue on " + values.ems_server_name }}
+  tags:
+    - ems
+    - ems-queue
+spec:
+  type: ems-queue
+  lifecycle: production
+  owner: ${{ values.owner }}
+#  system: EMS-Server-Topology
+  dependsOn: ['${{ 'component:default/' + values.ems_server_name }}']
+    {%- endfor %}
+{%- endif %}

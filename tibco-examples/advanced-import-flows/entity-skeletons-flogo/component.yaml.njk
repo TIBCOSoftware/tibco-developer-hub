@@ -1,0 +1,49 @@
+# Debug inputs
+#        flogo_project_name: ${{values.flogo_project_name | dump}}
+# flogo_project_description: ${{values.flogo_project_description | dump}}
+#                   repoUrl: ${{values.repoUrl | dump}}
+# flogo_ems_queue_receivers: ${{values.flogo_ems_queue_receivers | dump}}
+#   flogo_ems_queue_senders: ${{values.flogo_ems_queue_senders | dump}}
+#            flogo_task_ids: ${{values.flogo_task_ids | dump}}
+#               flogo_tasks: ${{values.flogo_tasks | dump}}
+#                     owner: ${{ values.owner | dump}}
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+    name: ${{ values.flogo_project_name + "_FLOGO_APP"}}
+{%- if(values.flogo_project_description) %}
+    description: ${{ values.flogo_project_description }}
+{%- endif %}
+    tags:
+      - flogo-app
+    links:
+      - title: TIBCO Flogo Enterprise
+        url: https://docs.tibco.com/products/tibco-flogo-enterprise
+    annotations:
+      github.com/project-slug: ${{ "https://"  + (values.repoUrl | parseRepoUrl).host + "/" + (values.repoUrl | parseRepoUrl).owner + "/" +  (values.repoUrl | parseRepoUrl).repo }}
+spec:
+    type: flogo
+    lifecycle: production
+    owner: ${{ values.owner }}
+{%- if(values.flogo_ems_queue_senders.length) or (values.flogo_ems_queue_receivers.length) %}
+    dependsOn:
+{%- for qsend in values.flogo_ems_queue_senders %}
+      - ${{ "resource:default/" + qsend + "_EMS_QUEUE" }}
+  {%- endfor %}
+{%- for qres in values.flogo_ems_queue_receivers %}
+      - ${{ "resource:default/" + qres + "_EMS_QUEUE" }}
+  {%- endfor %}      
+{%- endif %}
+{%- if(values.flogo_tasks.length) %}
+  {%- for ftask in values.flogo_tasks %}
+      - ${{ "resource:default/" + values.flogo_project_name + "_" + ftask.name + "_FLOGO_TASK" }}
+  {%- endfor %}
+{%- endif %}
+{%- if(values.flogo_api_swagger_triggers.length) %}
+    providesApi:
+  {%- for fapi in values.flogo_api_swagger_triggers %}
+    {%- if(fapi.settings.swagger.filename) %}
+      - ${{ fapi.settings.swagger.filename | replace(".json", "") }}
+        {%- endif %}
+    {%- endfor %}
+{%- endif %}

@@ -1,0 +1,50 @@
+# Every WSDL file becomes an API
+#
+# Debug inputs
+#       application_folder: ${{ values.application_folder | dump}}
+#              application: ${{ values.application | dump}}
+#         bw5_project_name: ${{values.bw5_project_name | dump}}
+#              bw5_project: ${{ values.bw5_project | dump}}
+#         bw5_project_name: ${{ values.bw5_project_name | dump}}
+#  bw5_project_description: ${{ values.bw5_project_description | dump}}
+#                  repoUrl: ${{ values.repoUrl | dump}}
+#                    owner: ${{ values.owner | dump}}
+#                api_files: ${{ values.api_files | dump}}
+#          api_files_names: ${{ values.api_files_names | dump}}
+#                 db_files: ${{ values.db_files | dump}}
+#           db_files_names: ${{ values.db_files_names | dump}}
+#            process_files: ${{ values.process_files | dump}}
+#      process_files_names: ${{ values.process_files_names | dump}}
+
+
+{%- if(values.api_files_names.length) %}
+  {%- for api in values.api_files_names %}
+    {%- if(api) %}
+---    
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ${{ api | replace(".wsdl", "") }}
+  description: ${{ 'An API for ' + api | replace(".wsdl", "") }}
+  tags:
+    - store
+    - wsdl
+  links:
+    - url: ${{ "https://"  + (values.repoUrl | parseRepoUrl).host + "/" + (values.repoUrl | parseRepoUrl).owner + "/" +  (values.repoUrl | parseRepoUrl).repo }}
+      title: GitHub Repo
+      icon: github
+    - url: ${{ "https://"  + (values.repoUrl | parseRepoUrl).host + "/" + (values.repoUrl | parseRepoUrl).owner + "/" +  (values.repoUrl | parseRepoUrl).repo + "/blob/main/" + values.application_folder + "/" + values.application + "/" + values.api_files[loop.index0] }}
+      title: API Spec
+      icon: code
+spec:
+  type: wsdl
+  lifecycle: production
+  owner: ${{ values.owner }}
+  system: bw5-projects
+  # system: ${{values.bw5_project['@_name']}}
+  apiProvidedBy: ['${{'component:default/' + values.bw5_project['@_name']}}']
+  definition:
+    $text: ${{ "https://"  + (values.repoUrl | parseRepoUrl).host + "/" + (values.repoUrl | parseRepoUrl).owner + "/" +  (values.repoUrl | parseRepoUrl).repo + "/blob/main/" + values.application_folder + "/" + values.application + "/" + values.api_files[loop.index0] }}
+        {%- endif %}
+    {%- endfor %}
+{%- endif %}

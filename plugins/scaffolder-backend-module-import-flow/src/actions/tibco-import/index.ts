@@ -4,3 +4,4 @@
 
 export { ExtractParametersAction } from './extract-parameters';
 export { createYamlAction } from './create-yaml';
+export { customFilters } from './custom-filters.ts';

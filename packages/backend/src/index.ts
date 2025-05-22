@@ -3,8 +3,6 @@
  */
 
 import { createBackend } from '@backstage/backend-defaults';
-import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
-import { createBackendModule } from '@backstage/backend-plugin-api';
 import proxy from 'express-http-proxy';
 import { promises, existsSync } from 'fs';
 import { DevHubConfig } from './config';
@@ -15,10 +13,6 @@ import { join } from 'path';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import 'global-agent/bootstrap';
 import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
-import {
-  ExtractParametersAction,
-  createYamlAction,
-} from '@internal/backstage-plugin-scaffolder-backend-module-import-flow';
 import {
   coreServices,
   createServiceFactory,
@@ -146,26 +140,16 @@ backend.add(
 
 backend.add(import('@backstage/plugin-app-backend'));
 backend.add(import('@backstage/plugin-proxy-backend'));
+
+backend.add(
+  import('@internal/backstage-plugin-scaffolder-backend-module-import-flow'),
+);
+backend.add(
+  import('@internal/plugin-scaffolder-backend-module-tibco-git-repositories'),
+);
 backend.add(import('@backstage/plugin-scaffolder-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
-
-const scaffolderModuleCustomExtensions = createBackendModule({
-  pluginId: 'scaffolder', // name of the plugin that the module is targeting
-  moduleId: 'custom-extensions',
-  register(env) {
-    env.registerInit({
-      deps: {
-        scaffolder: scaffolderActionsExtensionPoint,
-      },
-      async init({ scaffolder }) {
-        scaffolder.addActions(new (ExtractParametersAction as any)());
-        scaffolder.addActions(new (createYamlAction as any)());
-      },
-    });
-  },
-});
-backend.add(scaffolderModuleCustomExtensions);
 backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // auth plugin
