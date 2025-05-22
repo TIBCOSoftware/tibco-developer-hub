@@ -10,6 +10,7 @@ import {
   RootConfigService,
 } from '@backstage/backend-plugin-api';
 import { existsSync } from 'fs';
+import { examples } from './git-push.examples.ts';
 
 export function gitPushAction(config: RootConfigService) {
   return createTemplateAction<{
@@ -21,6 +22,8 @@ export function gitPushAction(config: RootConfigService) {
     branch?: string;
   }>({
     id: 'tibco:git:push',
+    description: 'Commits and push to a git repository.',
+    examples,
     schema: {
       input: z.object({
         sourcePath: z

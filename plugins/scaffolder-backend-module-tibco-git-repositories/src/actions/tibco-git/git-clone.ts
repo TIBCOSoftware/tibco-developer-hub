@@ -14,6 +14,7 @@ import {
   DefaultGithubCredentialsProvider,
   ScmIntegrations,
 } from '@backstage/integration';
+import { examples } from './git-clone.examples.ts';
 
 export function gitCloneAction(config: RootConfigService) {
   return createTemplateAction<{
@@ -24,6 +25,8 @@ export function gitCloneAction(config: RootConfigService) {
     token?: string;
   }>({
     id: 'tibco:git:clone',
+    description: 'Clones a git repository.',
+    examples,
     schema: {
       input: z.object({
         sourcePath: z
