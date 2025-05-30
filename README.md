@@ -120,6 +120,7 @@ docker build -t <customImageName:customImageTag> .
 
 | TIBCO Developer Hub Version | Minimum TIBCO Platform Version |
 |-----------------------------|--------------------------------|
+| 1.7.0                       | 1.7.0                          |
 | 1.6.0                       | 1.6.0                          |
 | 1.5.1                       | 1.4.0                          |
 | 1.5.0                       | 1.4.0                          |

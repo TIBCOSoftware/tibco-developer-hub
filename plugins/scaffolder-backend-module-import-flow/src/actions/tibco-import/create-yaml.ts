@@ -15,7 +15,7 @@ export function createYamlAction() {
     sourcePath?: string;
     failOnError?: boolean;
     outputFile?: string;
-    outputStructure: Entity;
+    outputStructure: Entity | Entity[];
   }>({
     id: 'tibco:create-yaml',
     description:
@@ -41,9 +41,12 @@ export function createYamlAction() {
           .describe(
             'The name of the output yaml file, optional, default is catalog-info.yaml',
           ),
-        outputStructure: z.record(z.union([z.string(), z.number(), z.any()]), {
-          description: 'Output structure',
-        }),
+        outputStructure: z
+          .union([
+            z.union([z.string(), z.number(), z.any()]),
+            z.array(z.union([z.string(), z.number(), z.any()])),
+          ])
+          .describe('Output structure'),
       }),
     },
     async handler(ctx) {
@@ -62,12 +65,20 @@ export function createYamlAction() {
       );
       ctx.logger.info(`Final workspace path: ${relativeWorkspacePath}`);
       try {
-        const yamlData = dump(ctx.input.outputStructure);
+        const yamlData = [];
+        if (Array.isArray(ctx.input.outputStructure)) {
+          for (const str of ctx.input.outputStructure) {
+            yamlData.push(dump(str));
+          }
+        } else {
+          yamlData.push(dump(ctx.input.outputStructure));
+        }
         const filePath = resolveSafeChildPath(
           relativeWorkspacePath,
           outFileName,
         );
-        await promises.writeFile(filePath, yamlData, 'utf8');
+        const outYamlData = yamlData.join('\n---\n');
+        await promises.writeFile(filePath, outYamlData, 'utf8');
         ctx.logger.info(`Created Yaml file with name: ${outFileName}`);
       } catch (err) {
         ctx.logger.error(`Error while creating Yaml file`);

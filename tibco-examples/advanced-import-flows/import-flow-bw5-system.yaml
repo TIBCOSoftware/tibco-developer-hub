@@ -1,0 +1,224 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: import-flow-bw5-system
+  title: Import flow for BW5 System
+  description: Import existing BW5 systems into TIBCO Developer Hub
+  tags:
+    - import-flow
+    - tibco
+    - business-works-5
+    - developer-hub
+spec:
+  owner: group:default/tibco-imported
+  type: integration
+
+  parameters:
+    - title: Repository Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: GitHub repository with Existing BusinessWorks 5 Project
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+    - title: Fill in some steps
+      required:
+        - application
+        - owner
+      properties:
+        application_folder:
+          title: BusinessWorks 5 Application Folder
+          type: string
+          description: Folder of BusinessWorks 5 Application to import
+        application:
+          title: BusinessWorks 5 Application
+          type: string
+          description: Name of the BusinessWorks 5 Application to import
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the template
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+
+  # The import flow consist out of 4 general steps:
+  # 1. Fetch the project from GitHub
+  # 2. Generate the Component YAML
+  # 3. Commit the Component YAML file back to the GitHub project
+  # 4. Register the Component in the catalog
+
+  steps:
+    # Get the repo with the BW5 Source code
+    - id: clone
+      name: Clone the Project
+      action: tibco:git:clone
+      input:
+        failOnError: true
+        repoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
+
+    # Extract the parameters from the BW5 project
+    - id: extract
+      name: Extract Parameters
+      action: tibco:extract-parameters
+      input:
+        failOnError: true
+        extractParameters:
+          bw5_project:
+            type: xml
+            filePath: ${{ parameters.application_folder + "/" + parameters.application + "/.folder"}}
+            jsonPath: "$['Repository:repository'].folder"
+          bw5_project_name:
+            type: xml
+            filePath: ${{ parameters.application_folder + "/" + parameters.application + "/.folder"}}
+            jsonPath: "$['Repository:repository'].folder['@_name']"
+          bw5_project_description:
+            type: xml
+            filePath: ${{ parameters.application_folder + "/" + parameters.application + "/.folder"}}
+            jsonPath: "$['Repository:repository'].folder.description"
+          api_files:
+            type: workspace
+            onlyName: false
+            directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
+            regex: "(.*).wsdl"
+          api_files_names:
+            type: workspace
+            onlyName: true
+            directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
+            regex: "(.*).wsdl"
+          db_files:
+            type: workspace
+            onlyName: false
+            directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
+            regex: "(.*).sharedjdbc"
+          db_files_names:
+            type: workspace
+            onlyName: true
+            directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
+            regex: "(.*).sharedjdbc"
+          process_files:
+            type: workspace
+            onlyName: false
+            directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
+            regex: "(.*).process"
+          process_files_names:
+            type: workspace
+            onlyName: true
+            directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
+            regex: "(.*).process"
+#
+#    # The import flow debug step, enable it for debugging
+#    - id: log-debug
+#      name: Debug Logs
+#      action: debug:log
+#      input:
+#        message: "Fetched the bw5 Skeleton template"
+#        listWorkspace: true
+
+    # Create the Developer Hub YAML Files from the templates, using the input values
+    - id: fetchRS
+      name: Resource Skeleton
+      action: fetch:template
+      input:
+        url: ./entity-skeletons-bw5-system/
+        targetPath: ${{ parameters.application_folder }}
+        templateFileExtension: true
+        values:
+          application_folder: ${{ parameters.application_folder }}
+          application: ${{ parameters.application }}
+          bw5_project: ${{ steps.extract.output.bw5_project[0] }}
+          bw5_project_name: ${{ steps.extract.output.bw5_project_name[0] }}
+          bw5_project_description: ${{ steps.extract.output.bw5_project_description[0] }}
+          repoUrl: ${{ parameters.repoUrl }}
+          owner: ${{ parameters.owner }}
+          api_files: ${{ steps.extract.output.api_files }}
+          api_files_names: ${{ steps.extract.output.api_files_names }}
+          db_files: ${{ steps.extract.output.db_files }}
+          db_files_names: ${{ steps.extract.output.db_files_names }}
+          process_files: ${{ steps.extract.output.process_files }}
+          process_files_names: ${{ steps.extract.output.process_files_names }}
+
+    # Rename files
+    - id: rename
+      name: Rename Descriptor Files
+      action: fs:rename
+      input:
+        files:
+          - from:  ${{ parameters.application_folder + "/system.yaml" }}
+            to: ${{ parameters.application_folder + "/system-" + parameters.application + ".yaml" }}
+            overwrite: true
+          - from: ${{ parameters.application_folder + "/component.yaml" }}
+            to: ${{ parameters.application_folder + "/components-" + parameters.application + ".yaml" }}
+            overwrite: true
+          - from:  ${{ parameters.application_folder + "/resources.yaml" }}
+            to: ${{ parameters.application_folder + "/resources-" + parameters.application + ".yaml" }}
+            overwrite: true
+          - from:  ${{ parameters.application_folder + "/apis.yaml" }}
+            to: ${{ parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
+            overwrite: true
+
+# Push the resulting YAML files back into the repository
+    - id: push
+      name: Push Current Repo
+      action: tibco:git:push
+      input:
+        failOnError: true
+
+# Register the BW5 System
+    - id: registerSystem
+      name: Register System
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/system-" + parameters.application + ".yaml" }}
+
+# Register the BW5 Components, Resources and API's
+    - id: registerComponents
+      name: Register Components
+      if: ${{ (steps.extract.output.process_files.length > 0) }}
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/components-" + parameters.application + ".yaml" }}
+
+    - id: registerResources
+      name: Register Resources
+      if: ${{ (steps.extract.output.db_files.length > 0) }}
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/resources-" + parameters.application + ".yaml" }}
+
+    - id: registerApis
+      name: Register API's
+      if: ${{ (steps.extract.output.api_files.length > 0) }}
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
+
+  output:
+    links:
+      - title: Business Works 5 Documentation
+        icon: catalog
+        url: https://docs.tibco.com/products/tibco-activematrix-businessworks-5-16-1
+      - title: Open in catalog (System)
+        icon: catalog
+        entityRef: ${{ steps.registerSystem.output.entityRef }}
+      - title: Open in catalog (Components)
+        icon: catalog
+        entityRef: ${{ steps.registerComponents.output.entityRef }}
+      - title: Open in catalog (Resources)
+        icon: catalog
+        entityRef: ${{ steps.registerResources.output.entityRef }}
+      - title: Open in catalog (API's)
+        icon: catalog
+        entityRef: ${{ steps.registerApis.output.entityRef }}
+      - title: Repository (Pull Request)
+        url: ${{ steps.cpr.output.remoteUrl }}

@@ -133,9 +133,8 @@ const SidebarCustom = () => {
   const classes = useSidebarStyles();
   const { isOpen } = useSidebarOpenState();
   const config = useApi(configApiRef);
-  const configApi = useApi(configApiRef);
-  const developerHubVersion = configApi.getOptional('app.developerHubVersion');
-  const customDeveloperHubVersion = configApi.getOptional(
+  const developerHubVersion = config.getOptional('app.developerHubVersion');
+  const customDeveloperHubVersion = config.getOptional(
     'tibcoDeveloperHubCustomAppVersion',
   );
   let cpLink = config.getOptionalString('cpLink') as string;

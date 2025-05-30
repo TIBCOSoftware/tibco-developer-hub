@@ -1,20 +1,25 @@
-define: &docUrl 'https://docs.tibco.com/go/platform-cp/1.6.0/doc/html#cshid=developer_hub_overview'
+define: &docUrl ${DOC_URL}
 app:
   title: TIBCO® Developer Hub
-  baseUrl: http://localhost:3000/tibco/hub
+  baseUrl: http://localhost:7007/tibco/hub
   support:
     url: https://support.tibco.com/s/
     items:
       - title: 'TIBCO Support Page'
-        icon: 'email'
+        icon: email
         links:
           - url: 'https://support.tibco.com/s/'
             title: 'TIBCO Support'
       - title: 'TIBCO Documentation Page'
-        icon: 'docs'
+        icon: docs
         links:
           - url: *docUrl
             title: 'TIBCO® Developer Hub Documentation'
+      - title: 'TIBCO® Developer Hub Open Source Repository'
+        icon: github
+        links:
+          - url: 'https://github.com/TIBCOSoftware/tibco-developer-hub'
+            title: 'TIBCO® Developer Hub Open Source Repository'
   docUrl: *docUrl
 
 organization:

@@ -68,3 +68,5 @@ environment.sh
 
 .idea
 
+# Local environment variables
+/.env.yarn

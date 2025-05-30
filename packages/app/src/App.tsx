@@ -44,7 +44,6 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 import { HomepageCompositionRoot } from '@backstage/plugin-home';
 import { HomePage } from './components/home/HomePage';
 import LightIcon from '@material-ui/icons/WbSunny';
-import '@fontsource/source-sans-pro';
 import {
   configApiRef,
   githubAuthApiRef,
@@ -62,6 +61,12 @@ import { Button } from '@material-ui/core';
 import { UnifiedThemeProvider } from '@backstage/theme';
 import { ImportFlowPage } from '@internal/backstage-plugin-import-flow';
 import { catalogMessages } from './translations/catalogIndex';
+import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
+import {
+  TemplateGroups,
+  templateGroupsValue,
+} from './components/scaffolder/CustomScaffolderComponent.tsx';
+import { CustomScaffolderPage } from './components/scaffolder/plugin.ts';
 
 export const generateProviders = (providerConfig: string[]): any[] => {
   const providers: any[] = [];
@@ -157,6 +162,53 @@ const app = createApp({
   ],
 });
 
+const CustomImportflowPage = () => {
+  const config = useApi(configApiRef);
+  const importFlowGroups: undefined | TemplateGroups[] = templateGroupsValue(
+    config.getOptional('importFlowGroups'),
+  );
+  let groups: any[] = [
+    {
+      title: 'Import Flows',
+      filter: () => true,
+    },
+  ];
+  if (importFlowGroups) {
+    groups = [];
+    for (const importFlowGroup of importFlowGroups) {
+      groups.push({
+        title: importFlowGroup.name,
+        filter: (entity: TemplateEntityV1beta3) => {
+          for (const tag of importFlowGroup.tagFilters) {
+            if (entity.metadata?.tags?.includes(tag)) {
+              return true;
+            }
+          }
+          return false;
+        },
+      });
+    }
+  }
+  return (
+    <ScaffolderPage
+      templateFilter={entity =>
+        !!entity.metadata.tags
+          ?.map(v => v.toLowerCase())
+          .includes('import-flow')
+      }
+      groups={groups}
+      components={{
+        EXPERIMENTAL_TemplateListPageComponent: ImportFlowPage,
+      }}
+      headerOptions={{
+        pageTitleOverride: 'Import Flow',
+        title: 'Import Flow',
+        subtitle: 'Import new software components using import flows',
+      }}
+    />
+  );
+};
+
 const routes = (
   <FlatRoutes>
     {/* <Navigate key="/" to="catalog" />*/}
@@ -182,50 +234,8 @@ const routes = (
         <ReportIssue />
       </TechDocsAddons>
     </Route>
-    <Route
-      path="/import-flow"
-      element={
-        <ScaffolderPage
-          templateFilter={entity =>
-            !!entity.metadata.tags
-              ?.map(v => v.toLowerCase())
-              .includes('import-flow')
-          }
-          groups={[
-            {
-              title: 'Import Flows',
-              filter: () => true,
-            },
-          ]}
-          components={{
-            EXPERIMENTAL_TemplateListPageComponent: ImportFlowPage,
-          }}
-          headerOptions={{
-            pageTitleOverride: 'Import Flow',
-            title: 'Import Flow',
-            subtitle: 'Import new software components using import flows',
-          }}
-        />
-      }
-    />
-    <Route
-      path="/create"
-      element={
-        <ScaffolderPage
-          templateFilter={entity =>
-            !entity.metadata.tags
-              ?.map(v => v.toLowerCase())
-              .includes('import-flow')
-          }
-          headerOptions={{
-            pageTitleOverride: 'Develop a new component',
-            title: 'Develop a new component',
-            subtitle:
-              'Develop new software components using standard templates in your organization',
-          }}
-        />
-      }
-    />
+    <Route path="/import-flow" element={<CustomImportflowPage />} />
+    <Route path="/create" element={<CustomScaffolderPage />} />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
       path="/catalog-import"
