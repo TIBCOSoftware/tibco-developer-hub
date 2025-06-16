@@ -12,7 +12,7 @@ jest.mock('@backstage/plugin-permission-react', () => ({
   usePermission: jest.fn(),
 }));
 
-describe('RegisterExistingButton', () => {
+describe('RegisterExistingButton for import flow', () => {
   beforeEach(() => {
     (usePermission as jest.Mock).mockClear();
   });

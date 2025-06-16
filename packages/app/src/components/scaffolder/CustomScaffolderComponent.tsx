@@ -17,22 +17,27 @@ export const templateGroupsValue = (
   if (!templateGroups || !Array.isArray(templateGroups)) {
     return undefined;
   }
+  const out = [];
   for (const templateGroup of templateGroups) {
     if (
-      !templateGroup.name ||
-      typeof templateGroup.name !== 'string' ||
-      !templateGroup.tagFilters ||
-      !Array.isArray(templateGroup.tagFilters)
+      templateGroup.name &&
+      typeof templateGroup.name === 'string' &&
+      templateGroup.tagFilters &&
+      Array.isArray(templateGroup.tagFilters)
     ) {
-      return undefined;
-    }
-    for (const tagFilter of templateGroup.tagFilters) {
-      if (typeof tagFilter !== 'string') {
-        return undefined;
+      let valid = true;
+      for (const tagFilter of templateGroup.tagFilters) {
+        if (typeof tagFilter !== 'string') {
+          valid = false;
+          break;
+        }
+      }
+      if (valid) {
+        out.push(templateGroup);
       }
     }
   }
-  return templateGroups;
+  return out;
 };
 
 export const CustomScaffolderComponent = () => {

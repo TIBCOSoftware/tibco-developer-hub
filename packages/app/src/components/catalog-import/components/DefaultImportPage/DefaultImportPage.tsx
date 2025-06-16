@@ -29,14 +29,14 @@ export const DefaultImportPage = () => {
   const appTitle: string = configApi.getOptional('app.title') || 'Backstage';
 
   const contentItems = [
-    <Grid item xs={12} md={4} lg={6} xl={8}>
+    <Grid item xs={12} md={4} lg={6} xl={8} key={1}>
       <ImportInfoCard
         exampleLocationUrl="https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-examples.yaml"
         exampleRepositoryUrl="https://github.com/TIBCOSoftware/tibco-developer-hub"
       />
     </Grid>,
 
-    <Grid item xs={12} md={8} lg={6} xl={4}>
+    <Grid item xs={12} md={8} lg={6} xl={4} key={2}>
       <ImportStepper />
     </Grid>,
   ];

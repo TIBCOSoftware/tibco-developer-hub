@@ -2,4 +2,7 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-export { ApplicationDeploymentsCard } from './ApplicationDeploymentsCard';
+export {
+  ApplicationDeploymentsCard,
+  ApplicationDeploymentsError,
+} from './ApplicationDeploymentsCard';
