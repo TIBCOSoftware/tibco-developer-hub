@@ -98,7 +98,7 @@ Example:
 File name: .env.yarn
 
 ```
-DOC_URL="https://docs.tibco.com/go/platform-cp/1.6.0/doc/html#cshid=developer_hub_overview"
+DOC_URL="https://docs.tibco.com/go/platform-cp/1.8.0/doc/html#cshid=developer_hub_overview"
 GITHUB_TOKEN=xxxxxxxxxx
 ```
 
@@ -120,6 +120,7 @@ docker build -t <customImageName:customImageTag> .
 
 | TIBCO Developer Hub Version | Minimum TIBCO Platform Version |
 |-----------------------------|--------------------------------|
+| 1.8.0                       | 1.7.0                          |
 | 1.7.0                       | 1.7.0                          |
 | 1.6.0                       | 1.6.0                          |
 | 1.5.1                       | 1.4.0                          |

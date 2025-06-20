@@ -20,12 +20,15 @@ const ENTITY_YAML = `metadata:
       dpId: demodpid1
       capabilityInstanceId: democapabilityInstanceid1
       appId: demoappid1
+      controlPlaneName: control plane1
+      controlPlaneUrl: https://<cp url>
     - appType: BWCE
       appName: BWCE-app1
       dataPlaneName: DP-prod
       dpId: demodpid2
       capabilityInstanceId: democapabilityInstanceid2
-      appId: demoappid2`;
+      appId: demoappid2
+      controlPlaneId: cp2`;
 
 /** @public */
 export type DeploymentsEmptyStateClassKey = 'code';
@@ -58,7 +61,9 @@ export function DeploymentsEmptyState() {
           text={ENTITY_YAML}
           language="yaml"
           showLineNumbers
-          highlightedNumbers={[5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]}
+          highlightedNumbers={[
+            5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+          ]}
           customStyle={{ background: 'inherit', fontSize: '115%' }}
         />
       </div>

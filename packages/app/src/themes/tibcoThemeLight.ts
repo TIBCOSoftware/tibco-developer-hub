@@ -285,7 +285,7 @@ export const tibcoThemeLight = createUnifiedTheme({
             marginRight: 'unset',
             paddingRight: 'unset',
           },
-          backgroundColor: '#1774E5 !important',
+          backgroundColor: '#1774E5',
         },
       },
     },

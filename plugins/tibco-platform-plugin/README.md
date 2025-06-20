@@ -71,12 +71,15 @@ metadata:
       dpId: demodpid1
       capabilityInstanceId: democapabilityInstanceid1
       appId: demoappid1
+      controlPlaneName: control plane1
+      controlPlaneUrl: https://<cp url>
     - appType: BWCE
       appName: BWCE-app1
       dataPlaneName: DP-prod
       dpId: demodpid2
       capabilityInstanceId: democapabilityInstanceid2
       appId: demoappid2
+      controlPlaneId: cp2
 spec:
   type: service
   lifecycle: experimental

@@ -2,10 +2,10 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import { ImportFlowPlugin } from './plugin';
+import { ImportFlowPage } from './plugin';
 
-describe('tibco-platform-plugin', () => {
-  it('should export plugin', () => {
-    expect(ImportFlowPlugin).toBeDefined();
+describe('import-flow-page', () => {
+  it('should export import-flow-page', () => {
+    expect(ImportFlowPage).toBeDefined();
   });
 });

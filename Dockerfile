@@ -33,7 +33,7 @@ RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 
     apk update && \
     apk add nodejs-$NODE_VERSION yarn \
     # Install isolate-vm dependencies, these are needed by the @backstage/plugin-scaffolder-backend.
-    openssl-dev brotli-dev c-ares-dev nghttp2-dev icu-dev zlib-dev gcc-12 libuv-dev build-base
+    openssl-dev brotli-dev c-ares-dev nghttp2-dev icu-dev zlib-dev gcc-12 libuv-dev build-base libuuid
 
 WORKDIR /app
 RUN chown -R nonroot:nonroot /app
@@ -52,6 +52,7 @@ RUN --mount=type=cache,target=/home/nonroot/.yarn/berry/cache,sharing=locked,uid
 
 COPY --chown=65532:65532 . .
 
+RUN yarn test:all
 RUN yarn tsc
 RUN yarn --cwd packages/backend build
 
@@ -116,6 +117,7 @@ RUN chown -R 65532:65532 /tmp
 USER 65532:65532
 
 COPY --from=build --chown=65532:65532 /app/packages/backend/dist/bundle/ ./
+COPY --from=build --chown=65532:65532 /app/coverage/ ./coverage
 COPY --from=node-builder --chown=65532:65532 /app/node_modules ./node_modules
 COPY --from=python-builder --chown=65532:65532 /home/nonroot/venv /home/nonroot/venv
 ENV PATH=/home/nonroot/venv/bin:$PATH

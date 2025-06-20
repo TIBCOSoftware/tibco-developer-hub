@@ -110,15 +110,16 @@ export const HomePage = () => {
                 card.itemsInfo = walkthrough.items || [];
               } else {
                 let items = result[index]?.items;
-                if (card.type === HomeCardType.Template) {
-                  items = items.filter(
-                    (item: any) =>
-                      !item.metadata.tags
-                        ?.map((v: any) => v.toLowerCase())
-                        .includes('import-flow'),
-                  );
-                }
                 if (items) {
+                  if (card.type === HomeCardType.Template) {
+                    items = items.filter(
+                      (item: any) =>
+                        !item.metadata.tags
+                          ?.map((v: any) => v.toLowerCase())
+                          .includes('import-flow'),
+                    );
+                  }
+
                   let itemsInfo = [];
                   if (stars && stars.length > 0) {
                     for (const item of items) {

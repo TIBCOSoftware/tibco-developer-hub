@@ -13,6 +13,16 @@ body {
 html {
   box-sizing: border-box;
 }
+.MuiPopover-root .MuiPopover-paper::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: #0e2d65 transparent transparent transparent;
+}
 *,
 *:before,
 *:after {
