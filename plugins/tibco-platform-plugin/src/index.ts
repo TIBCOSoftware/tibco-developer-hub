@@ -6,4 +6,5 @@ export {
   tibcoPlatformPlugin,
   PlatformApplicationDeploymentsCard,
   PlatformApplicationDeploymentsPage,
+  PlatformApplicationDeploymentsError,
 } from './plugin';

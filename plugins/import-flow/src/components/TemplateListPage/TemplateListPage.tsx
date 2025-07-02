@@ -22,6 +22,7 @@ import {
   EntityTagPicker,
   CatalogFilterLayout,
   UserListPicker,
+  EntityOwnerPicker,
 } from '@backstage/plugin-catalog-react';
 import {
   ScaffolderPageContextMenu,
@@ -158,9 +159,7 @@ export const TemplateListPage = (props: TemplateListPageProps) => {
               to={registerComponentLink && registerComponentLink()}
             />
             <SupportButton>
-              Create new software components using standard templates. Different
-              templates create different kinds of components (services,
-              websites, documentation, ...).
+              Import new software components using import flows
             </SupportButton>
           </ContentHeader>
 
@@ -174,6 +173,7 @@ export const TemplateListPage = (props: TemplateListPageProps) => {
               />
               <TemplateCategoryPicker />
               <EntityTagPicker />
+              <EntityOwnerPicker />
             </CatalogFilterLayout.Filters>
             <CatalogFilterLayout.Content>
               <TemplateGroups

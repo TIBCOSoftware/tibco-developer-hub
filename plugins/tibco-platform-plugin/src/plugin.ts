@@ -39,3 +39,16 @@ export const PlatformApplicationDeploymentsCard = tibcoPlatformPlugin.provide(
     },
   }),
 );
+
+/** @public */
+export const PlatformApplicationDeploymentsError = tibcoPlatformPlugin.provide(
+  createComponentExtension({
+    name: 'PlatformApplicationDeploymentsError',
+    component: {
+      lazy: () =>
+        import('./components/ApplicationDeploymentsCard').then(
+          m => m.ApplicationDeploymentsError,
+        ),
+    },
+  }),
+);

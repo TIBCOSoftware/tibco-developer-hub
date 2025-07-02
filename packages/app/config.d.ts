@@ -70,6 +70,27 @@ export interface Config {
     }[];
   };
   /**
+   * Secondary control planes configuration
+   * @visibility frontend
+   */
+  secondaryControlPlanes?: {
+    /**
+     * Name of the control plane
+     * @visibility frontend
+     */
+    name?: string;
+    /**
+     * Url of the control plane
+     * @visibility frontend
+     */
+    url?: string;
+    /**
+     * Id of the control plane
+     * @visibility frontend
+     */
+    id?: string;
+  }[];
+  /**
    * Template groups configuration
    * @visibility frontend
    */
@@ -78,12 +99,12 @@ export interface Config {
      * Name of the group
      * @visibility frontend
      */
-    name: string;
+    name?: string;
     /**
      * Tags in array
      * @visibility frontend
      */
-    tagFilters: string[];
+    tagFilters?: string[];
   }[];
   /**
    * Importflow groups configuration
@@ -94,12 +115,12 @@ export interface Config {
      * Name of the group
      * @visibility frontend
      */
-    name: string;
+    name?: string;
     /**
      * Tags in array
      * @visibility frontend
      */
-    tagFilters: string[];
+    tagFilters?: string[];
   }[];
   /**
    * Control plane link for the TIBCO® Developer Hub

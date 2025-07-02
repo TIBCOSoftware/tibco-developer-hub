@@ -25,7 +25,7 @@ Example config:
 
 ```yaml
 app:
-  developerHubVersion: '1.6.0'
+  developerHubVersion: '1.8.0'
 ```
 
 ## Doc Url
@@ -34,10 +34,26 @@ Documentation url
 
 ```yaml
 app:
-  docUrl: 'https://docs.tibco.com/go/platform-cp/1.6.0/doc/html#cshid=developer_hub_overview'
+  docUrl: 'https://docs.tibco.com/go/platform-cp/1.8.0/doc/html#cshid=developer_hub_overview'
 ```
 
 The CI/CD pipeline automatically adds the build number to all docker images.
+
+## Secondary Control Planes
+
+Configure multiple control planes
+
+Example config:
+
+```yaml
+secondaryControlPlanes:
+  - name: 'Control Plane 1'
+    url: 'https://<link to cp1>'
+    id: cp1
+  - name: 'Control Plane 2'
+    url: 'https://<link to cp2>'
+    id: cp2
+```
 
 ## Walk Through
 

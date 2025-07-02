@@ -209,7 +209,7 @@ const CustomImportflowPage = () => {
   );
 };
 
-const routes = (
+export const routes = (
   <FlatRoutes>
     {/* <Navigate key="/" to="catalog" />*/}
     <Route path="/" element={<HomepageCompositionRoot />}>
