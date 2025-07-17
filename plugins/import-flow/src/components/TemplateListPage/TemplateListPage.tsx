@@ -57,7 +57,7 @@ export type TemplateListPageProps = {
 };
 
 const defaultGroup: TemplateGroupFilter = {
-  title: 'Templates',
+  title: 'Import Flows',
   filter: () => true,
 };
 
@@ -143,7 +143,7 @@ export const TemplateListPage = (props: TemplateListPageProps) => {
 
   return (
     <EntityListProvider>
-      <Page themeId="home">
+      <Page themeId="import-flow">
         <Header
           pageTitleOverride="Create a new component"
           title="Create a new component"

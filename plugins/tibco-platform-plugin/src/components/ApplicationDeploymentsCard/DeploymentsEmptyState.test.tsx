@@ -18,7 +18,7 @@ describe('<DeploymentsEmptyState> for tibco-platform-plugin', () => {
             new ConfigReader({
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.8.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
               },
             }),
           ],
@@ -35,7 +35,7 @@ describe('<DeploymentsEmptyState> for tibco-platform-plugin', () => {
     ).toBeInTheDocument();
     expect(getByText('Read more').closest('a')).toHaveAttribute(
       'href',
-      'https://docs.tibco.com/go/platform-cp/1.8.0/doc/html#cshid=developer_hub_overview',
+      'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
     );
     expect(getByText('tibcoPlatformApps:')).toBeInTheDocument();
   });

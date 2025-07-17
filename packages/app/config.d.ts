@@ -123,6 +123,22 @@ export interface Config {
     tagFilters?: string[];
   }[];
   /**
+   * Marketplace groups configuration
+   * @visibility frontend
+   */
+  marketplaceGroups?: {
+    /**
+     * Name of the group
+     * @visibility frontend
+     */
+    name: string;
+    /**
+     * Tags in array
+     * @visibility frontend
+     */
+    tagFilters: string[];
+  }[];
+  /**
    * Control plane link for the TIBCO® Developer Hub
    * @visibility frontend
    */

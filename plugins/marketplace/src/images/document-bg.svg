@@ -1,0 +1,17 @@
+<!--
+  - Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+  -->
+
+<svg width="352" height="75" viewBox="0 0 352 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6687_9869)">
+<rect y="0.0917969" width="352" height="74" rx="6" fill="#2C365E"/>
+<g style="mix-blend-mode:multiply">
+<path d="M351.999 68.0918V6.0918C351.999 2.77809 349.313 0.0917969 345.999 0.0917969H323.62L281.818 74.0918H345.999C349.313 74.0918 351.999 71.4055 351.999 68.0918Z" fill="#007BA7" fill-opacity="0.5"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_6687_9869">
+<rect y="0.0917969" width="352" height="74" rx="6" fill="white"/>
+</clipPath>
+</defs>
+</svg>

@@ -64,9 +64,14 @@ export const CustomScaffolderComponent = () => {
   }
   return (
     <ScaffolderPage
-      templateFilter={entity =>
-        !entity.metadata.tags?.map(v => v.toLowerCase()).includes('import-flow')
-      }
+      templateFilter={entity => {
+        const tags = entity.metadata.tags?.map(v => v.toLowerCase());
+        return !(
+          tags?.includes('import-flow') ||
+          tags?.includes('devhub-marketplace') ||
+          tags?.includes('devhub-internal')
+        );
+      }}
       groups={groups}
       headerOptions={{
         pageTitleOverride: 'Develop a new component',

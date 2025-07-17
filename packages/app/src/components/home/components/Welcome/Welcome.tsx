@@ -14,7 +14,7 @@ export const Welcome = (props: WelcomeData) => {
       </div>
       <div className="tpdh-welcome-desc">
         TIBCO® Developer Hub is the center for building the apps for empowering
-        your organisation
+        your organization
       </div>
     </div>
   );

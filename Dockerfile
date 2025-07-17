@@ -26,7 +26,7 @@ RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -exec rm -rf {
 
 FROM cgr.dev/chainguard/wolfi-base@sha256:7afaeb1ffbc9c33c21b9ddbd96a80140df1a5fa95aed6411b210bcb404e75c11 as build
 
-ENV NODE_VERSION="18=~18.20"
+ENV NODE_VERSION="20"
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
     --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
@@ -63,7 +63,7 @@ RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
 
 FROM cgr.dev/chainguard/wolfi-base@sha256:7afaeb1ffbc9c33c21b9ddbd96a80140df1a5fa95aed6411b210bcb404e75c11 as node-builder
 
-ENV NODE_VERSION="20=~20.11"
+ENV NODE_VERSION="20"
 ENV NODE_ENV=production
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
@@ -92,7 +92,7 @@ RUN --mount=type=cache,target=/home/nonroot/.yarn/berry/cache,sharing=locked,uid
 FROM --platform=linux/amd64 cgr.dev/chainguard/wolfi-base@sha256:7afaeb1ffbc9c33c21b9ddbd96a80140df1a5fa95aed6411b210bcb404e75c11
 
 ENV PYTHON_VERSION="3.12=~3.12"
-ENV NODE_VERSION="20=~20.19"
+ENV NODE_VERSION="20"
 ENV NODE_ENV=production
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \

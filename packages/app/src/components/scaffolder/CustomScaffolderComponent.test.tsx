@@ -4,6 +4,7 @@
 
 import {
   catalogApiRef,
+  entityRouteRef,
   starredEntitiesApiRef,
 } from '@backstage/plugin-catalog-react';
 import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
@@ -76,6 +77,7 @@ describe('<CustomScaffolderPage>', () => {
       {
         mountedRoutes: {
           '/': scaffolderPlugin.routes.root,
+          '/import-flow/:namespace/:kind/:name': entityRouteRef,
         },
       },
     );

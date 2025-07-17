@@ -25,7 +25,7 @@ Example config:
 
 ```yaml
 app:
-  developerHubVersion: '1.8.0'
+  developerHubVersion: '1.9.0'
 ```
 
 ## Doc Url
@@ -34,7 +34,7 @@ Documentation url
 
 ```yaml
 app:
-  docUrl: 'https://docs.tibco.com/go/platform-cp/1.8.0/doc/html#cshid=developer_hub_overview'
+  docUrl: 'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview'
 ```
 
 The CI/CD pipeline automatically adds the build number to all docker images.
@@ -101,6 +101,24 @@ importFlowGroups:
     tagFilters: ['bwce', 'recommended']
   - name: importFlowGroup2
     tagFilters: ['flogo']
+```
+
+## Marketplace Groups
+
+Configuration for the marketplace groups in marketplace page when click on the Marketplace button
+
+Example config:
+
+```yaml
+marketplaceGroups:
+  - name: Documents
+    tagFilters: ['mp-document']
+  - name: Sample's
+    tagFilters: ['mp-sample']
+  - name: Templates
+    tagFilters: ['mp-template']
+  - name: Import Flows
+    tagFilters: ['mp-import-flow']
 ```
 
 ## Cp Link
