@@ -1,0 +1,32 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: helm-charts-doc
+  description: Helm Charts Documentation
+spec:
+  type: organization
+  profile:
+    displayName: Helm Charts Documentation
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: helm-charts-doc
+  description: A group of documents
+spec:
+  owner: helm-charts-doc
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: helm-charts
+  description: 'TIBCO® Helm Charts'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - documentation
+    - tibco-hub-documentation
+spec:
+  owner: helm-charts-doc
+  domain: helm-charts-doc

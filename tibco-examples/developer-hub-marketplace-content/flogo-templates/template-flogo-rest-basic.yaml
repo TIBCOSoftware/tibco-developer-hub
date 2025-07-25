@@ -1,0 +1,133 @@
+# Code Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/API-Development/REST/Basic
+# Doc File: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/API-Development/REST/Basic/readme.md
+# Doc File Target Path:  ./docs/API-Development/REST/Basic/index.md ./docs/API-Development/REST/Basic/index.md
+# Images Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/images/REST/Basic
+# Images Target Path: ./docs/images/REST/Basic
+# name: flogo-rest-basic
+# title: Flogo REST Features Sample
+# description: This sample demonstrates some of the REST features present in the FLOGO ReceiveHTTPMessage trigger and InvokeRestService activity.
+# indexRedirect: 'API-Development/REST/Basic/index.md'
+
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: flogo-templates-group
+  description: Location of Flogo Template Group
+spec:
+  targets:
+    - ./flogo-templates-group.yaml
+---
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: template-flogo-rest-basic
+  title: 'Flogo REST Features Sample'
+  description: 'This sample demonstrates some of the REST features present in the FLOGO ReceiveHTTPMessage trigger and InvokeRestService activity.'
+  tags:
+    - flogo
+    - tibco
+    - recommended
+spec:
+  owner: flogo-templates
+  type: integration
+
+  parameters:
+    - title: Fill in some steps
+      required:
+        - name
+        - description
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the Flogo Application
+          ui:field: EntityNamePicker
+          ui:autofocus: true
+        description:
+          title: Description
+          type: string
+          description: A description for the Flogo Service
+          default: 'My Flogo REST Features Sample'
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  # This template is meant to be used on top of an existing template.
+  # By adding the following and fetching from an absolute URL you can
+  # add in the docs template
+  steps:
+    - id: fetch
+      name: Flogo Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          owner: ${{ parameters.owner }}
+          repoUrl: ${{ parameters.repoUrl }}
+          indexRedirect: 'API-Development/REST/Basic/index.md'
+
+    - id: fetch-code
+      action: fetch:plain
+      name: Fetch code
+      input:
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/API-Development/REST/Basic'
+
+    - id: fetch-images
+      action: fetch:plain
+      name: Fetch images
+      input:
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/images/REST/Basic'
+        targetPath: './docs/images/REST/Basic'
+
+    - id: fetch-docs
+      action: fetch:plain:file
+      name: Fetch docs
+      input:
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/API-Development/REST/Basic/readme.md'
+        targetPath: './docs/API-Development/REST/Basic/index.md'
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+#        allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+        icon: github
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+      - title: Clone in VS Code
+        url: ${{ "vscode://vscode.git/clone?url=" + steps.publish.output.remoteUrl }}
+        icon: scaffolder

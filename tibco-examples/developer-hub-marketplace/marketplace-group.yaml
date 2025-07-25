@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: marketplace-entries-group
+  description: Group that owns all Marketplace Entries
+spec:
+  type: organization
+  profile:
+    displayName: TIBCO
+  children: []

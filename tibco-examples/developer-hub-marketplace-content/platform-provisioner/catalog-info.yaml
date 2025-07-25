@@ -1,0 +1,32 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: platform-provisioner-doc
+  description: Platform Provisioner Documentation
+spec:
+  type: organization
+  profile:
+    displayName: Platform Provisioner Documentation
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: platform-provisioner-doc
+  description: A group of documents
+spec:
+  owner: platform-provisioner-doc
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: platform-provisioner
+  description: 'TIBCO® Platform Provisioner'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - documentation
+    - tibco-hub-documentation
+spec:
+  owner: platform-provisioner-doc
+  domain: platform-provisioner-doc

@@ -1,0 +1,73 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-doc-dh-welcome-to-tibco-developer-hub
+  title: TIBCO Developer Hub Concepts
+  description: Documentation on the TIBCO Developer Hub core concepts. This
+    documentation provides an overview of what the TIBCO Developer Hub is and
+    how to use the TIBCO Developer Hub.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: TIBCO Developer Hub
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub
+        icon: github
+  tags:
+    - devhub-marketplace
+    - tibco-developer-hub
+    - concepts
+spec:
+  owner: group:default/marketplace-entries-group
+  type: document
+  presentation:
+    buttonLabels:
+      createButtonText: Install
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Install  TIBCO Developer Hub Concepts into your TIBCO Developer Hub
+
+            **ID:** mp-entry-doc-dh-welcome-to-tibco-developer-hub
+
+            **Description:** Documentation on the TIBCO Developer Hub core concepts. This documentation provides an overview of what the TIBCO Developer Hub is and how to use the TIBCO Developer Hub. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Installing Marketplace Entry...
+      action: catalog:register
+      input:
+        optional: true
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/1.9.0/tibco-examples/developer-hub-marketplace-content/developer-hub-tutorials/welcome-to-tibco-developer-hub/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Documents
+        url: /docs?filters%5Buser%5D=all&limit=20
+        icon: techdocs
+      - icon: docs
+        title: Open TIBCO Developer Hub Concepts Docs
+        url: /docs/default/system/welcome-to-developer-hub

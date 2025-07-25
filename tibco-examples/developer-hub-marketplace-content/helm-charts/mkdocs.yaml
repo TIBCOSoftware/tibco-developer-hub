@@ -1,0 +1,11 @@
+site_name: 'Helm Charts'
+site_description: 'helm-charts-doc'
+
+nav:
+  - Introduction: index.md
+  - Helm Charts: https://github.com/TIBCOSoftware/tp-helm-charts/blob/main/README.md
+  - Helm Charts - GitHub: https://github.com/TIBCOSoftware/tp-helm-charts/
+
+
+plugins:
+  - techdocs-core

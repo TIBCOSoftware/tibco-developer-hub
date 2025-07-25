@@ -1,0 +1,21 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: "developer-hub-api"
+  description: "API of the TIBCO Developer Hub"
+  tags:
+    - tibco-platform
+    - customer-hosted
+    - capability
+  links:
+    - url: https://backstage.io/
+      title: Backstage
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: TIBCO
+  system: tibco-platform
+  #  apiConsumedBy: [ "component:developer-hub-capability"]
+  definition:
+    $text: ./backstage-api.yaml
