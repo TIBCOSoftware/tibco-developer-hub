@@ -5,17 +5,10 @@ metadata:
   description: "API of the BWCE Capability (1.7)"
   tags:
     - tibco-platform
-    - customer-hosted
     - capability
-#  links:
-#    - url: https://dataplanes.pro/tibco/bw/public/dp/docs
-#      title: API Spec
-#      icon: code
 spec:
   type: openapi
   lifecycle: production
   owner: TIBCO
-  system: tibco-platform
-#  apiConsumedBy: [ "component:bwce-capability"]
   definition:
     $text: ./bwce-capability-api-1.7.json

@@ -5,12 +5,7 @@ metadata:
   description: "API of the Flogo Capability"
   tags:
     - tibco-platform
-    - customer-hosted
     - capability
-#  links:
-#    - url: https://dataplanes.pro/tibco/flogo/cmjunjl8el1deih7pj9g/public/dp/docs
-#      title: API Spec
-#      icon: code
 spec:
   type: openapi
   lifecycle: production

@@ -7,14 +7,9 @@ metadata:
     - tibco-platform
     - platform
     - core
-#  links:
-#    - url: https://dataplanes.pro/tibco/platform/public/dp/docs
-#      title: API Spec
-#      icon: code
 spec:
   type: openapi
   lifecycle: production
   owner: TIBCO
-  system: tibco-platform
   definition:
     $text: ./control-plane-api-1.7.json

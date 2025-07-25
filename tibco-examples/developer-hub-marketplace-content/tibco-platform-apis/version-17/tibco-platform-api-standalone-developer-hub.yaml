@@ -15,7 +15,5 @@ spec:
   type: openapi
   lifecycle: production
   owner: TIBCO
-  system: tibco-platform
-  #  apiConsumedBy: [ "component:developer-hub-capability"]
   definition:
     $text: ./backstage-api.yaml
