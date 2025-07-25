@@ -5,7 +5,7 @@ metadata:
   description: A collection of all TIBCO Platform API's
 spec:
   targets:
-    - ./tibco-platform-domain-group.yaml
+    - ./../tibco-platform-domain-group.yaml
     - ./tibco-platform-api-standalone-platform.yaml
     - ./tibco-platform-api-standalone-bwce.yaml
     - ./tibco-platform-api-standalone-flogo.yaml
