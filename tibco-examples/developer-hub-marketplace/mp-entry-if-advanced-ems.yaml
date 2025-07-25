@@ -70,4 +70,4 @@ spec:
         icon: kind:template
       - icon: kind:template
         title: Run import flow for EMS
-        url: /create/templates/default/template-import-flow-ems-server
+        url: /create/templates/default/import-flow-ems-server

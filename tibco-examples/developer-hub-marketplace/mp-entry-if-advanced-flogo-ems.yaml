@@ -71,4 +71,4 @@ spec:
         icon: kind:template
       - icon: kind:template
         title: Run import flow for Flogo & EMS
-        url: /create/templates/default/template-import-flow-flogo-ems
+        url: /create/templates/default/import-flow-flogo-ems

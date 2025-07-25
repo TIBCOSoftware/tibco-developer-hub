@@ -69,4 +69,4 @@ spec:
         icon: kind:template
       - icon: kind:template
         title: Run import flow for BW5
-        url: /create/templates/default/template-import-flow-bw5-system
+        url: /create/templates/default/import-flow-bw5-system

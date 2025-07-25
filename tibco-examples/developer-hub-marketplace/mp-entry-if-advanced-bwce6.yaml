@@ -72,4 +72,4 @@ spec:
         icon: kind:template
       - icon: kind:template
         title: Run import flow for BW6/CE
-        url: /create/templates/default/template-import-flow-bw6
+        url: /create/templates/default/import-flow-bw6
