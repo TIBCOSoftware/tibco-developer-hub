@@ -6,11 +6,7 @@
     "termsOfService": "https://www.cloud.com/content/dam/cloud/documents/legal/end-user-agreement.pdf",
     "version": "1.7.0"
   },
-  "servers": [
-    {
-      "url": "http://v1749823143-testcli-flogo.dx-demo.developer-experience.dataplanes.pro:80/tibco/flogo/v1749823143/public"
-    }
-  ],
+  "servers": [],
   "security": [
     {
       "OAuth2Bearer": []

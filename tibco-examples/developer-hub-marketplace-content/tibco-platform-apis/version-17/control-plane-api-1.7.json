@@ -593,24 +593,7 @@
     "contact": {}
   },
   "tags": [],
-  "servers": [
-    {
-      "url": "http://localhost:3100",
-      "description": "Localhost"
-    },
-    {
-      "url": "https://tibcoats.us-west.my.tibco.com/",
-      "description": "Control Plane"
-    },
-    {
-      "url": "http://localhost:7007/tibco/hub/api/proxy/control-plane/",
-      "description": "Local Proxy"
-    },
-    {
-      "url": "/api/proxy/control-plane/",
-      "description": "DevHub Proxy"
-    }
-  ],
+  "servers": [],
   "components": {
     "securitySchemes": {
       "bearer": {
