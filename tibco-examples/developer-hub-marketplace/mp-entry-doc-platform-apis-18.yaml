@@ -68,13 +68,13 @@ spec:
         icon: kind:api
       - icon: kind:api
         title: Open TIBCO Platform API
-        url: /catalog/default/api/tibco-platform-api/definition
+        url: /catalog/default/api/tibco-platform-api-18/definition
       - icon: kind:api
         title: Open BWCE Capability API
-        url: /catalog/default/api/bwce-capability-api/definition
+        url: /catalog/default/api/bwce-capability-api-18/definition
       - icon: kind:api
         title: Open Flogo Capability API
-        url: /catalog/default/api/flogo-capability-api/definition
+        url: /catalog/default/api/flogo-capability-api-18/definition
       - icon: kind:api
         title: Open TIBCO Developer Hub API
-        url: /catalog/default/api/developer-hub-api/definition
+        url: /catalog/default/api/developer-hub-api-18/definition

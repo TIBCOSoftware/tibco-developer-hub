@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: "developer-hub-api"
+  name: "developer-hub-api-17"
   description: "API of the TIBCO Developer Hub"
   tags:
     - tibco-platform
