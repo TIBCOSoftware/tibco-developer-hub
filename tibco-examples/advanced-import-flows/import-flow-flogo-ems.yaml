@@ -165,7 +165,7 @@ spec:
       name: Register Component
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/component-" + parameters.application + ".yaml" }}
 
     - id: registerResources
@@ -173,14 +173,14 @@ spec:
       if: ${{ (steps.extract.output.flogo_ems_queue_receivers.length > 0) or (steps.extract.output.flogo_ems_queue_senders.length > 0) }}
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/resources-" + parameters.application + ".yaml" }}
 
     - id: registerAPIs
       name: Register APIs
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
 
   output:

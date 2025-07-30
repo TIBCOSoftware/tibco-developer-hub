@@ -148,14 +148,14 @@ spec:
       name: Register System
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/system-" + parameters.application + ".yaml" }}
 
     - id: registerComponents
       name: Register Components
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/components-" + parameters.application + ".yaml" }}
 
   output:

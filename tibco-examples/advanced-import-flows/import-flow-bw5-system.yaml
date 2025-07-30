@@ -175,7 +175,7 @@ spec:
       name: Register System
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/system-" + parameters.application + ".yaml" }}
 
 # Register the BW5 Components, Resources and API's
@@ -184,7 +184,7 @@ spec:
       if: ${{ (steps.extract.output.process_files.length > 0) }}
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/components-" + parameters.application + ".yaml" }}
 
     - id: registerResources
@@ -192,7 +192,7 @@ spec:
       if: ${{ (steps.extract.output.db_files.length > 0) }}
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/resources-" + parameters.application + ".yaml" }}
 
     - id: registerApis
@@ -200,7 +200,7 @@ spec:
       if: ${{ (steps.extract.output.api_files.length > 0) }}
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
 
   output:
