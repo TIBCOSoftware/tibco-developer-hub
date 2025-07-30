@@ -58,7 +58,7 @@ spec:
       action: catalog:register
       input:
         optional: true
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/1.9.0/tibco-examples/developer-hub-marketplace-content/developer-hub-tutorials/welcome-to-tibco-developer-hub/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/developer-hub-tutorials/welcome-to-tibco-developer-hub/catalog-info.yaml
   output:
     links:
       - title: Open in catalog
