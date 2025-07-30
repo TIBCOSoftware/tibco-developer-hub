@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: welcome-to-developer-hub-doc
+  description: TIBCO Developer Hub Concepts
+spec:
+  type: organization
+  profile:
+    displayName: TIBCO Developer Hub Concepts
+#    email: info@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: welcome-to-developer-hub-doc
+  description: A group of documents
+spec:
+  owner: welcome-to-developer-hub-doc
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: welcome-to-developer-hub
+  description: 'TIBCO Developer Hub Concepts'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - documentation
+    - tibco-hub-documentation
+spec:
+  owner: welcome-to-developer-hub-doc
+  domain: welcome-to-developer-hub-doc

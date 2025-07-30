@@ -104,6 +104,7 @@ backend.add(
       router.get('/health', (_request: Request, response: Response) => {
         response.send({ status: 'ok' });
       });
+      // @ts-ignore
       app.use(router);
       const mw = (req: Request, _res: Response, next: NextFunction) => {
         if (!req.path.startsWith('/api/techdocs')) {
@@ -111,6 +112,7 @@ backend.add(
         }
         next();
       };
+      // @ts-ignore
       app.use('/', mw, routes);
       app.use(middleware.notFound());
       app.use(middleware.error());
@@ -181,4 +183,5 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
+backend.add(import('@internal/plugin-scaffolder-backend-module-metrics-api'));
 backend.start();

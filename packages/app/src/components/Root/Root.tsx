@@ -18,6 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CategoryIcon from '@material-ui/icons/Category';
 import { TibcoIcon } from '../../icons/TibcoIcon';
 import CpIcon from '../../icons/cp.svg';
+import MarketplaceIcon from '../../icons/marketplace.svg';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { Link } from 'react-router-dom';
 import DevHubLogo from './images/devhub-logo.svg';
@@ -478,6 +479,15 @@ const SidebarCustom = ({
           icon={() => <TibcoIcon iconName="pl-icon-documentation" />}
           to="docs"
           text="Docs"
+        />
+        <SidebarItem
+          className={cpClicked ? classes.itemNotSelected : ''}
+          icon={() => (
+            <img src={MarketplaceIcon} height={24} width={24} alt="logo" />
+          )}
+          onClick={() => setCpClicked(false)}
+          to="marketplace"
+          text="Marketplace"
         />
         <SidebarItem
           className={cpClicked ? classes.itemNotSelected : ''}

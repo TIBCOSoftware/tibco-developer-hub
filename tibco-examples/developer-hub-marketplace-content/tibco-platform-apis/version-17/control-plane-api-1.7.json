@@ -1,0 +1,612 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/cp/v1/data-planes-status": {
+      "get": {
+        "operationId": "DataplanesController_dataPlaneStatus",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "dataplanes"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/api/v1/data-planes": {
+      "get": {
+        "operationId": "DataplanesController_getDataPlanes",
+        "parameters": [
+          {
+            "name": "order-by",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "name"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "order",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "asc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "dataplanes"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/api/v1/data-planes/{dp_id}": {
+      "get": {
+        "operationId": "DataplanesController_getDataPlaneDetails",
+        "parameters": [
+          {
+            "name": "dp_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "dataplanes"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/v1/data-planes": {
+      "post": {
+        "operationId": "DataplanesController_createDataplane",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "JSON Object for request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "dataplanes"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/v1/data-planes/{DPNamespace}/commands/delete": {
+      "get": {
+        "operationId": "DataplanesController_getDataPlaneDeleteCommands",
+        "parameters": [
+          {
+            "name": "DPNamespace",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "dataplanes"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/v1/data-planes/{DPId}": {
+      "delete": {
+        "operationId": "DataplanesController_deleteDataplane",
+        "parameters": [
+          {
+            "name": "DPId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "dataplanes"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/api/v1/apps": {
+      "get": {
+        "operationId": "AppsController_getApps",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "apps"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/tp-cp-ws/v1/data-planes/{dp_id}/app-details": {
+      "get": {
+        "operationId": "AppsController_getApplicationDetails",
+        "parameters": [
+          {
+            "name": "dp_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "required": true,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "apps"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/api/v1/capabilities": {
+      "get": {
+        "operationId": "CapabilitiesController_getCapabilities",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "capabilities"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/api/v1/capability-instances": {
+      "get": {
+        "operationId": "CapabilitiesController_getCapabilityInstances",
+        "parameters": [
+          {
+            "name": "capabilityId",
+            "required": true,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "capabilities"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/v1/capabilities-metadata": {
+      "get": {
+        "operationId": "CapabilitiesController_getCapabilityMetadata",
+        "parameters": [
+          {
+            "name": "capability-type",
+            "required": true,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "capability-ids",
+            "required": true,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "capabilities"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/v1/data-planes/{dpId}/capabilities/{capabilityInstanceId}": {
+      "delete": {
+        "operationId": "CapabilitiesController_deleteCapabilityInstance",
+        "parameters": [
+          {
+            "name": "dpId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "capabilityInstanceId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "capabilities"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/api/v1/resources": {
+      "get": {
+        "operationId": "ResourcesController_getResources",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "resources"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/api/v1/resource-instances": {
+      "get": {
+        "operationId": "ResourcesController_getResourceInstances",
+        "parameters": [
+          {
+            "name": "scopeId",
+            "required": true,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "scope",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "DATAPLANE"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "resources"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/v1/resource-instances": {
+      "post": {
+        "operationId": "ResourcesController_createResourceInstance",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "JSON Object for request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "resources"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/tp-cp-ws/v1/resource-instances-details": {
+      "get": {
+        "operationId": "ResourcesController_getResourceInstanceDetails",
+        "parameters": [
+          {
+            "name": "scopeId",
+            "required": true,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "resourceInstanceIds",
+            "required": true,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "resources"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/v1/account/users": {
+      "get": {
+        "operationId": "UsersController_getUsers",
+        "parameters": [
+          {
+            "name": "person",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          },
+          {
+            "name": "limit",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "order-by",
+            "required": false,
+            "in": "query",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/v1/whoami": {
+      "get": {
+        "operationId": "UsersController_whoAMI",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/public/v1/oauth2/userinfo": {
+      "get": {
+        "operationId": "UsersController_userInfo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/cp/v1/accounts/user/flat-permissions/{userEmail}": {
+      "get": {
+        "operationId": "UsersController_userPermissions",
+        "parameters": [
+          {
+            "name": "userEmail",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contributing-resource",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "CP"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "TIBCO Platform API - Direct",
+    "description": "Direct Exposure of TIBCO Platform API",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "Object": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-doc-helm-charts
+  title: TIBCO Platform Helm Charts
+  description: Documentation for the TIBCO Platform Helm Charts. Helm Charts for
+    TIBCO® Platform contains a list of Helm charts for TIBCO® Platform data
+    plane components.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: false
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: TIBCO Platform
+        url: https://www.tibco.com/platform
+        icon: star
+      - text: TIBCO Platform Helm Charts
+        url: https://github.com/TIBCOSoftware/tp-helm-charts
+        icon: github
+  tags:
+    - devhub-marketplace
+    - helm-charts
+    - automation
+spec:
+  owner: group:default/marketplace-entries-group
+  type: document
+  presentation:
+    buttonLabels:
+      createButtonText: Install
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Install  TIBCO Platform Helm Charts into your TIBCO Developer Hub
+
+            **ID:** mp-entry-doc-helm-charts
+
+            **Description:** Documentation for the TIBCO Platform Helm Charts. Helm Charts for TIBCO® Platform contains a list of Helm charts for TIBCO® Platform data plane components. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tp-helm-charts/blob/main/LICENSE).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Installing Marketplace Entry...
+      action: catalog:register
+      input:
+#       optional: true
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/helm-charts/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Documents
+        url: /docs?filters%5Buser%5D=all&limit=20
+        icon: techdocs
+      - icon: docs
+        title: Open TIBCO Platform Helm Charts Docs
+        url: /docs/default/system/helm-charts

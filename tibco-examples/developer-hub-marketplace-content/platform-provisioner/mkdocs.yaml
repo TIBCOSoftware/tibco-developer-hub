@@ -1,0 +1,12 @@
+site_name: 'Platform Provisioner'
+site_description: 'platform-provisioner-doc'
+
+nav:
+  - Introduction: index.md
+  - Platform Provisioner: https://github.com/TIBCOSoftware/platform-provisioner/blob/main/README.md
+  - Platform Provisioner - Design: https://github.com/TIBCOSoftware/platform-provisioner/blob/main/docs/design/README.md
+  - Platform Provisioner - GitHub: https://github.com/TIBCOSoftware/platform-provisioner/
+
+
+plugins:
+  - techdocs-core

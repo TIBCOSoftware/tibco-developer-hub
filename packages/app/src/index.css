@@ -4,6 +4,7 @@
 
 @import '@fontsource/source-sans-pro';
 @import './themes/styles/button.css';
+@import './themes/styles/typography.css';
 body {
   /* You will need to configure the Source Sans Pro font */
   font-family: 'Source Sans Pro', 'PT Sans', Calibri, sans-serif;

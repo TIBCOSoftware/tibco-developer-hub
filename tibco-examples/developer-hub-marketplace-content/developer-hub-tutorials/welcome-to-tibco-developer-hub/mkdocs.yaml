@@ -1,0 +1,8 @@
+site_name: 'TIBCO Developer Hub Concepts'
+site_description: 'welcome-to-developer-hub-doc'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

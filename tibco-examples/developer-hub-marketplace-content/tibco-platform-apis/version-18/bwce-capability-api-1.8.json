@@ -1,0 +1,7129 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "TIBCO BusinessWorks™ Container Edition Capability APIs",
+    "description": "The API documentation for TIBCO BusinessWorks™ Container Edition capability on Data Plane for TIBCO Platform",
+    "termsOfService": "https://www.cloud.com/content/dam/cloud/documents/legal/end-user-agreement.pdf",
+    "version": "1.8.0"
+  },
+  "servers": [],
+  "security": [
+    {
+      "OAuth2Bearer": []
+    }
+  ],
+  "paths": {
+    "/v1/dp/apps": {
+      "get": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "List all applications",
+        "description": "List all BWCE applications available on the dataplane",
+        "operationId": "ListApps",
+        "parameters": [
+          {
+            "name": "filterKey",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of colums to filter the result. Example- name,namespace,state,version,tag",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filterValue",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of values to filter the result. Example- testApp,my-ns,Running,1.0,tag1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/deploy": {
+      "post": {
+        "tags": [
+          "Apps - Managed by BW Provisioner"
+        ],
+        "summary": "Deploy an application",
+        "description": "Deploy or upgrade a TIBCO BusinessWorks™ Container Edition application using Build Id. The API lets you provide override app properties, profile, engine variables, resource limits for the pod, replicas or autoscaling configuration and network policy configurations while deploying or upgrading the app. An AppId in payload is mandatory only for upgrading an existing application, otherwise it should be empty.",
+        "operationId": "DeployApp",
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Deploy App request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppDeployRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/builds/{buildId}/values": {
+      "get": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Generate values.yaml from an app Build",
+        "description": "Generate values.yaml from an app Build for the provided Build Id",
+        "operationId": "GenerateValuesYamlFromBuild",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "minimal",
+            "in": "query",
+            "required": false,
+            "description": "When true, generates minimal values.yaml for the app, otherwise generates detailed values.yaml.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/yaml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/bwce/apps/{appName}/release/values": {
+      "get": {
+        "tags": [
+          "Apps - Autodiscovery"
+        ],
+        "summary": "Get helm chart values from Autodiscovered BWCE app deployment",
+        "description": "Get helm chart values from Autodiscovered BWCE app deployment",
+        "operationId": "GetBWCEAppChartValues",
+        "parameters": [
+          {
+            "name": "appName",
+            "in": "path",
+            "description": "Application Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "allValues",
+            "in": "query",
+            "description": "all (computed) values",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/yaml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/bwce/apps/{appName}/release/status": {
+      "get": {
+        "tags": [
+          "Apps - Autodiscovery"
+        ],
+        "summary": "Status of Autodiscovered BWCE Application Chart Deployment",
+        "description": "Status of Autodiscovered BWCE Application deployment for an App Name.",
+        "operationId": "BWCEAppChartStatus",
+        "parameters": [
+          {
+            "name": "appName",
+            "in": "path",
+            "description": "Application Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReleaseInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/bwce/apps/{appName}/instances": {
+      "get": {
+        "tags": [
+          "Apps - Autodiscovery"
+        ],
+        "summary": "Get Autodiscovered BWCE Application instances",
+        "description": "Get list of Autodiscovered BWCE Application instances for provided App Name.",
+        "operationId": "GetBWCEAppInstances",
+        "parameters": [
+          {
+            "name": "appName",
+            "in": "path",
+            "description": "App Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppInstancesResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/builds": {
+      "post": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Create an Application build",
+        "description": "Create a TIBCO BusinessWorks™ Container Edition application build. The API expects application ear file, BWCE base version and image tags as an input along with Connectors dependencies details. BWCE version tags and connectors details can be retrieved by invoking respective APIs to list provisioned software details.",
+        "operationId": "CreateBuild",
+        "parameters": [
+          {
+            "name": "baseversion",
+            "in": "query",
+            "required": true,
+            "description": "BWCE Version. You can invoke GET /v1/dp/bwceversions API to find list of all provisioned versions on the dataplane. Use buildtypeCatalog.buildtypeTag value from the response.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2.9.0"
+          },
+          {
+            "name": "baseimagetag",
+            "in": "query",
+            "required": true,
+            "description": "Base image tag. You can invoke GET /v1/dp/bwceversions API to find list of all provisioned versions & their base image tags on the dataplane. Use buildtypeCatalog.baseImages.imageTag value from the response.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "94-2.9.0-V23.2-GA-debian"
+          },
+          {
+            "name": "autoProvision",
+            "in": "query",
+            "required": false,
+            "description": "Auto provision the required Connectors on the dataplane.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Create a build request",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "request": {
+                    "type": null,
+                    "$ref": "#/components/schemas/AppBuildRequest"
+                  },
+                  "earFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "customProfile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppBuildResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Import an app build",
+        "description": "Import an app build by uploading a build zip file",
+        "operationId": "ImportBuild",
+        "parameters": [
+          {
+            "name": "autoProvision",
+            "in": "query",
+            "required": false,
+            "description": "Auto provision the required BWCE version and Connectors on the dataplane.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Import an app build request",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "buildZipFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppBuildResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "List all Application builds",
+        "description": "List all TIBCO BusinessWorks™ Container Edition Application builds present on the Data Plane",
+        "operationId": "ListBuilds",
+        "parameters": [
+          {
+            "name": "filterKey",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of colums to filter the result. Example- buildId,name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filterValue",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of values to filter the result. Example- 0bb4dad,myappbuild",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "description": "Name of column to sort the result. Example- createdDate",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "required": false,
+            "description": "Order the result in asc or desc order",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ListBuildResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/builds/{buildId}/rebuild": {
+      "post": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Re-build an application",
+        "description": "Re-build TIBCO BusinessWorks™ Container Edition application, You can provide the Build Id of an existing Application build along with BWCE base version and image tag and udpated connector dependencies details to re-build application with newer versions using existing ear file",
+        "operationId": "ReBuildApp",
+        "parameters": [
+          {
+            "name": "baseversion",
+            "in": "query",
+            "required": true,
+            "description": "BWCE Version. You can invoke GET /v1/dp/bwceversions API to find list of all provisioned versions on the dataplane. Use buildtypeCatalog.buildtypeTag value from the response.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2.9.0"
+          },
+          {
+            "name": "baseimagetag",
+            "in": "query",
+            "required": true,
+            "description": "Base image tag. You can invoke GET /v1/dp/bwceversions API to find list of all provisioned versions & their base image tags on the dataplane. Use buildtypeCatalog.baseImages.imageTag value from the response.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "94-2.9.0-V23.2-GA-debian"
+          },
+          {
+            "name": "buildId",
+            "in": "path",
+            "required": true,
+            "description": "Existing Build Id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "autoProvision",
+            "in": "query",
+            "required": false,
+            "description": "Auto provision the required Connectors on the dataplane.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Rebuild request",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "request": {
+                    "type": null,
+                    "$ref": "#/components/schemas/AppBuildRequest"
+                  },
+                  "customProfile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppBuildResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/cp/bwceversions": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "List BWCE Versions available on the control plane",
+        "description": "List BWCE Versions available on the control plane",
+        "operationId": "ListBuildTypesFromCP",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CPBuildType"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/bwceversions": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "List BWCE Versions provisioned on the dataplane",
+        "description": "List BWCE Versions provisioned on the dataplane. The API returns BWCE base version and list of base image tags available for it.",
+        "operationId": "ListBuildTypes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ListBuildtypesResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/bwceversions/{version}/tags": {
+      "put": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Update BWCE Version tags",
+        "description": "Update BWCE Version tags",
+        "operationId": "UpdateBWCEVersionTags",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "description": "BWCE Version. You can invoke GET /v1/dp/bwceversions API to find list of all provisioned versions on the dataplane. Use buildtypeCatalog.buildtypeTag value from the response.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2.9.0"
+          }
+        ],
+        "requestBody": {
+          "description": "Update BWCE Version tags request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBWCEVersionTagsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/bwceversions/{version}/custombaseimage": {
+      "put": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Add Custom BWCE Base Image",
+        "description": "Add Custom BWCE Base Image. Please ensure that custom container image registry is configured for your subscription. The Custom BWCE base image should be present on the Container Image Registry before invoking this API.",
+        "operationId": "AddCustomBWCEBaseImage",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "description": "BWCE Version. You can invoke GET /v1/dp/bwceversions API to find list of all provisioned versions on the dataplane. Use buildtypeCatalog.buildtypeTag value from the response.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2.9.0"
+          }
+        ],
+        "requestBody": {
+          "description": "Add Custom BWCE Base Image request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCustomBaseImageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/bwceversions/{version}": {
+      "post": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Provision BWCE on the dataplane",
+        "description": "Provision BWCE on the dataplane.",
+        "operationId": "ProvisionBWCEBuildtype",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "description": "BWCE Version.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2.9.0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Delete BWCE from the dataplane",
+        "description": "Delete BWCE from the dataplane. Please ensure the BWCE version to be deleted is not used in any applications and builds",
+        "operationId": "DeleteBWCEBuildtype",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "description": "BWCE Version. You can invoke GET /v1/dp/bwceversions API to find list of all provisioned versions on the dataplane. Use buildtypeCatalog.buildtypeTag value from the response.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2.9.0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/bwceversions/{version}/baseimages/{baseimagetag}": {
+      "delete": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Delete BWCE Base image tag from the dataplane",
+        "description": "Delete BWCE base image tag from the dataplane. Please ensure the base image for the specified BWCE version to be deleted is not used in any applications and builds",
+        "operationId": "DeleteBWCEBuildtypeBaseImageTag",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "description": "BWCE Version. You can invoke GET /v1/dp/bwceversions API to find list of all provisioned versions on the dataplane. Use buildtypeCatalog.buildtypeTag value from the response.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "2.9.0"
+          },
+          {
+            "name": "baseimagetag",
+            "in": "path",
+            "description": "BWCE Version Base Image tag. You can invoke GET /v1/dp/bwceversions API to find list of all provisioned versions on the dataplane. Use buildtypeCatalog.baseImages.imageTag value from the response.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "94-2.9.0-V23.2-GA-debian"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/cp/connectors": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "List Connectors available on the control plane",
+        "description": "List Connectors available on the control plane",
+        "operationId": "ListConnectorsFromCP",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CPPlugin"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/connectors": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "List Connectors provisioned on the dataplane",
+        "description": "List Connectors provisioned on the dataplane",
+        "operationId": "ListConnectors",
+        "parameters": [
+          {
+            "name": "filterKey",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of colums to filter the result. Example- name,version",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filterValue",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of values to filter the result. Example- kafka,6.8.1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ListConnectorResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/connectors/{connector}/{version}": {
+      "post": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Provision Connector on the dataplane",
+        "description": "Provision Connector on the dataplane.",
+        "operationId": "ProvisionConnector",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "path",
+            "description": "Connector Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "kafka"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Connector Version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Delete Connector from the dataplane",
+        "description": "Delete Connector from the dataplane. Please ensure the connector to be deleted is not used in any applications or builds",
+        "operationId": "DeleteConnector",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "path",
+            "description": "Connector Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "kafka"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Connector Version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/connectors/{connector}/{version}/tags": {
+      "put": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Update Connector tags from the dataplane",
+        "description": "Update Connector tags from the dataplane.",
+        "operationId": "UpdateConnectorTags",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "path",
+            "description": "Connector Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "kafka"
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Connector Version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update Connector tags request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateConnectorTagsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/namespaces": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "List Namespaces from the dataplane",
+        "description": "List Namespaces from the dataplane",
+        "operationId": "ListNamespaces",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NamespaceInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/supplements": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "List Supplements provisioned on the dataplane",
+        "description": "List Supplements provisioned on the dataplane",
+        "operationId": "ListSupplements",
+        "parameters": [
+          {
+            "name": "filterKey",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of colums to filter the result. Example- connectorId,supplementName",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filterValue",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of values to filter the result. Example- kafka,mykrb5",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ListSupplementResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/supplements/{connector}": {
+      "post": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Upload the Supplement",
+        "description": "Upload the Supplement for a connector on the dataplane",
+        "operationId": "UploadSupplement",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "path",
+            "description": "Connector Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "customdriver"
+          },
+          {
+            "name": "supplementName",
+            "in": "query",
+            "description": "Supplement Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "ojdbc14-driver"
+          }
+        ],
+        "requestBody": {
+          "description": "Upload supplement request",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fileName": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Delete Connector supplement from the dataplane",
+        "description": "Delete Connector supplement from the dataplane. Please ensure the supplement to be deleted is not used in any applications or builds",
+        "operationId": "DeleteSupplement",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "path",
+            "description": "Connector Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "customdriver"
+          },
+          {
+            "name": "supplementName",
+            "in": "query",
+            "description": "Supplement Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "ojdbc14-driver"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/supplements/{connector}/tags": {
+      "put": {
+        "tags": [
+          "Provisioned Software & Plugins"
+        ],
+        "summary": "Update Supplement tags",
+        "description": "Update Supplement tags",
+        "operationId": "UpdateSupplementTags",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "path",
+            "description": "Connector Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "customdriver"
+          },
+          {
+            "name": "supplementName",
+            "in": "query",
+            "description": "Supplement Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "ojdbc14-driver"
+          }
+        ],
+        "requestBody": {
+          "description": "Update supplement tags request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSupplementTagsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/builds/{buildId}/export": {
+      "get": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Export an app build",
+        "description": "Export an app build for the provided Build Id",
+        "operationId": "ExportBuild",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/builds/{buildId}": {
+      "put": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Update an application build",
+        "description": "Update an application build's name and tags",
+        "operationId": "UpdateBuild",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update build request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBuildRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Delete an application build",
+        "description": "Delete an application Build. Please ensure the build to be deleted is not used by any applications",
+        "operationId": "DeleteBuild",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/builds/{buildId}/apps": {
+      "get": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "List Application from Build Id on the dataplane",
+        "description": "List all applications from Build Id on the dataplane",
+        "operationId": "ListAppsForBuildId",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppList"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/details": {
+      "get": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Get an Application details",
+        "description": "Get an Application details for provided App Id.",
+        "operationId": "GetAppDetails",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppDetailsResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/instances": {
+      "get": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Get Application instances",
+        "description": "Get list of Application instances for provided App Id.",
+        "operationId": "GetAppInstances",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppInstancesResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/hotupdate/refresh": {
+      "get": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Trigger Hotupdate refresh for specified Application Id",
+        "description": "Update the app properties without restarting the app instance if the app is configured with Configuration Management Services",
+        "operationId": "HotupdateRefreshApp",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/endpoints": {
+      "get": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "List Application endpoints",
+        "description": "List Application endpoints for provided App Id. The API returns details about public/private endpoint and ingress configuration for the public endpoint.",
+        "operationId": "ListEndpoints",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppEndpointsResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/endpoints/public": {
+      "delete": {
+        "tags": [
+          "Apps - Managed by BW Provisioner"
+        ],
+        "summary": "Make an Application endpoint private",
+        "description": "Make an Application endpoint private. The API removes the Ingress resource to make and endpoint private.",
+        "operationId": "MakePrivate",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Apps - Managed by BW Provisioner"
+        ],
+        "summary": "Make an Application endpoint public",
+        "description": "Make an Application endpoint public. The API creates an Ingress resource with provided inputs - ingress class name, FQDN, path prefix, etc",
+        "operationId": "MakePublic",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Make endpoint public request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MakePublicEndpointRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}": {
+      "put": {
+        "tags": [
+          "Apps - Managed by BW Provisioner"
+        ],
+        "summary": "Update Application configuration",
+        "description": "Update Application configuration from dataplane. The application will restart while applying the configuration.",
+        "operationId": "UpdateApp",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update App request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Delete an Application",
+        "description": "Delete an Application from dataplane.",
+        "operationId": "DeleteApp",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/scale": {
+      "put": {
+        "tags": [
+          "Apps & Builds"
+        ],
+        "summary": "Scale an Application",
+        "description": "Scale an Application with provided replicas count for an App Id. Please avoid using scale operation when autoscaling is configured.",
+        "operationId": "AppScale",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Scale Count",
+            "schema": {
+              "type": "integer"
+            },
+            "example": 1
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/autoscaling": {
+      "put": {
+        "tags": [
+          "Apps - Managed by BW Provisioner"
+        ],
+        "summary": "Modify or Create autoscaling configuration",
+        "description": "Modify or Create autoscaling configuration for an application. You can provide min/max replicas and CPU/memory thresholds for the HPA resource configuration",
+        "operationId": "ModifyAutoscaling",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Autoscaling config request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutoscalingConfig"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Apps - Managed by BW Provisioner"
+        ],
+        "summary": "Remove autoscaling configuration",
+        "description": "Remove autoscaling configuration for an application.",
+        "operationId": "RemoveAutoscaling",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/instances/{instanceId}/smartengine": {
+      "post": {
+        "tags": [
+          "Smart Engine"
+        ],
+        "summary": "Enable smartengine for the app instance",
+        "description": "Enable smartengine for an app instance of the specified app id",
+        "operationId": "EnableSmartEngine",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "description": "Instance ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enableAppStatistics",
+            "in": "query",
+            "description": "Enable App Statistics",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SmartEngineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Smart Engine"
+        ],
+        "summary": "Disable smartengine for the app instance",
+        "description": "Disable smartengine for an app instance of the specified app id",
+        "operationId": "DisableSmartEngine",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "description": "Instance ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SmartEngineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/instances/{instanceId}/smartengine/reports": {
+      "get": {
+        "tags": [
+          "Smart Engine"
+        ],
+        "summary": "List smartengine reports for the app instance",
+        "description": "List smartengine reports for an app instance of the specified app id",
+        "operationId": "ListSmartEngineReports",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "description": "Instance ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SmartEngineListReportResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Smart Engine"
+        ],
+        "summary": "Generate smartengine report for the app instance",
+        "description": "Generate smartengine report for an app instance of the specified app id",
+        "operationId": "GenerateSmartEngineReport",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "description": "Instance ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "engineData",
+            "in": "query",
+            "description": "Engine Data",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SmartEngineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Smart Engine"
+        ],
+        "summary": "Delete all smartengine reports for the app instance",
+        "description": "Delete all smartengine reports for an app instance of the specified app id",
+        "operationId": "DeleteAllSmartEngineReports",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "description": "Instance ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SmartEngineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/instances/{instanceId}/smartengine/reports/{reportId}": {
+      "get": {
+        "tags": [
+          "Smart Engine"
+        ],
+        "summary": "Download smartengine report for the app instance",
+        "description": "Download smartengine report for an app instance of the specified app id",
+        "operationId": "DownloadSmartEngineReport",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "description": "Instance ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reportId",
+            "in": "path",
+            "description": "Report ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Smart Engine"
+        ],
+        "summary": "Delete a smartengine report for the app instance",
+        "description": "Delete a smartengine report for an app instance of the specified app id",
+        "operationId": "DeleteSmartEngineReport",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "description": "Instance ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reportId",
+            "in": "path",
+            "description": "Report ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SmartEngineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/instances/{instanceId}/smartengine/triggers": {
+      "get": {
+        "tags": [
+          "Smart Engine"
+        ],
+        "summary": "List smartengine triggers for the app instance",
+        "description": "List smartengine triggers for an app instance of the specified app id",
+        "operationId": "ListSmartEngineTriggers",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "description": "Instance ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/instances/{instanceId}/smartengine/triggers/{triggerId}": {
+      "put": {
+        "tags": [
+          "Smart Engine"
+        ],
+        "summary": "Update smartengine trigger for the app instance",
+        "description": "Update smartengine trigger for an app instance of the specified app id",
+        "operationId": "UpdateSmartEngineTrigger",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "instanceId",
+            "in": "path",
+            "description": "Instance ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "triggerId",
+            "in": "path",
+            "description": "Trigger ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update SmartEngine Trigger request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              },
+              "example": {
+                "propertyName1": "propertyValue1",
+                "propertyName2": "propertyValue2"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SmartEngineResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/servicemesh": {
+      "put": {
+        "tags": [
+          "Apps - Managed by BW Provisioner"
+        ],
+        "summary": "Enable or disable service mesh for an app",
+        "description": "Enable or disable service mesh sidecar of the specified app id",
+        "operationId": "EnableDisableServicemesh",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enable",
+            "in": "query",
+            "required": true,
+            "description": "Enable Service mesh flag",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/exechist": {
+      "put": {
+        "tags": [
+          "Apps - Managed by BW Provisioner"
+        ],
+        "summary": "Enable or disable execution history for an app",
+        "description": "Enable or disable execution history of the specified app id",
+        "operationId": "EnableDisableExecHist",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enable",
+            "in": "query",
+            "required": true,
+            "description": "Enable execution history",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/deploy/release": {
+      "post": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Deploy an application Helm chart using values.yaml",
+        "description": "Deploy or upgrade a TIBCO BusinessWorks™ Container Edition application Helm chart using values.yaml. An AppId inside values.yaml is mandatory for upgrading an existing application",
+        "operationId": "DeployAppChartWithValues",
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buildId",
+            "in": "query",
+            "description": "Application Build Id. Optional, if provided overwrites the buildId in values.yaml",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appId",
+            "in": "query",
+            "description": "Upgrades existing application matching the appId. Optional, if provided overwrites the appId in values.yaml",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chartName",
+            "in": "query",
+            "description": "BWCE Application Helm Chart Name(Optional)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chartVersion",
+            "in": "query",
+            "description": "BWCE Application Helm Chart Version(Optional)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "retainFailedApp",
+            "in": "query",
+            "description": "Retain application release if failed during deployment. The application will be always retained for app upgrade flow.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "eula",
+            "in": "query",
+            "description": "EULA",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "values.yaml file",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "values.yaml": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/release/values": {
+      "get": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Get helm chart values from BWCE app deployment",
+        "description": "Get helm chart values from BWCE app deployment",
+        "operationId": "GetAppChartValues",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "allValues",
+            "in": "query",
+            "description": "all (computed) values",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/yaml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Update helm chart values for BWCE app chart",
+        "description": "Update helm chart values for BWCE application chart. You can provide the values.yaml in the payload.",
+        "operationId": "UpdateAppChartValues",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "buildId",
+            "in": "query",
+            "description": "Application Build Id. Optional, if provided overwrites the buildId in values.yaml",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "values.yaml file",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "values.yaml": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/release/status": {
+      "get": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Status of an Application Chart Deployment",
+        "description": "Status of an Application deployment for an App Id.",
+        "operationId": "AppChartStatus",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReleaseInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/release/history": {
+      "get": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Release history of an Application Chart Deployment",
+        "description": "Release history of an Application deployment for an App Id.",
+        "operationId": "AppChartHistory",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReleaseInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/release/rollback": {
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Rollabck an Application helm chart Release",
+        "description": "Rollabck an Application helm chart Release for an App Id and specified revision.",
+        "operationId": "AppChartRollback",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "revision",
+            "in": "query",
+            "description": "revision",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "force",
+            "in": "query",
+            "description": "force",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/rename": {
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Rename an Application Chart Deployment",
+        "description": "Rename an Application deployment. Warning: This action will uninstall existing release and re-install it with new name so it may cause service outage for clients",
+        "operationId": "AppChartRename",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appName",
+            "in": "query",
+            "description": "New App Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/servicemesh": {
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Enable or disable service mesh for an app",
+        "description": "Enable or disable service mesh sidecar of the specified app id",
+        "operationId": "EnableDisableServicemeshAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enable",
+            "in": "query",
+            "required": true,
+            "description": "Enable Service mesh flag",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/exechist": {
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Enable or disable execution history for an app",
+        "description": "Enable or disable execution history of the specified app id",
+        "operationId": "EnableDisableExecHistAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enable",
+            "in": "query",
+            "required": true,
+            "description": "Enable execution history",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/autoscaling": {
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Modify or Create autoscaling configuration",
+        "description": "Modify or Create autoscaling configuration for an application. You can provide min/max replicas and CPU/memory thresholds for the HPA resource configuration",
+        "operationId": "ModifyAutoscalingAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Autoscaling config request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutoscalingConfig"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Remove autoscaling configuration",
+        "description": "Remove autoscaling configuration for an application.",
+        "operationId": "RemoveAutoscalingAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/endpoints/public": {
+      "delete": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Make an Application endpoint private",
+        "description": "Make an Application endpoint private. The API removes the Ingress resource to make and endpoint private.",
+        "operationId": "MakePrivateAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Make an Application endpoint public",
+        "description": "Make an Application endpoint public. The API creates an Ingress resource with provided inputs - ingress class name, FQDN, path prefix, etc",
+        "operationId": "MakePublicAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Make endpoint public request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MakePublicEndpointRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AppBuildRequest": {
+        "type": "object",
+        "properties": {
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/BuildContrib"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "tag1"
+            }
+          },
+          "buildName": {
+            "type": "string",
+            "example": "buildname"
+          }
+        }
+      },
+      "BuildContrib": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "kafka"
+          },
+          "version": {
+            "type": "string",
+            "example": "6.8.0"
+          },
+          "supplement": {
+            "type": null,
+            "$ref": "#/components/schemas/ContribSupplement"
+          }
+        }
+      },
+      "ContribSupplement": {
+        "type": "object",
+        "properties": {
+          "supplementName": {
+            "type": "string",
+            "example": "kakfa-krb-supp"
+          }
+        }
+      },
+      "AppBuildResponse": {
+        "type": "object",
+        "properties": {
+          "buildId": {
+            "type": "string"
+          }
+        }
+      },
+      "ListBuildResponse": {
+        "type": "object",
+        "properties": {
+          "totalBuilds": {
+            "type": "integer"
+          },
+          "buildInfo": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/BuildInfo"
+            }
+          }
+        }
+      },
+      "BuildInfo": {
+        "type": "object",
+        "properties": {
+          "buildId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "bwceVersion": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "integer"
+          },
+          "connectorsUsed": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/ConnectorInfo"
+            }
+          }
+        }
+      },
+      "CPPlugin": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "supplement": {
+            "type": null,
+            "$ref": "#/components/schemas/CPSupplementType"
+          }
+        }
+      },
+      "CPSupplementType": {
+        "type": "object",
+        "properties": {
+          "required": {
+            "type": "boolean"
+          },
+          "filePaths": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/CPFilePaths"
+            }
+          }
+        }
+      },
+      "CPFilePaths": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "CPBuildType": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "ConnectorInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "ListBuildtypesResponse": {
+        "type": "object",
+        "properties": {
+          "totalBuildtypes": {
+            "type": "integer"
+          },
+          "buildtypeCatalog": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/BuildtypeCatalog"
+            }
+          }
+        }
+      },
+      "BuildtypeCatalog": {
+        "type": "object",
+        "properties": {
+          "buildtypeTag": {
+            "type": "string"
+          },
+          "baseImages": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/BaseImage"
+            }
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "integer"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AddCustomBaseImageRequest": {
+        "type": "object",
+        "properties": {
+          "baseImages": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/BaseImage"
+            }
+          }
+        }
+      },
+      "BaseImage": {
+        "type": "object",
+        "properties": {
+          "baseImageName": {
+            "type": "string"
+          },
+          "imageTag": {
+            "type": "string"
+          },
+          "baseImagePath": {
+            "type": "string"
+          }
+        }
+      },
+      "ListConnectorResponse": {
+        "type": "object",
+        "properties": {
+          "totalConnectors": {
+            "type": "integer"
+          },
+          "connectorCatalog": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/ConnectorCatalog"
+            }
+          }
+        }
+      },
+      "ConnectorCatalog": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "supplementRequired": {
+            "type": "string"
+          },
+          "supplementStatus": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ListSupplementResponse": {
+        "type": "object",
+        "properties": {
+          "totalSupplements": {
+            "type": "integer"
+          },
+          "supplementCatalog": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/SupplementCatalog"
+            }
+          }
+        }
+      },
+      "AppInfo": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "appName": {
+            "type": "string"
+          },
+          "appDescription": {
+            "type": "string"
+          },
+          "appVersion": {
+            "type": "string"
+          },
+          "appState": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdTime": {
+            "type": "integer"
+          },
+          "modifiedBy": {
+            "type": "string"
+          },
+          "modifiedTime": {
+            "type": "integer"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SupplementCatalog": {
+        "type": "object",
+        "properties": {
+          "connectorName": {
+            "type": "string"
+          },
+          "supplementName": {
+            "type": "string"
+          },
+          "connectorId": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "integer"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AppUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "profile": {
+            "type": "string",
+            "example": "default.substvar"
+          },
+          "appProperties": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/AppProperty"
+            }
+          },
+          "systemProperties": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/EngineProp"
+            }
+          },
+          "resourceLimits": {
+            "type": null,
+            "$ref": "#/components/schemas/ResourceLimits"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "tag1"
+            }
+          }
+        }
+      },
+      "AppDeployRequest": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string",
+            "example": ""
+          },
+          "buildId": {
+            "type": "string",
+            "example": ""
+          },
+          "appName": {
+            "type": "string",
+            "example": "appname"
+          },
+          "eula": {
+            "type": "boolean"
+          },
+          "profile": {
+            "type": "string",
+            "example": "default.substvar"
+          },
+          "appProperties": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/AppProperty"
+            }
+          },
+          "systemProperties": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/EngineProp"
+            }
+          },
+          "resourceLimits": {
+            "type": null,
+            "$ref": "#/components/schemas/ResourceLimits"
+          },
+          "replicas": {
+            "type": "integer",
+            "example": 1
+          },
+          "enableAutoscaling": {
+            "type": "boolean"
+          },
+          "autoscalingConfig": {
+            "type": null,
+            "$ref": "#/components/schemas/AutoscalingConfig"
+          },
+          "networkPolicies": {
+            "type": null,
+            "$ref": "#/components/schemas/NetworkPolicies"
+          },
+          "enableServiceMesh": {
+            "type": "boolean"
+          },
+          "enableExecutionHistory": {
+            "type": "boolean"
+          },
+          "volumeMounts": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/VolumeMount"
+            }
+          },
+          "volumes": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/Volume"
+            }
+          },
+          "persistentVolumeClaims": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/PersistentVolumeClaim"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "tag1"
+            }
+          }
+        }
+      },
+      "NetworkPolicies": {
+        "type": "object",
+        "properties": {
+          "egressNetworkPolicies": {
+            "type": null,
+            "$ref": "#/components/schemas/EgressNetworkPolicies"
+          },
+          "ingressNetworkPolicies": {
+            "type": null,
+            "$ref": "#/components/schemas/IngressNetworkPolicies"
+          }
+        }
+      },
+      "IngressNetworkPolicies": {
+        "type": "object"
+      },
+      "EgressNetworkPolicies": {
+        "type": "object",
+        "properties": {
+          "internetWeb": {
+            "type": "string",
+            "example": "enable"
+          },
+          "internetAll": {
+            "type": "string",
+            "example": "enable"
+          },
+          "databaseEgress": {
+            "type": "string",
+            "example": "enable"
+          },
+          "msgInfra": {
+            "type": "string",
+            "example": "enable"
+          },
+          "proxyEgress": {
+            "type": "string",
+            "example": "enable"
+          },
+          "userApps": {
+            "type": "string",
+            "example": "enable"
+          }
+        }
+      },
+      "AutoscalingConfig": {
+        "type": "object",
+        "properties": {
+          "minReplicas": {
+            "type": "integer",
+            "example": 1
+          },
+          "maxReplicas": {
+            "type": "integer",
+            "example": 3
+          },
+          "hpaMetrics": {
+            "type": null,
+            "$ref": "#/components/schemas/HPAMetrics"
+          }
+        }
+      },
+      "HPAMetrics": {
+        "type": "object",
+        "properties": {
+          "cpuUtilization": {
+            "type": null,
+            "$ref": "#/components/schemas/HPACPUUtilization"
+          },
+          "memoryUtilization": {
+            "type": null,
+            "$ref": "#/components/schemas/HPAMemoryUtilization"
+          }
+        }
+      },
+      "HPACPUUtilization": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "averageCpuUtilization": {
+            "type": "integer",
+            "example": 70
+          }
+        }
+      },
+      "HPAMemoryUtilization": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "averageMemoryUtilization": {
+            "type": "integer",
+            "example": 70
+          }
+        }
+      },
+      "AppResponse": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "buildId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "AppListResponse": {
+        "type": "array",
+        "items": {
+          "type": null,
+          "$ref": "#/components/schemas/AppList"
+        }
+      },
+      "AppList": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "appName": {
+            "type": "string"
+          },
+          "appVersion": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          }
+        }
+      },
+      "MakePublicEndpointRequest": {
+        "type": "object",
+        "properties": {
+          "ingressControllerName": {
+            "type": "string",
+            "example": "nginx"
+          },
+          "ingressClassName": {
+            "type": "string",
+            "example": "nginx"
+          },
+          "ingressHostName": {
+            "type": "string",
+            "example": "app.example.com"
+          },
+          "portServicePathMappings": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/IngressPortServicePathMapping"
+            }
+          },
+          "ingressTLSConfigs": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/IngressTLSConfig"
+            }
+          },
+          "customAnnotations": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/Annotation"
+            }
+          }
+        }
+      },
+      "Annotation": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "IngressTLSConfig": {
+        "type": "object",
+        "properties": {
+          "hosts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "secretName": {
+            "type": "string"
+          }
+        }
+      },
+      "IngressPortServicePathMapping": {
+        "type": "object",
+        "properties": {
+          "port": {
+            "type": "integer",
+            "example": 8080
+          },
+          "servicePath": {
+            "type": "string",
+            "example": "/test/app"
+          },
+          "isPublic": {
+            "type": "boolean",
+            "example": true
+          },
+          "isServiceDiscoveryEnabled": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "AppEndpointsResponse": {
+        "type": "object",
+        "properties": {
+          "isPublicEndpointEnabled": {
+            "type": "boolean"
+          },
+          "ingressControllerName": {
+            "type": "string"
+          },
+          "ingressClassName": {
+            "type": "string"
+          },
+          "endpointsInfo": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/EndpointInfo"
+            }
+          }
+        }
+      },
+      "EndpointInfo": {
+        "type": "object",
+        "properties": {
+          "serviceInfo": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/ServiceInfo"
+            }
+          },
+          "pathPrefix": {
+            "type": "string"
+          },
+          "targetSvcPort": {
+            "type": "integer"
+          },
+          "publicEndpoint": {
+            "type": "string"
+          },
+          "publicSwaggerURL": {
+            "type": "string"
+          },
+          "internalEndpoint": {
+            "type": "string"
+          },
+          "isPublic": {
+            "type": "boolean"
+          },
+          "isServiceDiscoveryEnabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ServiceInfo": {
+        "type": "object",
+        "properties": {
+          "serviceName": {
+            "type": "string"
+          },
+          "serviceDescription": {
+            "type": "string"
+          },
+          "swagger": {
+            "type": "object"
+          },
+          "serviceProtocol": {
+            "type": "string"
+          }
+        }
+      },
+      "AppDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "buildId": {
+            "type": "string"
+          },
+          "userAppName": {
+            "type": "string"
+          },
+          "appName": {
+            "type": "string"
+          },
+          "appVersion": {
+            "type": "string"
+          },
+          "appDescription": {
+            "type": "string"
+          },
+          "bwceVersion": {
+            "type": "string"
+          },
+          "baseImageTag": {
+            "type": "string"
+          },
+          "capabilityVersion": {
+            "type": "string"
+          },
+          "profile": {
+            "type": "string"
+          },
+          "appProperties": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/AppProperty"
+            }
+          },
+          "systemProperties": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/EngineProp"
+            }
+          },
+          "resourceLimits": {
+            "type": null,
+            "$ref": "#/components/schemas/ResourceLimits"
+          },
+          "portMappings": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/PortMapping"
+            }
+          },
+          "processDiagrams": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "autoscalingEnabled": {
+            "type": "boolean"
+          },
+          "autoscalingConfig": {
+            "type": null,
+            "$ref": "#/components/schemas/AutoscalingConfig"
+          },
+          "serviceMeshEnabled": {
+            "type": "boolean"
+          },
+          "executionHistoryEnabled": {
+            "type": "boolean"
+          },
+          "lastUpdated": {
+            "type": "string"
+          },
+          "managedBy": {
+            "type": "string"
+          },
+          "workload": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "volumeMounts": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/VolumeMount"
+            }
+          },
+          "volumes": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/Volume"
+            }
+          },
+          "persistentVolumeClaims": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/PersistentVolumeClaim"
+            }
+          }
+        }
+      },
+      "PersistentVolumeClaim": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "storageClassName": {
+            "type": "string"
+          },
+          "storageRequestsSize": {
+            "type": "string"
+          },
+          "accessModes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "volumeMode": {
+            "type": "string"
+          }
+        }
+      },
+      "VolumeMount": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "mountPath": {
+            "type": "string"
+          },
+          "subPath": {
+            "type": "string"
+          },
+          "readOnly": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Volume": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "persistentVolumeClaimVolume": {
+            "type": null,
+            "$ref": "#/components/schemas/PersistentVolumeClaimVolume"
+          },
+          "configMapVolume": {
+            "type": null,
+            "$ref": "#/components/schemas/ConfigMapVolume"
+          },
+          "secretVolume": {
+            "type": null,
+            "$ref": "#/components/schemas/SecretVolume"
+          },
+          "emptyDirVolume": {
+            "type": null,
+            "$ref": "#/components/schemas/EmptyDirVolume"
+          }
+        }
+      },
+      "PersistentVolumeClaimVolume": {
+        "type": "object",
+        "properties": {
+          "claimName": {
+            "type": "string"
+          }
+        }
+      },
+      "EmptyDirVolume": {
+        "type": "object",
+        "properties": {
+          "sizeLimit": {
+            "type": "string"
+          }
+        }
+      },
+      "Item": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          }
+        }
+      },
+      "ConfigMapVolume": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "defaultMode": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/Item"
+            }
+          },
+          "optional": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SecretVolume": {
+        "type": "object",
+        "properties": {
+          "secretName": {
+            "type": "string"
+          },
+          "defaultMode": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/Item"
+            }
+          },
+          "optional": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateBuildRequest": {
+        "type": "object",
+        "properties": {
+          "buildName": {
+            "type": "string",
+            "example": ""
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateBWCEVersionTagsRequest": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateSupplementTagsRequest": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "UpdateConnectorTagsRequest": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AppProperty": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": ""
+          },
+          "value": {
+            "type": "string",
+            "example": ""
+          },
+          "type": {
+            "type": "string",
+            "example": "password"
+          }
+        }
+      },
+      "EngineProp": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": ""
+          },
+          "value": {
+            "type": "string",
+            "example": ""
+          },
+          "type": {
+            "type": "string",
+            "example": "password"
+          }
+        }
+      },
+      "ResourceLimits": {
+        "type": "object",
+        "properties": {
+          "limits": {
+            "type": null,
+            "$ref": "#/components/schemas/ResourceLimitConfig"
+          },
+          "requests": {
+            "type": null,
+            "$ref": "#/components/schemas/ResourceLimitConfig"
+          }
+        }
+      },
+      "ResourceLimitConfig": {
+        "type": "object",
+        "properties": {
+          "cpu": {
+            "type": "string",
+            "example": "1"
+          },
+          "memory": {
+            "type": "string",
+            "example": "4Gi"
+          }
+        }
+      },
+      "NamespaceInfo": {
+        "type": "object",
+        "properties": {
+          "namespace": {
+            "type": "string"
+          }
+        }
+      },
+      "AppInstancesResponse": {
+        "type": "object",
+        "properties": {
+          "instanceName": {
+            "type": "string"
+          },
+          "podIP": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          }
+        }
+      },
+      "SmartEngineResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "SmartEngineListReportResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          }
+        }
+      },
+      "PortMapping": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "hostPort": {
+            "type": "string"
+          },
+          "containerPort": {
+            "type": "string"
+          },
+          "protocol": {
+            "type": "string"
+          }
+        }
+      },
+      "ReleaseInfo": {
+        "type": "object",
+        "properties": {
+          "releaseName": {
+            "type": "string"
+          },
+          "releaseStatus": {
+            "type": "string"
+          },
+          "releaseVersion": {
+            "type": "integer"
+          },
+          "releaseDescription": {
+            "type": "string"
+          },
+          "firstDeployed": {
+            "type": "string"
+          },
+          "lastDeployed": {
+            "type": "string"
+          },
+          "chartName": {
+            "type": "string"
+          },
+          "chartVersion": {
+            "type": "string"
+          },
+          "chartAppVersion": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "values": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "errMsg": {
+            "type": "string"
+          },
+          "errDetail": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "OAuth2Bearer": {
+        "type": "http",
+        "description": "OAuth2 Bearer access token, is required to be set in the http Authorization header for API requests",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

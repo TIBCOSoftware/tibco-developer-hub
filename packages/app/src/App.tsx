@@ -67,6 +67,7 @@ import {
   templateGroupsValue,
 } from './components/scaffolder/CustomScaffolderComponent.tsx';
 import { CustomScaffolderPage } from './components/scaffolder/plugin.ts';
+import { MarketplacePage } from '@internal/plugin-marketplace';
 
 export const generateProviders = (providerConfig: string[]): any[] => {
   const providers: any[] = [];
@@ -162,7 +163,7 @@ const app = createApp({
   ],
 });
 
-const CustomImportflowPage = () => {
+const CustomImportFlowPage = () => {
   const config = useApi(configApiRef);
   const importFlowGroups: undefined | TemplateGroups[] = templateGroupsValue(
     config.getOptional('importFlowGroups'),
@@ -191,11 +192,12 @@ const CustomImportflowPage = () => {
   }
   return (
     <ScaffolderPage
-      templateFilter={entity =>
-        !!entity.metadata.tags
-          ?.map(v => v.toLowerCase())
-          .includes('import-flow')
-      }
+      templateFilter={entity => {
+        const tags = entity.metadata.tags?.map(v => v.toLowerCase());
+        return !!(
+          tags?.includes('import-flow') && !tags?.includes('devhub-internal')
+        );
+      }}
       groups={groups}
       components={{
         EXPERIMENTAL_TemplateListPageComponent: ImportFlowPage,
@@ -204,6 +206,50 @@ const CustomImportflowPage = () => {
         pageTitleOverride: 'Import Flow',
         title: 'Import Flow',
         subtitle: 'Import new software components using import flows',
+      }}
+    />
+  );
+};
+
+const CustomMarketPlacePage = () => {
+  const config = useApi(configApiRef);
+  const marketplaceGroups: undefined | TemplateGroups[] = templateGroupsValue(
+    config.getOptional('marketplaceGroups'),
+  );
+  let groups: any[] = [];
+  if (marketplaceGroups) {
+    groups = [];
+    for (const marketplaceGroup of marketplaceGroups) {
+      groups.push({
+        title: marketplaceGroup.name,
+        filter: (entity: TemplateEntityV1beta3) => {
+          for (const tag of marketplaceGroup.tagFilters) {
+            if (entity.metadata?.tags?.includes(tag)) {
+              return true;
+            }
+          }
+          return false;
+        },
+      });
+    }
+  }
+  return (
+    <ScaffolderPage
+      templateFilter={entity => {
+        const tags = entity.metadata.tags?.map(v => v.toLowerCase());
+        return !!(
+          tags?.includes('devhub-marketplace') &&
+          !tags?.includes('devhub-internal')
+        );
+      }}
+      groups={groups}
+      components={{
+        EXPERIMENTAL_TemplateListPageComponent: MarketplacePage,
+      }}
+      headerOptions={{
+        pageTitleOverride: 'Marketplace',
+        title: 'Marketplace',
+        subtitle: 'Install new software components using marketplace',
       }}
     />
   );
@@ -234,7 +280,7 @@ export const routes = (
         <ReportIssue />
       </TechDocsAddons>
     </Route>
-    <Route path="/import-flow" element={<CustomImportflowPage />} />
+    <Route path="/import-flow" element={<CustomImportFlowPage />} />
     <Route path="/create" element={<CustomScaffolderPage />} />
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
@@ -252,6 +298,7 @@ export const routes = (
       {settingsPage}
     </Route>
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
+    <Route path="/marketplace" element={<CustomMarketPlacePage />} />
   </FlatRoutes>
 );
 export default app.createRoot(

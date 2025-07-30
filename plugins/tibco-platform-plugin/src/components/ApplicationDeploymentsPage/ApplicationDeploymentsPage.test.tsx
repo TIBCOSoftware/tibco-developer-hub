@@ -68,7 +68,7 @@ describe('<ApplicationDeploymentsPage />', () => {
               cpLink: 'https://cp-url.com',
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.8.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
               },
             }),
           ],

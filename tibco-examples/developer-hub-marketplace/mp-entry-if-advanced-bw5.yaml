@@ -1,0 +1,72 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-if-advanced-bw5
+  title: BusinessWorks 5
+  description: An advanced Import Flow for TIBCO BusinessWorks 5. This example
+    imports processes, WSDLs and databases shared resources from existing BW5
+    projects into TIBCO Developer Hub.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: false
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: BW5 Documentation
+        url: https://docs.tibco.com/products/tibco-activematrix-businessworks-5-14-0
+        icon: star
+  tags:
+    - devhub-marketplace
+    - business-works-5
+spec:
+  owner: group:default/marketplace-entries-group
+  type: import-flow
+  presentation:
+    buttonLabels:
+      createButtonText: Install
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Install  BusinessWorks 5 into your TIBCO Developer Hub
+
+            **ID:** mp-entry-if-advanced-bw5
+
+            **Description:** An advanced Import Flow for TIBCO BusinessWorks 5. This example imports processes, WSDLs and databases shared resources from existing BW5 projects into TIBCO Developer Hub. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Installing Marketplace Entry...
+      action: catalog:register
+      input:
+#       optional: true
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/advanced-import-flows/import-flow-bw5-system.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Import Flows
+        url: /import-flow?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
+        icon: kind:template
+      - icon: kind:template
+        title: Run import flow for BW5
+        url: /create/templates/default/import-flow-bw5-system

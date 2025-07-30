@@ -1,7 +1,7 @@
 # copy this file and rename it to app-config.local.yaml
 # then make any updates as needed
 # all *.local.yaml files are ignored by git so it's safe to define secrets in that file
-define: &docUrl https://docs.tibco.com/go/platform-cp/1.7.0/doc/html#cshid=developer_hub_overview
+define: &docUrl https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview
 app:
   baseUrl: http://localhost:3000
   docUrl: *docUrl
@@ -72,6 +72,20 @@ catalog:
               Group,
               Domain,
               System,
+              Resource,
+            ]
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace/tibco-developer-hub-market-place.yaml
+      rules:
+        - allow:
+            [
+              Group,
+              Template,
+              System,
+              Domain,
+              Location,
+              Component,
+              API,
               Resource,
             ]
 auth:

@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "main": "dist/index.cjs.js",
   "types": "src/index.ts",
   "private": true,
@@ -50,6 +50,7 @@
     "@backstage/plugin-search-backend-node": "^1.3.8",
     "@backstage/plugin-techdocs-backend": "^1.11.6",
     "@internal/backstage-plugin-scaffolder-backend-module-import-flow": "workspace:^",
+    "@internal/plugin-scaffolder-backend-module-metrics-api": "workspace:^",
     "@internal/plugin-scaffolder-backend-module-tibco-git-repositories": "workspace:^",
     "app": "link:../app",
     "better-sqlite3": "^9.0.0",

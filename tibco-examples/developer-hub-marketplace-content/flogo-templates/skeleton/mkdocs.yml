@@ -1,0 +1,10 @@
+# https://www.mkdocs.org/user-guide/configuration/
+site_name: ${{values.name | dump}}
+site_description: ${{values.description | dump}}
+
+plugins:
+  - techdocs-core
+  - redirects:
+      redirect_maps:
+        'index.md': ${{values.indexRedirect }}
+

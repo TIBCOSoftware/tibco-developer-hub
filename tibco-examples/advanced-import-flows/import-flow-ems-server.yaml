@@ -141,14 +141,14 @@ spec:
       name: Register System
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/tibco-developer-hub-resources/system-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
 
     - id: registerComponent
       name: Register Component
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/tibco-developer-hub-resources/component-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
 
     - id: registerResources
@@ -156,7 +156,7 @@ spec:
       if: ${{ (steps.extract.output.ems_server_topics.length > 0) or (steps.extract.output.ems_server_queues.length > 0) }}
       action: catalog:register
       input:
-        optional: true
+#       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/tibco-developer-hub-resources/resources-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
 
   output:

@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "private": true,
   "bundled": true,
   "backstage": {
@@ -42,6 +42,7 @@
     "@backstage/theme": "^0.6.4",
     "@fontsource/source-sans-pro": "^4.5.11",
     "@internal/backstage-plugin-import-flow": "workspace:^",
+    "@internal/plugin-marketplace": "workspace:^",
     "@internal/plugin-tibco-platform-plugin": "workspace:^",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.9.1",
