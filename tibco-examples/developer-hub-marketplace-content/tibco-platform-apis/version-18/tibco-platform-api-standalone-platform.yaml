@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: "tibco-platform-api-18"
+  description: "API of the TIBCO Platform (1.8)"
+  tags:
+    - tibco-platform
+    - platform
+    - core
+spec:
+  type: openapi
+  lifecycle: production
+  owner: TIBCO
+  definition:
+    $text: ./control-plane-api-1.8.json
