@@ -2,7 +2,7 @@ apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   name: "flogo-capability-api"
-  description: "API of the Flogo Capability"
+  description: "API of the Flogo Capability (1.7)"
   tags:
     - tibco-platform
     - capability
