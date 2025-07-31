@@ -6,7 +6,7 @@ metadata:
   description: Definitions of all the APIs in the TIBCO Platform - version 1.9
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
