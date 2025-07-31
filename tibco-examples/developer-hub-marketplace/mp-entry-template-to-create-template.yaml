@@ -57,7 +57,6 @@ spec:
       name: Installing Marketplace Entry...
       action: catalog:register
       input:
-#       optional: true
         catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/template-to-create-template/template-for-template.yaml
   output:
     links:

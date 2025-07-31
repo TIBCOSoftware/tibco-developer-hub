@@ -13,5 +13,6 @@ spec:
     - ./mp-entry-if-advanced-flogo-ems.yaml
     - ./mp-entry-doc-platform-apis-17.yaml
     - ./mp-entry-doc-platform-apis-18.yaml
+    - ./mp-entry-doc-platform-apis-19.yaml
     - ./mp-entry-doc-platform-provisioner.yaml
     - ./mp-entry-doc-helm-charts.yaml

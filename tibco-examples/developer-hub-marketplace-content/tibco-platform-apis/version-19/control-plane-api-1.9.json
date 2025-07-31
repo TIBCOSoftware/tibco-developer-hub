@@ -1,0 +1,6046 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "TIBCO Platform APIs",
+    "version": "1.0"
+  },
+  "servers": [],
+  "tags": [
+    {
+      "name": "Data Planes",
+      "description": "Data planes operations"
+    },
+    {
+      "name": "Resources",
+      "description": "Subscription and Data plane Resources operations"
+    },
+    {
+      "name": "Capabilities",
+      "description": "Capabilities operations"
+    },
+    {
+      "name": "Apps",
+      "description": "Apps operations"
+    }
+  ],
+  "paths": {
+    "/cp/api/v1/data-planes/k8s": {
+      "post": {
+        "tags": [
+          "Data Planes"
+        ],
+        "summary": "Register a k8s data plane",
+        "description": "Register a k8s data plane",
+        "requestBody": {
+          "description": "Request payload to register a k8s data plane",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/registerK8sDataPlanePayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Response object after registering a k8s data plane",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponseRegisterDataPlane"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "payload"
+      }
+    },
+    "/cp/api/v1/data-planes/control-tower": {
+      "post": {
+        "tags": [
+          "Data Planes"
+        ],
+        "summary": "Register a control-tower data plane",
+        "description": "Register a control-tower data plane",
+        "requestBody": {
+          "description": "Request payload to register a control-tower data plane",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/registerControlTowerDataPlanePayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Response object after registering a control-tower data plane",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/apiResponseRegisterDataPlane"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "payload"
+      }
+    },
+    "/cp/api/v1/data-planes": {
+      "get": {
+        "tags": [
+          "Data Planes"
+        ],
+        "summary": "Get data planes",
+        "description": "Get data planes in a subscription",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Data planes can be filtered based on name and type(k8s/control-tower) parameters. Ex: /cp/api/v1/data-planes?$filter=type.eq.k8s&$filter=name.eq.k8sdp1",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "order-by",
+            "in": "query",
+            "description": "This parameter can be used to sort the data based on the Data Plane name. Ex: /cp/api/v1/data-planes?order-by=name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "This parameter can be used to sort the data either in ascending (asc) or descending (desc) order. 'order-by' parameter must be passed with 'order' parameter. Ex: /cp/api/v1/data-planes?order-by=name&order=asc",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$page",
+            "in": "query",
+            "description": "This denotes the page number of the response. 'page' parameter must be passed with 'limit' parameter. Ex: /cp/api/v1/data-planes?$page=1&$limit=10",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "$limit",
+            "in": "query",
+            "description": "This denotes number of records fetched per call. 'limit' parameter must be passed with 'page' parameter. Ex: /cp/api/v1/data-planes?$page=1&$limit=10",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get data planes in a subscription",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseDataPlanes"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": [
+                    {
+                      "id": "crg03d7ps52c73b4ieu0",
+                      "name": "k8s-dp"
+                    },
+                    {
+                      "id": "crg03tnps52c73b4if00",
+                      "name": "control-tower-dp"
+                    }
+                  ],
+                  "context": [
+                    "2024-10-11T08:56:06.293Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/status": {
+      "get": {
+        "tags": [
+          "Data Planes"
+        ],
+        "summary": "Get Data Planes status",
+        "description": "Get status of all Data Planes in a Subscription",
+        "responses": {
+          "200": {
+            "description": "Data Planes status success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseDataPlanesStatus"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "dataplanes": [
+                      {
+                        "id": "crgnkdp90k6c73d0erf0",
+                        "status": "red",
+                        "message": "Last heard status at 2024-09-11 11:08:40 +0000 UTC",
+                        "tibtunnel-connected": false
+                      },
+                      {
+                        "id": "crhb9o190k6c73cq1k3g",
+                        "status": "green",
+                        "message": "",
+                        "tibtunnel-connected": true
+                      },
+                      {
+                        "id": "crg037fps52c73b4iet0",
+                        "status": "red",
+                        "message": "Last heard status at 2024-09-10 08:21:50 +0000 UTC",
+                        "tibtunnel-connected": false
+                      }
+                    ]
+                  },
+                  "context": [
+                    "2024-10-11T08:56:06.293Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/status": {
+      "get": {
+        "tags": [
+          "Data Planes"
+        ],
+        "summary": "Get Data Plane status",
+        "description": "Get status of a Data Plane with Data Plane Id",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data Plane Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data Plane status success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseDataPlaneStatus"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "status": "green",
+                    "message": "",
+                    "tibtunnel-connected": true
+                  },
+                  "context": [
+                    "2024-10-11T08:56:06.293Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/commands/{operation}": {
+      "get": {
+        "tags": [
+          "Data Planes"
+        ],
+        "summary": "Get Data Plane commands",
+        "description": "Get Data Plane commands for delete/upgrade operation",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data Plane Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "operation",
+            "in": "path",
+            "description": "Operation to be performed (delete/upgrade)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data Plane commands success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseDataPlaneCommands"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": [
+                    {
+                      "cmd": "helm uninstall -n my-namespace dp-core-infrastructure ",
+                      "id": "K8S_UNINSTALL_DP_CORE_INFRASTRUCTURE",
+                      "description": "helm command to uninstall dp core infrastructure"
+                    },
+                    {
+                      "cmd": "helm uninstall -n my-namespace dp-configure-namespace",
+                      "id": "K8S_DELETE_RBAC",
+                      "description": "helm command to delete rbacs"
+                    },
+                    {
+                      "cmd": "kubectl delete ns my-namespace",
+                      "id": "K8S_DELETE_NAMESPACE",
+                      "description": "kubectl command to delete namespace"
+                    }
+                  ],
+                  "context": [
+                    "2024-10-17T06:24:01.743Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}": {
+      "get": {
+        "tags": [
+          "Data Planes"
+        ],
+        "summary": "Get data plane details of the mentioned data plane id",
+        "description": "Get data plane details of the mentioned data plane id",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data plane Id for which data plane details need to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data plane details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseDataPlaneDetails"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "name": "my-control-tower-data-plane",
+                    "cluster-scoped-permissions": false,
+                    "description": "control-tower data plane description ",
+                    "fluent-bit": false,
+                    "host-cloud-type": "control-tower",
+                    "namespace": "my-control-tower-dp-ns",
+                    "registered-region": "global",
+                    "service-account-name": "my-control-tower-dp-sa",
+                    "tags": [],
+                    "custom-certificate-secret-name": "my-custom-certificate",
+                    "proxy-config": {
+                      "http-proxy": "http://www.http-proxy.com",
+                      "https-proxy": "https://www.https-proxy.com",
+                      "no-proxy": "https://www.no-proxy.com"
+                    },
+                    "container-registry": {
+                      "url": "https://www.registy-url.com",
+                      "repository": "my-repository-name",
+                      "username": "username",
+                      "password": "password"
+                    },
+                    "capabilities": [
+                      {
+                        "id": "crhbbmp90k6c73cq1k60",
+                        "name": "BWCE",
+                        "type": "BWCE"
+                      }
+                    ]
+                  },
+                  "context": [
+                    "2024-10-11T08:56:06.293Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Data Planes"
+        ],
+        "summary": "Update data plane details like name, description and tags",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data plane Id for which data plane details need to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/dataPlaneUpdatePayload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Response after updating data plane details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/dataPlaneUpdateResponse"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "message": "Dataplane 'cv3duui7dsoajnuj4fa0' updated successfully"
+                  },
+                  "context": [
+                    "2025-03-11T08:03:36.953Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "payload"
+      },
+      "delete": {
+        "tags": [
+          "Data Planes"
+        ],
+        "summary": "Unregister a data plane",
+        "description": "Unregister a data plane",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Id of the data plane which needs to be unregistered",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "force",
+            "in": "query",
+            "description": "Parameter to force delete a data plane",
+            "schema": {
+              "type": "boolean",
+              "enum": [
+                true
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status and details of deleted data plane",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseDeleteDataPlane"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "message": "Dataplane 'cv3duui7dsoajnuj4fa0' deleted successfully",
+                    "commands": [
+                      {
+                        "cmd": "helm uninstall -n my-namespace dp-core-infrastructure",
+                        "id": "K8S_UNINSTALL_DP_CORE_INFRASTRUCTURE",
+                        "description": "helm command to uninstall dp core infrastructure"
+                      },
+                      {
+                        "cmd": "helm uninstall -n my-namespace dp-configure-namespace",
+                        "id": "K8S_DELETE_RBAC",
+                        "description": "helm command to delete rbacs"
+                      },
+                      {
+                        "cmd": "kubectl delete ns my-namespace",
+                        "id": "K8S_DELETE_NAMESPACE",
+                        "description": "kubectl command to delete namespace"
+                      }
+                    ]
+                  },
+                  "context": [
+                    "2025-03-11T08:19:52.852Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/apps": {
+      "get": {
+        "tags": [
+          "Apps"
+        ],
+        "summary": "Get app details deployed on a data plane",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data plane Id for which app details need to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "App details on a data plane",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appDetailsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Subscription not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/apps": {
+      "get": {
+        "tags": [
+          "Apps"
+        ],
+        "summary": "Get app details deployed on a subscription",
+        "responses": {
+          "200": {
+            "description": "App details on a subscription",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseAppsList"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": [
+                    {
+                      "id": "crp6mph0ukss739ob4d0",
+                      "name": "app-name"
+                    },
+                    {
+                      "id": "crp6mvp0ukss739ob4dg",
+                      "name": "app-name"
+                    }
+                  ],
+                  "context": [
+                    "2024-10-11T08:56:06.293Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "App details for subscription is denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Denied"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/apps/{appId}": {
+      "get": {
+        "tags": [
+          "Apps"
+        ],
+        "summary": "Get app details by ID on a subscription",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App ID for which details needs to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get App details by ID on a subscription",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseAppDetails"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "id": "cuumooaghufnbqb1mtcg",
+                    "name": "app-name",
+                    "description": "app description",
+                    "version": [
+                      1,
+                      0
+                    ],
+                    "capability-id": "BWCE",
+                    "capability-instance-id": "cuumge27dsoajnuj4f6g",
+                    "created-by": "username",
+                    "created-time": 1740467298,
+                    "modified-by": "username",
+                    "modified-time": 1740467343,
+                    "data-plane-id": "cuq4rgaugsdfke0k7k4g"
+                  },
+                  "context": [
+                    "2025-03-11T14:37:06.090Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "App details for subscription is denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Denied"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/resources/instances/{type}": {
+      "post": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Create a subscription level resource instance",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "HELM_REPO",
+                "EMAIL_RECEIVER",
+                "ALERT_RULE",
+                "OBSERVABILITY",
+                "LOGS_EXP_SRV_ES",
+                "LOGS_EXP_SRV_KAFKA",
+                "LOGS_EXP_SRV_OTLP",
+                "LOGS_EXP_UA_ES",
+                "LOGS_EXP_UA_KAFKA",
+                "LOGS_EXP_UA_OTLP",
+                "LOGS_PRX_UA_ES",
+                "LOGS_PRX_UA_OS",
+                "METRICS_EXP_KAFKA",
+                "METRICS_EXP_OTLP",
+                "METRICS_EXP_PROM",
+                "METRICS_PRX_PROM",
+                "TRACES_EXP_ES",
+                "TRACES_EXP_KAFKA",
+                "TRACES_EXP_OTLP",
+                "TRACES_PRX_ES",
+                "TRACES_PRX_OS"
+              ]
+            },
+            "description": "The type of resource to create"
+          }
+        ],
+        "requestBody": {
+          "description": "Request body for creating the resource",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/helmRepoSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/emailReceiverSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/alertRuleSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resourceO11YV3Schema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/elasticSearchSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/kafkaSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/otlpSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resourceMetricsServerExporterPrometheusSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/elasticSearchSchemaNoLogIndex"
+                  },
+                  {
+                    "$ref": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "type",
+                  "mapping": {
+                    "HELM_REPO": "#/components/schemas/helmRepoSchema",
+                    "EMAIL_RECEIVER": "#/components/schemas/emailReceiverSchema",
+                    "ALERT_RULE": "#/components/schemas/alertRuleSchema",
+                    "OBSERVABILITY": "#/components/schemas/resourceO11YV3Schema",
+                    "LOGS_EXP_SRV_ES": "#/components/schemas/elasticSearchSchema",
+                    "LOGS_EXP_SRV_KAFKA": "#/components/schemas/kafkaSchema",
+                    "LOGS_EXP_SRV_OTLP": "#/components/schemas/otlpSchema",
+                    "LOGS_EXP_UA_ES": "#/components/schemas/elasticSearchSchema",
+                    "LOGS_EXP_UA_KAFKA": "#/components/schemas/kafkaSchema",
+                    "LOGS_EXP_UA_OTLP": "#/components/schemas/otlpSchema",
+                    "LOGS_PRX_UA_ES": "#/components/schemas/elasticSearchSchema",
+                    "LOGS_PRX_UA_OS": "#/components/schemas/elasticSearchSchema",
+                    "METRICS_EXP_KAFKA": "#/components/schemas/kafkaSchema",
+                    "METRICS_EXP_OTLP": "#/components/schemas/otlpSchema",
+                    "METRICS_EXP_PROM": "#/components/schemas/resourceMetricsServerExporterPrometheusSchema",
+                    "METRICS_PRX_PROM": "#/components/schemas/elasticSearchSchemaNoLogIndex",
+                    "TRACES_EXP_ES": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders",
+                    "TRACES_EXP_KAFKA": "#/components/schemas/kafkaSchema",
+                    "TRACES_EXP_OTLP": "#/components/schemas/otlpSchema",
+                    "TRACES_PRX_ES": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders",
+                    "TRACES_PRX_OS": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders"
+                  }
+                }
+              },
+              "examples": {
+                "HELM_REPO_EXAMPLE": {
+                  "$ref": "#/components/examples/HELM_REPO_EXAMPLE"
+                },
+                "EMAIL_RECEIVER_EXAMPLE": {
+                  "$ref": "#/components/examples/EMAIL_RECEIVER_EXAMPLE"
+                },
+                "ALERT_RULE_EXAMPLE": {
+                  "$ref": "#/components/examples/ALERT_RULE_EXAMPLE"
+                },
+                "OBSERVABILITY_EXAMPLE": {
+                  "value": {
+                    "name": "resource-name",
+                    "proxies": {
+                      "traces-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "metrics-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "logs-server-user-apps": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      }
+                    },
+                    "exporters": {
+                      "traces-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "metrics-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "logs-server-services": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "logs-server-user-apps": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      }
+                    }
+                  }
+                },
+                "LOGS_EXP_SRV_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "LOGS_EXP_SRV_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "LOGS_EXP_SRV_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "LOGS_EXP_UA_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "LOGS_EXP_UA_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "LOGS_EXP_UA_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "LOGS_PRX_UA_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "LOGS_PRX_UA_OS_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "METRICS_EXP_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "METRICS_EXP_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "METRICS_EXP_PROM_EXAMPLE": {
+                  "$ref": "#/components/examples/METRICS_EXP_PROM_EXAMPLE"
+                },
+                "METRICS_PRX_PROM_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_EXAMPLE"
+                },
+                "TRACES_EXP_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_HEADERS_EXAMPLE"
+                },
+                "TRACES_EXP_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "TRACES_EXP_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "TRACES_PRX_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_HEADERS_EXAMPLE"
+                },
+                "TRACES_PRX_OS_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_HEADERS_EXAMPLE"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resource instance created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "type": "object",
+                      "properties": {
+                        "resource_instance_id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "resource_instance_id": "cv7vfkrddha1gdi2167g"
+                  },
+                  "context": [
+                    "2025-03-11T08:44:03.972Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/resources/instances/{type}": {
+      "post": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Create Data plane level resource instance",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Data Plane Id"
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "INGRESS_CONTROLLER",
+                "STORAGE_CLASS",
+                "HELM_REPO",
+                "BW_AGENT",
+                "DB_CONFIG",
+                "HAWK_DOMAIN",
+                "OBSERVABILITY",
+                "LOGS_EXP_SRV_ES",
+                "LOGS_EXP_SRV_KAFKA",
+                "LOGS_EXP_SRV_OTLP",
+                "LOGS_EXP_UA_ES",
+                "LOGS_EXP_UA_KAFKA",
+                "LOGS_EXP_UA_OTLP",
+                "LOGS_PRX_UA_ES",
+                "LOGS_PRX_UA_OS",
+                "METRICS_EXP_KAFKA",
+                "METRICS_EXP_OTLP",
+                "METRICS_EXP_PROM",
+                "METRICS_PRX_PROM",
+                "TRACES_EXP_ES",
+                "TRACES_EXP_KAFKA",
+                "TRACES_EXP_OTLP",
+                "TRACES_PRX_ES",
+                "TRACES_PRX_OS"
+              ]
+            },
+            "description": "The type of resource to create"
+          }
+        ],
+        "requestBody": {
+          "description": "Request body for creating the resource",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/resourceBWAgentSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resourceIngressControllerSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/helmRepoSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resourceStorageClassSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resourceDatabaseConfigSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resourceHawkDomainSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resourceO11YV3Schema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/elasticSearchSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/kafkaSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/otlpSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resourceMetricsServerExporterPrometheusSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/elasticSearchSchemaNoLogIndex"
+                  },
+                  {
+                    "$ref": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "type",
+                  "mapping": {
+                    "INGRESS_CONTROLLER": "#/components/schemas/resourceIngressControllerSchema",
+                    "STORAGE_CLASS": "#/components/schemas/resourceStorageClassSchema",
+                    "HELM_REPO": "#/components/schemas/helmRepoSchema",
+                    "BW_AGENT": "#/components/schemas/resourceBWAgentSchema",
+                    "DB_CONFIG": "#/components/schemas/resourceDatabaseConfigSchema",
+                    "HAWK_DOMAIN": "#/components/schemas/resourceHawkDomainSchema",
+                    "OBSERVABILITY": "#/components/schemas/resourceO11YV3Schema",
+                    "LOGS_EXP_SRV_ES": "#/components/schemas/elasticSearchSchema",
+                    "LOGS_EXP_SRV_KAFKA": "#/components/schemas/kafkaSchema",
+                    "LOGS_EXP_SRV_OTLP": "#/components/schemas/otlpSchema",
+                    "LOGS_EXP_UA_ES": "#/components/schemas/elasticSearchSchema",
+                    "LOGS_EXP_UA_KAFKA": "#/components/schemas/kafkaSchema",
+                    "LOGS_EXP_UA_OTLP": "#/components/schemas/otlpSchema",
+                    "LOGS_PRX_UA_ES": "#/components/schemas/elasticSearchSchema",
+                    "LOGS_PRX_UA_OS": "#/components/schemas/elasticSearchSchema",
+                    "METRICS_EXP_KAFKA": "#/components/schemas/kafkaSchema",
+                    "METRICS_EXP_OTLP": "#/components/schemas/otlpSchema",
+                    "METRICS_EXP_PROM": "#/components/schemas/resourceMetricsServerExporterPrometheusSchema",
+                    "METRICS_PRX_PROM": "#/components/schemas/elasticSearchSchemaNoLogIndex",
+                    "TRACES_EXP_ES": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders",
+                    "TRACES_EXP_KAFKA": "#/components/schemas/kafkaSchema",
+                    "TRACES_EXP_OTLP": "#/components/schemas/otlpSchema",
+                    "TRACES_PRX_ES": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders",
+                    "TRACES_PRX_OS": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders"
+                  }
+                }
+              },
+              "examples": {
+                "INGRESS_CONTROLLER_EXAMPLE": {
+                  "value": {
+                    "name": "my-ingress",
+                    "description": "ingress resource description",
+                    "ingress-controller": "nginx/kong/traefik",
+                    "ingress-class-name": "nginx",
+                    "fqdn": "my-fqdn.com",
+                    "annotations": {
+                      "key-1": "value-1",
+                      "key-2": "value-2"
+                    }
+                  }
+                },
+                "STORAGE_CLASS_EXAMPLE": {
+                  "value": {
+                    "name": "my-storage",
+                    "description": "storage resource description",
+                    "storage-class-name": "hostpath"
+                  }
+                },
+                "DB_CONFIG_EXAMPLE": {
+                  "value": {
+                    "name": "my-db-config",
+                    "database-type": "postgres/mysql",
+                    "host": "my-host",
+                    "port": "5432",
+                    "database-name": "my-db",
+                    "database-user": "my-user",
+                    "password": "my-password"
+                  }
+                },
+                "HELM_REPO_EXAMPLE": {
+                  "$ref": "#/components/examples/HELM_REPO_EXAMPLE"
+                },
+                "BW_AGENT_EXAMPLE": {
+                  "value": {
+                    "url": "https://url.com",
+                    "name": "resource-name",
+                    "description": "resource description",
+                    "agent-name": "bw-agent-name",
+                    "agent-description": "bw agent description",
+                    "network-name": "network",
+                    "product-name": "BW6",
+                    "product-version": "1.5.0"
+                  }
+                },
+                "HAWK_DOMAIN_EXAMPLE-RV": {
+                  "value": {
+                    "domain-name": "domain-name",
+                    "transport": "RV",
+                    "rv": {
+                      "rv-service": "rv-service",
+                      "rv-network": "7788",
+                      "rv-daemon": "tcp:host:port"
+                    }
+                  }
+                },
+                "HAWK_DOMAIN_EXAMPLE-EMS-TLS": {
+                  "value": {
+                    "domain-name": "domain-name",
+                    "transport": "EMS",
+                    "ems": {
+                      "ems-server-url": "ssl://ems-hostname:ems-tls-port",
+                      "ems-user-name": "ems-user-name",
+                      "ems-password": "password-if-enabled-else-a-emtpy-string",
+                      "ems-ssl-no-verify-host": true,
+                      "ems-ssl-no-verify-hostname": true,
+                      "ems-ssl-trusted": "/absolute/path/on/hawkconsole/nachine/to/server_root.cert.pem",
+                      "ems-ssl-expected-hostname": "servername-as-common-name-in-server-certificate"
+                    }
+                  }
+                },
+                "HAWK_DOMAIN_EXAMPLE-EMS-NON-TLS": {
+                  "value": {
+                    "domain-name": "domain-name",
+                    "transport": "EMS",
+                    "ems": {
+                      "ems-server-url": "tcp://EMS-host:EMS-port",
+                      "ems-user-name": "ems-username",
+                      "ems-password": "ems-password"
+                    }
+                  }
+                },
+                "OBSERVABILITY_EXAMPLE": {
+                  "value": {
+                    "name": "resource-name",
+                    "proxies": {
+                      "traces-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "DATAPLANE",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "metrics-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "DATAPLANE",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "logs-server-user-apps": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "DATAPLANE",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      }
+                    },
+                    "exporters": {
+                      "traces-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "DATAPLANE",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "metrics-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "DATAPLANE",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "logs-server-services": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "DATAPLANE",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "logs-server-user-apps": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "DATAPLANE",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      }
+                    }
+                  }
+                },
+                "LOGS_EXP_SRV_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "LOGS_EXP_SRV_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "LOGS_EXP_SRV_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "LOGS_EXP_UA_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "LOGS_EXP_UA_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "LOGS_EXP_UA_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "LOGS_PRX_UA_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "LOGS_PRX_UA_OS_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "METRICS_EXP_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "METRICS_EXP_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "METRICS_EXP_PROM_EXAMPLE": {
+                  "$ref": "#/components/examples/METRICS_EXP_PROM_EXAMPLE"
+                },
+                "METRICS_PRX_PROM_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_EXAMPLE"
+                },
+                "TRACES_EXP_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_HEADERS_EXAMPLE"
+                },
+                "TRACES_EXP_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "TRACES_EXP_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "TRACES_PRX_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_HEADERS_EXAMPLE"
+                },
+                "TRACES_PRX_OS_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_HEADERS_EXAMPLE"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Resource instance created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "type": "object",
+                      "properties": {
+                        "resource_instance_id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/resources": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Get Resources",
+        "description": "Get all supported resources",
+        "responses": {
+          "200": {
+            "description": "Resources success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResourcesResponse"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": [
+                    {
+                      "id": "INGRESS_CONTROLLER",
+                      "name": "Ingress Controller"
+                    }
+                  ],
+                  "context": [
+                    "2025-03-11T13:29:53.934Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/resources/instances": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Get All Resource Instances",
+        "description": "Get Subscription level Resource Instances",
+        "parameters": [
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Resource instances can be filtered based on name and type parameters. For example: .../resources/instances?$filter=type.eq.STORAGE_CLASS&$filter=name.eq.storage-class-1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscription resource instances success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseSubscriptionResourceInstances"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": [
+                    {
+                      "id": "croeu0h90k6c73b9o4cg",
+                      "name": "ingress-name",
+                      "type": "INGRESS_CONTROLLER",
+                      "scope": "SUBSCRIPTION"
+                    },
+                    {
+                      "id": "crokrch90k6c73b9o4d0",
+                      "name": "storage-class-name",
+                      "type": "STORAGE_CLASS",
+                      "scope": "DATAPLANE",
+                      "dataplane-id": "crfsu0h90k6c73b9o4c2",
+                      "dataplane-name": "data-plane-name"
+                    }
+                  ],
+                  "context": [
+                    "2024-10-17T06:24:01.743Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, missing Data Plane permission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/resources/instances": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Get Data Plane Resource Instances",
+        "description": "Get Data Plane level Resource Instances",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data Plane Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "$filter",
+            "in": "query",
+            "description": "Resource instances can be filtered based on name and type parameters. For example: .../resources/instances?$filter=type.eq.STORAGE_CLASS&$filter=name.eq.storage-class-1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data Plane resource instances success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseDataPlaneResourceInstances"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": [
+                    {
+                      "id": "croeu0h90k6c73b9o4cg",
+                      "name": "ingress-name",
+                      "type": "INGRESS_CONTROLLER"
+                    },
+                    {
+                      "id": "crokrch90k6c73b9o4d0",
+                      "name": "storage-class-name",
+                      "type": "STORAGE_CLASS"
+                    }
+                  ],
+                  "context": [
+                    "2024-10-17T06:24:01.743Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, missing Data Plane permission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/resources/instances/{resourceInstanceId}": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Get Resource Instance details",
+        "description": "Get Resource Instance details by Resource Instance Id",
+        "parameters": [
+          {
+            "name": "resourceInstanceId",
+            "in": "path",
+            "description": "Resource Instance Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource Instance details success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseResourceInstanceDetails"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "example-1": {
+                    "status": "success",
+                    "response": {
+                      "id": "croetg190k6c73b9o4c0",
+                      "name": "global-olly-resource",
+                      "type2": "OBSERVABILITY",
+                      "scope": "SUBSCRIPTION",
+                      "linked-dataplanes": [
+                        {
+                          "id": "crhb9o190k6c73cq1k3g",
+                          "name": "data-plane-name"
+                        }
+                      ]
+                    },
+                    "context": [
+                      "2024-10-17T06:24:01.743Z"
+                    ]
+                  },
+                  "example-2": {
+                    "status": "success",
+                    "response": {
+                      "id": "crokrch90k6c73b9o4d0",
+                      "name": "storage-class-name",
+                      "type": "STORAGE_CLASS",
+                      "scope": "DATAPLANE",
+                      "dataplane-id": "crhb9o190k6c73cq1k3g",
+                      "dataplane-name": "data-plane-name",
+                      "instance-details": {
+                        "storage-class-name": "hostpath"
+                      },
+                      "linked-capabilities": [
+                        {
+                          "id": "crhbbmp90k6c73cq1k60",
+                          "name": "BWCE",
+                          "capability": "BWCE"
+                        }
+                      ]
+                    },
+                    "context": [
+                      "2024-10-17T06:24:01.743Z"
+                    ]
+                  },
+                  "example-3": {
+                    "status": "success",
+                    "response": {
+                      "id": "croeu0h90k6c73b9o4cg",
+                      "name": "ingress-name",
+                      "type": "INGRESS_CONTROLLER",
+                      "instance-details": {
+                        "ingress-controller": "nginx",
+                        "ingress-class-name": "nginx",
+                        "fqdn": "my-fqdn.com"
+                      },
+                      "scope": "DATAPLANE",
+                      "dataplane-id": "crhb9o190k6c73cq1k3g",
+                      "dataplane-name": "data-plane-name"
+                    },
+                    "context": [
+                      "2024-10-17T06:24:01.743Z"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, missing Data Plane permission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Delete Resource Instance at subscription level",
+        "description": "Delete Resource Instance at subscription level",
+        "parameters": [
+          {
+            "name": "resourceInstanceId",
+            "in": "path",
+            "description": "Resource Instance Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subscription level resource instance deletion success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/deleteResourceInstanceResponse"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "message": "Resource instance 'crt2mvl5si0c7386jn50' deleted successfully"
+                  },
+                  "context": [
+                    "2024-10-17T06:24:01.743Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, missing Data Plane permission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Update resource instance",
+        "parameters": [
+          {
+            "name": "resourceInstanceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource Instance Id"
+          }
+        ],
+        "requestBody": {
+          "description": "Request body for updating the resource",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/helmRepoSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/emailReceiverSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/alertRuleSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resourceO11YV3Schema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/elasticSearchSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/kafkaSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/otlpSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/resourceMetricsServerExporterPrometheusSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/elasticSearchSchemaNoLogIndex"
+                  },
+                  {
+                    "$ref": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "type",
+                  "mapping": {
+                    "HELM_REPO": "#/components/schemas/helmRepoSchema",
+                    "EMAIL_RECEIVER": "#/components/schemas/emailReceiverSchema",
+                    "ALERT_RULE": "#/components/schemas/alertRuleSchema",
+                    "OBSERVABILITY": "#/components/schemas/resourceO11YV3Schema",
+                    "LOGS_EXP_SRV_ES": "#/components/schemas/elasticSearchSchema",
+                    "LOGS_EXP_SRV_KAFKA": "#/components/schemas/kafkaSchema",
+                    "LOGS_EXP_SRV_OTLP": "#/components/schemas/otlpSchema",
+                    "LOGS_EXP_UA_ES": "#/components/schemas/elasticSearchSchema",
+                    "LOGS_EXP_UA_KAFKA": "#/components/schemas/kafkaSchema",
+                    "LOGS_EXP_UA_OTLP": "#/components/schemas/otlpSchema",
+                    "LOGS_PRX_UA_ES": "#/components/schemas/elasticSearchSchema",
+                    "LOGS_PRX_UA_OS": "#/components/schemas/elasticSearchSchema",
+                    "METRICS_EXP_KAFKA": "#/components/schemas/kafkaSchema",
+                    "METRICS_EXP_OTLP": "#/components/schemas/otlpSchema",
+                    "METRICS_EXP_PROM": "#/components/schemas/resourceMetricsServerExporterPrometheusSchema",
+                    "METRICS_PRX_PROM": "#/components/schemas/elasticSearchSchemaNoLogIndex",
+                    "TRACES_EXP_ES": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders",
+                    "TRACES_EXP_KAFKA": "#/components/schemas/kafkaSchema",
+                    "TRACES_EXP_OTLP": "#/components/schemas/otlpSchema",
+                    "TRACES_PRX_ES": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders",
+                    "TRACES_PRX_OS": "#/components/schemas/elasticSearchSchemaNoLogIndexAndHeaders"
+                  }
+                }
+              },
+              "examples": {
+                "HELM_REPO_EXAMPLE": {
+                  "$ref": "#/components/examples/HELM_REPO_EXAMPLE"
+                },
+                "EMAIL_RECEIVER_EXAMPLE": {
+                  "$ref": "#/components/examples/EMAIL_RECEIVER_EXAMPLE"
+                },
+                "ALERT_RULE_EXAMPLE": {
+                  "$ref": "#/components/examples/ALERT_RULE_EXAMPLE"
+                },
+                "OBSERVABILITY_EXAMPLE": {
+                  "value": {
+                    "name": "resource-name",
+                    "proxies": {
+                      "traces-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "metrics-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "logs-server-user-apps": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      }
+                    },
+                    "exporters": {
+                      "traces-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "metrics-server": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "logs-server-services": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      },
+                      "logs-server-user-apps": {
+                        "kind": "elasticSearch/openSearch/kafka/otlp/prometheus",
+                        "scope": "SUBSCRIPTION",
+                        "enabled": true,
+                        "instance-id": "cv7rv5jddha1gdi2162g"
+                      }
+                    }
+                  }
+                },
+                "LOGS_EXP_SRV_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "LOGS_EXP_SRV_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "LOGS_EXP_SRV_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "LOGS_EXP_UA_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "LOGS_EXP_UA_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "LOGS_EXP_UA_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "LOGS_PRX_UA_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "LOGS_PRX_UA_OS_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_EXAMPLE"
+                },
+                "METRICS_EXP_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "METRICS_EXP_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "METRICS_EXP_PROM_EXAMPLE": {
+                  "$ref": "#/components/examples/METRICS_EXP_PROM_EXAMPLE"
+                },
+                "METRICS_PRX_PROM_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_EXAMPLE"
+                },
+                "TRACES_EXP_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_HEADERS_EXAMPLE"
+                },
+                "TRACES_EXP_KAFKA_EXAMPLE": {
+                  "$ref": "#/components/examples/KAFKA_EXAMPLE"
+                },
+                "TRACES_EXP_OTLP_EXAMPLE": {
+                  "$ref": "#/components/examples/OTLP_EXAMPLE"
+                },
+                "TRACES_PRX_ES_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_HEADERS_EXAMPLE"
+                },
+                "TRACES_PRX_OS_EXAMPLE": {
+                  "$ref": "#/components/examples/ELASTIC_SEARCH_NO_LOGINDEX_HEADERS_EXAMPLE"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resource instance updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "type": "object",
+                      "properties": {
+                        "resource_instance_id": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/resources/instances/{resourceInstanceId}": {
+      "delete": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Delete Data Plane Resource Instance",
+        "description": "Delete Data Plane Resource Instance",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data Plane Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "resourceInstanceId",
+            "in": "path",
+            "description": "Resource Instance Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Data Plane resource instance deletion success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/deleteResourceInstanceResponse"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "message": "Resource instance 'crt2mvl5si0c7386jn50' deleted successfully"
+                  },
+                  "context": [
+                    "2024-10-17T06:24:01.743Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, missing Data Plane permission",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/{capabilityId}": {
+      "post": {
+        "tags": [
+          "Capabilities"
+        ],
+        "summary": "Provision a Capability",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data Plane Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "capabilityId",
+            "in": "path",
+            "description": "Capability Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "BWCE",
+                "FLOGO",
+                "TIBCOHUB"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Request body for provisioning the capability",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/bwceCapabilityProvisionSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/flogoCapabilityProvisionSchema"
+                  },
+                  {
+                    "$ref": "#/components/schemas/tibcoHubCapabilityProvisionSchema"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "type",
+                  "mapping": {
+                    "BWCE": "#/components/schemas/bwceCapabilityProvisionSchema",
+                    "FLOGO": "#/components/schemas/flogoCapabilityProvisionSchema",
+                    "TIBCOHUB": "#/components/schemas/tibcoHubCapabilityProvisionSchema"
+                  }
+                }
+              },
+              "examples": {
+                "BWCE_EXAMPLE": {
+                  "value": {
+                    "provision-schema": {
+                      "path-prefix": "string",
+                      "storage-class-resource-instance-id": "string",
+                      "ingress-controller-resource-instance-id": "string",
+                      "db-config-resource-instance-id": "string",
+                      "execution-history-enabled": false,
+                      "fluentbit-sidecar-enabled": true,
+                      "auto-discovery-enabled": false,
+                      "auto-discovery-config": {
+                        "label-selectors": {
+                          "<<auto-discovery-apps-ns>>": "<<test-label>>"
+                        },
+                        "port": "8090"
+                      }
+                    }
+                  }
+                },
+                "FLOGO_EXAMPLE": {
+                  "value": {
+                    "provision-schema": {
+                      "storage-class-resource-instance-id": "string",
+                      "ingress-controller-resource-instance-id": "string",
+                      "path-prefix": "string",
+                      "fluentbit-sidecar-enabled": true
+                    }
+                  }
+                },
+                "TIBCOHUB_EXAMPLE": {
+                  "value": {
+                    "provision-schema": {
+                      "storage-class-resource-instance-id": "string",
+                      "ingress-controller-resource-instance-id": "string",
+                      "database-resource-instance-id": "string",
+                      "configuration": {
+                        "developer-hub-name": "string",
+                        "host-name": "string"
+                      },
+                      "advanced": {
+                        "ingress-class-name": "string",
+                        "kubernetes-secret-object": "string"
+                      },
+                      "custom-config": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Capability provisioned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "type": "object",
+                      "properties": {
+                        "capabilityInstanceId": {
+                          "type": "string"
+                        },
+                        "releasesStatus": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "successfulReleases": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/capabilities": {
+      "get": {
+        "tags": [
+          "Capabilities"
+        ],
+        "summary": "Get capabilities list",
+        "description": "Get capabilities list",
+        "responses": {
+          "200": {
+            "description": "Capabilities list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseCapabilities"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": [
+                    {
+                      "id": "TIBCOHUB",
+                      "name": "TIBCO® Developer Hub"
+                    },
+                    {
+                      "id": "FLOGO",
+                      "name": "TIBCO Flogo® Enterprise"
+                    },
+                    {
+                      "id": "O11Y",
+                      "name": "Observability"
+                    },
+                    {
+                      "id": "EMS",
+                      "name": "TIBCO Enterprise Message Service™"
+                    },
+                    {
+                      "id": "ISTIO",
+                      "name": "Service Mesh"
+                    },
+                    {
+                      "id": "BWCE",
+                      "name": "TIBCO BusinessWorks™ Container Edition"
+                    },
+                    {
+                      "id": "PULSAR",
+                      "name": "TIBCO® Messaging Quasar - Powered by Apache Pulsar™"
+                    },
+                    {
+                      "id": "DI",
+                      "name": "TIBCO Data Integration"
+                    },
+                    {
+                      "id": "APIM",
+                      "name": "TIBCO® API Manager"
+                    }
+                  ],
+                  "context": [
+                    "2024-10-17T16:43:10.990Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/capabilities/instances": {
+      "get": {
+        "tags": [
+          "Capabilities"
+        ],
+        "summary": "Get all capability instances details in a subscription",
+        "parameters": [
+          {
+            "name": "capabilityId",
+            "in": "query",
+            "description": "Capability Id for which instance details need to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dataPlaneId",
+            "in": "query",
+            "description": "Capability instance details need to be fetched for this data plane id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All capability instances details in a subscription",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/capabilityInstancesDetailsInSubResponse"
+                },
+                "example": {
+                  "status": "success",
+                  "response": [
+                    {
+                      "dataplaneId": "cuq4rgaugsdfke0k7k4g",
+                      "dataplaneName": "data-plane-name",
+                      "capabilityInstanceId": "cuumge27dsoajnuj4f6g",
+                      "capabilityInstanceName": "BWCE",
+                      "capabilityId": "BWCE",
+                      "concreteRecipe": {},
+                      "resourceInstanceIds": [
+                        "cuumgaa7dsoajnuj4f60",
+                        "cuumg7a7dsoajnuj4f5g",
+                        "cuq4rgqugsdfke0k7k50"
+                      ]
+                    }
+                  ],
+                  "context": [
+                    "2024-10-17T06:24:01.743Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Subscription not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/instances": {
+      "get": {
+        "tags": [
+          "Capabilities"
+        ],
+        "summary": "Get all capability instances details in a data plane",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data Plane Id for which capability instances details need to be fetched.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All capability instances details in a dataplane",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseDataPlaneCapabilitiesInstances"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": [
+                    {
+                      "id": "crbvs3abpdg346p70u1g",
+                      "capability": "BWCE",
+                      "name": "BWCE"
+                    },
+                    {
+                      "id": "crc22sibpdg346p70ung",
+                      "capability": "FLOGO",
+                      "name": "FLOGO"
+                    }
+                  ],
+                  "context": [
+                    "2024-10-11T08:56:06.293Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Subscription not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/capabilities-instances/status": {
+      "get": {
+        "tags": [
+          "Capabilities"
+        ],
+        "summary": "Get capabilities instances status",
+        "description": "Get capabilities instances status list",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data Plane Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get capabilities instances status list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/apiCapabilityInstanceStatusResponse"
+                      }
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": [
+                    {
+                      "capability": "CPPROXY",
+                      "type": "INFRA",
+                      "status": "red",
+                      "message": "Mandatory INFRA capability not installed",
+                      "services": [
+                        {
+                          "name": "cp-proxy",
+                          "status": "red",
+                          "message": "message"
+                        }
+                      ]
+                    }
+                  ],
+                  "context": [
+                    "2024-10-17T16:43:10.990Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/instances/{capabilityInstanceId}/status": {
+      "get": {
+        "tags": [
+          "Capabilities"
+        ],
+        "summary": "Get capability instance status",
+        "description": "Get capability instance status",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data Plane Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "capabilityInstanceId",
+            "in": "path",
+            "description": "Capability Instance Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Capability instance status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiCapabilityInstanceStatusResponse"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "capability": "CPPROXY",
+                    "type": "INFRA",
+                    "status": "red",
+                    "message": "Mandatory INFRA capability not installed",
+                    "services": [
+                      {
+                        "name": "cp-proxy",
+                        "status": "red",
+                        "message": "message"
+                      }
+                    ]
+                  },
+                  "context": [
+                    "2024-10-11T08:56:06.293Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/instances/{capabilityInstanceId}": {
+      "get": {
+        "tags": [
+          "Capabilities"
+        ],
+        "summary": "Get capability instance details in a data plane",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data Plane Id for which details need to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "capabilityInstanceId",
+            "in": "path",
+            "description": "Capability Instance Id for which details need to be fetched",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Capability instances details in a dataplane",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/apiResponseCapabilitiesInstance"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "capability": "BWCE",
+                    "name": "BWCE",
+                    "description": null,
+                    "created-by": "ssaffwybn6673o2mk4jfvyts4nm6bhn7",
+                    "created-time": 1740466244,
+                    "modified-by": "ssaffwybn6673o2mk4jfvyts4nm6bhn7",
+                    "modified-time": 1740466244,
+                    "namespace": "abcd",
+                    "region": "",
+                    "tags": null,
+                    "version": [
+                      1,
+                      5,
+                      0
+                    ],
+                    "resource-instances": [
+                      {
+                        "id": "cuumg7a7dsoajnuj4f5g",
+                        "name": "storage-resource"
+                      },
+                      {
+                        "id": "cuumgaa7dsoajnuj4f60",
+                        "name": "ingress-resource"
+                      }
+                    ]
+                  },
+                  "context": [
+                    "2025-03-11T14:03:13.596Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Capability Instance not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Capability Instance details denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Denied"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Capabilities"
+        ],
+        "summary": "De-provision a capability instance from a data plane",
+        "description": "De-provision a capability instance from a data plane",
+        "parameters": [
+          {
+            "name": "dataPlaneId",
+            "in": "path",
+            "description": "Data plane Id on which an capability instance needs to be de-provisioned",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "capabilityInstanceId",
+            "in": "path",
+            "description": "Capability Instance Id which needs to be de-provisioned",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status and details of de-provisioned capability instance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "response": {
+                      "$ref": "#/components/schemas/deProvisionCapabilityResponse"
+                    },
+                    "context": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "status": "success",
+                  "response": {
+                    "message": "Capability cv3duui7dsoajnuj4fa0 deleted successfully"
+                  },
+                  "context": [
+                    "2025-03-11T14:03:13.596Z"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden, header is missing",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string",
+            "description": "Custom CP error code"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "string"
+          },
+          "context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "status": "error",
+          "code": "CP-10000",
+          "message": "Error summary",
+          "details": "Error details",
+          "context": [
+            "2025-03-11T04:53:52Z"
+          ]
+        }
+      },
+      "Denied": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "errorDetails": {
+            "type": "string"
+          }
+        }
+      },
+      "registerK8sDataPlanePayload": {
+        "required": [
+          "name",
+          "namespace",
+          "service-account-name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the data plane"
+          },
+          "cluster-scoped-permissions": {
+            "type": "boolean",
+            "description": "(Optional) Cluster scoped permissions flag for the data plane",
+            "default": true
+          },
+          "container-registry": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "Container Registry URL"
+              },
+              "repository": {
+                "type": "string",
+                "description": "Repository name in the Container Registry"
+              },
+              "username": {
+                "type": "string",
+                "description": "Username for the Container Registry"
+              },
+              "password": {
+                "type": "string",
+                "description": "Password for the Container Registry"
+              }
+            },
+            "description": "(Optional) Container Registry settings for the data plane"
+          },
+          "description": {
+            "type": "string",
+            "description": "(Optional) Description of data plane being registered"
+          },
+          "fluent-bit": {
+            "type": "boolean",
+            "description": "(Optional) Fluent bit flag for the logs",
+            "default": true
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Namespace where data plane will be present in cluster"
+          },
+          "proxy-config": {
+            "type": "object",
+            "properties": {
+              "http-proxy": {
+                "type": "string",
+                "description": "HTTP Proxy URL"
+              },
+              "https-proxy": {
+                "type": "string",
+                "description": "HTTPS Proxy URL"
+              },
+              "no-proxy": {
+                "type": "string",
+                "description": "No Proxy URL(s) separated by comma"
+              }
+            },
+            "description": "(Optional) Proxy configuration settings for the data plane"
+          },
+          "helm-repo-resource-instance-id": {
+            "type": "string",
+            "description": "Resource instance id of existing helm repo resource instance"
+          },
+          "helm-repo-resource": {
+            "type": "object",
+            "properties": {
+              "repo-alias": {
+                "type": "string",
+                "description": "Alias for helm repo"
+              },
+              "url": {
+                "type": "string",
+                "description": "Helm repo URL"
+              },
+              "repository": {
+                "type": "string",
+                "description": "Repository name in the helm repo"
+              },
+              "username": {
+                "type": "string",
+                "description": "Username for the helm repo"
+              },
+              "password": {
+                "type": "string",
+                "description": "Password for the helm repo"
+              },
+              "pull-latest-charts": {
+                "type": "boolean",
+                "description": "Should be set if want to fetch latest available patch version"
+              }
+            },
+            "description": "(Optional) Helm repo resource details are required when helm-repo-resource-instance-id is not available"
+          },
+          "custom-certificate-secret-name": {
+            "type": "string",
+            "description": "(Optional) (Not supported for CP SaaS) Secret name of available custom certificate"
+          },
+          "service-account-name": {
+            "type": "string",
+            "description": "Service account name for the data plane"
+          }
+        },
+        "example": {
+          "name": "my-kubernetes-data-plane",
+          "cluster-scoped-permissions": true,
+          "container-registry": {
+            "url": "https://www.registy-url.com",
+            "repository": "repository-name",
+            "username": "username",
+            "password": "password"
+          },
+          "description": "kubernetes data plane description",
+          "fluent-bit": true,
+          "namespace": "my-kubernetes-dp-ns",
+          "proxy-config": {
+            "http-proxy": "http://www.http-proxy.com",
+            "https-proxy": "https://www.https-proxy.com",
+            "no-proxy": "https://www.no-proxy.com"
+          },
+          "helm-repo-resource-instance-id": "cu4v1iajrs2cibmbg8c0",
+          "helm-repo-resource": {
+            "repo-alias": "my-repo-alias",
+            "url": "https://www.helm-repo-url.com",
+            "repository": "repository-name",
+            "username": "username",
+            "password": "password",
+            "pull-latest-charts": false
+          },
+          "custom-certificate-secret-name": "my-custom-certificate",
+          "service-account-name": "my-kubernetes-dp-sa"
+        }
+      },
+      "registerControlTowerDataPlanePayload": {
+        "required": [
+          "name",
+          "namespace",
+          "resources",
+          "service-account-name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the data plane"
+          },
+          "cluster-scoped-permissions": {
+            "type": "boolean",
+            "description": "(Optional) Cluster scoped permissions flag for the data plane",
+            "default": false
+          },
+          "container-registry": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "description": "Container Registry URL"
+              },
+              "repository": {
+                "type": "string",
+                "description": "Repository name in the Container Registry"
+              },
+              "username": {
+                "type": "string",
+                "description": "Username for the Container Registry"
+              },
+              "password": {
+                "type": "string",
+                "description": "Password for the Container Registry"
+              }
+            },
+            "description": "(Optional) Container Registry settings for the data plane"
+          },
+          "description": {
+            "type": "string",
+            "description": "(Optional) Description of data plane being registered"
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Namespace where data plane will be present in cluster"
+          },
+          "proxy-config": {
+            "type": "object",
+            "properties": {
+              "http-proxy": {
+                "type": "string",
+                "description": "HTTP Proxy URL"
+              },
+              "https-proxy": {
+                "type": "string",
+                "description": "HTTPS Proxy URL"
+              },
+              "no-proxy": {
+                "type": "string",
+                "description": "No Proxy URL(s) separated by comma"
+              }
+            },
+            "description": "(Optional) Proxy configuration settings for the data plane"
+          },
+          "resources": {
+            "type": "object",
+            "properties": {
+              "storage": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name for the storage resource instance"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description for the storage resource instance"
+                  },
+                  "storage-class-name": {
+                    "type": "string",
+                    "description": "Storage class"
+                  }
+                },
+                "description": "Storage details"
+              },
+              "ingress": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name for the ingress controller resource instance"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description for the ingress controller resource instance"
+                  },
+                  "ingress-controller": {
+                    "type": "string",
+                    "description": "Ingress controller e.g. nginx, traefik, etc for the ingress controller resource instance"
+                  },
+                  "ingress-class-name": {
+                    "type": "string",
+                    "description": "Ingress class name for the ingress controller resource instance"
+                  },
+                  "fqdn": {
+                    "type": "string",
+                    "description": "FQDN for the ingress controller resource instance"
+                  }
+                },
+                "description": "Ingress details"
+              }
+            },
+            "description": "Resources will have details of storage and ingress resource"
+          },
+          "helm-repo-resource-instance-id": {
+            "type": "string",
+            "description": "Resource instance id of existing helm repo resource instance"
+          },
+          "helm-repo-resource": {
+            "type": "object",
+            "properties": {
+              "repo-alias": {
+                "type": "string",
+                "description": "Alias for helm repo"
+              },
+              "url": {
+                "type": "string",
+                "description": "Helm repo URL"
+              },
+              "repository": {
+                "type": "string",
+                "description": "Repository name in the helm repo"
+              },
+              "username": {
+                "type": "string",
+                "description": "Username for the helm repo"
+              },
+              "password": {
+                "type": "string",
+                "description": "Password for the helm repo"
+              },
+              "pull-latest-charts": {
+                "type": "boolean",
+                "description": "Should be set if want to fetch latest available patch version"
+              }
+            },
+            "description": "(Optional) Helm repo resource details are required when helm-repo-resource-instance-id is not available"
+          },
+          "custom-certificate-secret-name": {
+            "type": "string",
+            "description": "(Optional) (Not supported for CP SaaS) Secret name of available custom certificate"
+          },
+          "service-account-name": {
+            "type": "string",
+            "description": "Service account name for the data plane"
+          }
+        },
+        "example": {
+          "name": "my-control-tower-data-plane",
+          "description": "control-tower data plane description",
+          "helm-repo-resource": {
+            "repo-alias": "my-repo-alias",
+            "url": "https://www.helm-repo-url.com",
+            "repository": "repository-name",
+            "username": "username",
+            "password": "password",
+            "pull-latest-charts": false
+          },
+          "namespace": "my-control-tower-dp-ns",
+          "resources": {
+            "storage": {
+              "name": "my-storage",
+              "description": "storage resource instance description",
+              "storage-class-name": "gp2"
+            },
+            "ingress": {
+              "name": "my-ingress",
+              "description": "ingress resource instance description",
+              "ingress-controller": "nginx",
+              "ingress-class-name": "nginx",
+              "fqdn": "my-fqdn.com"
+            }
+          },
+          "service-account-name": "my-control-tower-dp-sa",
+          "custom-certificate-secret-name": "my-custom-certificate",
+          "cluster-scoped-permissions": true,
+          "proxy-config": {
+            "http-proxy": "http://www.http-proxy.com",
+            "https-proxy": "https://www.https-proxy.com",
+            "no-proxy": "https://www.no-proxy.com"
+          },
+          "container-registry": {
+            "url": "https://www.registy-url.com",
+            "repository": "repository-name",
+            "username": "username",
+            "password": "password"
+          }
+        }
+      },
+      "apiResponseRegisterDataPlane": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "response": {
+            "required": [
+              "commands",
+              "id"
+            ],
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Data Plane Id generated by control plane after registration"
+              },
+              "commands": {
+                "type": "array",
+                "description": "Helm commands to be used for Namespace creation, Service Account creation and Cluster registration",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "cmd": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "status": "success",
+          "response": {
+            "id": "cv7rv5jddha1gdi2162g",
+            "commands": [
+              {
+                "cmd": "helm repo add my-repo-alias https://www.helm-repo-url.com/repository-name --username username --password password && helm repo update my-repo-alias",
+                "id": "K8s_HELM_REPO_AUTH",
+                "description": "helm command to authenticate helm repo "
+              },
+              {
+                "cmd": "echo -e 'kubectl apply -f - <<EOF\napiVersion: v1\nkind: Namespace\nmetadata:\n  name: my-namespace\n  labels:\n    platform.tibco.com/dataplane-id: cv7rv5jddha1gdi2162g\nEOF' | bash",
+                "id": "K8S_CREATE_NAMESPACE",
+                "description": "kubectl command to create namespace"
+              },
+              {
+                "cmd": "helm upgrade --install -n my-namespace dp-configure-namespace my-repo-alias/dp-configure-namespace --version 1.5.3  --set global.tibco.dataPlaneId=cv7rv5jddha1gdi2162g --set global.tibco.subscriptionId=cuq4qiqugsdfke0k7k3g --set global.tibco.primaryNamespaceName=my-namespace --set global.tibco.serviceAccount=my-service-account --set global.tibco.containerRegistry.url=https://www.registy-url.com --set global.tibco.containerRegistry.username=username --set global.tibco.containerRegistry.password=password --set global.tibco.containerRegistry.repository=repository-name --set global.tibco.enableClusterScopedPerm=true",
+                "id": "K8S_CREATE_RBAC",
+                "description": "helm command to create rbacs"
+              },
+              {
+                "cmd": "helm upgrade --install dp-core-infrastructure -n my-namespace my-repo-alias/dp-core-infrastructure --version 1.5.4 --set global.tibco.dataPlaneId=cv7rv5jddha1gdi2162g --set global.tibco.subscriptionId=cuq4qiqugsdfke0k7k3g --set tp-tibtunnel.configure.accessKey=G9nPuU5wpJXqDrBMl5uw4G5bUmWjXwyFbpvCBMsjJLQ --set tp-tibtunnel.connect.url=https://rajt.cp1-tunnel.localhost.dataplanes.pro/sub-cuq4qiqugsdfke0k7k3g-dp-cv7rv5jddha1gdi2162g --set global.tibco.serviceAccount=my-service-account --set global.tibco.containerRegistry.url=https://www.registy-url.com --set global.tibco.containerRegistry.repository=repository-name --set global.proxy.httpProxy=http://www.http-proxy.com --set global.proxy.httpsProxy=https://www.https-proxy.com --set global.proxy.noProxy='https://www.no-proxy.com' --set global.tibco.cpCertificateSecret=my-custom-certificate --set global.logging.fluentbit.enabled=true",
+                "id": "K8S_INSTALL_DP_CORE_INFRASTRUCTURE",
+                "description": "helm command to install/upgrade dp core infrastructure"
+              }
+            ]
+          },
+          "context": [
+            "2025-03-11T04:44:07.803Z"
+          ]
+        }
+      },
+      "dataPlaneUpdatePayload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the data plane"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the data plane"
+          },
+          "tags": {
+            "type": "array",
+            "description": "Tags on the data plane",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "name": "my-data-plane",
+          "description": "data plane description",
+          "tags": [
+            "tag1"
+          ]
+        }
+      },
+      "dataPlaneUpdateResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Success message for data plane update"
+          }
+        }
+      },
+      "apiResponseDeleteDataPlane": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message with delete details"
+          },
+          "commands": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Commands"
+            }
+          }
+        }
+      },
+      "Commands": {
+        "required": [
+          "cmd",
+          "description",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "cmd": {
+            "type": "string",
+            "description": "Command that is to be executed on the data plane"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the command"
+          },
+          "id": {
+            "type": "string",
+            "description": "Id of the command"
+          }
+        }
+      },
+      "deleteResourceInstanceResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message with delete resource instance details"
+          }
+        }
+      },
+      "deProvisionCapabilityResponse": {
+        "required": [
+          "message"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message with de-provision details"
+          }
+        }
+      },
+      "appDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "response": {
+            "type": "array",
+            "description": "List of app details",
+            "items": {
+              "$ref": "#/components/schemas/AppDetails"
+            }
+          },
+          "context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "status": "success",
+          "response": [
+            {
+              "app_description": "app description",
+              "app_eula": true,
+              "app_id": "cuumooaghufnbqb1mtcg",
+              "app_links": null,
+              "app_name": "app-name",
+              "app_namespace": "app-ns",
+              "app_resource_instance_ids": null,
+              "app_state": "Stopped",
+              "app_tags": [],
+              "app_version": [
+                1,
+                0
+              ],
+              "capability_id": "BWCE",
+              "capability_instance_description": null,
+              "capability_instance_id": "cuumge27dsoajnuj4f6g",
+              "capability_instance_name": "BWCE",
+              "capability_instance_namespace": "cap-ns",
+              "capability_instance_status": "provisioned",
+              "capability_instance_tags": null,
+              "capability_instance_version": [
+                1,
+                5,
+                0
+              ],
+              "created_by": "username",
+              "created_time": 1740467298,
+              "dp_description": "",
+              "dp_id": "cuq4rgaugsdfke0k7k4g",
+              "dp_name": "data-plane-name",
+              "dp_status": "processed",
+              "dp_tags": null,
+              "host_cloud_type": "k8s",
+              "modified_by": "username",
+              "modified_time": 1740467343,
+              "registered_region": "global",
+              "running_region": "",
+              "subscription_id": "cuq4qiqugsdfke0k7k3g"
+            }
+          ],
+          "context": [
+            "2025-03-11T14:03:13.596Z"
+          ]
+        }
+      },
+      "AppDetails": {
+        "required": [
+          "app_description",
+          "app_id",
+          "app_name",
+          "app_state",
+          "app_tags",
+          "app_version",
+          "capability_id",
+          "capability_instance_description",
+          "capability_instance_id",
+          "capability_instance_name",
+          "capability_instance_status",
+          "capability_instance_tags",
+          "capability_instance_version",
+          "created_by",
+          "created_time",
+          "dp_description",
+          "dp_id",
+          "dp_name",
+          "dp_status",
+          "dp_tags",
+          "host_cloud_type",
+          "modified_by",
+          "modified_time",
+          "namespace",
+          "region",
+          "subscription_id"
+        ],
+        "type": "object",
+        "properties": {
+          "app_description": {
+            "type": "string",
+            "description": "App description of the deployed app"
+          },
+          "app_id": {
+            "type": "string",
+            "description": "App Id of the deployed app"
+          },
+          "app_name": {
+            "type": "string",
+            "description": "App name of the deployed app"
+          },
+          "app_state": {
+            "type": "string",
+            "description": "App name of the deployed app"
+          },
+          "app_tags": {
+            "type": "array",
+            "description": "Tags of the deployed app",
+            "items": {
+              "type": "string"
+            }
+          },
+          "app_version": {
+            "type": "array",
+            "description": "App version of the deployed app",
+            "items": {
+              "type": "number"
+            }
+          },
+          "capability_id": {
+            "type": "string",
+            "description": "Capability Id of the capability on which app is deployed"
+          },
+          "capability_instance_description": {
+            "type": "string",
+            "description": "Capability Instance Description of the capability on which app is deployed"
+          },
+          "capability_instance_id": {
+            "type": "string",
+            "description": "Capability Instance Id of the capability on which app is deployed"
+          },
+          "capability_instance_name": {
+            "type": "string",
+            "description": "Capability Instance Name of the capability on which app is deployed"
+          },
+          "capability_instance_status": {
+            "type": "string",
+            "description": "Capability Instance Status of the capability on which app is deployed"
+          },
+          "capability_instance_tags": {
+            "type": "array",
+            "description": "Tags of the capability instance on which app is deployed",
+            "items": {
+              "type": "string"
+            }
+          },
+          "capability_instance_version": {
+            "type": "array",
+            "description": "Capability instance version of the capability on which app is deployed",
+            "items": {
+              "type": "number"
+            }
+          },
+          "created_by": {
+            "type": "string",
+            "description": "User entity id of the user who deployed the app"
+          },
+          "created_time": {
+            "type": "number",
+            "description": "Timestamp when app was deployed"
+          },
+          "dp_description": {
+            "type": "string",
+            "description": "Data plane description on which app was deployed"
+          },
+          "dp_id": {
+            "type": "string",
+            "description": "Data plane id on which app was deployed"
+          },
+          "dp_name": {
+            "type": "string",
+            "description": "Data plane name on which app was deployed"
+          },
+          "dp_status": {
+            "type": "string",
+            "description": "Data plane status on which app was deployed"
+          },
+          "dp_tags": {
+            "type": "array",
+            "description": "Data plane tags on which app was deployed",
+            "items": {
+              "type": "string"
+            }
+          },
+          "host_cloud_type": {
+            "type": "string",
+            "description": "Host cloud type of the data plane. For example AWS, AZURE, etc."
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User entity id of the user who modified the app"
+          },
+          "modified_time": {
+            "type": "number",
+            "description": "Timestamp when app was modified"
+          },
+          "namespace": {
+            "type": "string",
+            "description": "Namespace in which app is deployed"
+          },
+          "region": {
+            "type": "string",
+            "description": "Region of the data plane"
+          },
+          "subscription_id": {
+            "type": "string",
+            "description": "Subscription Id of the TIBCO Platform"
+          }
+        }
+      },
+      "capabilityInstancesDetailsInSubResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "response": {
+            "type": "array",
+            "description": "All Capability Instances details provisioned in the subscription",
+            "items": {
+              "$ref": "#/components/schemas/CapabilityInstanceDetailsInSub"
+            }
+          },
+          "context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CapabilityInstanceDetailsInSub": {
+        "required": [
+          "capabilityId",
+          "capabilityInstanceId",
+          "capabilityInstanceName",
+          "concreteRecipe",
+          "dataplaneId",
+          "dataplaneName"
+        ],
+        "type": "object",
+        "properties": {
+          "capabilityId": {
+            "type": "string",
+            "description": "Capability Id of the provisioned capability instance"
+          },
+          "capabilityInstanceId": {
+            "type": "string",
+            "description": "Capability Instance Id of the provisioned capability instance"
+          },
+          "capabilityInstanceName": {
+            "type": "string",
+            "description": "Capability Instance Name of the provisioned capability instance"
+          },
+          "concreteRecipe": {
+            "type": "string",
+            "description": "Concrete recipe generated for provisioning of capability instance"
+          },
+          "dataplaneId": {
+            "type": "string",
+            "description": "Data plane id on which capability is provisioned"
+          },
+          "dataplaneName": {
+            "type": "string",
+            "description": "Data plane name on which capability is provisioned"
+          },
+          "tibcoHubBaseAppUrl": {
+            "type": "string",
+            "description": "TIBCO HUB URL on which user should get redirected from left navigation menu"
+          }
+        }
+      },
+      "apiResponseDataPlanes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "apiResponseDataPlanesStatus": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "tibtunnel-connected": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "apiResponseDataPlaneStatus": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "tibtunnel-connected": {
+            "type": "boolean"
+          }
+        }
+      },
+      "apiResponseDataPlaneDetails": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "host-cloud-type": {
+            "type": "string"
+          },
+          "custom-certificate-secret-name": {
+            "type": "string"
+          },
+          "registered-region": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "service-account-name": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "fluent-bit": {
+            "type": "boolean"
+          },
+          "cluster-scoped-permissions": {
+            "type": "boolean"
+          },
+          "proxy-config": {
+            "type": "object",
+            "properties": {
+              "http-proxy": {
+                "type": "string"
+              },
+              "https-proxy": {
+                "type": "string"
+              },
+              "no-proxy": {
+                "type": "string"
+              }
+            }
+          },
+          "container-registry": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "username": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              }
+            }
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "apiResponseDataPlaneCapabilitiesInstances": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "capability": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "apiResponseCapabilitiesInstance": {
+        "type": "object",
+        "properties": {
+          "capability": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "created-by": {
+            "type": "string"
+          },
+          "created-time": {
+            "type": "number"
+          },
+          "modified-by": {
+            "type": "string"
+          },
+          "modified-time": {
+            "type": "number"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "resource-instances": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "version": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "apiResponseDataPlaneCommands": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "cmd": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "apiResponseDataPlaneResourceInstances": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "apiResponseCapabilities": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "apiResponseAppsList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "apiResponseAppDetails": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "version": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "capability-id": {
+            "type": "string"
+          },
+          "capability-instance-id": {
+            "type": "string"
+          },
+          "data-plane-id": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created-by": {
+            "type": "string"
+          },
+          "created-time": {
+            "type": "string"
+          },
+          "modified-by": {
+            "type": "string"
+          },
+          "modified-time": {
+            "type": "string"
+          }
+        }
+      },
+      "apiResponseSubscriptionResourceInstances": {
+        "type": "array",
+        "items": {
+          "required": [
+            "id",
+            "name",
+            "scope",
+            "type"
+          ],
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "string"
+            },
+            "dataplane-id": {
+              "type": "string"
+            },
+            "dataplane-name": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "apiResponseResourceInstanceDetails": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "resource instance id"
+          },
+          "name": {
+            "type": "string",
+            "description": "resource instance name"
+          },
+          "type": {
+            "type": "string",
+            "description": "resource instance type"
+          },
+          "scope": {
+            "type": "string",
+            "description": "resource instance scope (SUBSCRIPTION/DATAPLANE)"
+          },
+          "instance-details": {
+            "type": "object"
+          },
+          "linked-dataplanes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "data plane id"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "data plane name"
+                }
+              }
+            }
+          },
+          "linked-capabilities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "capability instance id"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "capability instance name"
+                },
+                "capability": {
+                  "type": "string",
+                  "description": "capability id"
+                }
+              }
+            }
+          }
+        }
+      },
+      "apiResourcesResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "resource id"
+            },
+            "name": {
+              "type": "string",
+              "description": "resource name"
+            }
+          }
+        }
+      },
+      "resourceBWAgentSchema": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "agent-name": {
+            "type": "string"
+          },
+          "agent-description": {
+            "type": "string"
+          },
+          "network-name": {
+            "type": "string"
+          },
+          "product-name": {
+            "type": "string"
+          },
+          "product-version": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "url",
+          "name",
+          "agent-name"
+        ]
+      },
+      "resourceIngressControllerSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "ingress-controller": {
+            "type": "string",
+            "enum": [
+              "nginx",
+              "kong",
+              "traefik"
+            ]
+          },
+          "ingress-class-name": {
+            "type": "string",
+            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+            "maxLength": 63
+          },
+          "fqdn": {
+            "type": "string",
+            "pattern": "^[a-z0-9]([-a-z0-9][a-z0-9])?(\\.[a-z0-9]([-a-z0-9][a-z0-9])?)*$",
+            "maxLength": 255
+          },
+          "annotations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 255
+            }
+          }
+        },
+        "required": [
+          "name",
+          "ingress-controller",
+          "ingress-class-name",
+          "fqdn"
+        ]
+      },
+      "resourceStorageClassSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "storage-class-name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "storage-class-name"
+        ]
+      },
+      "bwceCapabilityProvisionSchema": {
+        "type": "object",
+        "properties": {
+          "path-prefix": {
+            "type": "string",
+            "description": "Must begin with a forward slash (/) followed by some text. example: /tibco/bw/<dataplane-id>.\nThe path-prefix must be unique within the dataplane cluster. It should not conflict with other capabilities in any other dataplane within the same cluster."
+          },
+          "storage-class-resource-instance-id": {
+            "type": "string",
+            "description": "Before the capability can be provisioned you need to provide the id of one of the already configured resources or configure a new resource."
+          },
+          "ingress-controller-resource-instance-id": {
+            "type": "string",
+            "description": "Before the capability can be provisioned you need to provide the id of one of the already configured resources or configure a new resource."
+          },
+          "db-config-resource-instance-id": {
+            "type": "string",
+            "description": "Before the capability can be provisioned you need to provide the id of one of the already configured resources or configure a new resource."
+          },
+          "execution-history-enabled": {
+            "type": "boolean"
+          },
+          "fluentbit-sidecar-enabled": {
+            "type": "boolean"
+          },
+          "auto-discovery-enabled": {
+            "type": "boolean",
+            "description": "Used to enable / disable BWCE Apps Auto discovery."
+          },
+          "auto-discovery-config": {
+            "type": "object",
+            "description": "Configuration is used to define label selector expression per namespace. Please refer kubernetes documentation for label selector expressions.",
+            "properties": {
+              "label-selectors": {
+                "type": "object",
+                "properties": {
+                  "<<auto-discovery-apps-ns>>": {
+                    "type": "string"
+                  }
+                }
+              },
+              "port": {
+                "type": "string",
+                "description": "BW Engine port, default value is 8090"
+              }
+            }
+          }
+        },
+        "required": [
+          "path-prefix",
+          "storage-class-resource-instance-id",
+          "ingress-controller-resource-instance-id"
+        ]
+      },
+      "flogoCapabilityProvisionSchema": {
+        "type": "object",
+        "properties": {
+          "path-prefix": {
+            "type": "string",
+            "description": "Must begin with a forward slash (/) followed by some text. example: /tibco/flogo/<dataplane-id>.\nThe path-prefix must be unique within the dataplane cluster. It should not conflict with other capabilities in any other dataplane within the same cluster."
+          },
+          "storage-class-resource-instance-id": {
+            "type": "string",
+            "description": "Before the capability can be provisioned you need to provide the id of one of the already configured resources or configure a new resource."
+          },
+          "ingress-controller-resource-instance-id": {
+            "type": "string",
+            "description": "Before the capability can be provisioned you need to provide the id of one of the already configured resources or configure a new resource."
+          },
+          "fluentbit-sidecar-enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "path-prefix",
+          "storage-class-resource-instance-id",
+          "ingress-controller-resource-instance-id"
+        ]
+      },
+      "tibcoHubCapabilityProvisionSchema": {
+        "type": "object",
+        "properties": {
+          "storage-class-resource-instance-id": {
+            "type": "string",
+            "description": "Before the capability can be provisioned you need to provide the id of one of the already configured resources or configure a new resource."
+          },
+          "ingress-controller-resource-instance-id": {
+            "type": "string",
+            "description": "Before the capability can be provisioned you need to provide the id of one of the already configured resources or configure a new resource."
+          },
+          "database-resource-instance-id": {
+            "type": "string",
+            "description": "Before the capability can be provisioned you need to provide the id of one of the already configured resources or configure a new resource."
+          },
+          "configuration": {
+            "type": "object",
+            "properties": {
+              "developer-hub-name": {
+                "type": "string",
+                "description": "The name of your TIBCO® Developer Hub, this will uniquely identify your TIBCO® Developer Hub instance."
+              },
+              "host-name": {
+                "type": "string",
+                "description": "The host part of the URL on which your TIBCO® Developer Hub will be made available."
+              }
+            }
+          },
+          "advanced": {
+            "type": "object",
+            "properties": {
+              "ingress-class-name": {
+                "type": "string",
+                "description": "The Ingress Class Name will point to the Ingress Controller in your Dataplane to make sure the TIBCO® Developer Hub is accessible from the outside."
+              },
+              "kubernetes-secret-object": {
+                "type": "string",
+                "description": "The Kubernetes Secret object name that needs to exist in the Kubernetes Namespace where the Developer Hub will be installed. This object should contain all the Environment Variables (${}) specified in the Configuration YAML."
+              }
+            }
+          },
+          "custom-config": {
+            "type": "string",
+            "description": "You can set a custom config (Stringified YAML)."
+          }
+        },
+        "required": [
+          "storage-class-resource-instance-id",
+          "ingress-controller-resource-instance-id",
+          "database-resource-instance-id",
+          "configuration"
+        ]
+      },
+      "helmRepoSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "alias": {
+            "type": "string",
+            "description": "Only special character allowed is '-'. It must start and end with an alphanumeric character. Avoid using reserved keywords"
+          },
+          "url": {
+            "type": "string"
+          },
+          "repo": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "pull-latest-charts": {
+            "type": "boolean"
+          },
+          "certificate-secret-name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "alias",
+          "url",
+          "repo",
+          "pull-latest-charts"
+        ]
+      },
+      "emailReceiverSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "email": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "email"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "type"
+        ]
+      },
+      "alertRuleSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "capability": {
+            "type": "string",
+            "description": "Capability name for which the alert rule is being created",
+            "enum": [
+              "BWCE",
+              "FLOGO"
+            ]
+          },
+          "alert-message": {
+            "type": "string"
+          },
+          "dp-id": {
+            "type": "string"
+          },
+          "alert-receiver-id": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "config-details": {
+            "type": "object",
+            "properties": {
+              "time-range": {
+                "type": "string",
+                "description": "The time range of historical data used to evaluate the alert rule. Minimum value can be 5"
+              },
+              "operator": {
+                "type": "string",
+                "enum": [
+                  "<",
+                  ">",
+                  "<=",
+                  ">="
+                ],
+                "description": "To be used in conjunction with the threshold-value to evaluate the alert rule."
+              },
+              "rule-category": {
+                "type": "string",
+                "enum": [
+                  "CpuLimit",
+                  "CpuRequest",
+                  "MemoryLimit",
+                  "MemoryRequest",
+                  "FaultPercentage"
+                ],
+                "description": "The application metric to be monitored. The alert rule will be triggered if the metric exceeds the threshold-value."
+              },
+              "severity": {
+                "type": "string",
+                "enum": [
+                  "critical",
+                  "warning",
+                  "info"
+                ]
+              },
+              "threshold-value": {
+                "type": "string"
+              },
+              "time-interval-for-situation-to-persist": {
+                "type": "string",
+                "description": "The time interval for which the condition needs to persist before an alert is triggered"
+              }
+            },
+            "required": [
+              "time-range",
+              "operator",
+              "rule-category",
+              "severity",
+              "threshold-value",
+              "time-interval-for-situation-to-persist"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "capability",
+          "dp-id",
+          "alert-receiver-id",
+          "enabled",
+          "config-details"
+        ]
+      },
+      "resourceDatabaseConfigSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "database-type": {
+            "type": "string",
+            "enum": [
+              "postgres",
+              "mysql"
+            ]
+          },
+          "host": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "port": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "database-name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "database-user": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "password": {
+            "type": "string",
+            "maxLength": 255
+          }
+        },
+        "required": [
+          "name",
+          "database-type",
+          "host",
+          "port",
+          "database-name",
+          "database-user",
+          "password"
+        ]
+      },
+      "resourceHawkDomainSchema": {
+        "type": "object",
+        "properties": {
+          "domain-name": {
+            "type": "string",
+            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+            "maxLength": 255
+          },
+          "transport": {
+            "type": "string",
+            "enum": [
+              "EMS",
+              "RV"
+            ]
+          },
+          "rv": {
+            "type": "object",
+            "properties": {
+              "rv-service": {
+                "type": "string",
+                "description": "RV Service name"
+              },
+              "rv-network": {
+                "type": "string",
+                "description": "RV Network"
+              },
+              "rv-daemon": {
+                "type": "string",
+                "description": "RV Daemon (ex: 'tcp:<port>' or 'tcp:<remote-host>:<port>')"
+              }
+            },
+            "required": [
+              "rv-service",
+              "rv-daemon"
+            ],
+            "description": "RV-specific transport configuration."
+          },
+          "ems": {
+            "type": "object",
+            "properties": {
+              "ems-server-url": {
+                "type": "string",
+                "description": "EMS Server URL"
+              },
+              "ems-user-name": {
+                "type": "string",
+                "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+                "description": "EMS User Name"
+              },
+              "ems-password": {
+                "type": "string",
+                "description": "EMS Password"
+              },
+              "ems-ssl-trusted": {
+                "type": "string",
+                "description": "EMS SSL Trusted"
+              },
+              "ems-ssl-private-key": {
+                "type": "string",
+                "description": "EMS SSL Private Key"
+              },
+              "ems-ssl-identity": {
+                "type": "string",
+                "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+                "description": "EMS SSL Identity"
+              },
+              "ems-ssl-password": {
+                "type": "string",
+                "description": "EMS SSL Password"
+              },
+              "ems-ssl-vendor": {
+                "type": "string",
+                "description": "EMS SSL Vendor"
+              },
+              "ems-ssl-expected-hostname": {
+                "type": "string",
+                "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+                "description": "EMS SSL Expected Host Name"
+              },
+              "ems-ssl-no-verify-host": {
+                "type": "boolean",
+                "default": true,
+                "description": "Do not verify EMS SSL Host. If set as false, provide ems-ssl-identity."
+              },
+              "ems-ssl-no-verify-hostname": {
+                "type": "boolean",
+                "default": true,
+                "description": "Do not verify EMS SSL Host Name. If set as false, provide ems-ssl-expected-hostname."
+              }
+            },
+            "required": [
+              "ems-server-url",
+              "ems-user-name"
+            ],
+            "description": "EMS-specific transport configuration."
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "rv"
+            ]
+          },
+          {
+            "required": [
+              "ems"
+            ]
+          }
+        ],
+        "required": [
+          "domain-name",
+          "transport"
+        ],
+        "example": {
+          "RVExample": {
+            "domain-name": "domain1",
+            "transport": "RV",
+            "rv": {
+              "rv-service": "service123",
+              "rv-network": "network123",
+              "rv-daemon": "daemon123"
+            }
+          },
+          "EMSExample": {
+            "domain-name": "domain2",
+            "transport": "EMS",
+            "ems": {
+              "ems-server-url": "https://ems.example.com",
+              "ems-user-name": "user123",
+              "ems-password": "password123",
+              "ems-ssl-no-verify-host": true,
+              "ems-ssl-no-verify-hostname": true
+            }
+          }
+        }
+      },
+      "resourceO11YV3Schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "proxies": {
+            "type": "object",
+            "properties": {
+              "traces-server": {
+                "$ref": "#/components/schemas/resourceO11yServerConfiguration"
+              },
+              "metrics-server": {
+                "$ref": "#/components/schemas/resourceO11yServerConfiguration"
+              },
+              "logs-server-user-apps": {
+                "$ref": "#/components/schemas/resourceO11yServerConfiguration"
+              }
+            }
+          },
+          "exporters": {
+            "type": "object",
+            "properties": {
+              "traces-server": {
+                "$ref": "#/components/schemas/resourceO11yServerConfiguration"
+              },
+              "metrics-server": {
+                "$ref": "#/components/schemas/resourceO11yServerConfiguration"
+              },
+              "logs-server-services": {
+                "$ref": "#/components/schemas/resourceO11yServerConfiguration"
+              },
+              "logs-server-user-apps": {
+                "$ref": "#/components/schemas/resourceO11yServerConfiguration"
+              }
+            }
+          }
+        },
+        "required": [
+          "name",
+          "proxies",
+          "exporters"
+        ]
+      },
+      "resourceO11yServerConfiguration": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "elasticSearch",
+              "openSearch",
+              "kafka",
+              "otlp",
+              "prometheus"
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "SUBSCRIPTION",
+              "DATAPLANE"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "instance-id": {
+            "type": "string",
+            "description": "resource instance id"
+          }
+        }
+      },
+      "resourceMetricsServerExporterPrometheusSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "elasticSearchSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "log-index": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "logIndex",
+          "endpoint"
+        ]
+      },
+      "elasticSearchSchemaNoLogIndex": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "endpoint"
+        ]
+      },
+      "elasticSearchSchemaNoLogIndexAndHeaders": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "endpoint"
+        ]
+      },
+      "kafkaSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "brokers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "topic": {
+            "type": "string"
+          },
+          "protocol-version": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "brokers",
+          "topic",
+          "protocol-version"
+        ]
+      },
+      "otlpSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "http",
+              "grpc"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "endpoint",
+          "type"
+        ]
+      },
+      "apiCapabilityInstanceStatusResponse": {
+        "type": "object",
+        "properties": {
+          "capability": {
+            "type": "string",
+            "description": "capability"
+          },
+          "type": {
+            "type": "string",
+            "description": "capability type"
+          },
+          "status": {
+            "type": "string",
+            "description": "capability status"
+          },
+          "message": {
+            "type": "string",
+            "description": "capability message"
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "service name"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "service status"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "service message"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "examples": {
+      "HELM_REPO_EXAMPLE": {
+        "value": {
+          "name": "my-helm-repo",
+          "alias": "my-helm-repo",
+          "url": "https://www.helm-repo-url.com",
+          "repo": "repository-name",
+          "username": "username",
+          "password": "password",
+          "pull-latest-charts": false,
+          "certificate-secret-name": "my-secret"
+        }
+      },
+      "EMAIL_RECEIVER_EXAMPLE": {
+        "value": {
+          "name": "alert-receiver-name",
+          "description": "alert receiver description",
+          "email": [
+            "username-1@domain.com",
+            "username-2@domain.com"
+          ],
+          "type": "email"
+        }
+      },
+      "ALERT_RULE_EXAMPLE": {
+        "value": {
+          "name": "alert-rule-name",
+          "description": "alert rule description",
+          "alert-message": "alert rule message",
+          "dp-id": "data-plane-id",
+          "capability": "BWCE",
+          "config-details": {
+            "rule-category": "FaultPercentage",
+            "operator": ">=",
+            "threshold-value": "57",
+            "severity": "critical",
+            "time-range": "5",
+            "time-interval-for-situation-to-persist": "2"
+          },
+          "alert-receiver-id": "receiver-id",
+          "enabled": true
+        }
+      },
+      "ELASTIC_SEARCH_EXAMPLE": {
+        "value": {
+          "name": "resource-name",
+          "log-index": "log-index",
+          "endpoint": "http://endpoint.com",
+          "username": "username",
+          "password": "password",
+          "headers": {
+            "key1": "value1"
+          }
+        }
+      },
+      "KAFKA_EXAMPLE": {
+        "value": {
+          "name": "resource-name",
+          "brokers": [
+            "broker-name"
+          ],
+          "topic": "topic",
+          "protocol-version": "1.0.0",
+          "username": "username",
+          "password": "password"
+        }
+      },
+      "OTLP_EXAMPLE": {
+        "value": {
+          "name": "resource-name",
+          "endpoint": "http://endpoint.com",
+          "type": "http/grpc"
+        }
+      },
+      "METRICS_EXP_PROM_EXAMPLE": {
+        "value": {
+          "name": "resource-name"
+        }
+      },
+      "ELASTIC_SEARCH_NO_LOGINDEX_EXAMPLE": {
+        "value": {
+          "name": "resource-name",
+          "endpoint": "http://endpoint.com",
+          "username": "username",
+          "password": "password",
+          "headers": {
+            "key1": "value1",
+            "key2": "value2"
+          }
+        }
+      },
+      "ELASTIC_SEARCH_NO_LOGINDEX_HEADERS_EXAMPLE": {
+        "value": {
+          "name": "resource-name",
+          "endpoint": "http://endpoint.com",
+          "username": "username",
+          "password": "password"
+        }
+      }
+    }
+  }
+}

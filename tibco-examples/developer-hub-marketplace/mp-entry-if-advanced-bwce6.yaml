@@ -59,7 +59,6 @@ spec:
       name: Installing Marketplace Entry...
       action: catalog:register
       input:
-#       optional: true
         catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/advanced-import-flows/import-flow-bw6.yaml
   output:
     links:

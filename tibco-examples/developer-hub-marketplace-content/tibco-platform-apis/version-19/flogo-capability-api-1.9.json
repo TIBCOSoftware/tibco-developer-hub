@@ -1,0 +1,3948 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "TIBCO FLOGO® Capability APIs",
+    "description": "The API documentation for FLOGO capability on Data Plane for TIBCO Platform",
+    "termsOfService": "https://www.cloud.com/content/dam/cloud/documents/legal/end-user-agreement.pdf",
+    "version": "1.9.0"
+  },
+  "servers": [],
+  "security": [
+    {
+      "OAuth2Bearer": []
+    }
+  ],
+  "paths": {
+    "/v1/dp/apps": {
+      "get": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "List all applications",
+        "description": "List all flogo applications available on the dataplane",
+        "operationId": "ListApps",
+        "parameters": [
+          {
+            "name": "filterKey",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of colums to filter the result. For example: name,namespace, state, version, tag",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filterValue",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of values to filter the result. For example: my-app,my-ns, Running, 1.0.0, tag1",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}": {
+      "delete": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "Delete Application",
+        "description": "Delete Application",
+        "operationId": "handleDeleteApp",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Optional Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Apps - Managed by FLOGO Provisioner"
+        ],
+        "summary": "Update deployed app configuration",
+        "description": "Update deployed app configuration",
+        "operationId": "handleUpdateAppDeployment",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Optional Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "application deployment request body.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppUpdateDeployRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/v1/dp/apps/{appId}/details": {
+      "get": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "Get App details",
+        "description": "Get App details",
+        "operationId": "handleGetAppDetailsForAppId",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Optional Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppDetailsResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/endpoints": {
+      "get": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "List Application endpoints",
+        "description": "List Application endpoints for provided App Id. The API returns details about public/private endpoint and ingress configuration for the public endpoint.",
+        "operationId": "ListEndpoints",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppEndpointsResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/endpoints/public": {
+      "post": {
+        "tags": [
+          "Apps - Managed by FLOGO Provisioner"
+        ],
+        "summary": "Make App endpoint public",
+        "description": "Make App endpoint public",
+        "operationId": "handleMakePublicAppEndpointsForAppId",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Optional Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "application deployment request body.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MakePublicEndpointRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      },
+      "delete": {
+        "tags": [
+          "Apps - Managed by FLOGO Provisioner"
+        ],
+        "summary": "Make App endpoint private",
+        "description": "Make App endpoint private",
+        "operationId": "handleRemovePublicAppEndpointsForAppId",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Optional Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/scale/{count}": {
+      "put": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "Scale deployed app",
+        "description": "Scale an Application with provided replicas count for an App Id. Please avoid using scale operation when autoscaling is configured.",
+        "operationId": "handleScaleApp",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "path",
+            "description": "instance count for deployed app",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Optional Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/autoscaling": {
+      "put": {
+        "tags": [
+          "Apps - Managed by FLOGO Provisioner"
+        ],
+        "summary": "Modify or Create autoscaling configuration",
+        "description": "Modify or Create autoscaling configuration for an application. You can provide min/max replicas and CPU/memory thresholds for the HPA resource configuration",
+        "operationId": "ModifyAutoscaling",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Autoscaling config request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutoscalingConfig"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Apps - Managed by FLOGO Provisioner"
+        ],
+        "summary": "Remove autoscaling configuration",
+        "description": "Remove autoscaling configuration for an application.",
+        "operationId": "RemoveAutoscaling",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/config/refresh": {
+      "put": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "Refresh Flogo app instance config",
+        "description": "Update the app properties without restarting the app instance if app property reconfigure is enabled uisng reconfigure management service like consul or aws",
+        "operationId": "HandleRefreshConfigForAppId",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Optional Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "A list of config in key value pair to update the app properties",
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/apps/{appId}/servicemesh": {
+      "put": {
+        "tags": [
+          "Apps - Managed by FLOGO Provisioner"
+        ],
+        "summary": "Enable or disable service mesh for an app",
+        "description": "Enable or disable service mesh sidecar of the specified app id",
+        "operationId": "EnableDisableServicemesh",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enable",
+            "in": "query",
+            "required": true,
+            "description": "Enable Service mesh flag",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/builds": {
+      "get": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "List all builds",
+        "description": "List all Flogo application builds present on the Data Plane",
+        "operationId": "handleGetBuildsList",
+        "parameters": [
+          {
+            "name": "filterKey",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of colums to filter the result. For example: buildId, name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filterValue",
+            "in": "query",
+            "required": false,
+            "description": "Comma separated list of values to filter the result. For example: 0bb4dad, my-app-build",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "description": "Name of column to sort the result. For example: createdDate",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "required": false,
+            "description": "Order the result in asc or desc order",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListBuildResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "Build flogo app using app.json or app.flogo file",
+        "description": "Build app executable for given app.json or app.flogo file",
+        "operationId": "handleMultipartBuildApp",
+        "parameters": [
+          {
+            "name": "baseVersion",
+            "in": "query",
+            "description": "Optional flogo base version, default will be read from app.json",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "os",
+            "in": "query",
+            "description": "Compatible operating system for app binary",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "linux",
+                "darwin",
+                "windows"
+              ]
+            }
+          },
+          {
+            "name": "arch",
+            "in": "query",
+            "description": "Compatible system architecture for app binary",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "amd64",
+                "386"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "app.json"
+                ],
+                "type": "object",
+                "properties": {
+                  "app.json": {
+                    "type": "string",
+                    "description": "App.json or App.flogo file",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success response with Build ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppBuildResponseMP"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "Import an App Build Zip file",
+        "description": "Import an app build by uploading a build zip file",
+        "operationId": "handleImportBuildMultipart",
+        "parameters": [],
+        "requestBody": {
+          "description": "Import an app build request",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "buildZipFile": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success response with Build ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppBuildResponseMP"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/builds/{buildId}": {
+      "get": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "Download app executable using build Id",
+        "description": "Download app executable based on the existing buildId",
+        "operationId": "handleDownloadAppBuild",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "build Id for which you want to download appplication binary",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download file",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "Delete build",
+        "description": "Delete build from Data Plane",
+        "operationId": "handleDeleteBuild",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/builds/{buildId}/apps": {
+      "get": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "List Application from Build Id on the dataplane",
+        "description": "List all applications from Build Id on the dataplane",
+        "operationId": "ListAppsForBuildId",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppList"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/builds/{buildId}/deploy": {
+      "post": {
+        "tags": [
+          "Apps - Managed by FLOGO Provisioner"
+        ],
+        "summary": "Deploy app using buildId",
+        "description": "Deploy app using existing build Id",
+        "operationId": "handleDeployApp",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Optional Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "application deployment request body.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppDeployRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/v1/dp/builds/{buildId}/export": {
+      "get": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "Get app.flogo or app.json",
+        "description": "To get app.flogo or app.json for given Build Id",
+        "operationId": "handleExportAppForBuildId",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {}
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/builds/{buildId}/exportBuild": {
+      "get": {
+        "tags": [
+          "Apps and Builds"
+        ],
+        "summary": "Export an app build",
+        "description": "Export an app build for the provided build Id",
+        "operationId": "handleExportBuild",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {}
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/builds/{buildId}/values": {
+      "get": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Generate values.yaml from an app Build",
+        "description": "Generate values.yaml from an app Build for the provided Build Id",
+        "operationId": "GenerateValuesYamlFromBuild",
+        "parameters": [
+          {
+            "name": "buildId",
+            "in": "path",
+            "description": "Build Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/yaml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/deploy/release": {
+      "post": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Deploy an application Helm chart using values.yaml",
+        "description": "Deploy or upgrade a TIBCO FLOGO® application Helm chart using values.yaml. An AppId inside values.yaml is mandatory for upgrading an existing application",
+        "operationId": "DeployAppChartWithValues",
+        "parameters": [
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chartName",
+            "in": "query",
+            "description": "FLOGO Application Helm Chart Name(Optional)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chartVersion",
+            "in": "query",
+            "description": "FLOGO Application Helm Chart Version(Optional)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "retainFailedApp",
+            "in": "query",
+            "description": "Retain app release if failed during deployment. The app will be always retained for app upgrade flow",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "eula",
+            "in": "query",
+            "description": "EULA",
+            "schema": {
+              "type": "boolean"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "values.yaml file",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "values.yaml": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/release/values": {
+      "get": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Get helm chart values from FLOGO app deployment",
+        "description": "Get helm chart values from FLOGO app deployment",
+        "operationId": "GetAppChartValues",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "allValues",
+            "in": "query",
+            "description": "all (computed) values",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/yaml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Update helm chart values for FLOGO app chart",
+        "description": "Update helm chart values for FLOGO application chart. You can provide the values.yaml in the payload.",
+        "operationId": "UpdateAppChartValues",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "values.yaml file",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "values.yaml": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/release/status": {
+      "get": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Status of an Application Chart Deployment",
+        "description": "Status of an Application deployment for an App Id.",
+        "operationId": "AppChartStatus",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReleaseInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/release/history": {
+      "get": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Release history of an Application Chart Deployment",
+        "description": "Release history of an Application deployment for an App Id.",
+        "operationId": "AppChartHistory",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReleaseInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/release/rollback": {
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Rollabck an Application helm chart Release",
+        "description": "Rollabck an Application helm chart Release for an App Id and specified revision.",
+        "operationId": "AppChartRollback",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "revision",
+            "in": "query",
+            "description": "revision",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "force",
+            "in": "query",
+            "description": "force",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/rename": {
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Rename an Application Chart Deployment",
+        "description": "Rename an Application deployment. Warning: This action will uninstall existing release and re-install it with new name so it may cause service outage for clients",
+        "operationId": "AppChartRename",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "appName",
+            "in": "query",
+            "description": "New App Name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/servicemesh": {
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Enable or disable service mesh for an app",
+        "description": "Enable or disable service mesh sidecar of the specified app id",
+        "operationId": "EnableDisableServicemeshAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enable",
+            "in": "query",
+            "required": true,
+            "description": "Enable Service mesh flag",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/autoscaling": {
+      "put": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Modify or Create autoscaling configuration",
+        "description": "Modify or Create autoscaling configuration for an application. You can provide min/max replicas and CPU/memory thresholds for the HPA resource configuration",
+        "operationId": "ModifyAutoscalingAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Autoscaling config request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AutoscalingConfig"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Remove autoscaling configuration",
+        "description": "Remove autoscaling configuration for an application.",
+        "operationId": "RemoveAutoscalingAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "Application ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/dp/apps/{appId}/endpoints/public": {
+      "delete": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Make an Application endpoint private",
+        "description": "Make an Application endpoint private. The API removes the Ingress resource to make and endpoint private.",
+        "operationId": "MakePrivateAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Apps - Managed by Helm Chart"
+        ],
+        "summary": "Make an Application endpoint public",
+        "description": "Make an Application endpoint public. The API creates an Ingress resource with provided inputs - ingress class name, FQDN, path prefix, etc",
+        "operationId": "MakePublicAppChart",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "App Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "namespace",
+            "in": "query",
+            "description": "Namespace",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Make endpoint public request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MakePublicEndpointRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/cp/connectors": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "List Flogo connectors provisioned on Control Plane",
+        "description": "List Flogo connectors provisioned on Control Plane",
+        "operationId": "handleListConnectorsCP",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CPPlugin"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/connectors": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "List Flogo connectors provisioned on dataplane",
+        "description": "List Flogo connectors provisioned on dataplane",
+        "operationId": "handleListConnectors",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListConnectorResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/connectors/{connector}/{version}": {
+      "delete": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "Delete Connector from dataplane",
+        "description": "Delete Connector from dataplane",
+        "operationId": "handleDeleteConnector",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "path",
+            "description": "Connector Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Connector Version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "Provision Connector on a dataplane",
+        "description": "Provision Connector on a dataplane",
+        "operationId": "handleProvisionConnector",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "path",
+            "description": "Connector Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Connector Version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/supplements": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "List Supplements provisioned on dataplane",
+        "description": "List Supplements connectors provisioned on dataplane",
+        "operationId": "handleListSupplements",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListSupplementResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/supplements/{connector}": {
+      "post": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "Upload Flogo supplement on dataplane",
+        "description": "Upload Flogo supplement on dataplane",
+        "operationId": "handleUploadUserSupplements",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "path",
+            "description": "Connector Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "OracleDatabase",
+                "IBM-MQ"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Upload Supplement archive",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "supplementZip"
+                ],
+                "properties": {
+                  "supplementZip": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "Delete supplement from dataplane",
+        "description": "Delete supplement from dataplane",
+        "operationId": "handleDeleteSupplement",
+        "parameters": [
+          {
+            "name": "connector",
+            "in": "path",
+            "description": "connector Id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "OracleDatabase",
+                "IBM-MQ"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/extension": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "List Custom Extensions  provisioned on dataplane",
+        "description": "List Custom Extensions provisioned on dataplane",
+        "operationId": "handleListExtensions",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListConnectorResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "Upload Flogo extension on dataplane",
+        "description": "Upload Flogo extension on dataplane",
+        "operationId": "handleUploadExtension",
+        "requestBody": {
+          "description": "Extension Zip",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "extensionZip"
+                ],
+                "properties": {
+                  "extensionZip": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/extensions/{extension}/{version}": {
+      "delete": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "Delete extension from dataplane",
+        "description": "Delete extension from dataplane",
+        "operationId": "handleDeleteExtension",
+        "parameters": [
+          {
+            "name": "extension",
+            "in": "path",
+            "description": "Extension Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Extension Version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/cp/flogoversions": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "List Flogo Versions provisioned on the Control Plane",
+        "description": "List Flogo Versions provisioned on Control Plane",
+        "operationId": "handleListBuildtypeFromCP",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CPBuildType"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/flogoversions": {
+      "get": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "List Flogo Versions provisioned on dataplane",
+        "description": "List Flogo Versions provisioned on dataplane",
+        "operationId": "handleListBuildtypes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListBuildtypesResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/dp/flogoversions/{version}": {
+      "post": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "Provision Flogo Version on the dataplane",
+        "description": "Provision Flogo Version on the dataplane.",
+        "operationId": "handleDownloadBuildtypeFromCP",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Flogo Version.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AppResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "TOO MANY REQUESTS",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "INTERNAL SERVER ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Provisioned Software & Connectors"
+        ],
+        "summary": "Delete Flogo Version from dataplane",
+        "description": "Delete Flogo Version from dataplane",
+        "operationId": "handleDeleteBuildType",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "path",
+            "description": "Flogo Version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AppBuildResponseMP": {
+        "type": "object",
+        "properties": {
+          "buildId": {
+            "type": "string"
+          }
+        }
+      },
+      "AppDeployRequest": {
+        "type": "object",
+        "properties": {
+          "appName": {
+            "type": "string"
+          },
+          "appDescription": {
+            "type": "string"
+          },
+          "appId": {
+            "type": "string"
+          },
+          "appProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AppProperty"
+            }
+          },
+          "autoscalingConfig": {
+            "$ref": "#/components/schemas/AutoscalingConfig"
+          },
+          "buildId": {
+            "type": "string"
+          },
+          "enableAutoscaling": {
+            "type": "boolean"
+          },
+          "enableServiceMesh": {
+            "type": "boolean"
+          },
+          "eula": {
+            "type": "boolean"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "networkPolicies": {
+            "$ref": "#/components/schemas/NetworkPolicies"
+          },
+          "replicas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "resourceLimits": {
+            "$ref": "#/components/schemas/ResourceLimits"
+          },
+          "systemProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EngineProp"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "AppDetailsResponse": {
+        "type": "object",
+        "properties": {
+          "appName": {
+            "type": "string"
+          },
+          "appProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AppProperty"
+            }
+          },
+          "appVersion": {
+            "type": "string"
+          },
+          "autoscalingConfig": {
+            "$ref": "#/components/schemas/AutoscalingConfig"
+          },
+          "autoscalingEnabled": {
+            "type": "boolean"
+          },
+          "serviceMeshEnabled": {
+            "type": "boolean"
+          },
+          "buildId": {
+            "type": "string"
+          },
+          "buildName": {
+            "type": "string"
+          },
+          "buildAuthor": {
+            "type": "string"
+          },
+          "lastUpdated": {
+            "type": "string"
+          },
+          "portMappings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PortMapping"
+            }
+          },
+          "resourceLimits": {
+            "$ref": "#/components/schemas/ResourceLimits"
+          },
+          "systemProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EngineProp"
+            }
+          },
+          "userAppName": {
+            "type": "string"
+          }
+        }
+      },
+      "AppList": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "appName": {
+            "type": "string"
+          },
+          "appVersion": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          }
+        }
+      },
+      "AppProperty": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "object"
+          }
+        }
+      },
+      "AppResponse": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "buildId": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "deployedAppName": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "userAppName": {
+            "type": "string"
+          }
+        }
+      },
+      "AppUpdateDeployRequest": {
+        "type": "object",
+        "properties": {
+          "appProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AppProperty"
+            }
+          },
+          "buildId": {
+            "type": "string"
+          },
+          "portMappings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PortMapping"
+            }
+          },
+          "profile": {
+            "type": "string"
+          },
+          "resourceLimits": {
+            "$ref": "#/components/schemas/ResourceLimits"
+          },
+          "systemProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EngineProp"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userAppName": {
+            "type": "string"
+          }
+        }
+      },
+      "AutoscalingConfig": {
+        "type": "object",
+        "properties": {
+          "hpaMetrics": {
+            "$ref": "#/components/schemas/HPAMetrics"
+          },
+          "maxReplicas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minReplicas": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "BaseImage": {
+        "type": "object",
+        "properties": {
+          "baseImageName": {
+            "type": "string"
+          },
+          "imageTag": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildInfo": {
+        "type": "object",
+        "properties": {
+          "buildId": {
+            "type": "string"
+          },
+          "connectorsUsed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConnectorsMeta"
+            }
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "flogoBaseVersion": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nonDPBuild": {
+            "type": "boolean"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "BuildStatusResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildtypeCatalog": {
+        "type": "object",
+        "properties": {
+          "baseImages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseImage"
+            }
+          },
+          "buildtypeTag": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SupplementCatalog": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "connectorId": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "uploadedBy": {
+            "type": "string"
+          },
+          "uploadDate": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ConnectorsMeta": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "EgressNetworkPolicies": {
+        "type": "object",
+        "properties": {
+          "internetAll": {
+            "type": "string"
+          },
+          "internetWeb": {
+            "type": "string"
+          }
+        }
+      },
+      "EngineProp": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResp": {
+        "type": "object",
+        "properties": {
+          "errCode": {
+            "type": "string"
+          },
+          "errDetail": {
+            "type": "string"
+          },
+          "errMsg": {
+            "type": "string"
+          }
+        }
+      },
+      "HPACPUUtilization": {
+        "type": "object",
+        "properties": {
+          "averageCpuUtilization": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "HPAMemoryUtilization": {
+        "type": "object",
+        "properties": {
+          "averageMemoryUtilization": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "HPAMetrics": {
+        "type": "object",
+        "properties": {
+          "cpuUtilization": {
+            "$ref": "#/components/schemas/HPACPUUtilization"
+          },
+          "memoryUtilization": {
+            "$ref": "#/components/schemas/HPAMemoryUtilization"
+          }
+        }
+      },
+      "IngressNetworkPolicies": {
+        "type": "object"
+      },
+      "IngressPortServicePathMapping": {
+        "type": "object",
+        "properties": {
+          "port": {
+            "type": "integer",
+            "example": 9999
+          },
+          "servicePath": {
+            "type": "string",
+            "example": "/test/app"
+          },
+          "isPublic": {
+            "type": "boolean",
+            "example": true
+          },
+          "isServiceDiscoveryEnabled": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "IngressTLSConfig": {
+        "type": "object",
+        "properties": {
+          "hosts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "secretName": {
+            "type": "string"
+          }
+        }
+      },
+      "ListBuildResponse": {
+        "type": "object",
+        "properties": {
+          "buildInfo": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BuildInfo"
+            }
+          },
+          "totalBuilds": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ListBuildtypesResponse": {
+        "type": "object",
+        "properties": {
+          "buildtypeCatalog": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BuildtypeCatalog"
+            }
+          },
+          "totalBuildtypes": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "CPBuildType": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "CPPlugin": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          }
+        }
+      },
+      "ListConnectorResponse": {
+        "type": "object",
+        "properties": {
+          "connectorCatalog": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConnectorCatalog"
+            }
+          },
+          "totalConnectors": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ListSupplementResponse": {
+        "type": "object",
+        "properties": {
+          "supplementCatalog": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupplementCatalog"
+            }
+          },
+          "totalSupplements": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "MakePublicEndpointRequest": {
+        "type": "object",
+        "properties": {
+          "ingressClassName": {
+            "type": "string",
+            "example": "nginx"
+          },
+          "ingressControllerName": {
+            "type": "string",
+            "example": "nginx"
+          },
+          "ingressHostName": {
+            "type": "string",
+            "example": "app.example.com"
+          },
+          "ingressTLSConfigs": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/IngressTLSConfig"
+            }
+          },
+          "portServicePathMappings": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/IngressPortServicePathMapping"
+            }
+          },
+          "customAnnotations": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/Annotation"
+            }
+          }
+        }
+      },
+      "AppEndpointsResponse": {
+        "type": "object",
+        "properties": {
+          "isPublicEndpointEnabled": {
+            "type": "boolean"
+          },
+          "ingressControllerName": {
+            "type": "string"
+          },
+          "ingressClassName": {
+            "type": "string"
+          },
+          "endpointsInfo": {
+            "type": "array",
+            "items": {
+              "type": null,
+              "$ref": "#/components/schemas/EndpointInfo"
+            }
+          }
+        }
+      },
+      "EndpointInfo": {
+        "type": "object",
+        "properties": {
+          "serviceName": {
+            "type": "string"
+          },
+          "pathPrefix": {
+            "type": "string"
+          },
+          "serviceDescription": {
+            "type": "string"
+          },
+          "targetSvcPort": {
+            "type": "integer"
+          },
+          "publicEndpoint": {
+            "type": "string"
+          },
+          "publicSwaggerURL": {
+            "type": "string"
+          },
+          "internalEndpoint": {
+            "type": "string"
+          },
+          "isPublic": {
+            "type": "boolean"
+          },
+          "isServiceDiscoveryEnabled": {
+            "type": "boolean"
+          },
+          "swagger": {
+            "type": "object"
+          }
+        }
+      },
+      "Annotation": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "NetworkPolicies": {
+        "type": "object",
+        "properties": {
+          "egressNetworkPolicies": {
+            "$ref": "#/components/schemas/EgressNetworkPolicies"
+          },
+          "ingressNetworkPolicies": {
+            "$ref": "#/components/schemas/IngressNetworkPolicies"
+          }
+        }
+      },
+      "PortMapping": {
+        "type": "object",
+        "properties": {
+          "containerPort": {
+            "type": "string"
+          },
+          "hostPort": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "protocol": {
+            "type": "string"
+          }
+        }
+      },
+      "ResourceLimitConfig": {
+        "type": "object",
+        "properties": {
+          "cpu": {
+            "type": "string"
+          },
+          "memory": {
+            "type": "string"
+          }
+        }
+      },
+      "ResourceLimits": {
+        "type": "object",
+        "properties": {
+          "limits": {
+            "$ref": "#/components/schemas/ResourceLimitConfig"
+          },
+          "requests": {
+            "$ref": "#/components/schemas/ResourceLimitConfig"
+          }
+        }
+      },
+      "ReleaseInfo": {
+        "type": "object",
+        "properties": {
+          "releaseName": {
+            "type": "string"
+          },
+          "releaseStatus": {
+            "type": "string"
+          },
+          "releaseVersion": {
+            "type": "integer"
+          },
+          "releaseDescription": {
+            "type": "string"
+          },
+          "firstDeployed": {
+            "type": "string"
+          },
+          "lastDeployed": {
+            "type": "string"
+          },
+          "chartName": {
+            "type": "string"
+          },
+          "chartVersion": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          }
+        }
+      },
+      "AppInfo": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string"
+          },
+          "appName": {
+            "type": "string"
+          },
+          "appDescription": {
+            "type": "string"
+          },
+          "appVersion": {
+            "type": "string"
+          },
+          "appState": {
+            "type": "string"
+          },
+          "namespace": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "createdTime": {
+            "type": "integer"
+          },
+          "modifiedBy": {
+            "type": "string"
+          },
+          "modifiedTime": {
+            "type": "integer"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ConnectorCatalog": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "supplementRequired": {
+            "type": "boolean"
+          },
+          "supplementType": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "ExtensionCatalog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "version": {
+            "type": "string"
+          },
+          "uploadedBy": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "hasCategory": {
+            "type": "string"
+          }
+        }
+      },
+      "ListExtensionResponse": {
+        "type": "object",
+        "properties": {
+          "extensionCatalog": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExtensionCatalog"
+            }
+          },
+          "totalExtensions": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "OAuth2Bearer": {
+        "type": "http",
+        "description": "OAuth2 Bearer access token, is required to be set in the http Authorization header for API requests",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

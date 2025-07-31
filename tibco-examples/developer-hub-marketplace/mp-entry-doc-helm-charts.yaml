@@ -60,7 +60,6 @@ spec:
       name: Installing Marketplace Entry...
       action: catalog:register
       input:
-#       optional: true
         catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/helm-charts/catalog-info.yaml
   output:
     links:
