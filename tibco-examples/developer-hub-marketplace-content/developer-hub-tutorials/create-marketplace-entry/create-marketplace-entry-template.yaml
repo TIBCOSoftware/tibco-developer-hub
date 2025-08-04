@@ -1,0 +1,127 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: marketplace-entry-template
+  title: A template to create a Marketplace Entry
+  description: Create a new Marketplace Entry for the TIBCO Developer Hub
+  tags:
+    - tibco
+    - template
+    - developer-hub
+spec:
+  owner: tibco-templates
+  type: service
+
+  parameters:
+    - title: Provide Marketplace Entry Details
+      required:
+        - name
+        - description
+        - marketplace_type
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the Marketplace Entry
+          ui:field: EntityNamePicker
+          ui:autofocus: true
+          default: new-marketplace-entry
+        description:
+          title: Description
+          type: string
+          description: A description for the Marketplace Entry
+          default: This is a Marketplace Entry
+        title:
+          title: Title
+          type: string
+          description: Title of the Marketplace Entry
+          default: New Marketplace Entry
+        marketplace_type:
+          title: Type of Marketplace Entry
+          description: Type of Marketplace Entry
+          type: string
+          ui:widget: select
+          default: document
+          enum:
+            - document
+            - sample
+            - template
+            - import-flow
+        catalog_url:
+            title: Catalog URL
+            type: string
+            description: URL of the catalog entry to be used in the Marketplace Entry
+        image_url:
+            title: Image URL
+            type: string
+            description: URL of the image to be used in the Marketplace Entry (leave empty for default image)
+        license_url:
+            title: License URL
+            type: string
+            description: URL of the license for the Marketplace Entry
+            default: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the template
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  # This template is meant to be used on top of an existing template.
+  # By adding the following and fetching from an absolute URL you can
+  # add in the docs template
+  steps:
+    - id: fetch
+      name: Template Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton-marketplace-entry
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          title: ${{ parameters.title }}
+          marketplace_type: ${{ parameters.marketplace_type }}
+          catalog_url: ${{ parameters.catalog_url }}
+          image_url: ${{ parameters.image_url }}
+          license_url: ${{ parameters.license_url }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          owner: ${{ parameters.owner }}
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        #       allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/new-marketplace-entry.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+      - title: Marketplace
+        icon: dashboard
+        url: /marketplace?filters%5Bkind%5D=template&filters%5Btags%5D=devhub-marketplace&limit=20

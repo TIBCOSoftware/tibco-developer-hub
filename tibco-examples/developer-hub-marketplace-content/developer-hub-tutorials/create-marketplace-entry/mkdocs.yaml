@@ -1,0 +1,8 @@
+site_name: 'Create Marketplace Entry'
+site_description: 'create-marketplace-entry-doc'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

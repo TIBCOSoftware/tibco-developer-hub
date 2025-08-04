@@ -1,0 +1,69 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: ${{values.name | dump}}
+  title: ${{values.title | dump}}
+  description: ${{values.description | dump}}
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ${{values.image_url | dump}}
+    moreInfo:
+      - text: "TIBCO"
+        url: "https://www.tibco.com/"
+        icon: "star"
+  tags:
+    - devhub-marketplace
+
+spec:
+  owner: ${{values.owner | dump}}
+  type: ${{values.marketplace_type | dump }}
+  presentation:
+    buttonLabels:
+      createButtonText: 'Install'
+
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: 'Please accept the Marketplace Entry'
+      properties:
+        description:
+          type: 'null' # Needs to be quoted
+          description: |
+            ## Install  ${{values.title}} into your TIBCO Developer Hub
+            
+            **ID:** ${{values.name}}
+            
+            **Description:** ${{values.description}}
+          
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](${{values.license_url}}).
+            
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+
+# Register the item in the Developer Hub
+  steps:
+    - id: registerItem
+      name: Installing Marketplace Entry...
+      action: catalog:register
+      input:
+#        optional: true
+        catalogInfoUrl: ${{values.catalog_url | dump}}
+
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ '${{ steps.registerItem.output.entityRef }}' }}

@@ -1,0 +1,42 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: create-marketplace-entry-doc
+  description: Create Marketplace Entry Documentation
+spec:
+  type: organization
+  profile:
+    displayName: Create Marketplace Entry Documentation
+#    email: info@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: create-marketplace-entry-doc
+  description: A group of documents
+spec:
+  owner: create-marketplace-entry-doc
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: create-marketplace-entry
+  description: 'Create a new Marketplace Entry'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - documentation
+    - tibco-hub-documentation
+spec:
+  owner: create-marketplace-entry-doc
+  domain: create-marketplace-entry-doc
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: create-marketplace-entry-location
+  description: Pointer to the create-marketplace-entry template
+spec:
+  targets:
+    - ./create-marketplace-entry-template.yaml
