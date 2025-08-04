@@ -59,17 +59,17 @@ Marketplace Entry specific details are described in the **tibco.developer.hub/ma
         icon: star
 ```
 
-Here you can set links and a custom image URL. 
+Here you can set links and a custom image URL.
 
 **Note:** Currently the popularity field and isMultiInstall are not used yet.
 
 # Create New Marketplace Entry Template
 
-[Open Template to Create Marketplace Entry](/create/templates/default/marketplace-entry-template).
+[Open Template to Create Marketplace Entry](create/templates/default/marketplace-entry-template).
 
 ![Developer Hub Marketplace Entry Template](./images/TemplateMPEntry.png)
 
-With this document comes a [template](/create?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20) 
+With this document comes a [template](create?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20)
 to create a new Marketplace Entry, these are the input fields:
 
 - **Name**: The name of the Marketplace Entry, which will be used as the unique identifier.
@@ -82,7 +82,7 @@ to create a new Marketplace Entry, these are the input fields:
 - **Owner**: The owner of the Marketplace Entry, which can be a group or user.
 
 ### Catalog URL
-The Catalog URL is the URL of the catalog entry that will be used in the Marketplace Entry. 
+The Catalog URL is the URL of the catalog entry that will be used in the Marketplace Entry.
 This is the most important field, as it **defines the content of the Marketplace Entry.**
 This file can contain anything that you want to put in the marketplace, literally anything can be shared if you make this a template and point the template to those sources.
 
