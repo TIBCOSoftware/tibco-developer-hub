@@ -65,11 +65,11 @@ Here you can set links and a custom image URL.
 
 # Create New Marketplace Entry Template
 
-[Open Template to Create Marketplace Entry](create/templates/default/marketplace-entry-template).
+[Open Template to Create Marketplace Entry](/tibco/hub/create/templates/default/marketplace-entry-template).
 
 ![Developer Hub Marketplace Entry Template](./images/TemplateMPEntry.png)
 
-With this document comes a [template](create?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20)
+With this document comes a [template](/tibco/hub/create?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20)
 to create a new Marketplace Entry, these are the input fields:
 
 - **Name**: The name of the Marketplace Entry, which will be used as the unique identifier.
