@@ -6,7 +6,6 @@ import { screen, fireEvent } from '@testing-library/react';
 import { FullTextSearchFilter } from './FullTextSearchFilter';
 import { useEntityList } from '@backstage/plugin-catalog-react';
 import { HighlightContext } from './HighlightContext';
-import React from 'react';
 import { renderInTestApp } from '@backstage/test-utils';
 
 jest.mock('@backstage/plugin-catalog-react', () => ({

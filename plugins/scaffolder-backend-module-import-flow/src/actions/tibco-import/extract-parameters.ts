@@ -3,18 +3,20 @@
  */
 
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
-import { resolveSafeChildPath } from '@backstage/backend-plugin-api';
-import { z } from 'zod';
+import {
+  LoggerService,
+  resolveSafeChildPath,
+} from '@backstage/backend-plugin-api';
 import { XMLParser } from 'fast-xml-parser';
 import { promises } from 'fs';
 import { JsonArray, JsonObject, JsonPrimitive } from '@backstage/types';
 import jp from 'jsonpath';
-import { Logger } from 'winston';
 import { glob } from 'glob';
 import { select } from 'xpath';
 import { DOMParser } from '@xmldom/xmldom';
 import { examples } from './extract-parameters.examples';
 import RegexParser from 'regex-parser';
+import { z as zz } from 'zod';
 
 type JsonValue = JsonObject | JsonArray | JsonPrimitive;
 
@@ -71,54 +73,54 @@ interface ExtractOutput {
   [key: string]: JsonValue[] | undefined;
 }
 
-const importSchemaXMLXpath = z
+const importSchemaXMLXpath = zz
   .object({
-    type: z.literal(TibcoImportType.xml),
-    filePath: z.string(),
-    xPath: z.string(),
+    type: zz.literal(TibcoImportType.xml),
+    filePath: zz.string(),
+    xPath: zz.string(),
   })
   .required();
 
-const importSchemaXMLJsonPath = z
+const importSchemaXMLJsonPath = zz
   .object({
-    type: z.literal(TibcoImportType.xml),
-    filePath: z.string(),
-    jsonPath: z.string(),
+    type: zz.literal(TibcoImportType.xml),
+    filePath: zz.string(),
+    jsonPath: zz.string(),
   })
   .required();
 
-const importSchemaJson = z
+const importSchemaJson = zz
   .object({
-    type: z.literal(TibcoImportType.json),
-    filePath: z.string(),
-    jsonPath: z.string(),
+    type: zz.literal(TibcoImportType.json),
+    filePath: zz.string(),
+    jsonPath: zz.string(),
   })
   .required();
 
-const importSchemaFile = z
+const importSchemaFile = zz
   .object({
-    type: z.literal(TibcoImportType.file),
-    filePath: z.string(),
-    regex: z.union([
-      z.string(),
-      z.object({
-        regexPattern: z.string(),
-        regexFlags: z.string().optional(),
+    type: zz.literal(TibcoImportType.file),
+    filePath: zz.string(),
+    regex: zz.union([
+      zz.string(),
+      zz.object({
+        regexPattern: zz.string(),
+        regexFlags: zz.string().optional(),
       }),
     ]),
   })
   .required();
 
-const importSchemaWorkspace = z.object({
-  type: z.literal(TibcoImportType.workspace),
-  directoryPath: z.string().optional(),
-  glob: z.string().optional(),
-  onlyName: z.boolean().optional(),
-  regex: z.union([
-    z.string(),
-    z.object({
-      regexPattern: z.string(),
-      regexFlags: z.string().optional(),
+const importSchemaWorkspace = zz.object({
+  type: zz.literal(TibcoImportType.workspace),
+  directoryPath: zz.string().optional(),
+  glob: zz.string().optional(),
+  onlyName: zz.boolean().optional(),
+  regex: zz.union([
+    zz.string(),
+    zz.object({
+      regexPattern: zz.string(),
+      regexFlags: zz.string().optional(),
     }),
   ]),
 });
@@ -126,7 +128,7 @@ const importSchemaWorkspace = z.object({
 async function ExtractParameter(
   params: ExtractParameters,
   workspacePath: string,
-  logger: Logger,
+  logger: LoggerService,
   failOnError?: boolean,
 ): Promise<ExtractOutput> {
   const out: ExtractOutput = {};
@@ -259,7 +261,7 @@ async function ExtractParameter(
         }
       } catch (err) {
         logger.error(`Error while extracting the parameter: ${key}`);
-        logger.error(err);
+        logger.error(`${err}`);
         if (failOnError) {
           throw err;
         }
@@ -270,49 +272,49 @@ async function ExtractParameter(
 }
 
 export function ExtractParametersAction() {
-  return createTemplateAction<{
-    sourcePath?: string;
-    failOnError?: boolean;
-    extractParameters: ExtractParameters;
-  }>({
+  return createTemplateAction({
     id: 'tibco:extract-parameters',
     description:
       'Tibco platform extract parameters action, refer to examples for extractParameters and output schema',
     examples,
     schema: {
-      input: z.object({
-        failOnError: z
-          .boolean()
-          .optional()
+      input: {
+        failOnError: z =>
+          z
+            .boolean()
+            .optional()
+            .describe(
+              'Boolean flag to stop the task when there is an error, optional, default is false, when true task execution will be stopped in this step when there is an error',
+            ),
+        sourcePath: z =>
+          z
+            .string()
+            .optional()
+            .describe(
+              'Source path relative to workspace, optional, path within the workspace that will be used as the repository root',
+            ),
+        extractParameters: z =>
+          z
+            .record(
+              z.string(),
+              z.union([
+                importSchemaXMLXpath,
+                importSchemaXMLJsonPath,
+                importSchemaJson,
+                importSchemaFile,
+                importSchemaWorkspace,
+              ]),
+            )
+            .describe(
+              'A object/record containing key as the parameters to be extracted and value as the object containing keys as per the extract type',
+            ),
+      },
+      output: z =>
+        z
+          .record(z.string(), z.array(z.string()))
           .describe(
-            'Boolean flag to stop the task when there is an error, optional, default is false, when true task execution will be stopped in this step when there is an error',
+            'A object/record containing key as the parameters to be extracted provided as input and value as an array of result',
           ),
-        sourcePath: z
-          .string()
-          .optional()
-          .describe(
-            'Source path relative to workspace, optional, path within the workspace that will be used as the repository root',
-          ),
-        extractParameters: z
-          .record(
-            z.string(),
-            z.union([
-              importSchemaXMLXpath,
-              importSchemaXMLJsonPath,
-              importSchemaJson,
-              importSchemaFile,
-              importSchemaWorkspace,
-            ]),
-          )
-          .describe(
-            'A object/record containing key as the parameters to be extracted and value as the object containing keys as per the extract type',
-          ),
-      }),
-      output: z
-        .record(z.string(), z.array(z.string()))
-        .describe(
-          'A object/record containing key as the parameters to be extracted provided as input and value as an array of result',
-        ),
     },
     async handler(ctx) {
       ctx.logger.info(
@@ -335,7 +337,7 @@ export function ExtractParametersAction() {
       );
       for (const key in output) {
         if (output.hasOwnProperty(key)) {
-          ctx.output(key, output[key]);
+          ctx.output(key, (output[key] as string[]) || []);
         }
       }
       ctx.logger.info(`Extracted Parameters output: `, output);

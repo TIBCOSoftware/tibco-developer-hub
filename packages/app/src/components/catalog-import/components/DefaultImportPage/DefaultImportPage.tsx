@@ -11,7 +11,6 @@ import {
 } from '@backstage/core-components';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { Grid, useMediaQuery, useTheme } from '@material-ui/core';
-import React from 'react';
 import {
   ImportInfoCard,
   ImportStepper,

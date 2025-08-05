@@ -16,7 +16,6 @@ import {
 } from '@backstage/test-utils';
 import { ConfigReader, FlatRoutes } from '@backstage/core-app-api';
 import { permissionApiRef } from '@backstage/plugin-permission-react';
-import React from 'react';
 import { configApiRef } from '@backstage/core-plugin-api';
 import { Route } from 'react-router';
 import { CustomScaffolderPage } from './plugin.ts';

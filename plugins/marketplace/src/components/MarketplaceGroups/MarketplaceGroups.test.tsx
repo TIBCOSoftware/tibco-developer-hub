@@ -17,7 +17,6 @@ import { MarketplaceGroups } from './MarketplaceGroups.tsx';
 import { renderInTestApp, TestApiProvider } from '@backstage/test-utils';
 import { configApiRef, errorApiRef } from '@backstage/core-plugin-api';
 import { TemplateGroup } from '@backstage/plugin-scaffolder-react/alpha';
-import React from 'react';
 
 describe('TemplateGroups', () => {
   beforeEach(() => jest.clearAllMocks());
@@ -36,7 +35,7 @@ describe('TemplateGroups', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -69,7 +68,7 @@ describe('TemplateGroups', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -101,7 +100,7 @@ describe('TemplateGroups', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -135,7 +134,7 @@ describe('TemplateGroups', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -188,7 +187,7 @@ describe('TemplateGroups', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -246,7 +245,7 @@ describe('TemplateGroups', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -304,7 +303,7 @@ describe('TemplateGroups', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),

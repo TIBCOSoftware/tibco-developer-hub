@@ -3,7 +3,6 @@
  */
 
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
-import { z } from 'zod';
 import { simpleGit } from 'simple-git';
 import {
   resolveSafeChildPath,
@@ -16,38 +15,33 @@ import {
 } from '@backstage/integration';
 import { examples } from './git-clone.examples.ts';
 
-export function gitCloneAction(config: RootConfigService) {
-  return createTemplateAction<{
-    sourcePath?: string;
-    failOnError?: boolean;
-    branch?: string;
-    repoUrl: string;
-    token?: string;
-  }>({
+export const gitCloneAction = (config: RootConfigService) => {
+  return createTemplateAction({
     id: 'tibco:git:clone',
     description: 'Clones a git repository.',
     examples,
     schema: {
-      input: z.object({
-        sourcePath: z
-          .string()
-          .optional()
-          .describe(
-            'Source path relative to workspace, optional, path within the workspace that will be used as the repository root',
-          ),
-        failOnError: z
-          .boolean()
-          .optional()
-          .describe(
-            'Boolean flag to stop the task when there is an error, optional, default is false, when true task execution will be stopped in this step when there is an error',
-          ),
-        branch: z
-          .string()
-          .optional()
-          .describe('The name of the branch to clone'),
-        repoUrl: z.string().describe('The HTTPS repository web URL to clone'),
-        token: z.string().optional().describe('Authentication token'),
-      }),
+      input: {
+        sourcePath: z =>
+          z
+            .string()
+            .optional()
+            .describe(
+              'Source path relative to workspace, optional, path within the workspace that will be used as the repository root',
+            ),
+        failOnError: z =>
+          z
+            .boolean()
+            .optional()
+            .describe(
+              'Boolean flag to stop the task when there is an error, optional, default is false, when true task execution will be stopped in this step when there is an error',
+            ),
+        branch: z =>
+          z.string().optional().describe('The name of the branch to clone'),
+        repoUrl: z =>
+          z.string().describe('The HTTPS repository web URL to clone'),
+        token: z => z.string().optional().describe('Authentication token'),
+      },
     },
     async handler(ctx) {
       try {
@@ -100,11 +94,11 @@ export function gitCloneAction(config: RootConfigService) {
         ctx.logger.info(`Finished cloning ${repoUrl}`);
       } catch (err) {
         ctx.logger.error(`Error while cloning the git repository`);
-        ctx.logger.error(err);
+        ctx.logger.error(`${err}`);
         if (ctx.input.failOnError) {
           throw err;
         }
       }
     },
   });
-}
+};

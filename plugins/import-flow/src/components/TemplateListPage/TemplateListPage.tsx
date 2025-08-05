@@ -2,7 +2,7 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import { useApp, useRouteRef } from '@backstage/core-plugin-api';

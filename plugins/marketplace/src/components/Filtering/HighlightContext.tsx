@@ -2,7 +2,7 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import React, { createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
 // Creating a context for the text to be highlighted
 const HighlightContext = createContext<{

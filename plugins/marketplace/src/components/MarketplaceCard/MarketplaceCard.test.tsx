@@ -5,7 +5,6 @@
 import { screen, fireEvent } from '@testing-library/react';
 import { MarketplaceCard } from './MarketplaceCard.tsx';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage';
-import React from 'react';
 import { renderInTestApp, TestApiProvider } from '@backstage/test-utils';
 import { configApiRef } from '@backstage/core-plugin-api';
 import { ConfigReader } from '@backstage/core-app-api';
@@ -44,7 +43,7 @@ describe('MarketplaceCard Component', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -71,7 +70,7 @@ describe('MarketplaceCard Component', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -96,7 +95,7 @@ describe('MarketplaceCard Component', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -127,7 +126,7 @@ describe('MarketplaceCard Component', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -153,7 +152,7 @@ describe('MarketplaceCard Component', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -180,7 +179,7 @@ describe('MarketplaceCard Component', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),

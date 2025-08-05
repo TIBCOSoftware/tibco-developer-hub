@@ -3,7 +3,7 @@
  */
 
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import SuccessIcon from '../../images/success.svg';
 import DocumentBgIcon from '../../images/document-bg.svg';
@@ -21,11 +21,20 @@ import Highlighter from 'react-highlight-words';
 import { HighlightContext } from '../Filtering/HighlightContext.tsx';
 import { UserIcon } from '@backstage/core-components';
 import {
+  catalogApiRef,
   EntityRefLinks,
   getEntityRelations,
 } from '@backstage/plugin-catalog-react';
 import { RELATION_OWNED_BY } from '@backstage/catalog-model';
 import NewIcon from '../../images/new.svg';
+import { alertApiRef, useApi } from '@backstage/core-plugin-api';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@material-ui/core';
+import { TibcoIcon } from '../../Icons/TibcoIcon.tsx';
 
 const useStyles = makeStyles({
   categoryText: {
@@ -85,6 +94,12 @@ const useStyles = makeStyles({
     marginLeft: '8px',
     height: '16px',
   },
+  uninstallButton: {
+    marginLeft: '16px',
+  },
+  dialogActions: {
+    display: 'inline-block',
+  },
 });
 
 /**
@@ -92,9 +107,17 @@ const useStyles = makeStyles({
  */
 export interface CardHeaderProps {
   template: MarketplaceEntity;
+  onSetTemplate?: () => any;
+  onCloseDetailPage?: () => void;
 }
 
-function HeaderImage({ template }: CardHeaderProps) {
+export type UninstallMarketplaceDialogProps = {
+  open: boolean;
+  onConfirm: () => any;
+  onClose: () => any;
+};
+
+const HeaderImage = ({ template }: CardHeaderProps) => {
   const styles = useStyles();
   const { highlight } = useContext(HighlightContext);
   let bg: string = '';
@@ -161,7 +184,53 @@ function HeaderImage({ template }: CardHeaderProps) {
       </Grid>
     </div>
   );
-}
+};
+
+const getRegLocsByTemplate = (template: MarketplaceEntity): string[] => {
+  const locs: string[] = [];
+  for (const step of template?.spec?.steps) {
+    if (step?.action === 'catalog:register' && step?.input?.catalogInfoUrl) {
+      locs.push(step?.input?.catalogInfoUrl as string);
+    }
+  }
+  return locs;
+};
+
+export const UninstallMarketplaceDialog = (
+  props: UninstallMarketplaceDialogProps,
+) => {
+  const { open, onConfirm, onClose } = props;
+  const styles = useStyles();
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>
+        Are you sure you want to uninstall this marketplace entry?
+      </DialogTitle>
+      <DialogContent>
+        <>
+          <button
+            onClick={onConfirm}
+            type="button"
+            className="pl-button pl-button--primary"
+            data-testid="marketplac-uninstall--confirm-button"
+          >
+            Uninstall
+          </button>
+          <DialogActions className={styles.dialogActions}>
+            <button
+              onClick={onClose}
+              type="button"
+              className="pl-button pl-button--no-border"
+              data-testid="marketplac-uninstall--cancel-button"
+            >
+              Cancel
+            </button>
+          </DialogActions>
+        </>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 /**
  * The Card Header with the background for the TemplateCard.
@@ -172,9 +241,69 @@ export const CardHeaderDetail = (props: CardHeaderProps) => {
   // template.metadata['tibco.developer.hub/marketplace']?.popularity || 0 > 5;
   const isNew =
     props.template.metadata['tibco.developer.hub/marketplace']?.isNew;
+  const catalogApi = useApi(catalogApiRef);
+  const alertApi = useApi(alertApiRef);
+  const [open, setOpen] = useState(false);
+
+  const uninstall = async () => {
+    const locs = getRegLocsByTemplate(props.template);
+    if (locs.length === 0) {
+      setOpen(false);
+      alertApi.post({
+        message:
+          'Unable to find registered catalogInfoUrl for the marketplace entry.',
+        severity: 'error',
+        display: 'transient',
+      });
+      return;
+    }
+    try {
+      const locations = await catalogApi.getLocations();
+      const ids = [];
+      for (const location of locations?.items) {
+        if (location.type === 'url' && locs.includes(location.target)) {
+          ids.push(location.id);
+        }
+      }
+      if (ids.length === 0) {
+        setOpen(false);
+        alertApi.post({
+          message: 'Unable to find locations for the marketplace entry.',
+          severity: 'error',
+          display: 'transient',
+        });
+        return;
+      }
+      for (const id of ids) {
+        await catalogApi.removeLocationById(id);
+      }
+      props.onCloseDetailPage?.();
+      setOpen(false);
+      alertApi.post({
+        message: 'Marketplace entry uninstalled successfully',
+        severity: 'success',
+        display: 'transient',
+      });
+      props.template.installed = false;
+      props.onSetTemplate?.();
+    } catch (err) {
+      setOpen(false);
+      alertApi.post({
+        message:
+          (err as Error).message || 'Error uninstalling marketplace entry',
+        severity: 'error',
+        display: 'transient',
+      });
+    }
+  };
   return (
     <>
-      <Grid container spacing={0} justifyContent="space-between">
+      <Grid
+        container
+        spacing={0}
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <div>
           <Grid container spacing={0} alignItems="center">
             <div className={styles.categoryText}>
@@ -188,13 +317,41 @@ export const CardHeaderDetail = (props: CardHeaderProps) => {
         {props.template.installed && (
           <div>
             <Grid container spacing={0} alignItems="center">
-              <img src={SuccessIcon} height={20} width={20} alt="logo" />
-              <div className={styles.installedText}>Installed</div>
+              <div>
+                <Grid container spacing={0} alignItems="center">
+                  <img src={SuccessIcon} height={20} width={20} alt="logo" />
+                  <div className={styles.installedText}>Installed</div>
+                </Grid>
+              </div>
+              {props.template.entityRef && (
+                <button
+                  onClick={() => setOpen(true)}
+                  data-testid="marketplace-uninstall-button"
+                  type="button"
+                  className={`pl-button pl-button--secondary ${styles.uninstallButton}`}
+                >
+                  <Grid container spacing={0} alignItems="center">
+                    <div className="pl-button__icon">
+                      <TibcoIcon
+                        height={20}
+                        width={20}
+                        iconName="pl-icon-delete"
+                      />
+                    </div>
+                    <span className="pl-button__label">Uninstall</span>
+                  </Grid>
+                </button>
+              )}
             </Grid>
           </div>
         )}
       </Grid>
       <HeaderImage template={props.template} />
+      <UninstallMarketplaceDialog
+        open={open}
+        onConfirm={uninstall}
+        onClose={() => setOpen(false)}
+      />
     </>
   );
 };

@@ -3,7 +3,6 @@
  */
 
 import { renderInTestApp, TestApiProvider } from '@backstage/test-utils';
-import React from 'react';
 import { DeploymentsEmptyState } from './DeploymentsEmptyState.tsx';
 import { ConfigReader } from '@backstage/core-app-api';
 import { configApiRef } from '@backstage/core-plugin-api';
@@ -18,7 +17,7 @@ describe('<DeploymentsEmptyState> for tibco-platform-plugin', () => {
             new ConfigReader({
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
             }),
           ],
@@ -35,7 +34,7 @@ describe('<DeploymentsEmptyState> for tibco-platform-plugin', () => {
     ).toBeInTheDocument();
     expect(getByText('Read more').closest('a')).toHaveAttribute(
       'href',
-      'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+      'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
     );
     expect(getByText('tibcoPlatformApps:')).toBeInTheDocument();
   });

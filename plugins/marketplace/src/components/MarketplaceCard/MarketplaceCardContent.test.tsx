@@ -8,7 +8,6 @@ import {
   HighlightContext,
   HighlightProvider,
 } from '../Filtering/HighlightContext';
-import React from 'react';
 import { renderInTestApp } from '@backstage/test-utils';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 

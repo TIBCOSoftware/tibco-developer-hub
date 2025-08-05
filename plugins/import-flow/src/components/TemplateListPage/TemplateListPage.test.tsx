@@ -17,7 +17,6 @@ import {
 } from '@backstage/test-utils';
 import { TemplateListPage } from './TemplateListPage';
 import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
-import React from 'react';
 import { waitFor } from '@testing-library/react';
 
 const mountedRoutes = {

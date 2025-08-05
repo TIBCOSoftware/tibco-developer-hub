@@ -17,7 +17,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import capitalize from 'lodash/capitalize';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
-import React from 'react';
 import { EntityTypeFilterCopy } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;

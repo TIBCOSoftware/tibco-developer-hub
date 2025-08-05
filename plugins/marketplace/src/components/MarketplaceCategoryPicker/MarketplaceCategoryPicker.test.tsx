@@ -6,7 +6,6 @@ import { useEntityList } from '@backstage/plugin-catalog-react';
 import { MarketplaceCategoryPicker } from './MarketplaceCategoryPicker.tsx';
 import { renderInTestApp, TestApiProvider } from '@backstage/test-utils';
 import { alertApiRef } from '@backstage/core-plugin-api';
-import React from 'react';
 import { Entity } from '@backstage/catalog-model';
 import userEvent from '@testing-library/user-event';
 

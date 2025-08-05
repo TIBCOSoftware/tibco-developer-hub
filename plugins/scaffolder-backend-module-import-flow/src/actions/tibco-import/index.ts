@@ -4,4 +4,4 @@
 
 export { ExtractParametersAction } from './extract-parameters';
 export { createYamlAction } from './create-yaml';
-export { customFilters } from './custom-filters.ts';
+export { createEncodeBase64, createDecodeBase64 } from './custom-filters.ts';

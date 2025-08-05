@@ -19,7 +19,6 @@ import {
 } from '@backstage/test-utils';
 import { ConfigReader } from '@backstage/core-app-api';
 import { permissionApiRef } from '@backstage/plugin-permission-react';
-import React from 'react';
 import {
   ApplicationDeploymentsCard,
   ApplicationDeploymentsError,
@@ -75,7 +74,7 @@ describe('ApplicationDeploymentsCard for tibco-platform-plugin', () => {
               cpLink: 'https://cp-url.com',
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
             }),
           ],
@@ -184,7 +183,7 @@ describe('ApplicationDeploymentsCard for tibco-platform-plugin', () => {
               cpLink: '/cp-url.com',
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               secondaryControlPlanes: [
                 {
@@ -300,7 +299,7 @@ describe('ApplicationDeploymentsCard for tibco-platform-plugin', () => {
             new ConfigReader({
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
             }),
           ],
@@ -373,7 +372,7 @@ describe('ApplicationDeploymentsCard for tibco-platform-plugin', () => {
               cpLink: 'https://cp-url.com',
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               secondaryControlPlanes: [
                 {
@@ -455,7 +454,7 @@ describe('ApplicationDeploymentsCard for tibco-platform-plugin', () => {
               cpLink: 'https://cp-url.com',
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               secondaryControlPlanes: [
                 {

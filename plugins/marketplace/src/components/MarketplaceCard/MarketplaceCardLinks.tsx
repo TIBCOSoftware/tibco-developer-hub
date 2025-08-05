@@ -8,7 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import LanguageIcon from '@material-ui/icons/Language';
 import { CardLink } from './CardLink';
-import React from 'react';
 import { AdditionalLinks } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 
 const useStyles = makeStyles<Theme>({

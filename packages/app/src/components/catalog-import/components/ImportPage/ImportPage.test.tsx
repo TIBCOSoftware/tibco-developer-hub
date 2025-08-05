@@ -14,7 +14,6 @@ import {
   CatalogImportClient,
 } from '@backstage/plugin-catalog-import';
 import { ImportPage } from './ImportPage';
-import React from 'react';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

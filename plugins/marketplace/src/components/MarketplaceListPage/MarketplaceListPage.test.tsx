@@ -9,7 +9,6 @@ import {
   renderInTestApp,
   TestApiProvider,
 } from '@backstage/test-utils';
-import React from 'react';
 import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { MarketplaceListPage } from './MarketplaceListPage.tsx';
 import { configApiRef } from '@backstage/core-plugin-api';
@@ -269,7 +268,7 @@ describe('MarketplaceListPage', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -299,7 +298,7 @@ describe('MarketplaceListPage', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -329,7 +328,7 @@ describe('MarketplaceListPage', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -359,7 +358,7 @@ describe('MarketplaceListPage', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),

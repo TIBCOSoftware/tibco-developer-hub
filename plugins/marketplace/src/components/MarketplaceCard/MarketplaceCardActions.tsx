@@ -3,7 +3,6 @@
  */
 
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 import { Link } from '@backstage/core-components';
 

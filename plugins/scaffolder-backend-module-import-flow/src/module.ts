@@ -9,7 +9,8 @@ import {
 } from '@backstage/plugin-scaffolder-node/alpha';
 import {
   createYamlAction,
-  customFilters,
+  createDecodeBase64,
+  createEncodeBase64,
   ExtractParametersAction,
 } from './actions';
 
@@ -30,7 +31,10 @@ export const scaffolderModule = createBackendModule({
           createYamlAction(),
           ExtractParametersAction(),
         );
-        scaffolder.addTemplateFilters(customFilters);
+        scaffolder.addTemplateFilters([
+          createDecodeBase64(),
+          createEncodeBase64(),
+        ]);
       },
     });
   },

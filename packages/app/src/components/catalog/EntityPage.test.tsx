@@ -16,7 +16,6 @@ import {
 } from '@backstage/test-utils';
 import { cicdContent } from './EntityPage';
 import { catalogApiMock } from '@backstage/plugin-catalog-react/testUtils';
-import React from 'react';
 import { githubActionsApiRef } from '@backstage-community/plugin-github-actions';
 
 describe('EntityPage Test', () => {
