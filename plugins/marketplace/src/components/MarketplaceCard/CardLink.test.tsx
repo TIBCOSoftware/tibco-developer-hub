@@ -4,7 +4,6 @@
 
 import { screen } from '@testing-library/react';
 import { CardLink } from './CardLink';
-import React from 'react';
 import { renderInTestApp } from '@backstage/test-utils';
 
 jest.mock('@backstage/core-components', () => ({

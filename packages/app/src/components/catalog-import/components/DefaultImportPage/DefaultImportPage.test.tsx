@@ -13,7 +13,6 @@ import {
   CatalogImportClient,
 } from '@backstage/plugin-catalog-import';
 import { DefaultImportPage } from './DefaultImportPage';
-import React from 'react';
 
 describe('<DefaultImportPage />', () => {
   const fetchApi = {

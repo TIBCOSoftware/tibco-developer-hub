@@ -66,7 +66,7 @@ risk of committing the file by mistake.
 You can run start both backend and frontend at once by running:
 
 ```sh
-yarn dev
+yarn start
 ```
 
 When the command finishes running, it should open up a browser window displaying your app. If not, you can open a browser and directly navigate to the frontend at http://localhost:3000/tibco/hub .
@@ -98,7 +98,7 @@ Example:
 File name: .env.yarn
 
 ```
-DOC_URL="https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview"
+DOC_URL="https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview"
 GITHUB_TOKEN=xxxxxxxxxx
 ```
 
@@ -119,9 +119,10 @@ docker build -t <customImageName:customImageTag> .
 ## Compatability Matrix
 
 | TIBCO Developer Hub Version | Minimum TIBCO Platform Version |
-| --------------------------- |--------------------------------|
-| 1.9.0                       | 1.9.0                          |
-| 1.8.0                       | 1.8.0                          |
+| --------------------------- | ------------------------------ |
+| 1.10.0                      | 1.7.0                          |
+| 1.9.0                       | 1.7.0                          |
+| 1.8.0                       | 1.7.0                          |
 | 1.7.0                       | 1.7.0                          |
 | 1.6.0                       | 1.6.0                          |
 | 1.5.1                       | 1.4.0                          |

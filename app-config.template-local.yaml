@@ -1,7 +1,7 @@
 # copy this file and rename it to app-config.local.yaml
 # then make any updates as needed
 # all *.local.yaml files are ignored by git so it's safe to define secrets in that file
-define: &docUrl https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview
+define: &docUrl https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview
 app:
   baseUrl: http://localhost:3000
   docUrl: *docUrl
@@ -58,36 +58,7 @@ catalog:
         - Domain
         - System
         - Resource
-  locations:
-    - type: url
-      target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
-      rules:
-        - allow:
-            [
-              Component,
-              API,
-              Location,
-              Template,
-              User,
-              Group,
-              Domain,
-              System,
-              Resource,
-            ]
-    - type: url
-      target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace/tibco-developer-hub-market-place.yaml
-      rules:
-        - allow:
-            [
-              Group,
-              Template,
-              System,
-              Domain,
-              Location,
-              Component,
-              API,
-              Resource,
-            ]
+  locations: []
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: development
@@ -104,3 +75,9 @@ auth:
   # # on local developer setups only github and guest auth providers are available
   # # Oauthproxy will only be available in Dataplane deployments.
   enableAuthProviders: [guest]
+  essentialLocations:
+    runScheduler: true,
+    frequencyInMinutes: 120
+    locations:
+      - type: url
+        target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml

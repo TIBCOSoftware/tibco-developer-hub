@@ -4,7 +4,7 @@
 
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { HighlightContext } from '../Filtering/HighlightContext.tsx';
 import Highlighter from 'react-highlight-words';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';

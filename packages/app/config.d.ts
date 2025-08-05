@@ -148,4 +148,24 @@ export interface Config {
    * @visibility frontend
    */
   tibcoDeveloperHubCustomAppVersion?: string;
+  /**
+   * Configuration for adding essential locations to catalog on app start up in backend
+   */
+  essentialLocations?: {
+    /**
+     * Locations to be added in catalog as essential locations
+     */
+    locations?: {
+      type?: string;
+      target: string;
+    }[];
+    /**
+     * Run the scheduler which checks and add essential locations in an interval
+     */
+    runScheduler?: boolean;
+    /**
+     * Frequency of the scheduler job in minutes
+     */
+    frequencyInMinutes?: number;
+  };
 }

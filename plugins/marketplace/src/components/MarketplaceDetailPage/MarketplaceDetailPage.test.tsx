@@ -5,13 +5,14 @@
 import { screen, fireEvent } from '@testing-library/react';
 import { MarketplaceDetailPage } from './MarketplaceDetailPage';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage';
-import React from 'react';
 import {
   mockApis,
   renderInTestApp,
   TestApiProvider,
 } from '@backstage/test-utils';
 import { permissionApiRef } from '@backstage/plugin-permission-react';
+import { catalogApiRef } from '@backstage/plugin-catalog-react';
+import { catalogApiMock } from '@backstage/plugin-catalog-react/testUtils';
 
 describe('MarketplaceDetailPage Component', () => {
   const mockTemplate: MarketplaceEntity = {
@@ -36,11 +37,20 @@ describe('MarketplaceDetailPage Component', () => {
     },
     installed: false,
   };
+  const mockCatalogApi = catalogApiMock({
+    entities: [],
+  });
 
   it('renders the detail container with correct data-testid', async () => {
     await renderInTestApp(
-      <TestApiProvider apis={[[permissionApiRef, mockApis.permission()]]}>
+      <TestApiProvider
+        apis={[
+          [permissionApiRef, mockApis.permission()],
+          [catalogApiRef, mockCatalogApi],
+        ]}
+      >
         <MarketplaceDetailPage
+          onSetTemplate={jest.fn()}
           template={mockTemplate}
           onCloseDetailPage={jest.fn()}
         />
@@ -51,8 +61,14 @@ describe('MarketplaceDetailPage Component', () => {
 
   it('renders the custom image when imageURL is provided', async () => {
     await renderInTestApp(
-      <TestApiProvider apis={[[permissionApiRef, mockApis.permission()]]}>
+      <TestApiProvider
+        apis={[
+          [permissionApiRef, mockApis.permission()],
+          [catalogApiRef, mockCatalogApi],
+        ]}
+      >
         <MarketplaceDetailPage
+          onSetTemplate={jest.fn()}
           template={mockTemplate}
           onCloseDetailPage={jest.fn()}
         />
@@ -70,8 +86,14 @@ describe('MarketplaceDetailPage Component', () => {
       },
     };
     await renderInTestApp(
-      <TestApiProvider apis={[[permissionApiRef, mockApis.permission()]]}>
+      <TestApiProvider
+        apis={[
+          [permissionApiRef, mockApis.permission()],
+          [catalogApiRef, mockCatalogApi],
+        ]}
+      >
         <MarketplaceDetailPage
+          onSetTemplate={jest.fn()}
           template={templateWithoutImage}
           onCloseDetailPage={jest.fn()}
         />
@@ -82,8 +104,14 @@ describe('MarketplaceDetailPage Component', () => {
 
   it('renders external links when links are provided', async () => {
     await renderInTestApp(
-      <TestApiProvider apis={[[permissionApiRef, mockApis.permission()]]}>
+      <TestApiProvider
+        apis={[
+          [permissionApiRef, mockApis.permission()],
+          [catalogApiRef, mockCatalogApi],
+        ]}
+      >
         <MarketplaceDetailPage
+          onSetTemplate={jest.fn()}
           template={mockTemplate}
           onCloseDetailPage={jest.fn()}
         />
@@ -97,8 +125,14 @@ describe('MarketplaceDetailPage Component', () => {
 
   it('renders tags when tags are provided', async () => {
     await renderInTestApp(
-      <TestApiProvider apis={[[permissionApiRef, mockApis.permission()]]}>
+      <TestApiProvider
+        apis={[
+          [permissionApiRef, mockApis.permission()],
+          [catalogApiRef, mockCatalogApi],
+        ]}
+      >
         <MarketplaceDetailPage
+          onSetTemplate={jest.fn()}
           template={mockTemplate}
           onCloseDetailPage={jest.fn()}
         />
@@ -116,8 +150,14 @@ describe('MarketplaceDetailPage Component', () => {
       metadata: { ...mockTemplate.metadata, tags: [] },
     };
     await renderInTestApp(
-      <TestApiProvider apis={[[permissionApiRef, mockApis.permission()]]}>
+      <TestApiProvider
+        apis={[
+          [permissionApiRef, mockApis.permission()],
+          [catalogApiRef, mockCatalogApi],
+        ]}
+      >
         <MarketplaceDetailPage
+          onSetTemplate={jest.fn()}
           template={templateWithoutTags}
           onCloseDetailPage={jest.fn()}
         />
@@ -131,8 +171,14 @@ describe('MarketplaceDetailPage Component', () => {
   it('triggers onCloseDetailPage when close icon is clicked', async () => {
     const mockOnClose = jest.fn();
     await renderInTestApp(
-      <TestApiProvider apis={[[permissionApiRef, mockApis.permission()]]}>
+      <TestApiProvider
+        apis={[
+          [permissionApiRef, mockApis.permission()],
+          [catalogApiRef, mockCatalogApi],
+        ]}
+      >
         <MarketplaceDetailPage
+          onSetTemplate={jest.fn()}
           template={mockTemplate}
           onCloseDetailPage={mockOnClose}
         />
@@ -144,8 +190,14 @@ describe('MarketplaceDetailPage Component', () => {
 
   it('renders the install button when the template is not installed', async () => {
     await renderInTestApp(
-      <TestApiProvider apis={[[permissionApiRef, mockApis.permission()]]}>
+      <TestApiProvider
+        apis={[
+          [permissionApiRef, mockApis.permission()],
+          [catalogApiRef, mockCatalogApi],
+        ]}
+      >
         <MarketplaceDetailPage
+          onSetTemplate={jest.fn()}
           template={mockTemplate}
           onCloseDetailPage={jest.fn()}
         />
@@ -163,8 +215,14 @@ describe('MarketplaceDetailPage Component', () => {
       installedEntityRef: '/installed-entity',
     };
     await renderInTestApp(
-      <TestApiProvider apis={[[permissionApiRef, mockApis.permission()]]}>
+      <TestApiProvider
+        apis={[
+          [permissionApiRef, mockApis.permission()],
+          [catalogApiRef, mockCatalogApi],
+        ]}
+      >
         <MarketplaceDetailPage
+          onSetTemplate={jest.fn()}
           template={installedTemplate}
           onCloseDetailPage={jest.fn()}
         />

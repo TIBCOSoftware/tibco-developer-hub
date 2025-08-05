@@ -6,7 +6,6 @@ import { renderInTestApp, TestApiProvider } from '@backstage/test-utils';
 import { configApiRef } from '@backstage/core-plugin-api';
 import { EntityProvider } from '@backstage/plugin-catalog-react';
 import { ApplicationDeploymentsCard } from './ApplicationDeploymentsCard';
-import React from 'react';
 import { ConfigReader } from '@backstage/core-app-api';
 
 describe('ApplicationDeploymentsCard Component', () => {
@@ -49,7 +48,7 @@ describe('ApplicationDeploymentsCard Component', () => {
               cpLink: 'https://cp-url.com',
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
             }),
           ],
@@ -96,7 +95,7 @@ describe('ApplicationDeploymentsCard Component', () => {
               cpLink: 'https://cp-url.com',
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
             }),
           ],
@@ -152,7 +151,7 @@ describe('ApplicationDeploymentsCard Component', () => {
               cpLink: 'https://cp-url.com',
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
             }),
           ],

@@ -3,7 +3,7 @@
  */
 
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import SuccessIcon from '../../images/success.svg';
 import DocumentBgIcon from '../../images/document-bg.svg';

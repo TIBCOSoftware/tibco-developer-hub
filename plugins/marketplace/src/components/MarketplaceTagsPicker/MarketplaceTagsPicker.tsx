@@ -17,7 +17,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import capitalize from 'lodash/capitalize';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
-import React from 'react';
 import { filterTags } from '../MarketplaceCard/MarketplaceCard.tsx';
 import { EntityTagFilter } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 

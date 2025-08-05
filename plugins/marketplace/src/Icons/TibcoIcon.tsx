@@ -2,7 +2,6 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import React from 'react';
 import icons from './uxpl.icons.svg';
 
 declare type TibcoIconProps = {

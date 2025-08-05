@@ -118,6 +118,7 @@ USER 65532:65532
 
 COPY --from=build --chown=65532:65532 /app/packages/backend/dist/bundle/ ./
 COPY --from=build --chown=65532:65532 /app/coverage/ ./coverage
+COPY --from=build --chown=65532:65532 /app/test-report.xml ./
 COPY --from=node-builder --chown=65532:65532 /app/node_modules ./node_modules
 COPY --from=python-builder --chown=65532:65532 /home/nonroot/venv /home/nonroot/venv
 ENV PATH=/home/nonroot/venv/bin:$PATH

@@ -6,7 +6,6 @@ import { ExtraInfo, HomeCardProps, HomeCardType } from '../../types';
 import { Grid } from '@material-ui/core';
 import SystemsIcon from '../../images/systems-icon.svg';
 import Star from '../../images/star.svg';
-import React from 'react';
 import './HomeCard.css';
 import { Progress } from '@backstage/core-components';
 import Alert from '@material-ui/lab/Alert';
