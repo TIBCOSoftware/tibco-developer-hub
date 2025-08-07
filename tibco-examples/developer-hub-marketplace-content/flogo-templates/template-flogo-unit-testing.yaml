@@ -1,7 +1,7 @@
-# Code Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/Unit-Testing/UnitTesting-basic
-# Doc File: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/Unit-Testing/UnitTesting-basic/readme.md
+# Code Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/Unit-Testing/UnitTesting-basic
+# Doc File: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/Unit-Testing/UnitTesting-basic/readme.md
 # Doc File Target Path:  ./docs/Unit-Testing/UnitTesting-basic/index.md ./docs/API-Development/REST/Basic/index.md
-# Images Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/images/Unit-Testing/UnitTesting-Sample
+# Images Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/images/Unit-Testing/UnitTesting-Sample
 # Images Target Path: ./docs/images/Unit-Testing/UnitTesting-Sample
 # name: flogo-unit-testing
 # title: Flogo Unit Testing
@@ -89,27 +89,27 @@ spec:
       action: fetch:plain
       name: Fetch code
       input:
-        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/Unit-Testing/UnitTesting-basic'
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/Unit-Testing/UnitTesting-basic'
 
     - id: fetch-images
       action: fetch:plain
       name: Fetch images
       input:
-        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/images/Unit-Testing/UnitTesting-Sample'
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/images/Unit-Testing/UnitTesting-Sample'
         targetPath: './docs/images/Unit-Testing/UnitTesting-Sample'
 
     - id: fetch-docs
       action: fetch:plain:file
       name: Fetch docs
       input:
-        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/Unit-Testing/UnitTesting-basic/readme.md'
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/Unit-Testing/UnitTesting-basic/readme.md'
         targetPath: './docs/Unit-Testing/UnitTesting-basic/index.md'
 
     - id: publish
       name: Publish
       action: publish:github
       input:
-#       allowedHosts: ['github.com']
+#        allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
 

@@ -17,3 +17,6 @@ spec:
     - ./mp-entry-doc-platform-apis-19.yaml
     - ./mp-entry-doc-platform-provisioner.yaml
     - ./mp-entry-doc-helm-charts.yaml
+    - ./mp-entry-template-flogo-rest-basic.yaml
+    - ./mp-entry-template-flogo-unit-testing.yaml
+    - ./mp-entry-template-flogo-unit-testing-debug.yaml

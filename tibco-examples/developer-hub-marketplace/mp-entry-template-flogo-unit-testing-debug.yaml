@@ -1,0 +1,76 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-template-flogo-unit-testing-debug
+  title: Flogo Unit Testing (Debug)
+  description: Unit Testing - Playing a Test Case Once (Flow Debugger) in Flogo.
+    With Unit Testing, you can monitor the health of your application and detect
+    errors in individual flows or activity levels.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: Flogo
+        url: https://docs.tibco.com/products/tibco-flogo-enterprise
+        icon: docs
+      - text: Samples
+        url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/
+        icon: github
+  tags:
+    - devhub-marketplace
+    - flogo-templates
+    - integration
+    - testing
+spec:
+  owner: group:default/marketplace-entries-group
+  type: template
+  presentation:
+    buttonLabels:
+      createButtonText: Install
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Install  Flogo Unit Testing (Debug) into your TIBCO Developer Hub
+
+            **ID:** mp-entry-template-flogo-unit-testing-debug
+
+            **Description:** Unit Testing - Playing a Test Case Once (Flow Debugger) in Flogo. With Unit Testing, you can monitor the health of your application and detect errors in individual flows or activity levels. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/flogo-enterprise-hub//blob/master/LICENSE).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Installing Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-templates/template-flogo-unit-testing-debug.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Templates
+        url: /create?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
+        icon: kind:template
+      - icon: kind:template
+        title: Run Flogo Unit Testing (Debug) Template
+        url: /create/templates/default/template-flogo-unit-testing-debug
