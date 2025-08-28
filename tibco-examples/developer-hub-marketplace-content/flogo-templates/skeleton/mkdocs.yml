@@ -2,9 +2,5 @@
 site_name: ${{values.name | dump}}
 site_description: ${{values.description | dump}}
 
-plugins:
-  - techdocs-core
-  - redirects:
-      redirect_maps:
-        'index.md': ${{values.indexRedirect }}
-
+nav:
+  - ${{values.name | dump}}: ${{values.indexRedirect }}

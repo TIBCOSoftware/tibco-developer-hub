@@ -1,7 +1,7 @@
-# Code Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/API-Development/REST/Basic
-# Doc File: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/API-Development/REST/Basic/readme.md
+# Code Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/API-Development/REST/Basic
+# Doc File: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/API-Development/REST/Basic/readme.md
 # Doc File Target Path:  ./docs/API-Development/REST/Basic/index.md ./docs/API-Development/REST/Basic/index.md
-# Images Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/images/REST/Basic
+# Images Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/images/REST/Basic
 # Images Target Path: ./docs/images/REST/Basic
 # name: flogo-rest-basic
 # title: Flogo REST Features Sample
@@ -89,27 +89,27 @@ spec:
       action: fetch:plain
       name: Fetch code
       input:
-        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/API-Development/REST/Basic'
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/API-Development/REST/Basic'
 
     - id: fetch-images
       action: fetch:plain
       name: Fetch images
       input:
-        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/images/REST/Basic'
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/images/REST/Basic'
         targetPath: './docs/images/REST/Basic'
 
     - id: fetch-docs
       action: fetch:plain:file
       name: Fetch docs
       input:
-        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/Samples/VSCode_Extension/API-Development/REST/Basic/readme.md'
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/VSCode_Extension/API-Development/REST/Basic/readme.md'
         targetPath: './docs/API-Development/REST/Basic/index.md'
 
     - id: publish
       name: Publish
       action: publish:github
       input:
-#       allowedHosts: ['github.com']
+#        allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
 
