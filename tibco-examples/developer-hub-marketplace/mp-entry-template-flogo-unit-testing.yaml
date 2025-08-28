@@ -12,7 +12,7 @@ metadata:
     handled.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: true
+    isNew: false
     popularity: 0
     isMultiInstall: false
     imageURL: ""
