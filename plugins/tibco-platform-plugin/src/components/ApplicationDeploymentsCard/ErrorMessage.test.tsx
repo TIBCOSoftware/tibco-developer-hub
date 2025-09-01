@@ -4,7 +4,6 @@
 
 import { renderInTestApp } from '@backstage/test-utils';
 import { screen } from '@testing-library/react';
-import React from 'react';
 import { ErrorMessage } from './ErrorMessage.tsx';
 
 describe('<ErrorMessage> for tibco-platform-plugin', () => {

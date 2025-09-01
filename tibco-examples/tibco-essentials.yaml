@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: essential-entity-locations
+spec:
+  targets:
+    - ./developer-hub-marketplace/tibco-developer-hub-market-place.yaml
+    - ./developer-hub-api/developer-hub-api.yaml
+

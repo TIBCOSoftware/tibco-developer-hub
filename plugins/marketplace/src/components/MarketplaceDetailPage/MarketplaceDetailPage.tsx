@@ -2,7 +2,7 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { TibcoIcon } from '../../Icons/TibcoIcon.tsx';
@@ -148,6 +148,7 @@ const useStyles = makeStyles({
  */
 export interface MarketplaceDetailPageProps {
   template: MarketplaceEntity;
+  onSetTemplate: () => any;
   additionalLinks?: AdditionalLinks[];
   onCloseDetailPage: () => void;
   onTemplateSelected?: (
@@ -162,8 +163,13 @@ export interface MarketplaceDetailPageProps {
  */
 export const MarketplaceDetailPage = (props: MarketplaceDetailPageProps) => {
   const styles = useStyles();
-  const { onCloseDetailPage, template, additionalLinks, onTemplateSelected } =
-    props;
+  const {
+    onCloseDetailPage,
+    template,
+    onSetTemplate,
+    additionalLinks,
+    onTemplateSelected,
+  } = props;
   let defaultIcon: string = '';
   const imageUrl =
     template.metadata['tibco.developer.hub/marketplace']?.imageURL;
@@ -213,6 +219,7 @@ export const MarketplaceDetailPage = (props: MarketplaceDetailPageProps) => {
   });
   const isMultiInstall =
     template.metadata['tibco.developer.hub/marketplace']?.isMultiInstall;
+
   return (
     <div className={styles.detailContainer} data-testid="detail-container">
       <div className={styles.wrapper}>
@@ -225,6 +232,8 @@ export const MarketplaceDetailPage = (props: MarketplaceDetailPageProps) => {
             <TibcoIcon height={24} width={24} iconName="pl-icon-close" />
           </button>
           <CardHeaderDetail
+            onCloseDetailPage={onCloseDetailPage}
+            onSetTemplate={onSetTemplate}
             template={template}
             data-testid="marketplace-card-header"
           />

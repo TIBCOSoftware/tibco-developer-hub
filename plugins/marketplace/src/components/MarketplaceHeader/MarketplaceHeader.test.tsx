@@ -8,7 +8,6 @@ import { ConfigReader } from '@backstage/core-app-api';
 import { permissionApiRef } from '@backstage/plugin-permission-react';
 import { MarketplaceHeader } from './MarketplaceHeader';
 import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
-import React from 'react';
 
 describe('MarketplaceHeader tests for marketplace', () => {
   it('should render marketplace header', async () => {
@@ -22,7 +21,7 @@ describe('MarketplaceHeader tests for marketplace', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
             }),
@@ -51,7 +50,7 @@ describe('MarketplaceHeader tests for marketplace', () => {
     ).toBeInTheDocument();
     expect(getByText('Learn more').closest('a')).toHaveAttribute(
       'href',
-      'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+      'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
     );
   });
 });

@@ -4,7 +4,6 @@
 
 import { screen, fireEvent } from '@testing-library/react';
 import { MarketplaceCardActions } from './MarketplaceCardActions';
-import React from 'react';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 import { renderInTestApp } from '@backstage/test-utils';
 

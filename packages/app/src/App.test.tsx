@@ -2,7 +2,6 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import App, { routes } from './App';
 import { catalogApiMock } from '@backstage/plugin-catalog-react/testUtils';
@@ -285,12 +284,12 @@ describe('Should render all the routes correctly', () => {
             new ConfigReader({
               app: {
                 title: 'test app',
-                developerHubVersion: '1.9.0',
+                developerHubVersion: '1.10.0',
                 buildVersion: 'master',
                 showBuildVersion: true,
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               cpLink: '/cp-url.com',
               tibcoDeveloperHubCustomAppVersion: 'test version',
@@ -357,12 +356,12 @@ describe('Should render all the routes correctly', () => {
             new ConfigReader({
               app: {
                 title: 'test app',
-                developerHubVersion: '1.9.0',
+                developerHubVersion: '1.10.0',
                 buildVersion: 'master',
                 showBuildVersion: true,
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               cpLink: '/cp-url.com',
               tibcoDeveloperHubCustomAppVersion: 'test version',
@@ -415,7 +414,7 @@ describe('Should render all the routes correctly', () => {
     expect(getByLabelText('Search')).toBeInTheDocument();
     expect(getByText('Custom version : test version')).toBeInTheDocument();
     expect(getByText('Build: master')).toBeInTheDocument();
-    expect(getByText('Version : 1.9.0')).toBeInTheDocument();
+    expect(getByText('Version : 1.10.0')).toBeInTheDocument();
     expect(getByText('Home').closest('a')).toHaveAttribute('href', '/');
     expect(getByText('Catalog').closest('a')).toHaveAttribute(
       'href',
@@ -455,7 +454,7 @@ describe('Should render all the routes correctly', () => {
     expect(getByText('What is the TIBCO® Developer Hub ?')).toBeInTheDocument();
     expect(getByText('See how it works').closest('a')).toHaveAttribute(
       'href',
-      'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+      'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
     );
     expect(getByText('Get started').closest('a')).toHaveAttribute(
       'href',
@@ -528,7 +527,7 @@ describe('Should render all the routes correctly', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
               cpLink: '/cp-url.com',
@@ -586,7 +585,7 @@ describe('Should render all the routes correctly', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
               importFlowGroups: [
@@ -870,7 +869,7 @@ describe('Should render all the routes correctly', () => {
                 title: 'test app',
                 baseUrl: 'http://localhost:3000',
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
               backend: { baseUrl: 'http://localhost:7007' },
               marketplaceGroups: [
@@ -913,7 +912,7 @@ describe('Should render all the routes correctly', () => {
     ).toBeInTheDocument();
     expect(getByText('Learn more').closest('a')).toHaveAttribute(
       'href',
-      'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+      'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
     );
     await waitFor(async () => {
       expect(getByText('Tags')).toBeInTheDocument();

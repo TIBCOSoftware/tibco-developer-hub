@@ -2,7 +2,7 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { Popover, makeStyles } from '@material-ui/core';
 import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
@@ -261,11 +261,11 @@ const SecondarySidebar = ({
     ],
     ...secondaryControlPlanes,
   ];
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
-  const [tooltipText, setTooltipText] = React.useState<string | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [tooltipText, setTooltipText] = useState<string | null>(null);
 
   const handlePopoverOpen = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    event: { currentTarget: HTMLElement },
     name: string,
   ) => {
     setAnchorEl(event.currentTarget);
@@ -322,9 +322,9 @@ const SecondarySidebar = ({
         {cps.map((cp, index) => (
           <li className={classes.NavBarExtendedMenuPointer} key={index + 1}>
             <a
-              className={classes.NavBarExtendedMenuItemContainer}
-              href={cp.url}
               target="_blank"
+              href={cp.url}
+              className={classes.NavBarExtendedMenuItemContainer}
             >
               <div className={classes.NavBarExtendedMenuItemContent}>
                 <Typography
@@ -406,7 +406,7 @@ const SidebarCustom = ({
   useEffect(() => {
     setIsNavOpen(isOpen);
   }, [isOpen, setIsNavOpen]);
-  const [cpClicked, setCpClicked] = React.useState<boolean>(false);
+  const [cpClicked, setCpClicked] = useState<boolean>(false);
   const cpLink = constructCplink(config);
   const baseURL = config.getString('app.baseUrl');
   const redirectToCP = () => {

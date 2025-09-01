@@ -4,7 +4,6 @@
 
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
-import React from 'react';
 import { ScaffolderPage } from '@backstage/plugin-scaffolder';
 
 export interface TemplateGroups {

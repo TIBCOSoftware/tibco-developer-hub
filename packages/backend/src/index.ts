@@ -167,8 +167,10 @@ backend.add(
 );
 
 backend.add(import('@backstage/plugin-catalog-backend-module-logs'));
-backend.add(import('@backstage/plugin-catalog-backend-module-github/alpha'));
+backend.add(import('@backstage/plugin-catalog-backend-module-github'));
 backend.add(import('@backstage/plugin-catalog-backend-module-github-org'));
+backend.add(import('@backstage/plugin-catalog-backend-module-gitlab'));
+backend.add(import('@backstage/plugin-catalog-backend-module-gitlab-org'));
 
 // permission plugin
 backend.add(import('@backstage/plugin-permission-backend'));
@@ -184,4 +186,5 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
 backend.add(import('@internal/plugin-scaffolder-backend-module-metrics-api'));
+backend.add(import('./addEssentialLocation'));
 backend.start();

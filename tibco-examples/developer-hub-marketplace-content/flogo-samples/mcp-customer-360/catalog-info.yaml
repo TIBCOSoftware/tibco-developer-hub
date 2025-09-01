@@ -1,0 +1,36 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: flogo-samples-group
+  description: Location of Flogo Samples Group
+spec:
+  targets:
+    - ./../flogo-samples-group.yaml
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'flogo-mcp-customer-360-sample'
+  description: 'This sample demonstrates how to use TIBCO Flogo® Connector for Model Context Protocol (MCP) Developer Preview to expose Customer 360 data — including customers, products, and sales — using the Model Context Protocol (MCP).'
+  links:
+    - title: Clone with VSCode
+      url: "vscode://vscode.git/clone?url=https://github.com/TIBCOSoftware/flogo-enterprise-hub/"
+    - title: Open In GitHub
+      url: "https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/Model_Context_Protocol(MCP)/Customer360"
+      icon: github
+    - title: Flogo MCP Documentation
+      url: "https://docs.tibco.com/pub/flogo-vscode/1.3.2/doc/html/Default.htm#connectors/mcp/mcp-overview.htm"
+      icon: docs
+  tags:
+    - integration
+    - flogo
+    - developer-preview
+    - artificial-intelligence
+    - model-context-protocol
+  annotations:
+    github.com/project-slug: "https://github.com/TIBCOSoftware/flogo-enterprise-hub/"
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: integration
+  lifecycle: development
+  owner: flogo-samples

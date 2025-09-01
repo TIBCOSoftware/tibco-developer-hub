@@ -3,7 +3,6 @@
  */
 
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
-import { z } from 'zod';
 import { simpleGit } from 'simple-git';
 import {
   resolveSafeChildPath,
@@ -13,39 +12,35 @@ import { existsSync } from 'fs';
 import { examples } from './git-push.examples.ts';
 
 export function gitPushAction(config: RootConfigService) {
-  return createTemplateAction<{
-    sourcePath?: string;
-    failOnError?: boolean;
-    commitMessage?: string;
-    gitAuthorName?: string;
-    gitAuthorEmail?: string;
-    branch?: string;
-  }>({
+  return createTemplateAction({
     id: 'tibco:git:push',
     description: 'Commits and push to a git repository.',
     examples,
     schema: {
-      input: z.object({
-        sourcePath: z
-          .string()
-          .optional()
-          .describe(
-            'Source path relative to workspace, optional, path within the workspace that will be used as the repository root',
-          ),
-        failOnError: z
-          .boolean()
-          .optional()
-          .describe(
-            'Boolean flag to stop the task when there is an error, optional, default is false, when true task execution will be stopped in this step when there is an error',
-          ),
-        commitMessage: z.string().optional().describe('Git commit message'),
-        gitAuthorName: z.string().optional().describe('Default author name'),
-        gitAuthorEmail: z.string().optional().describe('Default author email'),
-        branch: z
-          .string()
-          .optional()
-          .describe('The name of the branch to push'),
-      }),
+      input: {
+        sourcePath: z =>
+          z
+            .string()
+            .optional()
+            .describe(
+              'Source path relative to workspace, optional, path within the workspace that will be used as the repository root',
+            ),
+        failOnError: z =>
+          z
+            .boolean()
+            .optional()
+            .describe(
+              'Boolean flag to stop the task when there is an error, optional, default is false, when true task execution will be stopped in this step when there is an error',
+            ),
+        commitMessage: z =>
+          z.string().optional().describe('Git commit message'),
+        gitAuthorName: z =>
+          z.string().optional().describe('Default author name'),
+        gitAuthorEmail: z =>
+          z.string().optional().describe('Default author email'),
+        branch: z =>
+          z.string().optional().describe('The name of the branch to push'),
+      },
     },
     async handler(ctx) {
       try {
@@ -124,7 +119,7 @@ export function gitPushAction(config: RootConfigService) {
         ctx.logger.info('Finished push to git repository');
       } catch (err) {
         ctx.logger.error('Error while pushing to the git repository');
-        ctx.logger.error(err);
+        ctx.logger.error(`${err}`);
         if (ctx.input.failOnError) {
           throw err;
         }

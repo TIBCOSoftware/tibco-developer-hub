@@ -16,7 +16,7 @@ import {
 import { JumpStart } from './components/JumpStart/JumpStart';
 import { Welcome } from './components/Welcome/Welcome';
 import { BuildInfo } from './BuildInfo';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './HomePage.css';
 import { HomeCardProps, HomeCardType } from './types';
 import { HomeCard } from './components/HomeCard/HomeCard';
@@ -110,6 +110,17 @@ export const HomePage = () => {
                 card.itemsInfo = walkthrough.items || [];
               } else {
                 let items = result[index]?.items;
+                if (card.type === HomeCardType.ImportFlow) {
+                  items = items.filter((item: any) => {
+                    const tags = item.metadata.tags?.map((v: string) =>
+                      v.toLowerCase(),
+                    );
+                    return (
+                      tags?.includes('import-flow') &&
+                      !tags?.includes('devhub-internal')
+                    );
+                  });
+                }
                 if (card.type === HomeCardType.Template) {
                   items = items.filter((item: any) => {
                     const tags = item.metadata.tags?.map((v: string) =>

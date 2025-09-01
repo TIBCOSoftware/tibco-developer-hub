@@ -18,7 +18,6 @@ import { TemplateGroup } from '@backstage/plugin-scaffolder-react/alpha';
 import Typography from '@material-ui/core/Typography';
 import { ComponentType, useCallback } from 'react';
 
-import React from 'react';
 import {
   AdditionalLinks,
   MarketplaceEntity,
@@ -54,7 +53,12 @@ export const MarketplaceGroups = (props: MarkrtplaceGroupsProps) => {
     props;
   const errorApi = useApi(errorApiRef);
   const configApi = useApi(configApiRef);
-  const docUrl: string = configApi.get('app.docUrl');
+  let docUrl: string = configApi.get('app.docUrl');
+  if (docUrl) {
+    docUrl = `${
+      docUrl.split('#')[0]
+    }#Subsystems/platform-devhub/User-Guide/marketplace.htm`;
+  }
   const onSelected = useCallback(
     (
       template: TemplateEntityV1beta3,
@@ -79,7 +83,7 @@ export const MarketplaceGroups = (props: MarkrtplaceGroupsProps) => {
     return (
       <Typography variant="body2">
         No marketplace entries found that match your filter. Learn more about{' '}
-        <Link to={docUrl}>adding marketplace entries</Link>.
+        <Link to={docUrl}>marketplace entries</Link>.
       </Typography>
     );
   }

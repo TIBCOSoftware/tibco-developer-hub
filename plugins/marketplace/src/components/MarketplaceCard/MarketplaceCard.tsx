@@ -15,7 +15,6 @@ import { MarketplaceCardContent } from './MarketplaceCardContent.tsx';
 import { MarketplaceCardTags } from './MarketplaceCardTags.tsx';
 import { MarketplaceCardLinks } from './MarketplaceCardLinks.tsx';
 import { MarketplaceCardActions } from './MarketplaceCardActions.tsx';
-import React from 'react';
 import {
   AdditionalLinks,
   MarketplaceEntity,

@@ -3,7 +3,6 @@
  */
 
 import { makeStyles, Box } from '@material-ui/core';
-import React from 'react';
 import { Link } from '@backstage/core-components';
 
 const useStyles = makeStyles({

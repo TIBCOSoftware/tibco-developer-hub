@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: flogo-samples
+  description: Flogo Samples
+spec:
+  type: organization
+  profile:
+    displayName: Flogo Samples
+    email: info@acme.com
+  children: []

@@ -7,7 +7,6 @@ import { catalogApiMock } from '@backstage/plugin-catalog-react/testUtils';
 import { TestApiProvider, renderInTestApp } from '@backstage/test-utils';
 import { ConfigReader } from '@backstage/core-app-api';
 import { permissionApiRef } from '@backstage/plugin-permission-react';
-import React from 'react';
 import { ApplicationDeploymentsPage } from './index.ts';
 import { configApiRef } from '@backstage/core-plugin-api';
 import { rootRouteRef } from '../../routes.ts';
@@ -68,7 +67,7 @@ describe('<ApplicationDeploymentsPage />', () => {
               cpLink: 'https://cp-url.com',
               app: {
                 docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.9.0/doc/html#cshid=developer_hub_overview',
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
               },
             }),
           ],

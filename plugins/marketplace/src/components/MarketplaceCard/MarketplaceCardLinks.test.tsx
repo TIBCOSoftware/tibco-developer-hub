@@ -5,7 +5,6 @@
 import { screen, fireEvent } from '@testing-library/react';
 import { MarketplaceCardLinks } from './MarketplaceCardLinks';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
-import React from 'react';
 import { renderInTestApp } from '@backstage/test-utils';
 
 describe('MarketplaceCardLinks Component', () => {

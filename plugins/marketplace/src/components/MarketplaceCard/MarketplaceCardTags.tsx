@@ -4,7 +4,6 @@
 
 import type { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import Grid from '@material-ui/core/Grid';
-import React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { filterTags } from './MarketplaceCard.tsx';
 

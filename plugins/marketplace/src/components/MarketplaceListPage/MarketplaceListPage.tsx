@@ -2,7 +2,7 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import {
@@ -130,6 +130,7 @@ export interface MarketplaceEntityMetadata extends EntityMeta {
 export interface MarketplaceEntity extends TemplateEntityV1beta3 {
   metadata: MarketplaceEntityMetadata;
   installedEntityRef?: string;
+  entityRef?: string;
   installed?: boolean;
 }
 export interface MarketplaceApiData {
@@ -226,6 +227,7 @@ export const MarketplaceListPage = (props: MarketplaceListPageProps) => {
   const [tasks, setTasks] = useState<MarketplaceApiData[] | undefined>(
     undefined,
   );
+  const [reset, setReset] = useState<boolean>(false);
   const [detailPageTemplate, setDetailPageTemplate] = useState<
     | { template: MarketplaceEntity; additionalLinks?: AdditionalLinks[] }
     | undefined
@@ -249,9 +251,19 @@ export const MarketplaceListPage = (props: MarketplaceListPageProps) => {
           const entityRef = task.data[0]?.output?.links.find(
             l => l.type === 'catalog' && l.entityRef,
           )?.entityRef;
+          const url = task.data[0]?.output?.links.find(
+            l => l.type === 'openButton' && l.url,
+          )?.url;
+          template.entityRef = entityRef;
           template.installedEntityRef =
-            entityRef && convertEntityRefToCatalogUrl(entityRef);
+            url && entityRef
+              ? url
+              : entityRef && convertEntityRefToCatalogUrl(entityRef);
         }
+      } else {
+        template.installed = false;
+        template.entityRef = undefined;
+        template.installedEntityRef = undefined;
       }
       const { kind, namespace, name } = parseEntityRef(
         stringifyEntityRef(template),
@@ -293,66 +305,55 @@ export const MarketplaceListPage = (props: MarketplaceListPageProps) => {
     () => {
       async function fetchData() {
         const backendUrl = config.getString('backend.baseUrl');
-        try {
-          const res = await fetch(
-            `${backendUrl}/api/scaffolder/marketplace/v1/tasks`,
-          );
-          if (!res.ok) throw new Error(res.statusText);
-          const payload: MarketplaceApiData[] = await res.json();
-          const entityRefs: string[] = payload
-            .map(e => {
-              return (
-                e.data[0]?.output?.links?.find(
-                  l => l.type === 'catalog' && l.entityRef,
-                )?.entityRef || ''
-              );
-            })
-            .filter(v => v !== '');
-          let out: string[] = [];
-          if (entityRefs.length > 0) {
-            try {
-              const entRes = await catalogApi.getEntitiesByRefs({ entityRefs });
-              if (entRes && entRes.items.length > 0) {
-                out = entRes.items
-                  .map(ent => {
-                    return (ent && stringifyEntityRef(ent)) || '';
-                  })
-                  .filter(v => v !== '');
-              }
-            } catch (err) {
-              throw err;
-            }
+        const res = await fetch(
+          `${backendUrl}/api/scaffolder/marketplace/v1/tasks`,
+        );
+        if (!res.ok) throw new Error(res.statusText);
+        const payload: MarketplaceApiData[] = await res.json();
+        const entityRefs: string[] = payload
+          .map(e => {
+            return (
+              e.data[0]?.output?.links?.find(
+                l => l.type === 'catalog' && l.entityRef,
+              )?.entityRef || ''
+            );
+          })
+          .filter(v => v !== '');
+        let out: string[] = [];
+        if (entityRefs.length > 0) {
+          const entRes = await catalogApi.getEntitiesByRefs({ entityRefs });
+          if (entRes && entRes.items.length > 0) {
+            out = entRes.items
+              .map(ent => {
+                return (ent && stringifyEntityRef(ent)) || '';
+              })
+              .filter(v => v !== '');
           }
-          setTasks(
-            payload.filter(load => {
-              const entityRef =
-                load.data[0]?.output?.links?.find(
-                  l => l.type === 'catalog' && l.entityRef,
-                )?.entityRef || '';
-              return out.includes(entityRef);
-            }),
-          );
-        } catch (err) {
-          throw err;
         }
+        setTasks(
+          payload.filter(load => {
+            const entityRef =
+              load.data[0]?.output?.links?.find(
+                l => l.type === 'catalog' && l.entityRef,
+              )?.entityRef || '';
+            return out.includes(entityRef);
+          }),
+        );
       }
       fetchData();
     },
-    /* eslint-disable */ [],
+    /* eslint-disable */ [reset],
   );
   const onCloseDetailPage = () => {
     setDetailPageTemplate(undefined);
   };
+  const resetPage = () => {
+    setTasks(undefined);
+    setReset(!reset);
+  };
   return (
     <EntityListProvider pagination={false}>
       <Page themeId="marketplace">
-        {detailPageTemplate && (
-          <MarketplaceDetailPage
-            {...detailPageTemplate}
-            onTemplateSelected={onTemplateSelected}
-            onCloseDetailPage={onCloseDetailPage}
-          ></MarketplaceDetailPage>
-        )}
         <div className={styles.pageContainer}>
           <MarketplaceHeader />
           <Content>
@@ -388,6 +389,14 @@ export const MarketplaceListPage = (props: MarketplaceListPageProps) => {
                     </CatalogFilterLayout.Content>
                   </CatalogFilterLayout>
                 </HighlightProvider>
+                {detailPageTemplate && (
+                  <MarketplaceDetailPage
+                    onSetTemplate={resetPage}
+                    {...detailPageTemplate}
+                    onTemplateSelected={onTemplateSelected}
+                    onCloseDetailPage={onCloseDetailPage}
+                  ></MarketplaceDetailPage>
+                )}
               </>
             )}
           </Content>

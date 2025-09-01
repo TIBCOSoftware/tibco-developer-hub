@@ -77,10 +77,9 @@ integrations:
 
 catalog:
   locations: []
-  # Experimental: Always use the search method in UrlReaderProcessor.
-  # New adopters are encouraged to enable it as this behavior will be the default in a future release.
-  useUrlReadersSearch: true
-
+  rules:
+    - allow:
+        [Group, Template, System, Domain, Location, Component, API, Resource]
 techdocs:
   builder: 'local' # Alternatives - 'external'
   generator:
@@ -117,3 +116,9 @@ scaffolder:
     name: TIBCO® Developer Hub # Defaults to `Scaffolder`
     email: test@test.com # Defaults to `scaffolder@backstage.io`
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
+essentialLocations:
+  runScheduler: true,
+  frequencyInMinutes: 120
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml
