@@ -16,9 +16,9 @@ metadata:
     isMultiInstall: false
     imageURL: ""
     moreInfo:
-      - text: TIBCO Platform
-        url: https://www.tibco.com/platform
-        icon: star
+      - text: Flogo MCP Developer Preview
+        url: https://www.tibco.com/blog/2025/08/07/introducing-tibco-flogo-connector-for-model-context-protocol-mcp-developer-preview/
+        icon: docs
       - text: GitHub Repository
         icon: github
         url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/Model_Context_Protocol(MCP)/Customer360

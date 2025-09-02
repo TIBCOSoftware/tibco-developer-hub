@@ -1,12 +1,12 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-platform-apis-19
-  title: Platform APIs 1.9
-  description: Definitions of all the APIs in the TIBCO Platform - version 1.9
+  name: mp-entry-doc-platform-apis-110
+  title: Platform APIs 1.10
+  description: Definitions of all the APIs in the TIBCO Platform - version 1.10
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
@@ -33,11 +33,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Install  Platform APIs 1.9 into your TIBCO Developer Hub
+            ## Install  Platform APIs 1.10 into your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-platform-apis-19
+            **ID:** mp-entry-doc-platform-apis-110
 
-            **Description:** Definitions of all the APIs in the TIBCO Platform - version 1.9 
+            **Description:** Definitions of all the APIs in the TIBCO Platform - version 1.10 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
@@ -55,7 +55,7 @@ spec:
       name: Installing Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-19/catalog-info-apis-1.9.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-110/catalog-info-apis-1.10.yaml
   output:
     links:
       - title: Open in catalog
@@ -67,13 +67,13 @@ spec:
         icon: kind:api
       - icon: kind:api
         title: Open TIBCO Platform API
-        url: /catalog/default/api/tibco-platform-api-19/definition
+        url: /catalog/default/api/tibco-platform-api-110/definition
       - icon: kind:api
         title: Open BWCE Capability API
-        url: /catalog/default/api/bwce-capability-api-19/definition
+        url: /catalog/default/api/bwce-capability-api-110/definition
       - icon: kind:api
         title: Open Flogo Capability API
-        url: /catalog/default/api/flogo-capability-api-19/definition
+        url: /catalog/default/api/flogo-capability-api-110/definition
       - icon: kind:api
         title: Open TIBCO Developer Hub API
-        url: /catalog/default/api/developer-hub-api-19/definition
+        url: /catalog/default/api/developer-hub-api-110/definition
