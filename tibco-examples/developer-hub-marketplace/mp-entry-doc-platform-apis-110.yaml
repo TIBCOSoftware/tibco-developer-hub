@@ -69,6 +69,9 @@ spec:
         title: Open TIBCO Platform API
         url: /catalog/default/api/tibco-platform-api-110/definition
       - icon: kind:api
+        title: Open BW5 CE Capability API
+        url: /catalog/default/api/bw5ce-capability-api-110/definition
+      - icon: kind:api
         title: Open BWCE Capability API
         url: /catalog/default/api/bwce-capability-api-110/definition
       - icon: kind:api
