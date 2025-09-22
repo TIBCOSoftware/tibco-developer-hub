@@ -8,3 +8,15 @@ spec:
   profile:
     displayName: TIBCO
   children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: mp-behaim-its
+  description: Behaim ITS SW Company
+spec:
+  type: organization
+  profile:
+    displayName: Behaim ITS
+    email: contact_us@behaimits.com
+  children: []
