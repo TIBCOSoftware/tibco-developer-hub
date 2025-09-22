@@ -1,0 +1,8 @@
+site_name: 'Platform CLI Example'
+site_description: 'Example for Platform CLI provisioning'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

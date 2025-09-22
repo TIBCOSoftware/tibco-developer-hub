@@ -1,28 +1,32 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-dh-create-marketplace-entry
-  title: Create a Marketplace Entry
-  description: Documentation on how to create your own Marketplace Entry in TIBCO
-    Developer Hub. This documentation provides a step-by-step guide on how to
-    create Marketplace Entries for TIBCO products.
+  name: mp-entry-platform-cli-provisioning-example
+  title: Platform CLI Provisioning
+  description: This sample demonstrates how to use the Platform CLI to provision
+    dataplanes & capabilities on the TIBCO Platform using a script.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
     moreInfo:
-      - text: TIBCO Developer Hub
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub
+      - text: TIBCO Platform CLI
+        url: https://docs.tibco.com/pub/platform-cp/1.10.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm
+        icon: docs
+      - text: GitHub Repository
         icon: github
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/platform-cli/platform-cli-provisioning-example/platform-cli-scripts
   tags:
     - devhub-marketplace
-    - tibco-developer-hub
-    - create-marketplace-entry
+    - platform
+    - platform-cli
+    - scripting
+    - ci-cd
 spec:
   owner: group:default/marketplace-entries-group
-  type: document
+  type: sample
   presentation:
     buttonLabels:
       createButtonText: Install
@@ -35,11 +39,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Install  Create a Marketplace Entry into your TIBCO Developer Hub
+            ## Install  Platform CLI Provisioning into your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-dh-create-marketplace-entry
+            **ID:** mp-entry-platform-cli-provisioning-example
 
-            **Description:** Documentation on how to create your own Marketplace Entry in TIBCO Developer Hub. This documentation provides a step-by-step guide on how to create Marketplace Entries for TIBCO products. 
+            **Description:** This sample demonstrates how to use the Platform CLI to provision dataplanes & capabilities on the TIBCO Platform using a script. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
@@ -57,16 +61,16 @@ spec:
       name: Installing Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/developer-hub-tutorials/create-marketplace-entry/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/platform-cli/platform-cli-provisioning-example/platform-cli-provisioning-example.yaml
   output:
     links:
       - title: Open in catalog
         type: catalog
         icon: catalog
         entityRef: ${{ steps.registerItem.output.entityRef }}
-      - title: Documents
-        url: /docs?filters%5Buser%5D=all&limit=20
-        icon: techdocs
+      - icon: catalog
+        title: Open Platform CLI Provisioning example
+        url: /catalog/default/component/platform-cli-provisioning-example
       - icon: docs
-        title: Open Create Your Own Marketplace Entry Docs
-        url: /docs/default/System/create-marketplace-entry
+        title: Documentation Platform CLI Provisioning example
+        url: /docs/default/component/platform-cli-provisioning-example

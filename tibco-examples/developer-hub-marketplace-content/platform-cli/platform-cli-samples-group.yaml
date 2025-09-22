@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: platform-cli-samples
+  description: Platform CLI Samples
+spec:
+  type: organization
+  profile:
+    displayName: Platform CLI Samples
+    email: info@acme.com
+  children: []

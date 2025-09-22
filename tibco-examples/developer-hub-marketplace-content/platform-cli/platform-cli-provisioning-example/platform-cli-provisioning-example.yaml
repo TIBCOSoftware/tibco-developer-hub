@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: platform-cli-samples-group
+  description: Location of Platform Samples Group
+spec:
+  targets:
+    - ./../platform-cli-samples-group.yaml
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'platform-cli-provisioning-example'
+  description: 'This sample demonstrates how to use the Platform CLI to provision dataplanes & capabilities on the TIBCO Platform using a script.'
+  links:
+    - title: Platform CLI Documentation
+      url: "https://docs.tibco.com/pub/platform-cp/1.10.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm"
+      icon: docs
+    - title: Platform CLI Sample Code
+      url: "https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/platform-cli/platform-cli-provisioning-example/platform-cli-scripts"
+      icon: github
+  tags:
+    - integration
+    - platform-cli
+    - scripting
+
+  annotations:
+    github.com/project-slug: "https://github.com/TIBCOSoftware/tibco-developer-hub/"
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: integration
+  lifecycle: development
+  owner: platform-cli-samples

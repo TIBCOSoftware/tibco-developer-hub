@@ -1,27 +1,34 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-dh-create-marketplace-entry
-  title: Create a Marketplace Entry
-  description: Documentation on how to create your own Marketplace Entry in TIBCO
-    Developer Hub. This documentation provides a step-by-step guide on how to
-    create Marketplace Entries for TIBCO products.
+  name: mp-entry-doc-example-makedoc
+  title: MakeDoc Example
+  description: Makedoc can be used to generate documentation from TIBCO
+    application source code. This is an example document generated on a
+    BusinessWorks 5 project to display the documentation in TIBCO Developer Hub.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
-    imageURL: ""
+    imageURL: https://behaimits.com/wp-content/uploads/2024/05/makedoc-1-e1715073138385.png
     moreInfo:
-      - text: TIBCO Developer Hub
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub
-        icon: github
+      - text: BehaimITS
+        url: https://www.behaimits.com/
+        icon: chat
+      - text: MakeDoc
+        url: https://www.behaimits.com/integration/tibco/makedoc/
+        icon: docs
+      - text: MakeDoc Container
+        url: https://hub.docker.com/r/behaimits/makedoc
+        icon: LocalShipping
   tags:
     - devhub-marketplace
-    - tibco-developer-hub
-    - create-marketplace-entry
+    - makedoc
+    - business-works-5
+    - documentation
 spec:
-  owner: group:default/marketplace-entries-group
+  owner: group:default/mp-behaim-its
   type: document
   presentation:
     buttonLabels:
@@ -35,14 +42,14 @@ spec:
         description:
           type: "null"
           description: |
-            ## Install  Create a Marketplace Entry into your TIBCO Developer Hub
+            ## Install  MakeDoc Example into your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-dh-create-marketplace-entry
+            **ID:** mp-entry-doc-example-makedoc
 
-            **Description:** Documentation on how to create your own Marketplace Entry in TIBCO Developer Hub. This documentation provides a step-by-step guide on how to create Marketplace Entries for TIBCO products. 
+            **Description:** Makedoc can be used to generate documentation from TIBCO application source code. This is an example document generated on a BusinessWorks 5 project to display the documentation in TIBCO Developer Hub. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
-            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+            This item is subject to the following [license](https://github.com/BehaimITS/MakeDoc-container/blob/main/LICENSE.TXT).
 
             **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
         accept:
@@ -57,7 +64,7 @@ spec:
       name: Installing Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/developer-hub-tutorials/create-marketplace-entry/catalog-info.yaml
+        catalogInfoUrl: https://github.com/BehaimITS/MakeDoc-container/blob/main/catalog-info.yaml
   output:
     links:
       - title: Open in catalog
@@ -68,5 +75,5 @@ spec:
         url: /docs?filters%5Buser%5D=all&limit=20
         icon: techdocs
       - icon: docs
-        title: Open Create Your Own Marketplace Entry Docs
-        url: /docs/default/System/create-marketplace-entry
+        title: Open MakeDoc Sample Docs
+        url: /docs/default/component/makedoc-examples
