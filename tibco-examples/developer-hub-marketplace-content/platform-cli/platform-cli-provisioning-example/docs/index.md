@@ -2,7 +2,7 @@
 
 **Documentation**
 
-[https://docs.tibco.com/pub/platform-cp/1.10.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm](https://docs.tibco.com/pub/platform-cp/1.10.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm)
+[https://docs.tibco.com/pub/platform-cp/1.11.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm](https://docs.tibco.com/pub/platform-cp/1.11.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm)
 
 **GitHub Repository:**
 
