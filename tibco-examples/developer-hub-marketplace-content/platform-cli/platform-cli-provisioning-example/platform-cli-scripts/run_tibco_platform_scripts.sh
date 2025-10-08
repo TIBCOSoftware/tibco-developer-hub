@@ -79,7 +79,7 @@ dataplane_sa="$use_case_lower-sa-$version"
 # Developer Hub Configuration
 #################################
 # Developer Hub FQDN
-dev_hub_fqdn="$version-$use_case_lower-$fqdn_base"
+dev_hub_fqdn="$version-$use_case_lower-dev-hub.$fqdn_base"
 # Developer Hub Name
 dev_hub_name="DevHub_$use_case-$version"
 # Developer Hub resource instance name for storage
@@ -107,7 +107,7 @@ flogo_ingress_class_name="nginx"
 # Flogo Ingress Controller
 flogo_ingress_controller="nginx"
 # Flogo FQDN
-flogo_fqdn="$version-$use_case_lower-$fqdn_base"
+flogo_fqdn="$version-$use_case_lower-flogo.$fqdn_base"
 # Flogo Path Prefix
 flogo_path_prefix="/tibco/flogo/$version"
 
@@ -127,7 +127,7 @@ bwce_ingress_class_name="nginx"
 # bwce Ingress Controller
 bwce_ingress_controller="nginx"
 # bwce FQDN
-bwce_fqdn="$version-$use_case_lower-$fqdn_base"
+bwce_fqdn="$version-$use_case_lower-bwce.$fqdn_base"
 # bwce Path Prefix
 bwce_path_prefix="/tibco/bwce/$version"
 

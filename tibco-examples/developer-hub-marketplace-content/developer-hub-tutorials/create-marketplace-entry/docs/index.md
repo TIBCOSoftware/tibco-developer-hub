@@ -86,7 +86,7 @@ The Catalog URL is the URL of the catalog entry that will be used in the Marketp
 This is the most important field, as it **defines the content of the Marketplace Entry.**
 This file can contain anything that you want to put in the marketplace, literally anything can be shared if you make this a template and point the template to those sources.
 
-For full documentation on the Marketplace, see the [Marketplace Documentation](https://docs.tibco.com/pub/platform-cp/1.9.0/doc/html/Default.htm#Subsystems/platform-devhub/User-Guide/marketplace.htm)
+For full documentation on the Marketplace, see the [Marketplace Documentation](https://docs.tibco.com/pub/platform-cp/1.11.0/doc/html/Default.htm#Subsystems/platform-devhub/User-Guide/marketplace.htm)
 
 
 

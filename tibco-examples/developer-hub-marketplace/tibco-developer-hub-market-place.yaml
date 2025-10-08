@@ -16,6 +16,7 @@ spec:
     - ./mp-entry-doc-platform-apis-18.yaml
     - ./mp-entry-doc-platform-apis-19.yaml
     - ./mp-entry-doc-platform-apis-110.yaml
+    - ./mp-entry-doc-platform-apis-111.yaml
     - ./mp-entry-sample-flogo-mcp-customer360.yaml
     - ./mp-entry-platform-cli-provisioning-example.yaml
     - ./mp-entry-doc-platform-provisioner.yaml
