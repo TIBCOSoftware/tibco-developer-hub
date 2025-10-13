@@ -25,3 +25,4 @@ spec:
     - ./mp-entry-template-flogo-unit-testing.yaml
     - ./mp-entry-template-flogo-unit-testing-debug.yaml
     - ./mp-entry-doc-example-makedoc.yaml
+    - ./mp-entry-doc-platform-previous-apis.yaml

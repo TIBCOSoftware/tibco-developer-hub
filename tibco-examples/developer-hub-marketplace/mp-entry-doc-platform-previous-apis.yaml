@@ -1,0 +1,95 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-doc-platform-apis-previous
+  title: Previous Platform APIs
+  description: Definitions of all the APIs in the TIBCO Platform - (version 1.7 - 1.10)
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: false
+    popularity: 0
+    isMultiInstall: true
+    imageURL: ""
+    moreInfo:
+      - text: TIBCO Platform
+        url: https://www.tibco.com/platform
+        icon: star
+  tags:
+    - devhub-marketplace
+    - platform-apis
+    - api
+spec:
+  owner: group:default/marketplace-entries-group
+  type: document
+  presentation:
+    buttonLabels:
+      createButtonText: Install
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Install  Platform APIs into your TIBCO Developer Hub
+
+            **ID:** mp-entry-doc-platform-apis-older
+
+            **Description:** Definitions of all the APIs in the TIBCO Platform 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        platformVersion:
+          title: Platform Version
+          type: string
+          description: Select the platform version for which you want to install the APIs
+          enum:
+            - '17'
+            - '18'
+            - '19'
+            - '110'
+          enumNames:
+            - 'Version 1.7'
+            - 'Version 1.8'
+            - 'Version 1.9'
+            - 'Version 1.10'
+          default: '110'
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Installing Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: ${{ "https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-" + parameters.platformVersion + "/catalog-info-apis-" + parameters.platformVersion + ".yaml" }}
+
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: APIs
+        url: /api-docs?filters%5Bkind%5D=api&filters%5Buser%5D=all&limit=20
+        icon: kind:api
+      - icon: kind:api
+        title: Open TIBCO Platform API
+        url: ${{ "/catalog/default/api/tibco-platform-api-" + parameters.platformVersion + "/definition" }}
+      - icon: kind:api
+        title: Open BWCE Capability API
+        url: ${{ "/catalog/default/api/bwce-capability-api-" + parameters.platformVersion + "/definition" }}
+      - icon: kind:api
+        title: Open Flogo Capability API
+        url: ${{ "/catalog/default/api/flogo-capability-api-" + parameters.platformVersion + "/definition" }}
+      - icon: kind:api
+        title: Open TIBCO Developer Hub API
+        url: ${{ "/catalog/default/api/developer-hub-api-" + parameters.platformVersion + "/definition" }}
