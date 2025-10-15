@@ -77,3 +77,4 @@ spec:
       - icon: docs
         title: Open MakeDoc Sample Docs
         url: /docs/default/component/makedoc-examples
+        type: openButton

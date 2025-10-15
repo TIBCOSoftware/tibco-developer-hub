@@ -73,3 +73,4 @@ spec:
       - icon: kind:template
         title: Run Flogo REST Features Sample Template
         url: /create/templates/default/template-flogo-rest-basic
+        type: openButton

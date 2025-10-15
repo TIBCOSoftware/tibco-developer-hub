@@ -72,3 +72,4 @@ spec:
       - icon: kind:template
         title: Run import flow for BW6/CE
         url: /create/templates/default/import-flow-bw6
+        type: openButton

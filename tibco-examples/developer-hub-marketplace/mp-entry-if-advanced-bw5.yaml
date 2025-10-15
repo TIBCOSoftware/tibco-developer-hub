@@ -69,3 +69,4 @@ spec:
       - icon: kind:template
         title: Run import flow for BW5
         url: /create/templates/default/import-flow-bw5-system
+        type: openButton

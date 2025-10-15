@@ -71,3 +71,4 @@ spec:
       - icon: kind:template
         title: Run import flow for Flogo & EMS
         url: /create/templates/default/import-flow-flogo-ems
+        type: openButton

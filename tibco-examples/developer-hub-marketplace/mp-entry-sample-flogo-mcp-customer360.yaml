@@ -75,6 +75,7 @@ spec:
       - icon: catalog
         title: Open MCP Customer 360 Sample
         url: /catalog/default/component/flogo-mcp-customer-360-sample
+        type: openButton
       - icon: docs
         title: Documentation MCP Customer 360
         url: /docs/default/component/flogo-mcp-customer-360-sample

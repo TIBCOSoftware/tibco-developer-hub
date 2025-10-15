@@ -74,3 +74,4 @@ spec:
       - icon: kind:template
         title: Run Flogo Unit Testing (Debug) Template
         url: /create/templates/default/template-flogo-unit-testing-debug
+        type: openButton

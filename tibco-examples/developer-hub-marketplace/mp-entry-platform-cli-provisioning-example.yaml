@@ -74,3 +74,4 @@ spec:
       - icon: docs
         title: Documentation Platform CLI Provisioning example
         url: /docs/default/component/platform-cli-provisioning-example
+        type: openButton

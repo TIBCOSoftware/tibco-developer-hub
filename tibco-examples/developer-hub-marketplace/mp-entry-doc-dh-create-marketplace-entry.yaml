@@ -70,3 +70,4 @@ spec:
       - icon: docs
         title: Open Create Your Own Marketplace Entry Docs
         url: /docs/default/System/create-marketplace-entry
+        type: openButton

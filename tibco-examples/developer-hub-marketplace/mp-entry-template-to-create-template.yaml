@@ -70,3 +70,4 @@ spec:
       - icon: kind:template
         title: Run Template to Create Templates
         url: /create/templates/default/template-for-template
+        type: openButton

@@ -72,3 +72,4 @@ spec:
       - icon: docs
         title: Open TIBCO Platform Provisioner Docs
         url: /docs/default/system/platform-provisioner
+        type: openButton

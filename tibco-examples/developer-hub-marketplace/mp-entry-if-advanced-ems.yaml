@@ -70,3 +70,4 @@ spec:
       - icon: kind:template
         title: Run import flow for EMS
         url: /create/templates/default/import-flow-ems-server
+        type: openButton

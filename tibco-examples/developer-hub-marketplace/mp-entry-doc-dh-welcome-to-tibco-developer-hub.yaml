@@ -70,3 +70,4 @@ spec:
       - icon: docs
         title: Open TIBCO Developer Hub Concepts Docs
         url: /docs/default/system/welcome-to-developer-hub
+        type: openButton

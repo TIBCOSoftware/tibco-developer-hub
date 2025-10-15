@@ -68,6 +68,7 @@ spec:
       - icon: kind:api
         title: Open TIBCO Platform API
         url: /catalog/default/api/tibco-platform-api-111/definition
+        type: openButton
       - icon: kind:api
         title: Open BW5 CE Capability API
         url: /catalog/default/api/bw5ce-capability-api-111/definition
