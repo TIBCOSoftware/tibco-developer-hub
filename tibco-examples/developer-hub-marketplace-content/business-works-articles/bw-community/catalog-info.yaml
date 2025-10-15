@@ -21,7 +21,7 @@ apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
   name: bw-community
-  description: 'Create Import Flows'
+  description: 'BW Community Articles and Documentation'
   annotations:
     backstage.io/techdocs-ref: dir:.
   tags:
