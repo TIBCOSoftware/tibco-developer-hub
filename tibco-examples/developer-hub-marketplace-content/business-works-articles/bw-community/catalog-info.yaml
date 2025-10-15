@@ -1,0 +1,32 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: bw-community-doc
+  description: BW Community Documentation
+spec:
+  type: organization
+  profile:
+    displayName: BW Community Documentation
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: bw-community-doc
+  description: A group of documents
+spec:
+  owner: bw-community-doc
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: bw-community
+  description: 'Create Import Flows'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - documentation
+    - business-works-documentation
+spec:
+  owner: bw-community-doc
+  domain: bw-community-doc

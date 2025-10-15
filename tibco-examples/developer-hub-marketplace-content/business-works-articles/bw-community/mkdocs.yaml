@@ -1,0 +1,14 @@
+site_name: 'BW Community Documentation'
+site_description: 'bw-community-doc'
+
+nav:
+  - Introduction: index.md
+  - Development Articles: development_articles.md
+  - Operations Articles: operations_articles.md
+  - Design Patterns: design_patterns.md
+  - Security: security.md
+  - All Articles (searchable): index_full.md
+  - Reference Table: reference_table.md
+
+plugins:
+  - techdocs-core
