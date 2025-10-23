@@ -3,3 +3,4 @@
  */
 
 declare module 'express-http-proxy';
+declare module 'cookie-parser';

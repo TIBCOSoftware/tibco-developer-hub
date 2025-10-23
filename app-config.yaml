@@ -27,7 +27,12 @@ organization:
 
 backend:
   auth:
-    dangerouslyDisableDefaultAuthPolicy: true
+    externalAccess:
+      - type: jwks
+        options:
+          url: http://${CP_DOMAIN}/idm/v1/oauth2/jwks-uri
+          issuer: ${OIDC_ISSUER}
+          algorithm: ES256
   # Used for enabling authentication, secret is shared by all backend plugins
   # See https://backstage.io/docs/auth/service-to-service-auth for
   # information on the format
@@ -95,13 +100,23 @@ techdocs:
     # dockerImage: 'mkdocs:local-dev'
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
-
+enableExperimentalRedirectFlow: true
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   environment: production
+  session:
+    secret: ${OAUTH2_PROXY_COOKIE_SECRET}
   providers:
     # See https://backstage.io/docs/auth/guest/provider
     guest: null
+    tibco-control-plane:
+      production:
+        metadataUrl: http://${CP_DOMAIN}/.well-known/openid-configuration
+        clientId: ${OAUTH2_PROXY_CLIENT_ID}
+        clientSecret: ${OAUTH2_PROXY_CLIENT_SECRET}
+        additionalScopes: ['offline_access']
+        tokenSignedResponseAlg: ES256
+        prompt: auto
     # Needs to be enabled if you want to try out Github auth
     # See https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
     # While creating OAuth App on GitHub, The Homepage URL should point to TIBCO® Developer Hub frontend including '/tibco/hub' in the URL ,while the Authorization callback URL will point to the TIBCO® Developer Hub backend which also includes '/tibco/hub' in the URL
@@ -113,17 +128,15 @@ auth:
     #     production:
     #       clientId: ${AUTH_GITHUB_CLIENT_ID}
     #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
-    oauth2Proxy:
-      production: {}
-  enableAuthProviders: [oauth2Proxy]
+  enableAuthProviders: [tibco-control-plane]
   #   Available providers:
   #   for local deployments
-  #     [github, oauth2Proxy, guest]
-  #   for deployments in a Dataplane:
-  #    [ oauth2Proxy ]
-  # IMPORTANT! oauth2Proxy provider:
-  # If you allow oauth2Proxy in the available providers, it will be used by default over other providers.
-  # If you wish to use other providers, remove oauth2Proxy from available providers.
+  #     [github, guest]
+  #   for deployments in a Data plane:
+  #    [ tibco-control-plane ]
+  # IMPORTANT! tibco-control-plane provider:
+  # If you allow tibco-control-plane in the available providers, it will be used by default over other providers.
+  # If you wish to use other providers, remove tibco-control-plane from available providers.
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
@@ -133,3 +146,9 @@ scaffolder:
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
 catalog:
   locations: []
+essentialLocations:
+  runScheduler: true,
+  frequencyInMinutes: 120
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml

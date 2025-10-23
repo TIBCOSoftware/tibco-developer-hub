@@ -25,7 +25,7 @@ Example config:
 
 ```yaml
 app:
-  developerHubVersion: '1.11.0'
+  developerHubVersion: '1.12.0'
 ```
 
 ## Doc Url
@@ -34,7 +34,7 @@ Documentation url
 
 ```yaml
 app:
-  docUrl: 'https://docs.tibco.com/go/platform-cp/1.11.0/doc/html#cshid=developer_hub_overview'
+  docUrl: 'https://docs.tibco.com/go/platform-cp/1.12.0/doc/html#cshid=developer_hub_overview'
 ```
 
 The CI/CD pipeline automatically adds the build number to all docker images.

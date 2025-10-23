@@ -4,6 +4,7 @@
 
 export const DevHubConfig = {
   wellKnownApiPath: '/.well-known/openid-configuration',
+  idmJWTApiPath: '/idm/v1/oauth2/jwt',
   logFileConfig: {
     filename: 'tibco-hub-%DATE%.log',
     zippedArchive: false,

@@ -28,7 +28,7 @@ describe('CardHeader Component', () => {
   it('renders the template type and "Installed" status', async () => {
     await renderInTestApp(<CardHeader template={mockTemplate} />);
     expect(screen.getByText('template')).toBeInTheDocument();
-    expect(screen.getByText('Installed')).toBeInTheDocument();
+    expect(screen.getByText('Added')).toBeInTheDocument();
   });
 
   it('displays the "New" icon when the template is marked as new', async () => {
