@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import {
   configApiRef,
+  fetchApiRef,
+  identityApiRef,
   useApi,
   useApp,
   useRouteRef,
@@ -301,12 +303,23 @@ export const MarketplaceListPage = (props: MarketplaceListPageProps) => {
   const styles = useStyles();
   const config = useApi(configApiRef);
   const catalogApi = useApi(catalogApiRef);
+  const identityApi = useApi(identityApiRef);
+  const fetchApi = useApi(fetchApiRef);
   useEffect(
     () => {
       async function fetchData() {
         const backendUrl = config.getString('backend.baseUrl');
-        const res = await fetch(
+        const cred = await identityApi.getCredentials();
+        if (!cred || !cred.token) {
+          throw new Error('credentials not found');
+        }
+        const res = await fetchApi.fetch(
           `${backendUrl}/api/scaffolder/marketplace/v1/tasks`,
+          {
+            headers: {
+              Authorization: `Bearer ${cred.token}`,
+            },
+          },
         );
         if (!res.ok) throw new Error(res.statusText);
         const payload: MarketplaceApiData[] = await res.json();

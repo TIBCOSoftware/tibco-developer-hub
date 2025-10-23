@@ -57,7 +57,7 @@ describe('MarketplaceCardActions Component', () => {
       'marketplace-card-actions--install',
     );
     expect(installButton).toBeInTheDocument();
-    expect(installButton).toHaveTextContent('Install');
+    expect(installButton).toHaveTextContent('Get');
   });
 
   it('does not render any button when template is installed and multi-install is false', async () => {

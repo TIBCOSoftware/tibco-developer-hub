@@ -24,10 +24,11 @@ const addLocationsToCatalog = async (
   catalogApi: CatalogClient,
   logger: LoggerService,
   locations: Location[],
+  token: string,
 ) => {
   try {
     for (const loc of locations) {
-      await catalogApi.addLocation(loc);
+      await catalogApi.addLocation(loc, { token });
     }
   } catch (e) {
     if (e instanceof ResponseError && e.response.status === 409) {
@@ -48,8 +49,9 @@ export default createBackendModule({
         config: coreServices.rootConfig,
         discovery: coreServices.discovery,
         scheduler: coreServices.scheduler,
+        auth: coreServices.auth,
       },
-      async init({ logger, config, discovery, scheduler }) {
+      async init({ logger, config, discovery, auth, scheduler }) {
         try {
           const catalogApi: CatalogClient = new CatalogClient({
             discoveryApi: discovery,
@@ -61,6 +63,10 @@ export default createBackendModule({
             essentialLocations?.locations &&
             essentialLocations?.locations?.length > 0
           ) {
+            const { token } = await auth.getPluginRequestToken({
+              onBehalfOf: await auth.getOwnServiceCredentials(),
+              targetPluginId: 'catalog',
+            });
             if (essentialLocations?.runScheduler) {
               await scheduler.scheduleTask({
                 frequency: {
@@ -75,6 +81,7 @@ export default createBackendModule({
                     catalogApi,
                     logger,
                     essentialLocations?.locations || [],
+                    token,
                   );
                 },
               });
@@ -86,6 +93,7 @@ export default createBackendModule({
                 catalogApi,
                 logger,
                 essentialLocations?.locations || [],
+                token,
               );
               logger.info('Essential location added successfully.');
             }, 0);
