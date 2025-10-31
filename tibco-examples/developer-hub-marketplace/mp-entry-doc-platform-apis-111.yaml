@@ -23,7 +23,7 @@ spec:
   type: document
   presentation:
     buttonLabels:
-      createButtonText: Install
+      createButtonText: Get
   parameters:
     - title: Accept the Marketplace Entry
       required:
@@ -33,7 +33,7 @@ spec:
         description:
           type: "null"
           description: |
-            ## Install  Platform APIs 1.11 (Most Recent) into your TIBCO Developer Hub
+            ## Get  Platform APIs 1.11 (Most Recent) added to your TIBCO Developer Hub
 
             **ID:** mp-entry-doc-platform-apis-111
 
@@ -52,7 +52,7 @@ spec:
             - true
   steps:
     - id: registerItem
-      name: Installing Marketplace Entry...
+      name: Getting Marketplace Entry...
       action: catalog:register
       input:
         catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-111/catalog-info-apis-111.yaml

@@ -7,6 +7,7 @@ spec:
     - ./marketplace-group.yaml
     - ./mp-entry-doc-dh-welcome-to-tibco-developer-hub.yaml
     - ./mp-entry-doc-dh-create-marketplace-entry.yaml
+    - ./mp-entry-doc-bw-community.yaml
     - ./mp-entry-template-to-create-template.yaml
     - ./mp-entry-if-advanced-bw5.yaml
     - ./mp-entry-if-advanced-bwce6.yaml
