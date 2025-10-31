@@ -110,30 +110,31 @@ export const HomePage = () => {
                 card.itemsInfo = walkthrough.items || [];
               } else {
                 let items = result[index]?.items;
-                if (card.type === HomeCardType.ImportFlow) {
-                  items = items.filter((item: any) => {
-                    const tags = item.metadata.tags?.map((v: string) =>
-                      v.toLowerCase(),
-                    );
-                    return (
-                      tags?.includes('import-flow') &&
-                      !tags?.includes('devhub-internal')
-                    );
-                  });
-                }
-                if (card.type === HomeCardType.Template) {
-                  items = items.filter((item: any) => {
-                    const tags = item.metadata.tags?.map((v: string) =>
-                      v.toLowerCase(),
-                    );
-                    return !(
-                      tags?.includes('import-flow') ||
-                      tags?.includes('devhub-marketplace') ||
-                      tags?.includes('devhub-internal')
-                    );
-                  });
-                }
                 if (items) {
+                  if (card.type === HomeCardType.ImportFlow) {
+                    items = items.filter((item: any) => {
+                      const tags = item.metadata.tags?.map((v: string) =>
+                        v.toLowerCase(),
+                      );
+                      return (
+                        tags?.includes('import-flow') &&
+                        !tags?.includes('devhub-internal')
+                      );
+                    });
+                  }
+                  if (card.type === HomeCardType.Template) {
+                    items = items.filter((item: any) => {
+                      const tags = item.metadata.tags?.map((v: string) =>
+                        v.toLowerCase(),
+                      );
+                      return !(
+                        tags?.includes('import-flow') ||
+                        tags?.includes('devhub-marketplace') ||
+                        tags?.includes('devhub-internal')
+                      );
+                    });
+                  }
+
                   let itemsInfo = [];
                   if (stars && stars.length > 0) {
                     for (const item of items) {

@@ -32,7 +32,7 @@ spec:
   type: document
   presentation:
     buttonLabels:
-      createButtonText: Install
+      createButtonText: Get
   parameters:
     - title: Accept the Marketplace Entry
       required:
@@ -42,7 +42,7 @@ spec:
         description:
           type: "null"
           description: |
-            ## Install  MakeDoc Example into your TIBCO Developer Hub
+            ## Get  MakeDoc Example added to your TIBCO Developer Hub
 
             **ID:** mp-entry-doc-example-makedoc
 
@@ -61,7 +61,7 @@ spec:
             - true
   steps:
     - id: registerItem
-      name: Installing Marketplace Entry...
+      name: Getting Marketplace Entry...
       action: catalog:register
       input:
         catalogInfoUrl: https://github.com/BehaimITS/MakeDoc-container/blob/main/catalog-info.yaml

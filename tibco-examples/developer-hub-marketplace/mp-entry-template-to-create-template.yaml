@@ -25,7 +25,7 @@ spec:
   type: template
   presentation:
     buttonLabels:
-      createButtonText: Install
+      createButtonText: Get
   parameters:
     - title: Accept the Marketplace Entry
       required:
@@ -35,7 +35,7 @@ spec:
         description:
           type: "null"
           description: |
-            ## Install  Template to Create a Template into your TIBCO Developer Hub
+            ## Get  Template to Create a Template added to your TIBCO Developer Hub
 
             **ID:** mp-entry-template-to-create-template
 
@@ -54,7 +54,7 @@ spec:
             - true
   steps:
     - id: registerItem
-      name: Installing Marketplace Entry...
+      name: Getting Marketplace Entry...
       action: catalog:register
       input:
         catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/template-to-create-template/template-for-template.yaml

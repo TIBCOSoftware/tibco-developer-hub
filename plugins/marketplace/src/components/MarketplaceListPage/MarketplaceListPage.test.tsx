@@ -11,7 +11,11 @@ import {
 } from '@backstage/test-utils';
 import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { MarketplaceListPage } from './MarketplaceListPage.tsx';
-import { configApiRef } from '@backstage/core-plugin-api';
+import {
+  configApiRef,
+  fetchApiRef,
+  identityApiRef,
+} from '@backstage/core-plugin-api';
 import { ConfigReader } from '@backstage/core-app-api';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -223,9 +227,8 @@ describe('MarketplaceListPage', () => {
             facets: { 'spec.type': [{ value: 'service', count: 1 }] },
         }),*/
   };
-
-  jest.spyOn(global, 'fetch').mockImplementation(
-    jest.fn(() =>
+  const mockFetchApi = {
+    fetch: jest.fn(() =>
       Promise.resolve({
         ok: true,
         json: () =>
@@ -253,7 +256,7 @@ describe('MarketplaceListPage', () => {
           ]),
       }),
     ) as jest.Mock,
-  );
+  };
 
   it('should render the search bar for templates', async () => {
     const { getByPlaceholderText } = await renderInTestApp(
@@ -274,6 +277,13 @@ describe('MarketplaceListPage', () => {
             }),
           ],
           [permissionApiRef, mockApis.permission()],
+          [fetchApiRef, mockFetchApi],
+          [
+            identityApiRef,
+            mockApis.identity({
+              token: 'test',
+            }),
+          ],
         ]}
       >
         <MarketplaceListPage />
@@ -291,6 +301,7 @@ describe('MarketplaceListPage', () => {
         apis={[
           // @ts-ignore
           [catalogApiRef, mockCatalogApi],
+          [fetchApiRef, mockFetchApi],
           [
             configApiRef,
             new ConfigReader({
@@ -304,6 +315,12 @@ describe('MarketplaceListPage', () => {
             }),
           ],
           [permissionApiRef, mockApis.permission()],
+          [
+            identityApiRef,
+            mockApis.identity({
+              token: 'test',
+            }),
+          ],
         ]}
       >
         <MarketplaceListPage />
@@ -321,6 +338,7 @@ describe('MarketplaceListPage', () => {
         apis={[
           // @ts-ignore
           [catalogApiRef, mockCatalogApi],
+          [fetchApiRef, mockFetchApi],
           [
             configApiRef,
             new ConfigReader({
@@ -334,6 +352,12 @@ describe('MarketplaceListPage', () => {
             }),
           ],
           [permissionApiRef, mockApis.permission()],
+          [
+            identityApiRef,
+            mockApis.identity({
+              token: 'test',
+            }),
+          ],
         ]}
       >
         <MarketplaceListPage />
@@ -351,6 +375,7 @@ describe('MarketplaceListPage', () => {
         apis={[
           // @ts-ignore
           [catalogApiRef, mockCatalogApi],
+          [fetchApiRef, mockFetchApi],
           [
             configApiRef,
             new ConfigReader({
@@ -364,6 +389,12 @@ describe('MarketplaceListPage', () => {
             }),
           ],
           [permissionApiRef, mockApis.permission()],
+          [
+            identityApiRef,
+            mockApis.identity({
+              token: 'test',
+            }),
+          ],
         ]}
       >
         <MarketplaceListPage />

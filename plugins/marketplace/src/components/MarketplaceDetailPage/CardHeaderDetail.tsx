@@ -204,7 +204,7 @@ export const UninstallMarketplaceDialog = (
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>
-        Are you sure you want to uninstall this marketplace entry?
+        Are you sure you want to remove this marketplace entry?
       </DialogTitle>
       <DialogContent>
         <>
@@ -214,7 +214,7 @@ export const UninstallMarketplaceDialog = (
             className="pl-button pl-button--primary"
             data-testid="marketplac-uninstall--confirm-button"
           >
-            Uninstall
+            Remove
           </button>
           <DialogActions className={styles.dialogActions}>
             <button
@@ -320,7 +320,7 @@ export const CardHeaderDetail = (props: CardHeaderProps) => {
               <div>
                 <Grid container spacing={0} alignItems="center">
                   <img src={SuccessIcon} height={20} width={20} alt="logo" />
-                  <div className={styles.installedText}>Installed</div>
+                  <div className={styles.installedText}>Added</div>
                 </Grid>
               </div>
               {props.template.entityRef && (
@@ -338,7 +338,7 @@ export const CardHeaderDetail = (props: CardHeaderProps) => {
                         iconName="pl-icon-delete"
                       />
                     </div>
-                    <span className="pl-button__label">Uninstall</span>
+                    <span className="pl-button__label">Remove</span>
                   </Grid>
                 </button>
               )}

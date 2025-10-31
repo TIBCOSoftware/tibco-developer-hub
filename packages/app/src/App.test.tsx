@@ -10,7 +10,11 @@ import {
   renderInTestApp,
   TestApiProvider,
 } from '@backstage/test-utils';
-import { configApiRef } from '@backstage/core-plugin-api';
+import {
+  configApiRef,
+  fetchApiRef,
+  identityApiRef,
+} from '@backstage/core-plugin-api';
 import { ConfigReader } from '@backstage/core-app-api';
 import {
   catalogApiRef,
@@ -31,7 +35,7 @@ describe('App', () => {
           data: {
             backend: { baseUrl: 'http://localhost:7007' },
             auth: {
-              enableAuthProviders: ['oauth2Proxy'],
+              enableAuthProviders: ['tibco-control-plane'],
             },
           },
           context: 'test',
@@ -822,8 +826,8 @@ describe('Should render all the routes correctly', () => {
         ],
       }),
     };
-    jest.spyOn(global, 'fetch').mockImplementation(
-      jest.fn(() =>
+    const mockFetchApi = {
+      fetch: jest.fn(() =>
         Promise.resolve({
           ok: true,
           json: () =>
@@ -851,7 +855,7 @@ describe('Should render all the routes correctly', () => {
             ]),
         }),
       ) as jest.Mock,
-    );
+    };
     const {
       getByText,
       getByPlaceholderText,
@@ -886,6 +890,13 @@ describe('Should render all the routes correctly', () => {
           ],
           [catalogApiRef, mockCatalogApi1],
           [permissionApiRef, mockApis.permission()],
+          [fetchApiRef, mockFetchApi],
+          [
+            identityApiRef,
+            mockApis.identity({
+              token: 'test',
+            }),
+          ],
         ]}
       >
         <Root>{routes}</Root>
@@ -929,7 +940,7 @@ describe('Should render all the routes correctly', () => {
     const entry = getByText('Marketplace2 title');
     expect(entry).toBeInTheDocument();
     expect(getByText('Marketplace2 description')).toBeInTheDocument();
-    expect(getAllByText('Install').length).toEqual(2);
+    expect(getAllByText('Get').length).toEqual(2);
     expect(getByText('Open')).toBeInTheDocument();
     expect(getByText('Open').closest('a')).toHaveAttribute(
       'href',
@@ -938,7 +949,7 @@ describe('Should render all the routes correctly', () => {
     expect(getByText('document')).toBeInTheDocument();
     expect(getByText('sample')).toBeInTheDocument();
     expect(getByText('template')).toBeInTheDocument();
-    expect(getByText('Installed')).toBeInTheDocument();
+    expect(getByText('Added')).toBeInTheDocument();
     expect(getByTestId('new-image')).toBeInTheDocument();
     //   expect(getByText('Group1 display name')).toBeInTheDocument();
     // expect(getByText('Group2 display name')).toBeInTheDocument();
@@ -968,7 +979,7 @@ describe('Should render all the routes correctly', () => {
       expect(getByTestId('detail-container')).toBeInTheDocument();
     });
     expect(getByTestId('detail-default-image')).toBeInTheDocument();
-    expect(getAllByText('Install').length).toEqual(3);
+    expect(getAllByText('Get').length).toEqual(3);
     expect(getAllByText('Marketplace2 title').length).toEqual(2);
     expect(getAllByText('Marketplace2 description').length).toEqual(2);
     expect(getAllByText('sample').length).toEqual(2);

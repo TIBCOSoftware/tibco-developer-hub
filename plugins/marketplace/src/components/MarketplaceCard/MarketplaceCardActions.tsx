@@ -69,7 +69,7 @@ export const MarketplaceCardActions = ({
                 handleChoose();
               }}
             >
-              Install
+              Get
             </button>
           ) : null
         }

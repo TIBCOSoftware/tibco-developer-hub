@@ -1,7 +1,7 @@
 # copy this file and rename it to app-config.local.yaml
 # then make any updates as needed
 # all *.local.yaml files are ignored by git so it's safe to define secrets in that file
-define: &docUrl https://docs.tibco.com/go/platform-cp/1.11.0/doc/html#cshid=developer_hub_overview
+define: &docUrl https://docs.tibco.com/go/platform-cp/1.12.0/doc/html#cshid=developer_hub_overview
 app:
   baseUrl: http://localhost:3000
   docUrl: *docUrl
@@ -25,15 +25,17 @@ app:
             title: 'TIBCO® Developer Hub Open Source Repository'
 
 backend:
+  auth:
+    externalAccess:
   baseUrl: http://localhost:7007
   database:
     client: pg
     connection:
       # replace these to match your environment
-      host: localhost
-      port: 5432
-      user: postgres
-      password: example
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: {POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
 
 ## Uncomment the below github integrations config to add a PAT to try out
 ## new component creation using one of the available templates.

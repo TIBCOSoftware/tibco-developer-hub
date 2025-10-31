@@ -33,7 +33,7 @@ spec:
   type: template
   presentation:
     buttonLabels:
-      createButtonText: Install
+      createButtonText: Get
   parameters:
     - title: Accept the Marketplace Entry
       required:
@@ -43,7 +43,7 @@ spec:
         description:
           type: "null"
           description: |
-            ## Install  Flogo Unit Testing into your TIBCO Developer Hub
+            ## Get  Flogo Unit Testing added to your TIBCO Developer Hub
 
             **ID:** mp-entry-template-flogo-unit-testing
 
@@ -62,7 +62,7 @@ spec:
             - true
   steps:
     - id: registerItem
-      name: Installing Marketplace Entry...
+      name: Getting Marketplace Entry...
       action: catalog:register
       input:
         catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-templates/template-flogo-unit-testing.yaml

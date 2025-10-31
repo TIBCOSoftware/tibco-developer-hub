@@ -19,7 +19,12 @@ import CategoryIcon from '@material-ui/icons/Category';
 import { TibcoIcon } from '../../icons/TibcoIcon';
 import CpIcon from '../../icons/cp.svg';
 import MarketplaceIcon from '../../icons/marketplace.svg';
-import { configApiRef, useApi } from '@backstage/core-plugin-api';
+import {
+  configApiRef,
+  errorApiRef,
+  identityApiRef,
+  useApi,
+} from '@backstage/core-plugin-api';
 import { Link } from 'react-router-dom';
 import DevHubLogo from './images/devhub-logo.svg';
 import { Config } from '@backstage/config';
@@ -397,6 +402,8 @@ const SidebarCustom = ({
   const classes = useSidebarStyles();
   const { isOpen } = useSidebarOpenState();
   const config = useApi(configApiRef);
+  const errorApi = useApi(errorApiRef);
+  const identityApi = useApi(identityApiRef);
   const secondaryControlPlanes: undefined | SecondaryControlPlanes[] =
     secondaryControlPlanesValue(config.getOptional('secondaryControlPlanes'));
   const developerHubVersion = config.getOptional('app.developerHubVersion');
@@ -408,9 +415,13 @@ const SidebarCustom = ({
   }, [isOpen, setIsNavOpen]);
   const [cpClicked, setCpClicked] = useState<boolean>(false);
   const cpLink = constructCplink(config);
-  const baseURL = config.getString('app.baseUrl');
-  const redirectToCP = () => {
-    window.location.href = `${baseURL}/oauth2/sign_out?rd=${cpLink}`;
+  const redirectToCP = async () => {
+    try {
+      await identityApi.signOut();
+      window.location.href = cpLink;
+    } catch (error) {
+      errorApi.post(error as Error);
+    }
   };
 
   const openSecNavBar = () => {
