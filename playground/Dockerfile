@@ -42,7 +42,7 @@ COPY --from=packages --chown=65532:65532  /app/backstage.json ./
 RUN --mount=type=cache,target=/home/nonroot/.yarn/berry/cache,sharing=locked,uid=65532,gid=65532 \
     yarn install --immutable
 
-COPY --chown=65532:65532 ../build/playground .
+COPY --chown=65532:65532 . .
 
 RUN yarn tsc
 RUN yarn --cwd packages/backend build
