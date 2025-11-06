@@ -7,7 +7,7 @@ spec:
   type: organization
   profile:
     displayName: TIBCO Developer Hub Concepts
-#    email: info@acme.com
+  #    email: info@acme.com
   children: []
 ---
 apiVersion: backstage.io/v1alpha1

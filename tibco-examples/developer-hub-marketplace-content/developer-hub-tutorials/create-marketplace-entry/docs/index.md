@@ -1,6 +1,5 @@
 # Create Your Own Marketplace Entry
 
-
 ![TIBCO Developer Hub Marketplace](./images/mp-header.svg)
 
 What is the TIBCO Developer Hub Marketplace?
@@ -30,11 +29,11 @@ metadata:
 Which has the tag **devhub-marketplace** :
 
 ```yaml
-  tags:
-    - devhub-marketplace
-    - tibco
-    - developer-hub
-    - create-template
+tags:
+  - devhub-marketplace
+  - tibco
+  - developer-hub
+  - create-template
 ```
 
 The **type of marketplace entry** is defined by the type field in the spec:
@@ -48,15 +47,15 @@ spec:
 Marketplace Entry specific details are described in the **tibco.developer.hub/marketplace** field:
 
 ```yaml
-  tibco.developer.hub/marketplace:
-    isNew: false
-    popularity: 0
-    isMultiInstall: false
-    imageURL: ""
-    moreInfo:
-      - text: TIBCO
-        url: https://www.tibco.com/
-        icon: star
+tibco.developer.hub/marketplace:
+  isNew: false
+  popularity: 0
+  isMultiInstall: false
+  imageURL: ''
+  moreInfo:
+    - text: TIBCO
+      url: https://www.tibco.com/
+      icon: star
 ```
 
 Here you can set links and a custom image URL.
@@ -82,19 +81,9 @@ to create a new Marketplace Entry, these are the input fields:
 - **Owner**: The owner of the Marketplace Entry, which can be a group or user.
 
 ### Catalog URL
+
 The Catalog URL is the URL of the catalog entry that will be used in the Marketplace Entry.
 This is the most important field, as it **defines the content of the Marketplace Entry.**
 This file can contain anything that you want to put in the marketplace, literally anything can be shared if you make this a template and point the template to those sources.
 
 For full documentation on the Marketplace, see the [Marketplace Documentation](https://docs.tibco.com/pub/platform-cp/1.11.0/doc/html/Default.htm#Subsystems/platform-devhub/User-Guide/marketplace.htm)
-
-
-
-
-
-
-
-
-
-
-

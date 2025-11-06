@@ -15,9 +15,7 @@
   "paths": {
     "/v1/dp/apps": {
       "get": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "List all applications",
         "description": "List all flogo applications available on the dataplane",
         "operationId": "ListApps",
@@ -257,9 +255,7 @@
     },
     "/v1/dp/apps/{appId}/endpoints": {
       "get": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "List Application endpoints",
         "description": "List Application endpoints for provided App Id. The API returns details about public/private endpoint and ingress configuration for the public endpoint.",
         "operationId": "ListEndpoints",
@@ -674,9 +670,7 @@
     },
     "/v1/dp/apps/{appId}/servicemesh": {
       "put": {
-        "tags": [
-          "Apps - Managed by FLOGO Provisioner"
-        ],
+        "tags": ["Apps - Managed by FLOGO Provisioner"],
         "summary": "Enable or disable service mesh for an app",
         "description": "Enable or disable service mesh sidecar of the specified app id",
         "operationId": "EnableDisableServicemesh",
@@ -921,7 +915,6 @@
           }
         }
       }
-
     },
     "/v1/dp/builds/{buildId}": {
       "get": {
@@ -1220,9 +1213,7 @@
 
     "/v2/dp/builds/{buildId}/values": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Generate values.yaml from an app Build",
         "description": "Generate values.yaml from an app Build for the provided Build Id",
         "operationId": "GenerateValuesYamlFromBuild",
@@ -1293,9 +1284,7 @@
     },
     "/v2/dp/deploy/release": {
       "post": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Deploy an application Helm chart using values.yaml",
         "description": "Deploy or upgrade a TIBCO FLOGO® application Helm chart using values.yaml. An AppId inside values.yaml is mandatory for upgrading an existing application",
         "operationId": "DeployAppChartWithValues",
@@ -1419,9 +1408,7 @@
     },
     "/v2/dp/apps/{appId}/release/values": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Get helm chart values from FLOGO app deployment",
         "description": "Get helm chart values from FLOGO app deployment",
         "operationId": "GetAppChartValues",
@@ -1507,9 +1494,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Update helm chart values for FLOGO app chart",
         "description": "Update helm chart values for FLOGO application chart. You can provide the values.yaml in the payload.",
         "operationId": "UpdateAppChartValues",
@@ -1605,9 +1590,7 @@
     },
     "/v2/dp/apps/{appId}/release/status": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Status of an Application Chart Deployment",
         "description": "Status of an Application deployment for an App Id.",
         "operationId": "AppChartStatus",
@@ -1686,9 +1669,7 @@
     },
     "/v2/dp/apps/{appId}/release/rollback": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Rollabck an Application helm chart Release",
         "description": "Rollabck an Application helm chart Release for an App Id and specified revision.",
         "operationId": "AppChartRollback",
@@ -1785,9 +1766,7 @@
     },
     "/v2/dp/apps/{appId}/rename": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Rename an Application Chart Deployment",
         "description": "Rename an Application deployment. Warning: This action will uninstall existing release and re-install it with new name so it may cause service outage for clients",
         "operationId": "AppChartRename",
@@ -1875,9 +1854,7 @@
     },
     "/v2/dp/apps/{appId}/servicemesh": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Enable or disable service mesh for an app",
         "description": "Enable or disable service mesh sidecar of the specified app id",
         "operationId": "EnableDisableServicemeshAppChart",
@@ -1965,9 +1942,7 @@
     },
     "/v2/dp/apps/{appId}/autoscaling": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Modify or Create autoscaling configuration",
         "description": "Modify or Create autoscaling configuration for an application. You can provide min/max replicas and CPU/memory thresholds for the HPA resource configuration",
         "operationId": "ModifyAutoscalingAppChart",
@@ -2055,9 +2030,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Remove autoscaling configuration",
         "description": "Remove autoscaling configuration for an application.",
         "operationId": "RemoveAutoscalingAppChart",
@@ -2136,9 +2109,7 @@
     },
     "/v2/dp/apps/{appId}/endpoints/public": {
       "delete": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Make an Application endpoint private",
         "description": "Make an Application endpoint private. The API removes the Ingress resource to make and endpoint private.",
         "operationId": "MakePrivateAppChart",
@@ -2218,9 +2189,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Make an Application endpoint public",
         "description": "Make an Application endpoint public. The API creates an Ingress resource with provided inputs - ingress class name, FQDN, path prefix, etc",
         "operationId": "MakePublicAppChart",
@@ -2469,7 +2438,6 @@
           }
         }
       }
-
     },
     "/v1/dp/supplements": {
       "get": {
@@ -2516,7 +2484,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [ "OracleDatabase" , "IBM-MQ"]
+              "enum": ["OracleDatabase", "IBM-MQ"]
             }
           }
         ],
@@ -2574,7 +2542,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [ "OracleDatabase" , "IBM-MQ"]
+              "enum": ["OracleDatabase", "IBM-MQ"]
             }
           }
         ],
@@ -2601,7 +2569,6 @@
           }
         }
       }
-
     },
     "/v1/dp/extension": {
       "get": {
@@ -2791,9 +2758,7 @@
     },
     "/v1/dp/flogoversions/{version}": {
       "post": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "Provision Flogo Version on the dataplane",
         "description": "Provision Flogo Version on the dataplane.",
         "operationId": "handleDownloadBuildtypeFromCP",
@@ -2806,7 +2771,6 @@
             "schema": {
               "type": "string"
             }
-
           }
         ],
         "responses": {

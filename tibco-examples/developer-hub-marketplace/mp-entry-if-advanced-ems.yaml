@@ -11,7 +11,7 @@ metadata:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ""
+    imageURL: ''
     moreInfo:
       - text: TIBCO
         url: https://www.tibco.com/
@@ -33,7 +33,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: "null"
+          type: 'null'
           description: |
             ## Get  EMS Server added to your TIBCO Developer Hub
 

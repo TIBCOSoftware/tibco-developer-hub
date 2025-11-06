@@ -63,7 +63,6 @@ spec:
         failOnError: true
         repoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
 
-
     - id: extract
       name: Extract Parameters
       action: tibco:extract-parameters
@@ -89,11 +88,11 @@ spec:
           flogo_task_ids:
             type: json
             filePath: ${{ parameters.application_folder + "/" + parameters.application }}
-            jsonPath: "$.resources[*].data.tasks[*].id"
+            jsonPath: '$.resources[*].data.tasks[*].id'
           flogo_tasks:
             type: json
             filePath: ${{ parameters.application_folder + "/" + parameters.application }}
-            jsonPath: "$.resources[*].data.tasks[*]"
+            jsonPath: '$.resources[*].data.tasks[*]'
           flogo_api_names:
             type: json
             filePath: ${{ parameters.application_folder + "/" + parameters.application }}
@@ -108,12 +107,12 @@ spec:
             jsonPath: "$.triggers[?(@.ref == '#rest')]"
 
     # The import flow debug step, enable it for debugging
-#    - id: log-debug
-#      name: Debug Logs
-#      action: debug:log
-#      input:
-#        message: "Fetched the Flogo Skeleton template"
-#        listWorkspace: true
+    #    - id: log-debug
+    #      name: Debug Logs
+    #      action: debug:log
+    #      input:
+    #        message: "Fetched the Flogo Skeleton template"
+    #        listWorkspace: true
 
     # Create the Developer Hub YAML Files from the templates, using the input values
     - id: fetchRS
@@ -136,7 +135,6 @@ spec:
           flogo_api_swagger_b64: ${{ steps.extract.output.flogo_api_swagger_b64 }}
           flogo_api_swagger_triggers: ${{ steps.extract.output.flogo_api_swagger_triggers }}
 
-
     # Rename files
     - id: rename
       name: Rename Descriptor Files
@@ -146,10 +144,10 @@ spec:
           - from: ${{ parameters.application_folder + "/component.yaml" }}
             to: ${{ parameters.application_folder + "/component-" + parameters.application + ".yaml" }}
             overwrite: true
-          - from:  ${{ parameters.application_folder + "/resources.yaml" }}
+          - from: ${{ parameters.application_folder + "/resources.yaml" }}
             to: ${{ parameters.application_folder + "/resources-" + parameters.application + ".yaml" }}
             overwrite: true
-          - from:  ${{ parameters.application_folder + "/apis.yaml" }}
+          - from: ${{ parameters.application_folder + "/apis.yaml" }}
             to: ${{ parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
             overwrite: true
 
@@ -160,12 +158,12 @@ spec:
       input:
         failOnError: true
 
-# Register the Component, Resources & API's in the catalog
+    # Register the Component, Resources & API's in the catalog
     - id: registerComponent
       name: Register Component
       action: catalog:register
       input:
-#       optional: true
+        #       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/component-" + parameters.application + ".yaml" }}
 
     - id: registerResources
@@ -173,14 +171,14 @@ spec:
       if: ${{ (steps.extract.output.flogo_ems_queue_receivers.length > 0) or (steps.extract.output.flogo_ems_queue_senders.length > 0) }}
       action: catalog:register
       input:
-#       optional: true
+        #       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/resources-" + parameters.application + ".yaml" }}
 
     - id: registerAPIs
       name: Register APIs
       action: catalog:register
       input:
-#       optional: true
+        #       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
 
   output:

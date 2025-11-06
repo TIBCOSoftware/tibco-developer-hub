@@ -9,7 +9,7 @@ metadata:
     isNew: true
     popularity: 0
     isMultiInstall: false
-    imageURL: ""
+    imageURL: ''
     moreInfo:
       - text: TIBCO Platform
         url: https://www.tibco.com/platform
@@ -31,7 +31,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: "null"
+          type: 'null'
           description: |
             ## Get  Platform APIs 1.12 (Most Recent) added to your TIBCO Developer Hub
 

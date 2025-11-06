@@ -26,9 +26,7 @@
   "paths": {
     "/cp/api/v1/data-planes/k8s": {
       "post": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Register a k8s data plane",
         "description": "Register a k8s data plane",
         "requestBody": {
@@ -99,9 +97,7 @@
     },
     "/cp/api/v1/data-planes/control-tower": {
       "post": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Register a control-tower data plane",
         "description": "Register a control-tower data plane",
         "requestBody": {
@@ -172,9 +168,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/namespace": {
       "post": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Create and register a namespace",
         "description": "Create and register a namespace",
         "parameters": [
@@ -256,9 +250,7 @@
     },
     "/cp/api/v1/data-planes": {
       "get": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Get data planes",
         "description": "Get data planes in a subscription",
         "parameters": [
@@ -337,9 +329,7 @@
                       "name": "control-tower-dp"
                     }
                   ],
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -379,9 +369,7 @@
     },
     "/cp/api/v1/data-planes/status": {
       "get": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Get Data Planes status",
         "description": "Get status of all Data Planes in a Subscription",
         "responses": {
@@ -430,9 +418,7 @@
                       }
                     ]
                   },
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -482,9 +468,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/status": {
       "get": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Get Data Plane status",
         "description": "Get status of a Data Plane with Data Plane Id",
         "parameters": [
@@ -527,9 +511,7 @@
                     "message": "",
                     "tibtunnel-connected": true
                   },
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -579,9 +561,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/commands/{operation}": {
       "get": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Get Data Plane commands",
         "description": "Get Data Plane commands for delete/upgrade operation",
         "parameters": [
@@ -645,9 +625,7 @@
                       "description": "kubectl command to delete namespace"
                     }
                   ],
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -697,9 +675,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}": {
       "get": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Get data plane details of the mentioned data plane id",
         "description": "Get data plane details of the mentioned data plane id",
         "parameters": [
@@ -767,9 +743,7 @@
                       }
                     ]
                   },
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -817,9 +791,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Update data plane details like name, description and tags",
         "parameters": [
           {
@@ -869,9 +841,7 @@
                   "response": {
                     "message": "Dataplane 'cv3duui7dsoajnuj4fa0' updated successfully"
                   },
-                  "context": [
-                    "2025-03-11T08:03:36.953Z"
-                  ]
+                  "context": ["2025-03-11T08:03:36.953Z"]
                 }
               }
             }
@@ -920,9 +890,7 @@
         "x-codegen-request-body-name": "payload"
       },
       "delete": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Unregister a data plane",
         "description": "Unregister a data plane",
         "parameters": [
@@ -941,9 +909,7 @@
             "description": "Parameter to force delete a data plane",
             "schema": {
               "type": "boolean",
-              "enum": [
-                true
-              ]
+              "enum": [true]
             }
           }
         ],
@@ -991,9 +957,7 @@
                       }
                     ]
                   },
-                  "context": [
-                    "2025-03-11T08:19:52.852Z"
-                  ]
+                  "context": ["2025-03-11T08:19:52.852Z"]
                 }
               }
             }
@@ -1043,9 +1007,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/resource-association": {
       "put": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Link resource instances to a Data Plane",
         "parameters": [
           {
@@ -1095,9 +1057,7 @@
                   "response": {
                     "message": "Dataplane 'cv3duui7dsoajnuj4fa0' updated successfully"
                   },
-                  "context": [
-                    "2025-03-11T08:03:36.953Z"
-                  ]
+                  "context": ["2025-03-11T08:03:36.953Z"]
                 }
               }
             }
@@ -1148,9 +1108,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/apps": {
       "get": {
-        "tags": [
-          "Apps"
-        ],
+        "tags": ["Apps"],
         "summary": "Get app details deployed on a data plane",
         "parameters": [
           {
@@ -1237,9 +1195,7 @@
     },
     "/cp/api/v1/apps": {
       "get": {
-        "tags": [
-          "Apps"
-        ],
+        "tags": ["Apps"],
         "summary": "Get app details deployed on a subscription",
         "parameters": [
           {
@@ -1304,9 +1260,7 @@
                       "name": "app-name"
                     }
                   ],
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -1366,9 +1320,7 @@
     },
     "/cp/api/v1/apps/{appId}": {
       "get": {
-        "tags": [
-          "Apps"
-        ],
+        "tags": ["Apps"],
         "summary": "Get app details by ID on a subscription",
         "parameters": [
           {
@@ -1409,10 +1361,7 @@
                     "id": "cuumooaghufnbqb1mtcg",
                     "name": "app-name",
                     "description": "app description",
-                    "version": [
-                      1,
-                      0
-                    ],
+                    "version": [1, 0],
                     "capability-id": "BWCE",
                     "capability-instance-id": "cuumge27dsoajnuj4f6g",
                     "created-by": "username",
@@ -1421,9 +1370,7 @@
                     "modified-time": 1740467343,
                     "data-plane-id": "cuq4rgaugsdfke0k7k4g"
                   },
-                  "context": [
-                    "2025-03-11T14:37:06.090Z"
-                  ]
+                  "context": ["2025-03-11T14:37:06.090Z"]
                 }
               }
             }
@@ -1483,9 +1430,7 @@
     },
     "/cp/api/v1/apps/{appId}/status": {
       "get": {
-        "tags": [
-          "Apps"
-        ],
+        "tags": ["Apps"],
         "summary": "Get app status from Monitoring",
         "parameters": [
           {
@@ -1528,9 +1473,7 @@
                     "status": "Stopped",
                     "instance": 1
                   },
-                  "context": [
-                    "2025-03-11T14:37:06.090Z"
-                  ]
+                  "context": ["2025-03-11T14:37:06.090Z"]
                 }
               }
             }
@@ -1590,9 +1533,7 @@
     },
     "/cp/api/v1/resources/instances/{type}": {
       "post": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Create a subscription level resource instance",
         "parameters": [
           {
@@ -1855,9 +1796,7 @@
                   "response": {
                     "resource_instance_id": "cv7vfkrddha1gdi2167g"
                   },
-                  "context": [
-                    "2025-03-11T08:44:03.972Z"
-                  ]
+                  "context": ["2025-03-11T08:44:03.972Z"]
                 }
               }
             }
@@ -1907,9 +1846,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/resources/instances/{type}": {
       "post": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Create Data plane level resource instance",
         "parameters": [
           {
@@ -2307,9 +2244,7 @@
     },
     "/cp/api/v1/resources": {
       "get": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Get Resources",
         "description": "Get all supported resources",
         "responses": {
@@ -2342,9 +2277,7 @@
                       "name": "Ingress Controller"
                     }
                   ],
-                  "context": [
-                    "2025-03-11T13:29:53.934Z"
-                  ]
+                  "context": ["2025-03-11T13:29:53.934Z"]
                 }
               }
             }
@@ -2394,9 +2327,7 @@
     },
     "/cp/api/v1/resources/instances": {
       "get": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Get All Resource Instances",
         "description": "Get Subscription level Resource Instances",
         "parameters": [
@@ -2449,9 +2380,7 @@
                       "dataplane-name": "data-plane-name"
                     }
                   ],
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -2501,9 +2430,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/resources/instances": {
       "get": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Get Data Plane Resource Instances",
         "description": "Get Data Plane level Resource Instances",
         "parameters": [
@@ -2561,9 +2488,7 @@
                       "type": "STORAGE_CLASS"
                     }
                   ],
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -2613,9 +2538,7 @@
     },
     "/cp/api/v1/resources/instances/{resourceInstanceId}": {
       "get": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Get Resource Instance details",
         "description": "Get Resource Instance details by Resource Instance Id",
         "parameters": [
@@ -2666,9 +2589,7 @@
                         }
                       ]
                     },
-                    "context": [
-                      "2024-10-17T06:24:01.743Z"
-                    ]
+                    "context": ["2024-10-17T06:24:01.743Z"]
                   },
                   "example-2": {
                     "status": "success",
@@ -2690,9 +2611,7 @@
                         }
                       ]
                     },
-                    "context": [
-                      "2024-10-17T06:24:01.743Z"
-                    ]
+                    "context": ["2024-10-17T06:24:01.743Z"]
                   },
                   "example-3": {
                     "status": "success",
@@ -2709,9 +2628,7 @@
                       "dataplane-id": "crhb9o190k6c73cq1k3g",
                       "dataplane-name": "data-plane-name"
                     },
-                    "context": [
-                      "2024-10-17T06:24:01.743Z"
-                    ]
+                    "context": ["2024-10-17T06:24:01.743Z"]
                   }
                 }
               }
@@ -2760,9 +2677,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Delete Resource Instance at subscription level",
         "description": "Delete Resource Instance at subscription level",
         "parameters": [
@@ -2803,9 +2718,7 @@
                   "response": {
                     "message": "Resource instance 'crt2mvl5si0c7386jn50' deleted successfully"
                   },
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -2853,9 +2766,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Update resource instance",
         "parameters": [
           {
@@ -3139,9 +3050,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/resources/instances/{resourceInstanceId}": {
       "delete": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Delete Data Plane Resource Instance",
         "description": "Delete Data Plane Resource Instance",
         "parameters": [
@@ -3191,9 +3100,7 @@
                   "response": {
                     "message": "Resource instance 'crt2mvl5si0c7386jn50' deleted successfully"
                   },
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -3243,9 +3150,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/{capabilityId}": {
       "post": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Provision a Capability",
         "parameters": [
           {
@@ -3264,12 +3169,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [
-                "BWCE",
-                "BW5CE",
-                "FLOGO",
-                "TIBCOHUB"
-              ]
+              "enum": ["BWCE", "BW5CE", "FLOGO", "TIBCOHUB"]
             }
           }
         ],
@@ -3452,9 +3352,7 @@
     },
     "/cp/api/v1/capabilities": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get capabilities list",
         "description": "Get capabilities list",
         "responses": {
@@ -3519,9 +3417,7 @@
                       "name": "TIBCO® API Manager"
                     }
                   ],
-                  "context": [
-                    "2024-10-17T16:43:10.990Z"
-                  ]
+                  "context": ["2024-10-17T16:43:10.990Z"]
                 }
               }
             }
@@ -3571,9 +3467,7 @@
     },
     "/cp/api/v1/capabilities/instances": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get all capability instances details in a subscription",
         "parameters": [
           {
@@ -3619,9 +3513,7 @@
                       ]
                     }
                   ],
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -3671,9 +3563,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/instances": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get all capability instances details in a data plane",
         "parameters": [
           {
@@ -3722,9 +3612,7 @@
                       "name": "FLOGO"
                     }
                   ],
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -3774,9 +3662,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/capabilities-instances/status": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get capabilities instances status",
         "description": "Get capabilities instances status list",
         "parameters": [
@@ -3832,9 +3718,7 @@
                       ]
                     }
                   ],
-                  "context": [
-                    "2024-10-17T16:43:10.990Z"
-                  ]
+                  "context": ["2024-10-17T16:43:10.990Z"]
                 }
               }
             }
@@ -3884,9 +3768,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/instances/{capabilityInstanceId}/status": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get capability instance status",
         "description": "Get capability instance status",
         "parameters": [
@@ -3946,9 +3828,7 @@
                       }
                     ]
                   },
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -3998,9 +3878,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/instances/{capabilityInstanceId}": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get capability instance details in a data plane",
         "parameters": [
           {
@@ -4057,11 +3935,7 @@
                     "namespace": "abcd",
                     "region": "",
                     "tags": null,
-                    "version": [
-                      1,
-                      5,
-                      0
-                    ],
+                    "version": [1, 5, 0],
                     "resource-instances": [
                       {
                         "id": "cuumg7a7dsoajnuj4f5g",
@@ -4073,9 +3947,7 @@
                       }
                     ]
                   },
-                  "context": [
-                    "2025-03-11T14:03:13.596Z"
-                  ]
+                  "context": ["2025-03-11T14:03:13.596Z"]
                 }
               }
             }
@@ -4133,9 +4005,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "De-provision a capability instance from a data plane",
         "description": "De-provision a capability instance from a data plane",
         "parameters": [
@@ -4185,9 +4055,7 @@
                   "response": {
                     "message": "Capability cv3duui7dsoajnuj4fa0 deleted successfully"
                   },
-                  "context": [
-                    "2025-03-11T14:03:13.596Z"
-                  ]
+                  "context": ["2025-03-11T14:03:13.596Z"]
                 }
               }
             }
@@ -4266,9 +4134,7 @@
           "code": "CP-10000",
           "message": "Error summary",
           "details": "Error details",
-          "context": [
-            "2025-03-11T04:53:52Z"
-          ]
+          "context": ["2025-03-11T04:53:52Z"]
         }
       },
       "Denied": {
@@ -4283,11 +4149,7 @@
         }
       },
       "registerK8sDataPlanePayload": {
-        "required": [
-          "name",
-          "namespace",
-          "service-account-name"
-        ],
+        "required": ["name", "namespace", "service-account-name"],
         "type": "object",
         "properties": {
           "name": {
@@ -4426,12 +4288,7 @@
         }
       },
       "registerControlTowerDataPlanePayload": {
-        "required": [
-          "name",
-          "namespace",
-          "resources",
-          "service-account-name"
-        ],
+        "required": ["name", "namespace", "resources", "service-account-name"],
         "type": "object",
         "properties": {
           "name": {
@@ -4633,9 +4490,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "namespace"
-        ],
+        "required": ["namespace"],
         "example": {
           "namespace": "my-data-plane-namespace"
         }
@@ -4647,10 +4502,7 @@
             "type": "string"
           },
           "response": {
-            "required": [
-              "commands",
-              "id"
-            ],
+            "required": ["commands", "id"],
             "type": "object",
             "properties": {
               "id": {
@@ -4711,9 +4563,7 @@
               }
             ]
           },
-          "context": [
-            "2025-03-11T04:44:07.803Z"
-          ]
+          "context": ["2025-03-11T04:44:07.803Z"]
         }
       },
       "apiResponseRegisterDataPlaneNamespace": {
@@ -4758,9 +4608,7 @@
               "description": "helm command to authenticate helm repo "
             }
           },
-          "context": [
-            "2025-03-11T04:44:07.803Z"
-          ]
+          "context": ["2025-03-11T04:44:07.803Z"]
         }
       },
       "dataPlaneUpdatePayload": {
@@ -4785,9 +4633,7 @@
         "example": {
           "name": "my-data-plane",
           "description": "data plane description",
-          "tags": [
-            "tag1"
-          ]
+          "tags": ["tag1"]
         }
       },
       "dataPlaneLinkResourcePayload": {
@@ -4800,10 +4646,7 @@
           "resource-type": {
             "type": "string",
             "description": "Resource type. Can be one of the following - ACTIVATION_SERVER or HELM_REPO",
-            "enum": [
-              "ACTIVATION_SERVER",
-              "HELM_REPO"
-            ]
+            "enum": ["ACTIVATION_SERVER", "HELM_REPO"]
           },
           "operation": {
             "type": "string",
@@ -4817,9 +4660,7 @@
         }
       },
       "dataPlaneUpdateResponse": {
-        "required": [
-          "message"
-        ],
+        "required": ["message"],
         "type": "object",
         "properties": {
           "message": {
@@ -4829,9 +4670,7 @@
         }
       },
       "apiResponseDeleteDataPlane": {
-        "required": [
-          "message"
-        ],
+        "required": ["message"],
         "type": "object",
         "properties": {
           "message": {
@@ -4847,11 +4686,7 @@
         }
       },
       "Commands": {
-        "required": [
-          "cmd",
-          "description",
-          "id"
-        ],
+        "required": ["cmd", "description", "id"],
         "type": "object",
         "properties": {
           "cmd": {
@@ -4869,9 +4704,7 @@
         }
       },
       "deleteResourceInstanceResponse": {
-        "required": [
-          "message"
-        ],
+        "required": ["message"],
         "type": "object",
         "properties": {
           "message": {
@@ -4881,9 +4714,7 @@
         }
       },
       "deProvisionCapabilityResponse": {
-        "required": [
-          "message"
-        ],
+        "required": ["message"],
         "type": "object",
         "properties": {
           "message": {
@@ -4925,10 +4756,7 @@
               "app_resource_instance_ids": null,
               "app_state": "Stopped",
               "app_tags": [],
-              "app_version": [
-                1,
-                0
-              ],
+              "app_version": [1, 0],
               "capability_id": "BWCE",
               "capability_instance_description": null,
               "capability_instance_id": "cuumge27dsoajnuj4f6g",
@@ -4936,11 +4764,7 @@
               "capability_instance_namespace": "cap-ns",
               "capability_instance_status": "provisioned",
               "capability_instance_tags": null,
-              "capability_instance_version": [
-                1,
-                5,
-                0
-              ],
+              "capability_instance_version": [1, 5, 0],
               "created_by": "username",
               "created_time": 1740467298,
               "dp_description": "",
@@ -4956,9 +4780,7 @@
               "subscription_id": "cuq4qiqugsdfke0k7k3g"
             }
           ],
-          "context": [
-            "2025-03-11T14:03:13.596Z"
-          ]
+          "context": ["2025-03-11T14:03:13.596Z"]
         }
       },
       "AppDetails": {
@@ -5519,12 +5341,7 @@
       "apiResponseSubscriptionResourceInstances": {
         "type": "array",
         "items": {
-          "required": [
-            "id",
-            "name",
-            "scope",
-            "type"
-          ],
+          "required": ["id", "name", "scope", "type"],
           "type": "object",
           "properties": {
             "id": {
@@ -5652,11 +5469,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "url",
-          "name",
-          "agent-name"
-        ]
+        "required": ["url", "name", "agent-name"]
       },
       "resourceIngressControllerSchema": {
         "type": "object",
@@ -5666,11 +5479,7 @@
           },
           "ingress-controller": {
             "type": "string",
-            "enum": [
-              "nginx",
-              "kong",
-              "traefik"
-            ]
+            "enum": ["nginx", "kong", "traefik"]
           },
           "ingress-class-name": {
             "type": "string",
@@ -5690,12 +5499,7 @@
             }
           }
         },
-        "required": [
-          "name",
-          "ingress-controller",
-          "ingress-class-name",
-          "fqdn"
-        ]
+        "required": ["name", "ingress-controller", "ingress-class-name", "fqdn"]
       },
       "resourceStorageClassSchema": {
         "type": "object",
@@ -5710,10 +5514,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "storage-class-name"
-        ]
+        "required": ["name", "storage-class-name"]
       },
       "bwceCapabilityProvisionSchema": {
         "type": "object",
@@ -5901,13 +5702,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "alias",
-          "url",
-          "repo",
-          "pull-latest-charts"
-        ]
+        "required": ["name", "alias", "url", "repo", "pull-latest-charts"]
       },
       "emailReceiverSchema": {
         "type": "object",
@@ -5926,16 +5721,10 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "email"
-            ]
+            "enum": ["email"]
           }
         },
-        "required": [
-          "name",
-          "email",
-          "type"
-        ]
+        "required": ["name", "email", "type"]
       },
       "alertRuleSchema": {
         "type": "object",
@@ -5949,10 +5738,7 @@
           "capability": {
             "type": "string",
             "description": "Capability name for which the alert rule is being created",
-            "enum": [
-              "BWCE",
-              "FLOGO"
-            ]
+            "enum": ["BWCE", "FLOGO"]
           },
           "alert-message": {
             "type": "string"
@@ -5968,11 +5754,7 @@
           },
           "severity": {
             "type": "string",
-            "enum": [
-              "critical",
-              "warning",
-              "info"
-            ]
+            "enum": ["critical", "warning", "info"]
           },
           "config-details": {
             "type": "object",
@@ -5983,12 +5765,7 @@
               },
               "alert-rule-operator": {
                 "type": "string",
-                "enum": [
-                  "<",
-                  ">",
-                  "<=",
-                  ">="
-                ],
+                "enum": ["<", ">", "<=", ">="],
                 "description": "To be used in conjunction with the threshold-value to evaluate the alert rule."
               },
               "alert-rule-category": {
@@ -6042,10 +5819,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "url"
-        ]
+        "required": ["name", "url"]
       },
       "resourceDatabaseConfigSchema": {
         "type": "object",
@@ -6055,10 +5829,7 @@
           },
           "database-type": {
             "type": "string",
-            "enum": [
-              "postgres",
-              "mysql"
-            ]
+            "enum": ["postgres", "mysql"]
           },
           "host": {
             "type": "string",
@@ -6101,10 +5872,7 @@
           },
           "transport": {
             "type": "string",
-            "enum": [
-              "EMS",
-              "RV"
-            ]
+            "enum": ["EMS", "RV"]
           },
           "rv": {
             "type": "object",
@@ -6122,10 +5890,7 @@
                 "description": "RV Daemon (ex: 'tcp:<port>' or 'tcp:<remote-host>:<port>')"
               }
             },
-            "required": [
-              "rv-service",
-              "rv-daemon"
-            ],
+            "required": ["rv-service", "rv-daemon"],
             "description": "RV-specific transport configuration."
           },
           "ems": {
@@ -6181,29 +5946,19 @@
                 "description": "Do not verify EMS SSL Host Name. If set as false, provide ems-ssl-expected-hostname."
               }
             },
-            "required": [
-              "ems-server-url",
-              "ems-user-name"
-            ],
+            "required": ["ems-server-url", "ems-user-name"],
             "description": "EMS-specific transport configuration."
           }
         },
         "oneOf": [
           {
-            "required": [
-              "rv"
-            ]
+            "required": ["rv"]
           },
           {
-            "required": [
-              "ems"
-            ]
+            "required": ["ems"]
           }
         ],
-        "required": [
-          "domain-name",
-          "transport"
-        ],
+        "required": ["domain-name", "transport"],
         "example": {
           "RVExample": {
             "domain-name": "domain1",
@@ -6265,11 +6020,7 @@
             }
           }
         },
-        "required": [
-          "name",
-          "proxies",
-          "exporters"
-        ]
+        "required": ["name", "proxies", "exporters"]
       },
       "resourceO11yServerConfiguration": {
         "type": "object",
@@ -6286,10 +6037,7 @@
           },
           "scope": {
             "type": "string",
-            "enum": [
-              "SUBSCRIPTION",
-              "DATAPLANE"
-            ]
+            "enum": ["SUBSCRIPTION", "DATAPLANE"]
           },
           "enabled": {
             "type": "boolean"
@@ -6307,9 +6055,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name"
-        ]
+        "required": ["name"]
       },
       "elasticSearchSchema": {
         "type": "object",
@@ -6336,11 +6082,7 @@
             }
           }
         },
-        "required": [
-          "name",
-          "logIndex",
-          "endpoint"
-        ]
+        "required": ["name", "logIndex", "endpoint"]
       },
       "elasticSearchSchemaNoLogIndex": {
         "type": "object",
@@ -6364,10 +6106,7 @@
             }
           }
         },
-        "required": [
-          "name",
-          "endpoint"
-        ]
+        "required": ["name", "endpoint"]
       },
       "elasticSearchSchemaNoLogIndexAndHeaders": {
         "type": "object",
@@ -6385,10 +6124,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "endpoint"
-        ]
+        "required": ["name", "endpoint"]
       },
       "kafkaSchema": {
         "type": "object",
@@ -6415,12 +6151,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "brokers",
-          "topic",
-          "protocol-version"
-        ]
+        "required": ["name", "brokers", "topic", "protocol-version"]
       },
       "otlpSchema": {
         "type": "object",
@@ -6433,17 +6164,10 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "http",
-              "grpc"
-            ]
+            "enum": ["http", "grpc"]
           }
         },
-        "required": [
-          "name",
-          "endpoint",
-          "type"
-        ]
+        "required": ["name", "endpoint", "type"]
       },
       "apiCapabilityInstanceStatusResponse": {
         "type": "object",
@@ -6504,10 +6228,7 @@
         "value": {
           "name": "alert-receiver-name",
           "description": "alert receiver description",
-          "email": [
-            "username-1@domain.com",
-            "username-2@domain.com"
-          ],
+          "email": ["username-1@domain.com", "username-2@domain.com"],
           "type": "email"
         }
       },
@@ -6590,9 +6311,7 @@
       "KAFKA_EXAMPLE": {
         "value": {
           "name": "resource-name",
-          "brokers": [
-            "broker-name"
-          ],
+          "brokers": ["broker-name"],
           "topic": "topic",
           "protocol-version": "1.0.0",
           "username": "username",

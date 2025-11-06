@@ -20,8 +20,8 @@ Developer Preview** to expose **Customer 360 data** — including **customers**,
   Includes mock data for sales, customer profiles, and product purchases
 
 - 📊 **Supports business-centric queries**, like:
-    - _"Show me sales for Q1 2025"_
-    - _"List customer names who have purchased more than 2 products and their details"_
+  - _"Show me sales for Q1 2025"_
+  - _"List customer names who have purchased more than 2 products and their details"_
 
 ## 🚀 Getting Started
 
@@ -30,11 +30,12 @@ Developer Preview** to expose **Customer 360 data** — including **customers**,
 - TIBCO Flogo® Extension for Visual Studio Code 1.3.2 and above
 - Any AI agent client capable of interacting with MCP Servers like Claude Desktop, GitHub Copilot etc
 
-
 ## Import the sample apps in the Workspace
+
 Import CustProdSaleAPI.flogo, Customer360MCPServer.flogo apps in VS Code.
 
 ## Understanding the configuration
+
 - CustProdSaleAPI.flogo app is a REST API server which will return dummy customers, products, sales data.
 - Customer360MCPServer.flogo app is a FLOGO MCP server app which will expose these customers, products, sales data as MCP server tools to AI Agents.
 
@@ -43,6 +44,7 @@ Import CustProdSaleAPI.flogo, Customer360MCPServer.flogo apps in VS Code.
 <img width="1322" height="588" alt="Screenshot 2025-08-01 at 12 49 20 AM" src="https://github.com/user-attachments/assets/2885b657-0b45-49ab-b3e3-465894eece6d" />
 
 ## Run the application
+
 - Run CustProdSaleAPI.flogo app from VsCode which will start the API server and you can access these endpoints - http://localhost:18080/products, http://localhost:18080/customers, http://localhost:18080/sales
 - Make sure to check and update the app property CustInvokeRESTServiceURL, ProdInvokeRESTServiceURL, SaleInvokeRESTServiceURL in Customer360MCPServer app to point to url where your CustProdSaleAPI flogo app is running.
 - Run Customer360MCPServer.flogo app from VsCode which will start FLOGO MCP Server at http://localhost:9091/mcp.
@@ -52,8 +54,7 @@ Import CustProdSaleAPI.flogo, Customer360MCPServer.flogo apps in VS Code.
 
 <img width="1663" height="846" alt="Screenshot 2025-08-01 at 12 43 04 AM" src="https://github.com/user-attachments/assets/7b3d6c5b-8956-4dfb-bb31-f3df865c300a" />
 
--
-<img width="1623" height="845" alt="Screenshot 2025-08-01 at 12 40 43 AM" src="https://github.com/user-attachments/assets/196f5119-b69e-4a80-87d8-f99101950e53" />
+- <img width="1623" height="845" alt="Screenshot 2025-08-01 at 12 40 43 AM" src="https://github.com/user-attachments/assets/196f5119-b69e-4a80-87d8-f99101950e53" />
 
 > **Note:** In order to run the query in Claude Desktop, you will need to configure MCP Server url in > claude_desktop_config.json like below -
 

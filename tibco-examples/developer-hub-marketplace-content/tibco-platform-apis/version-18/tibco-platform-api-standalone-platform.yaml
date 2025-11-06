@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: "tibco-platform-api-18"
-  description: "API of the TIBCO Platform (1.8)"
+  name: 'tibco-platform-api-18'
+  description: 'API of the TIBCO Platform (1.8)'
   tags:
     - tibco-platform
     - platform

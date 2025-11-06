@@ -1,6 +1,7 @@
 ### Security Articles
 
 #### IP White/Black Listing
+
 **Summary:** Implement IP-based access control for securing BusinessWorks services and applications.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `security`, `IP-filtering`, `access-control`
 
@@ -12,6 +13,7 @@ Advanced security topics include implementing geo-blocking based on IP location,
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-security-how-to-manage-ip-white-listing-or-black-listing-in-businessworks-and-businessworks-container-edition-r3396/)
 
 #### Implement Mutual Authentication (Two-Way SSL)
+
 **Summary:** Configure mutual TLS authentication for secure bidirectional certificate validation.  
 **Tags:** `BW6X`, `BWCE`, `mutual-auth`, `two-way-SSL`, `certificates`
 
@@ -23,6 +25,7 @@ Critical security topics include managing certificate lifecycle, implementing ce
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-implement-mutual-authentication-two-way-ssl-in-businessworks-and-businessworks-container-edition-r3398/)
 
 #### Configure HTTPS Client Connection
+
 **Summary:** Set up HTTP client connections to securely access REST APIs and web services over HTTPS.  
 **Tags:** `BW6X`, `BWCE`, `HTTPS`, `SSL-client`, `REST-API`, `web-services`
 
@@ -34,6 +37,7 @@ Advanced topics include implementing certificate pinning for enhanced security, 
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-configure-an-http-client-connection-to-access-a-rest-api-or-web-services-exposed-over-https-in-businessworks-6x-and-businessworks-container-edition-r3387/)
 
 #### Expose API/Service over HTTPS
+
 **Summary:** Configure BusinessWorks services to securely expose APIs and services using HTTPS protocol.  
 **Tags:** `BW6X`, `BWCE`, `HTTPS`, `SSL-server`, `API-security`, `service-exposure`
 
@@ -45,6 +49,7 @@ Critical implementation topics include configuring SSL session management, imple
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-expose-an-api-or-a-service-in-https-in-businessworks-and-businessworks-container-edition-r3397/)
 
 #### Encrypt and Decrypt Secrets
+
 **Summary:** Implement encryption and decryption mechanisms for protecting sensitive data and secrets.  
 **Tags:** `BW6X`, `BWCE`, `encryption`, `secrets-management`, `data-protection`, `cryptography`
 
@@ -56,6 +61,7 @@ Advanced security topics include implementing envelope encryption, managing key 
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-encrypt-and-decrypt-secrets-in-businessworks-and-businessworks-container-edition-r3399/)
 
 #### Implement Basic Authentication
+
 **Summary:** Configure and implement HTTP Basic Authentication for securing REST APIs and web services.  
 **Tags:** `BW6X`, `BWCE`, `basic-auth`, `authentication`, `REST-security`, `credentials`
 
@@ -67,6 +73,7 @@ Important security considerations include protecting credentials in transit usin
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-bwce-security-how-to-use-basic-authentication-in-businessworks-and-businessworks-container-edition-r3403/)
 
 #### Dynamic HTTP/HTTPS Protocol Switching
+
 **Summary:** Configure dynamic switching between HTTP and HTTPS protocols using application properties.  
 **Tags:** `BW6X`, `BWCE`, `protocol-switching`, `HTTP`, `HTTPS`, `configuration-management`
 
@@ -78,6 +85,7 @@ Advanced configuration topics include implementing gradual HTTPS migration strat
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-switch-between-http-and-https-using-a-property-in-businessworks-and-businessworks-container-edition-r3404/)
 
 #### Secure Email Connections with TLS
+
 **Summary:** Configure email server connections using TLS v1.2 for secure email communication.  
 **Tags:** `BW6X`, `BWCE`, `email-security`, `TLS`, `SMTP`, `mail-encryption`
 
@@ -89,6 +97,7 @@ Critical email security topics include implementing SPF, DKIM, and DMARC complia
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-connect-to-an-email-server-using-tlsv12-from-businessworks-and-businessworks-container-edition-r3415/)
 
 #### Azure Key Vault Integration
+
 **Summary:** Integrate BusinessWorks with Azure Key Vault for centralized secrets and key management.  
 **Tags:** `BW6X`, `BWCE`, `Azure`, `key-vault`, `cloud-security`, `secrets-management`
 
@@ -101,15 +110,14 @@ Advanced cloud integration topics include implementing secret caching strategies
 
 ---
 
-| Article Title | Version | Focus Area |
-|--------------|---------|------------|
-| [IP Filtering](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-security-how-to-manage-ip-white-listing-or-black-listing-in-businessworks-and-businessworks-container-edition-r3396/) | All Versions | Access Control |
-| [HTTPS Client](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-configure-an-http-client-connection-to-access-a-rest-api-or-web-services-exposed-over-https-in-businessworks-6x-and-businessworks-container-edition-r3387/) | BW6X, BWCE | SSL Client |
-| [HTTPS Server](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-expose-an-api-or-a-service-in-https-in-businessworks-and-businessworks-container-edition-r3397/) | BW6X, BWCE | SSL Server |
-| [Mutual Auth](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-implement-mutual-authentication-two-way-ssl-in-businessworks-and-businessworks-container-edition-r3398/) | BW6X, BWCE | Two-Way SSL |
-| [Encrypt Secrets](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-encrypt-and-decrypt-secrets-in-businessworks-and-businessworks-container-edition-r3399/) | BW6X, BWCE | Encryption |
-| [Basic Auth BW6](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-bwce-security-how-to-use-basic-authentication-in-businessworks-and-businessworks-container-edition-r3403/) | BW6X, BWCE | Authentication |
-| [HTTP/HTTPS Switch](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-switch-between-http-and-https-using-a-property-in-businessworks-and-businessworks-container-edition-r3404/) | BW6X, BWCE | Protocol Config |
-| [Email TLS](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-connect-to-an-email-server-using-tlsv12-from-businessworks-and-businessworks-container-edition-r3415/) | BW6X, BWCE | Email Security |
-| [Azure Key Vault](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-connect-to-an-azure-key-vault-in-businessworks-r3568/) | BW6X, BWCE | Cloud Security |
-
+| Article Title                                                                                                                                                                                                                                                                               | Version      | Focus Area      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- |
+| [IP Filtering](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-security-how-to-manage-ip-white-listing-or-black-listing-in-businessworks-and-businessworks-container-edition-r3396/)                                                  | All Versions | Access Control  |
+| [HTTPS Client](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-configure-an-http-client-connection-to-access-a-rest-api-or-web-services-exposed-over-https-in-businessworks-6x-and-businessworks-container-edition-r3387/) | BW6X, BWCE   | SSL Client      |
+| [HTTPS Server](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-expose-an-api-or-a-service-in-https-in-businessworks-and-businessworks-container-edition-r3397/)                                                            | BW6X, BWCE   | SSL Server      |
+| [Mutual Auth](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-implement-mutual-authentication-two-way-ssl-in-businessworks-and-businessworks-container-edition-r3398/)                                                     | BW6X, BWCE   | Two-Way SSL     |
+| [Encrypt Secrets](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-encrypt-and-decrypt-secrets-in-businessworks-and-businessworks-container-edition-r3399/)                                                                 | BW6X, BWCE   | Encryption      |
+| [Basic Auth BW6](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-bwce-security-how-to-use-basic-authentication-in-businessworks-and-businessworks-container-edition-r3403/)                                                                    | BW6X, BWCE   | Authentication  |
+| [HTTP/HTTPS Switch](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-switch-between-http-and-https-using-a-property-in-businessworks-and-businessworks-container-edition-r3404/)                                            | BW6X, BWCE   | Protocol Config |
+| [Email TLS](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-connect-to-an-email-server-using-tlsv12-from-businessworks-and-businessworks-container-edition-r3415/)                                                         | BW6X, BWCE   | Email Security  |
+| [Azure Key Vault](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-connect-to-an-azure-key-vault-in-businessworks-r3568/)                                                                                                   | BW6X, BWCE   | Cloud Security  |

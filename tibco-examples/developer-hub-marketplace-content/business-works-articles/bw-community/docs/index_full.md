@@ -4,132 +4,132 @@
 
 ### Development Articles
 
-| Article Title | Version | Focus Area |
-|--------------|---------|------------|
-| [Call Dynamic Sub-Processes](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/how-to-call-dynamic-sub-processes-in-businessworks-and-businessworks-container-edition-r3341/) | BW6X, BWCE | Process Orchestration |
-| [Manage HTTP Flows](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-manage-http-flows-in-tibco-businessworks-5x-r3343/) | BW5X | HTTP Management |
-| [Email TLS BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-connect-to-an-email-server-using-tlsv12-from-businessworks-5x-r3350/) | BW5X | Email Security |
-| [HTTP Basic Auth BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-security-how-to-use-http-basic-authentication-in-businessworks-5x-r3351/) | BW5X | Authentication |
-| [Parse JSON Flexibly](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-parse-json-messages-with-extra-fields-or-fields-in-an-unexpected-order-in-businessworks-5x-r3352/) | BW5X | JSON Parsing |
-| [Switch HTTP/HTTPS BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-switch-between-http-and-https-using-a-runtime-configuration-in-businessworks-5x-r3353/) | BW5X | Protocol Config |
-| [Include In-Line Comments](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-include-in-line-comments-in-businessworks-mappings-r3355/) | BW6X, BWCE | Documentation |
-| [Solve Deserialization Errors](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-solve-the-%E2%80%9Cunable-to-de-serialize-bw-process-error%E2%80%9D-when-debugging-two-applications-in-businessworks-6x-studio-r3356/) | BW6X, BWCE | Debugging |
-| [Memory Saving Mode](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-enable-engine-memory-saving-mode-in-businessworks-6x-and-businessworks-container-edition-r3359/) | All Versions | Performance |
-| [Share BW Installation](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-share-a-businessworks-6x-installation-between-multiple-users-r3371/) | BW6X, BWCE | Multi-user Setup |
-| [Share Same Port](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-share-the-same-port-between-multiple-businessworks-6x-applications-r3376/) | BW6X | Networking |
-| [Runtime Connection Selection](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-select-a-connection-configuration-at-runtime-in-businessworks-6x-and-businessworks-container-edition-r3377/) | BW6X, BWCE | Dynamic Config |
-| [Access HTTP Headers](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-access-http-headers-while-exposing-or-invoking-web-services-in-businessworks-6x-and-businessworks-container-edition-r3379/) | BW6X, BWCE | Web Services |
-| [Manage Swagger Updates](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-a-swagger-file-update-in-businessworks-6x-and-businessworks-container-edition-r3380/) | BW6X, BWCE | API Management |
-| [Complex Mapping](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-complex-mapping-scenarios-in-businessworks-6x-and-businessworks-container-edition-r3382/) | BW6X, BWCE | Data Transform |
-| [JMS Properties](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-jms-application-properties-in-businessworks-6x-and-businessworks-container-edition-r3384/) | BW6X, BWCE | Messaging |
-| [Call External Scripts](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-call-a-command-or-a-script-from-businessworks-or-businessworks-container-edition-r3389/) | BW6X, BWCE | System Integration |
-| [SmartMapper](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-the-smartmapper-in-businessworks-6x-and-businessworks-container-edition-r3391/) | BW6X, BWCE | Mapping Automation |
-| [Debug SSL/TLS](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-debug-ssltls-connections-in-businessworks-and-businessworks-container-edition-r3392/) | BW6X, BWCE | Security Debug |
-| [Studio Tips](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-studio-tips-and-tricks-for-businessworks-6x-and-businessworks-container-edition-r3393/) | BW6X, BWCE | Productivity |
-| [JMS Priorities](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-using-jms-message-priorities-with-businessworks-and-businessworks-container-edition-r3394/) | BW6X, BWCE | Message Priority |
-| [EMS Compression](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-using-tibco-ems-message-compression-in-businessworks-and-businessworks-container-edition-r3395/) | BW6X, BWCE | Performance |
-| [JSON Compatibility](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-ascending-compatibility-for-json-formats-in-businessworks-and-businessworks-container-edition-r3400/) | BW6X, BWCE | Schema Evolution |
-| [Disable XML Validation](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-disable-xml-validation-at-activity-level-in-businessworks-and-businessworks-container-edition-r3401/) | BW6X, BWCE | Performance |
-| [Version Matching](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-businessworks-container-edition-and-businessworks-6x-matching-release-versions-r3402/) | BW6X, BWCE | Compatibility |
-| [Concatenate Properties](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-concatenate-properties-in-businessworks-and-businessworks-container-edition-r3408/) | BW6X, BWCE | Configuration |
-| [JDBC Drivers Doc](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-where-to-find-the-tibcosoftwareinc-jdbc-drivers-documentation-r3410/) | All Versions | Database |
-| [OAuth 2.0](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-using-oauth-20-in-businessworks-and-businessworks-container-edition-r3411/) | BW6X, BWCE | Security |
-| [Binary Encoding](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-decode-encode-a-string-in-binary-format-in-businessworks-and-businessworks-container-edition-r3412/) | BW6X, BWCE | Data Handling |
-| [BW Agent REST API](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-use-the-bwagent-rest-api-in-businessworks-r3419/) | BW6X | API Automation |
-| [Hawk REST API](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-use-the-hawk-6x-rest-api-in-a-businessworks-context-r3420/) | BW6X | Monitoring API |
-| [Templates](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-templates-in-businessworks-and-businessworks-container-edition-r3421/) | BW6X, BWCE | Reusability |
-| [Stream Files](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-stream-a-file-over-http-or-https-in-businessworks-and-businessworks-container-edition-r3424/) | BW6X, BWCE | Large Files |
-| [Startup/Shutdown Process](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-execute-a-process-at-application-start-up-or-shutdown-in-businessworks-and-businessworks-container-edition-r3425/) | BW6X, BWCE | Lifecycle |
-| [Getting Started](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-get-started-with-businessworks-and-businessworks-container-edition-r3427/) | BW6X, BWCE | Basics |
-| [Shared Variables](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-useful-things-to-know-about-module-shared-variables-in-businessworks-and-businessworks-container-edition-r3429/) | BW6X, BWCE | State Management |
-| [Update XSD Namespace](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-update-an-xsd-schema-namespace-in-businessworks-and-businessworks-container-edition-r3430/) | BW6X, BWCE | Schema |
-| [Properties in Mappings](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-access-property-values-in-mappings-in-businessworks-and-businessworks-container-edition-r3431/) | BW6X, BWCE | Mapping |
-| [JDBC Best Practices](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-useful-things-to-know-about-jdbc-activities-in-businessworks-and-businessworks-container-edition-r3444/) | BW6X, BWCE | Database |
-| [Improve Studio UX](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-improve-the-businessworks-studio-user-experience-r3511/) | BW6X, BWCE | IDE |
-| [Check BW Version](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-check-the-businessworks-version-from-an-application-r3512/) | BW6X, BWCE | Runtime Info |
-| [Date Calculations](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-calculate-the-number-of-days-between-two-dates-in-businessworks-and-businessworks-container-edition-r3523/) | BW6X, BWCE | Date Handling |
-| [BWCE Releases](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bwce-release-highlights-for-recent-businessworks-container-edition-versions-r3525/) | BWCE | Release Notes |
-| [BW6 Releases](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-release-highlights-for-recent-businessworks-versions-r3526/) | BW6X | Release Notes |
-| [Extract JSON](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-extract-field-values-from-a-json-message-without-using-an-xml-schema-in-businessworks-and-businessworks-container-edition-r3527/) | BW6X, BWCE | JSON Parsing |
-| [Handle Bad JSON](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-get-an-error-message-when-a-rest-component-binding-receives-a-badly-formatted-json-message-in-businessworks-and-businessworks-container-edition-r3547/) | BW6X, BWCE | Error Handling |
-| [Mapper Threading](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-multi-threading-in-the-businessworks-mapper-and-the-businessworks-container-edition-mapper-r3551/) | BW6X, BWCE | Concurrency |
-| [Cron Expressions](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-cron-expressions-for-scheduling-tasks-in-the-timer-activity-r3552/) | BW6X, BWCE | Scheduling |
-| [XSD in WSDL](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-an-xml-schema-definition-embedded-in-an-wsdl-in-businessworks-and-businessworks-container-edition-r3553/) | BW6X, BWCE | Web Services |
-| [REST/JSON Config](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-properties-available-to-configure-the-businessworks-and-businessworks-container-edition-rest-json-palette-r3554/) | BW6X, BWCE | REST Config |
-| [JMS Request-Reply](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-jms-request-reply-scenarios-in-businessworks-and-businessworks-container-edition-r3557/) | BW6X, BWCE | Messaging Patterns |
-| [SQL Windows Auth](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-5x-bw6x-bwce-how-to-connect-to-an-sql-server-database-using-windows-authentication-from-a-linux-environment-r3559/) | All Versions | Database Auth |
+| Article Title                                                                                                                                                                                                                                                                     | Version      | Focus Area            |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------------- |
+| [Call Dynamic Sub-Processes](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/how-to-call-dynamic-sub-processes-in-businessworks-and-businessworks-container-edition-r3341/)                                                                | BW6X, BWCE   | Process Orchestration |
+| [Manage HTTP Flows](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-manage-http-flows-in-tibco-businessworks-5x-r3343/)                                                                                                        | BW5X         | HTTP Management       |
+| [Email TLS BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-connect-to-an-email-server-using-tlsv12-from-businessworks-5x-r3350/)                                                                                          | BW5X         | Email Security        |
+| [HTTP Basic Auth BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-security-how-to-use-http-basic-authentication-in-businessworks-5x-r3351/)                                                                                       | BW5X         | Authentication        |
+| [Parse JSON Flexibly](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-parse-json-messages-with-extra-fields-or-fields-in-an-unexpected-order-in-businessworks-5x-r3352/)                                                       | BW5X         | JSON Parsing          |
+| [Switch HTTP/HTTPS BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-switch-between-http-and-https-using-a-runtime-configuration-in-businessworks-5x-r3353/)                                                                | BW5X         | Protocol Config       |
+| [Include In-Line Comments](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-include-in-line-comments-in-businessworks-mappings-r3355/)                                                                                     | BW6X, BWCE   | Documentation         |
+| [Solve Deserialization Errors](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-solve-the-%E2%80%9Cunable-to-de-serialize-bw-process-error%E2%80%9D-when-debugging-two-applications-in-businessworks-6x-studio-r3356/)     | BW6X, BWCE   | Debugging             |
+| [Memory Saving Mode](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-enable-engine-memory-saving-mode-in-businessworks-6x-and-businessworks-container-edition-r3359/)                                                | All Versions | Performance           |
+| [Share BW Installation](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-share-a-businessworks-6x-installation-between-multiple-users-r3371/)                                                                              | BW6X, BWCE   | Multi-user Setup      |
+| [Share Same Port](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-share-the-same-port-between-multiple-businessworks-6x-applications-r3376/)                                                                                   | BW6X         | Networking            |
+| [Runtime Connection Selection](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-select-a-connection-configuration-at-runtime-in-businessworks-6x-and-businessworks-container-edition-r3377/)                               | BW6X, BWCE   | Dynamic Config        |
+| [Access HTTP Headers](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-access-http-headers-while-exposing-or-invoking-web-services-in-businessworks-6x-and-businessworks-container-edition-r3379/)                         | BW6X, BWCE   | Web Services          |
+| [Manage Swagger Updates](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-a-swagger-file-update-in-businessworks-6x-and-businessworks-container-edition-r3380/)                                                     | BW6X, BWCE   | API Management        |
+| [Complex Mapping](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-complex-mapping-scenarios-in-businessworks-6x-and-businessworks-container-edition-r3382/)                                                                      | BW6X, BWCE   | Data Transform        |
+| [JMS Properties](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-jms-application-properties-in-businessworks-6x-and-businessworks-container-edition-r3384/)                                                           | BW6X, BWCE   | Messaging             |
+| [Call External Scripts](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-call-a-command-or-a-script-from-businessworks-or-businessworks-container-edition-r3389/)                                                          | BW6X, BWCE   | System Integration    |
+| [SmartMapper](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-the-smartmapper-in-businessworks-6x-and-businessworks-container-edition-r3391/)                                                                         | BW6X, BWCE   | Mapping Automation    |
+| [Debug SSL/TLS](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-debug-ssltls-connections-in-businessworks-and-businessworks-container-edition-r3392/)                                                                     | BW6X, BWCE   | Security Debug        |
+| [Studio Tips](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-studio-tips-and-tricks-for-businessworks-6x-and-businessworks-container-edition-r3393/)                                                                            | BW6X, BWCE   | Productivity          |
+| [JMS Priorities](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-using-jms-message-priorities-with-businessworks-and-businessworks-container-edition-r3394/)                                                                     | BW6X, BWCE   | Message Priority      |
+| [EMS Compression](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-using-tibco-ems-message-compression-in-businessworks-and-businessworks-container-edition-r3395/)                                                               | BW6X, BWCE   | Performance           |
+| [JSON Compatibility](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-ascending-compatibility-for-json-formats-in-businessworks-and-businessworks-container-edition-r3400/)                                         | BW6X, BWCE   | Schema Evolution      |
+| [Disable XML Validation](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-disable-xml-validation-at-activity-level-in-businessworks-and-businessworks-container-edition-r3401/)                                            | BW6X, BWCE   | Performance           |
+| [Version Matching](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-businessworks-container-edition-and-businessworks-6x-matching-release-versions-r3402/)                                                                        | BW6X, BWCE   | Compatibility         |
+| [Concatenate Properties](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-concatenate-properties-in-businessworks-and-businessworks-container-edition-r3408/)                                                              | BW6X, BWCE   | Configuration         |
+| [JDBC Drivers Doc](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-where-to-find-the-tibcosoftwareinc-jdbc-drivers-documentation-r3410/)                                                                                    | All Versions | Database              |
+| [OAuth 2.0](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-using-oauth-20-in-businessworks-and-businessworks-container-edition-r3411/)                                                                                          | BW6X, BWCE   | Security              |
+| [Binary Encoding](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-decode-encode-a-string-in-binary-format-in-businessworks-and-businessworks-container-edition-r3412/)                                                    | BW6X, BWCE   | Data Handling         |
+| [BW Agent REST API](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-use-the-bwagent-rest-api-in-businessworks-r3419/)                                                                                                          | BW6X         | API Automation        |
+| [Hawk REST API](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-use-the-hawk-6x-rest-api-in-a-businessworks-context-r3420/)                                                                                                    | BW6X         | Monitoring API        |
+| [Templates](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-templates-in-businessworks-and-businessworks-container-edition-r3421/)                                                                                    | BW6X, BWCE   | Reusability           |
+| [Stream Files](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-stream-a-file-over-http-or-https-in-businessworks-and-businessworks-container-edition-r3424/)                                                              | BW6X, BWCE   | Large Files           |
+| [Startup/Shutdown Process](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-execute-a-process-at-application-start-up-or-shutdown-in-businessworks-and-businessworks-container-edition-r3425/)                             | BW6X, BWCE   | Lifecycle             |
+| [Getting Started](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-get-started-with-businessworks-and-businessworks-container-edition-r3427/)                                                                              | BW6X, BWCE   | Basics                |
+| [Shared Variables](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-useful-things-to-know-about-module-shared-variables-in-businessworks-and-businessworks-container-edition-r3429/)                                              | BW6X, BWCE   | State Management      |
+| [Update XSD Namespace](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-update-an-xsd-schema-namespace-in-businessworks-and-businessworks-container-edition-r3430/)                                                        | BW6X, BWCE   | Schema                |
+| [Properties in Mappings](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-access-property-values-in-mappings-in-businessworks-and-businessworks-container-edition-r3431/)                                                  | BW6X, BWCE   | Mapping               |
+| [JDBC Best Practices](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-useful-things-to-know-about-jdbc-activities-in-businessworks-and-businessworks-container-edition-r3444/)                                                   | BW6X, BWCE   | Database              |
+| [Improve Studio UX](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-improve-the-businessworks-studio-user-experience-r3511/)                                                                                              | BW6X, BWCE   | IDE                   |
+| [Check BW Version](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-check-the-businessworks-version-from-an-application-r3512/)                                                                                            | BW6X, BWCE   | Runtime Info          |
+| [Date Calculations](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-calculate-the-number-of-days-between-two-dates-in-businessworks-and-businessworks-container-edition-r3523/)                                           | BW6X, BWCE   | Date Handling         |
+| [BWCE Releases](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bwce-release-highlights-for-recent-businessworks-container-edition-versions-r3525/)                                                                                        | BWCE         | Release Notes         |
+| [BW6 Releases](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-release-highlights-for-recent-businessworks-versions-r3526/)                                                                                                           | BW6X         | Release Notes         |
+| [Extract JSON](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-extract-field-values-from-a-json-message-without-using-an-xml-schema-in-businessworks-and-businessworks-container-edition-r3527/)                          | BW6X, BWCE   | JSON Parsing          |
+| [Handle Bad JSON](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-get-an-error-message-when-a-rest-component-binding-receives-a-badly-formatted-json-message-in-businessworks-and-businessworks-container-edition-r3547/) | BW6X, BWCE   | Error Handling        |
+| [Mapper Threading](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-multi-threading-in-the-businessworks-mapper-and-the-businessworks-container-edition-mapper-r3551/)                                                            | BW6X, BWCE   | Concurrency           |
+| [Cron Expressions](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-cron-expressions-for-scheduling-tasks-in-the-timer-activity-r3552/)                                                                                | BW6X, BWCE   | Scheduling            |
+| [XSD in WSDL](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-an-xml-schema-definition-embedded-in-an-wsdl-in-businessworks-and-businessworks-container-edition-r3553/)                                               | BW6X, BWCE   | Web Services          |
+| [REST/JSON Config](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-properties-available-to-configure-the-businessworks-and-businessworks-container-edition-rest-json-palette-r3554/)                                             | BW6X, BWCE   | REST Config           |
+| [JMS Request-Reply](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-jms-request-reply-scenarios-in-businessworks-and-businessworks-container-edition-r3557/)                                                       | BW6X, BWCE   | Messaging Patterns    |
+| [SQL Windows Auth](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-5x-bw6x-bwce-how-to-connect-to-an-sql-server-database-using-windows-authentication-from-a-linux-environment-r3559/)                                                  | All Versions | Database Auth         |
 
 ### Operations Articles
 
-| Article Title | Version | Focus Area |
-|--------------|---------|------------|
-| [EMS Reconnection BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-make-sure-tibco-businessworks-5x-can-connect-or-reconnect-to-an-ems-server-in-every-cases-r3344/) | BW5X | High Availability |
-| [Robust Domain Setup](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-set-up-a-robust-businessworks-5x-domain-r3345/) | BW5X | Infrastructure |
-| [Find TRA Versions](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-find-exact-tra-components-versions-in-a-businessworks-5x-environment-r3346/) | BW5X | Troubleshooting |
-| [Truncate History](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-truncate-deployment-history-in-businessworks-5x-r3347/) | BW5X | Maintenance |
-| [Reinstall Services](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-uninstall-and-re-install-the-hawk-agent-and-the-administrator-server-as-windows-services-in-a-businessworks-5x-domain-r3348/) | BW5X | Windows Services |
-| [EMS Auto-reconnect](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-make-sure-tibco-businessworks-applications-can-connect-or-reconnect-to-an-ems-server-in-every-cases-r3357/) | BW6X, BWCE | Messaging HA |
-| [Stable Response Times](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-bw5x-how-to-ensure-stable-response-times-in-businessworks-r3358/) | BW5X, BW6X | Performance |
-| [JMS Load Balancing](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-ensure-smooth-load-balancing-of-jms-messages-in-businessworks-5x-businessworks-6x-and-businessworks-container-edition-r3360/) | All Versions | Message Distribution |
-| [TRA and config.ini](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-important-things-to-know-about-businessworks-6x-tra-files-and-configini-files-r3361/) | BW6X | Configuration |
-| [Config Templates](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-useful-things-to-know-about-appspace_configini_template-and-appnode_configini_template-files-r3362/) | BW6X | Deployment |
-| [Monitor Processes](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-how-to-monitor-process-activity-in-businessworks-6x-r3363/) | BW6X | Monitoring |
-| [Multiple BW Versions](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-run-two-different-versions-of-businessworks-6x-on-the-same-machine-r3364/) | BW6X | Multi-version |
-| [Install Hotfixes](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-something-important-not-to-forget-when-installing-a-businessworks-6x-hotfix-r3365/) | BW6X | Maintenance |
-| [Refresh App Status](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-refresh-application-statuses-in-businessworks-6x-r3366/) | BW6X | Admin Console |
-| [Active-Passive Setup](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-set-up-an-active-passive-configuration-in-businessworks-6x-r3367/) | BW6X | HA Clustering |
-| [Set Flow Limits](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-set-a-flow-limit-for-a-given-businessworks-6x-or-businessworks-container-edition-component-r3368/) | BW6X, BWCE | Resource Control |
-| [Windows Services](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-run-businessworks-6x-bwagents-and-appnodes-as-windows-services-r3378/) | BW6X | Windows Automation |
-| [Auto-start Apps](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-start-businessworks-6x-appnodes-and-applications-automatically-at-server-boot-r3381/) | BW6X | Boot Automation |
-| [Activity Logging](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-enable-activity-level-logging-in-businessworks-6x-and-businessworks-container-edition-r3383/) | BW6X, BWCE | Debugging |
-| [OSGi Commands](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-send-osgi-commands-to-a-businessworks-appnode-using-curl-r3386/) | BW6X | Remote Management |
-| [Start All Apps](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-start-all-deployed-applications-when-a-businessworks-6x-appnode-is-started-r3405/) | BW6X | Bulk Operations |
-| [Bulk Properties](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-set-properties-for-all-appnodes-at-once-in-a-businessworks-6x-environment-r3406/) | BW6X | Config Management |
-| [TEA Performance](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-ensure-stable-tea-response-times-in-a-businessworks-6x-environment-r3409/) | BW6X, BWCE | Admin Performance |
-| [Disable Starters](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-disable-a-process-starter-at-start-up-in-businessworks-r3416/) | BW6X, BWCE | Startup Control |
-| [BW Agent Security](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-security-how-to-secure-the-bwagent-rest-api-r3417/) | BW6X | API Security |
-| [End of Support](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-where-to-find-end-of-support-dates-for-tibco-products-r3418/) | All Versions | Lifecycle |
-| [Separate Logs](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-have-separate-log-files-per-application-in-businessworks-r3422/) | BW6X | Log Management |
-| [JMX Monitoring](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-monitor-a-businessworks-appnode-memory-and-threads-usage-using-jmx-and-jvisualvm-r3423/) | BW6X | Performance Monitor |
-| [Start Impaired Apps](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-start-an-impaired-application-in-businessworks-and-businessworks-container-edition-r3426/) | BW6X, BWCE | Recovery |
-| [Recreate BW Config](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-how-to-recreate-bwagent-local-configuration-files-from-the-bwagent-database-r3441/) | BW6X | Disaster Recovery |
-| [SFTP Algorithm Fix](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-bw6x-bwce-how-to-resolve-the-%E2%80%9Ccomjcraftjschjschalgonegofailexception-algorithm-negotiation-fail-%E2%80%9D-error-while-using-the-businessworks-plugin-for-sftp-r3518/) | All Versions | SFTP Issues |
-| [Check Runtime](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bw-5x-how-to-check-the-businessworks-runtime-environment-r3524/) | BW5X, BW6X | Diagnostics |
-| [Rendezvous License](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-bw6x-how-to-set-a-default-license-when-using-rendezvous-in-auto-start-mode-r3558/) | BW5X, BW6X | RV Config |
-| [Smart Engine Stats](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-collect-statistics-on-a-businessworks-or-businessworks-container-edition-configuration-using-the-smart-engine-r3561/) | BW6X, BWCE | Performance Analysis |
-| [Set Properties](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6-how-to-set-property-values-in-businessworks-r3562/) | BW6X | Configuration |
-| [Start Without Domain](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-start-businessworks-5x-engines-when-the-domain-is-down-r3563/) | BW5X | Emergency Start |
-| [Start Without Agents](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-start-businessworks-appnodes-when-bwagents-are-down-r3564/) | BW6X | Emergency Start |
-| [Zero Downtime Deploy](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-deploy-a-new-release-of-an-application-with-zero-downtime-in-businessworks-r3565/) | BW6X | Blue-Green Deploy |
-| [Logging Guide](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-useful-things-to-know-about-logging-within-businessworks-r3572/) | BW6X | Best Practices |
-| [Update via API](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-update-an-appnode-configuration-using-the-bwagent-rest-api-r3574/) | BW6X | API Automation |
+| Article Title                                                                                                                                                                                                                                                                                  | Version      | Focus Area           |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | -------------------- |
+| [EMS Reconnection BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-make-sure-tibco-businessworks-5x-can-connect-or-reconnect-to-an-ems-server-in-every-cases-r3344/)                                                                    | BW5X         | High Availability    |
+| [Robust Domain Setup](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-set-up-a-robust-businessworks-5x-domain-r3345/)                                                                                                                       | BW5X         | Infrastructure       |
+| [Find TRA Versions](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-find-exact-tra-components-versions-in-a-businessworks-5x-environment-r3346/)                                                                                            | BW5X         | Troubleshooting      |
+| [Truncate History](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-truncate-deployment-history-in-businessworks-5x-r3347/)                                                                                                                  | BW5X         | Maintenance          |
+| [Reinstall Services](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-uninstall-and-re-install-the-hawk-agent-and-the-administrator-server-as-windows-services-in-a-businessworks-5x-domain-r3348/)                                          | BW5X         | Windows Services     |
+| [EMS Auto-reconnect](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-make-sure-tibco-businessworks-applications-can-connect-or-reconnect-to-an-ems-server-in-every-cases-r3357/)                                                       | BW6X, BWCE   | Messaging HA         |
+| [Stable Response Times](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-bw5x-how-to-ensure-stable-response-times-in-businessworks-r3358/)                                                                                                         | BW5X, BW6X   | Performance          |
+| [JMS Load Balancing](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-ensure-smooth-load-balancing-of-jms-messages-in-businessworks-5x-businessworks-6x-and-businessworks-container-edition-r3360/)                                | All Versions | Message Distribution |
+| [TRA and config.ini](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-important-things-to-know-about-businessworks-6x-tra-files-and-configini-files-r3361/)                                                                                         | BW6X         | Configuration        |
+| [Config Templates](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-useful-things-to-know-about-appspace_configini_template-and-appnode_configini_template-files-r3362/)                                                                            | BW6X         | Deployment           |
+| [Monitor Processes](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-how-to-monitor-process-activity-in-businessworks-6x-r3363/)                                                                                                                   | BW6X         | Monitoring           |
+| [Multiple BW Versions](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-run-two-different-versions-of-businessworks-6x-on-the-same-machine-r3364/)                                                                                           | BW6X         | Multi-version        |
+| [Install Hotfixes](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-something-important-not-to-forget-when-installing-a-businessworks-6x-hotfix-r3365/)                                                                                             | BW6X         | Maintenance          |
+| [Refresh App Status](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-refresh-application-statuses-in-businessworks-6x-r3366/)                                                                                                               | BW6X         | Admin Console        |
+| [Active-Passive Setup](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-set-up-an-active-passive-configuration-in-businessworks-6x-r3367/)                                                                                                   | BW6X         | HA Clustering        |
+| [Set Flow Limits](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-set-a-flow-limit-for-a-given-businessworks-6x-or-businessworks-container-edition-component-r3368/)                                                                   | BW6X, BWCE   | Resource Control     |
+| [Windows Services](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-run-businessworks-6x-bwagents-and-appnodes-as-windows-services-r3378/)                                                                                                   | BW6X         | Windows Automation   |
+| [Auto-start Apps](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-start-businessworks-6x-appnodes-and-applications-automatically-at-server-boot-r3381/)                                                                                     | BW6X         | Boot Automation      |
+| [Activity Logging](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-enable-activity-level-logging-in-businessworks-6x-and-businessworks-container-edition-r3383/)                                                                       | BW6X, BWCE   | Debugging            |
+| [OSGi Commands](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-send-osgi-commands-to-a-businessworks-appnode-using-curl-r3386/)                                                                                                            | BW6X         | Remote Management    |
+| [Start All Apps](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-start-all-deployed-applications-when-a-businessworks-6x-appnode-is-started-r3405/)                                                                                         | BW6X         | Bulk Operations      |
+| [Bulk Properties](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-set-properties-for-all-appnodes-at-once-in-a-businessworks-6x-environment-r3406/)                                                                                         | BW6X         | Config Management    |
+| [TEA Performance](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-ensure-stable-tea-response-times-in-a-businessworks-6x-environment-r3409/)                                                                                           | BW6X, BWCE   | Admin Performance    |
+| [Disable Starters](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-disable-a-process-starter-at-start-up-in-businessworks-r3416/)                                                                                                      | BW6X, BWCE   | Startup Control      |
+| [BW Agent Security](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-security-how-to-secure-the-bwagent-rest-api-r3417/)                                                                                                                            | BW6X         | API Security         |
+| [End of Support](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-where-to-find-end-of-support-dates-for-tibco-products-r3418/)                                                                                                           | All Versions | Lifecycle            |
+| [Separate Logs](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-have-separate-log-files-per-application-in-businessworks-r3422/)                                                                                                            | BW6X         | Log Management       |
+| [JMX Monitoring](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-monitor-a-businessworks-appnode-memory-and-threads-usage-using-jmx-and-jvisualvm-r3423/)                                                                                   | BW6X         | Performance Monitor  |
+| [Start Impaired Apps](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-start-an-impaired-application-in-businessworks-and-businessworks-container-edition-r3426/)                                                                       | BW6X, BWCE   | Recovery             |
+| [Recreate BW Config](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-how-to-recreate-bwagent-local-configuration-files-from-the-bwagent-database-r3441/)                                                                                          | BW6X         | Disaster Recovery    |
+| [SFTP Algorithm Fix](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-bw6x-bwce-how-to-resolve-the-%E2%80%9Ccomjcraftjschjschalgonegofailexception-algorithm-negotiation-fail-%E2%80%9D-error-while-using-the-businessworks-plugin-for-sftp-r3518/) | All Versions | SFTP Issues          |
+| [Check Runtime](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bw-5x-how-to-check-the-businessworks-runtime-environment-r3524/)                                                                                                                   | BW5X, BW6X   | Diagnostics          |
+| [Rendezvous License](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-bw6x-how-to-set-a-default-license-when-using-rendezvous-in-auto-start-mode-r3558/)                                                                                            | BW5X, BW6X   | RV Config            |
+| [Smart Engine Stats](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-collect-statistics-on-a-businessworks-or-businessworks-container-edition-configuration-using-the-smart-engine-r3561/)                                             | BW6X, BWCE   | Performance Analysis |
+| [Set Properties](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6-how-to-set-property-values-in-businessworks-r3562/)                                                                                                                                | BW6X         | Configuration        |
+| [Start Without Domain](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-start-businessworks-5x-engines-when-the-domain-is-down-r3563/)                                                                                                       | BW5X         | Emergency Start      |
+| [Start Without Agents](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-start-businessworks-appnodes-when-bwagents-are-down-r3564/)                                                                                                          | BW6X         | Emergency Start      |
+| [Zero Downtime Deploy](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-deploy-a-new-release-of-an-application-with-zero-downtime-in-businessworks-r3565/)                                                                                   | BW6X         | Blue-Green Deploy    |
+| [Logging Guide](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-useful-things-to-know-about-logging-within-businessworks-r3572/)                                                                                                                   | BW6X         | Best Practices       |
+| [Update via API](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-update-an-appnode-configuration-using-the-bwagent-rest-api-r3574/)                                                                                                         | BW6X         | API Automation       |
 
 ### Design Patterns Articles
 
-| Article Title | Version | Focus Area |
-|--------------|---------|------------|
-| [Control Flows BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-control-flows-in-businessworks-5x-r3349/) | BW5X | Flow Control |
-| [Control Flows BW6](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-control-flows-in-businessworks-6x-and-businessworks-container-edition-r3369/) | BW6X, BWCE | Flow Control |
-| [Limit Memory](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-limit-memory-usage-in-businessworks-and-businessworks-container-edition-r3370/) | All Versions | Resource Management |
-| [Retry Mechanism](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-implement-a-retry-mechanism-in-businessworks-6x-and-businessworks-container-edition-r3385/) | BW6X, BWCE | Error Handling |
-| [Sequential Processing](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-process-messages-in-sequence-with-businessworks-r3388/) | All Versions | Message Ordering |
-| [Parallel Processing](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-do-parallel-processing-within-a-businessworks-process-r3390/) | All Versions | Concurrency |
-| [Large Files](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-process-larges-files-in-businessworks-and-businessworks-container-edition-r3413/) | BW6X, BWCE | File Processing |
-| [Large SQL Results](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-sql-queries-handling-large-data-volumes-in-businessworks-and-businessworks-container-edition-r3414/) | BW6X, BWCE | Database Patterns |
+| Article Title                                                                                                                                                                                                                           | Version      | Focus Area          |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------- |
+| [Control Flows BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-control-flows-in-businessworks-5x-r3349/)                                                                        | BW5X         | Flow Control        |
+| [Control Flows BW6](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-control-flows-in-businessworks-6x-and-businessworks-container-edition-r3369/)                               | BW6X, BWCE   | Flow Control        |
+| [Limit Memory](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-limit-memory-usage-in-businessworks-and-businessworks-container-edition-r3370/)                             | All Versions | Resource Management |
+| [Retry Mechanism](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-implement-a-retry-mechanism-in-businessworks-6x-and-businessworks-container-edition-r3385/)                   | BW6X, BWCE   | Error Handling      |
+| [Sequential Processing](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-process-messages-in-sequence-with-businessworks-r3388/)                                            | All Versions | Message Ordering    |
+| [Parallel Processing](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-do-parallel-processing-within-a-businessworks-process-r3390/)                                        | All Versions | Concurrency         |
+| [Large Files](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-process-larges-files-in-businessworks-and-businessworks-container-edition-r3413/)                                 | BW6X, BWCE   | File Processing     |
+| [Large SQL Results](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-sql-queries-handling-large-data-volumes-in-businessworks-and-businessworks-container-edition-r3414/) | BW6X, BWCE   | Database Patterns   |
 
 ### Security Articles
 
-| Article Title | Version | Focus Area |
-|--------------|---------|------------|
-| [IP Filtering](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-security-how-to-manage-ip-white-listing-or-black-listing-in-businessworks-and-businessworks-container-edition-r3396/) | All Versions | Access Control |
-| [HTTPS Client](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-configure-an-http-client-connection-to-access-a-rest-api-or-web-services-exposed-over-https-in-businessworks-6x-and-businessworks-container-edition-r3387/) | BW6X, BWCE | SSL Client |
-| [HTTPS Server](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-expose-an-api-or-a-service-in-https-in-businessworks-and-businessworks-container-edition-r3397/) | BW6X, BWCE | SSL Server |
-| [Mutual Auth](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-implement-mutual-authentication-two-way-ssl-in-businessworks-and-businessworks-container-edition-r3398/) | BW6X, BWCE | Two-Way SSL |
-| [Encrypt Secrets](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-encrypt-and-decrypt-secrets-in-businessworks-and-businessworks-container-edition-r3399/) | BW6X, BWCE | Encryption |
-| [Basic Auth BW6](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-bwce-security-how-to-use-basic-authentication-in-businessworks-and-businessworks-container-edition-r3403/) | BW6X, BWCE | Authentication |
-| [HTTP/HTTPS Switch](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-switch-between-http-and-https-using-a-property-in-businessworks-and-businessworks-container-edition-r3404/) | BW6X, BWCE | Protocol Config |
-| [Email TLS](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-connect-to-an-email-server-using-tlsv12-from-businessworks-and-businessworks-container-edition-r3415/) | BW6X, BWCE | Email Security |
-| [Azure Key Vault](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-connect-to-an-azure-key-vault-in-businessworks-r3568/) | BW6X, BWCE | Cloud Security |
+| Article Title                                                                                                                                                                                                                                                                               | Version      | Focus Area      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- |
+| [IP Filtering](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-security-how-to-manage-ip-white-listing-or-black-listing-in-businessworks-and-businessworks-container-edition-r3396/)                                                  | All Versions | Access Control  |
+| [HTTPS Client](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-configure-an-http-client-connection-to-access-a-rest-api-or-web-services-exposed-over-https-in-businessworks-6x-and-businessworks-container-edition-r3387/) | BW6X, BWCE   | SSL Client      |
+| [HTTPS Server](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-expose-an-api-or-a-service-in-https-in-businessworks-and-businessworks-container-edition-r3397/)                                                            | BW6X, BWCE   | SSL Server      |
+| [Mutual Auth](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-implement-mutual-authentication-two-way-ssl-in-businessworks-and-businessworks-container-edition-r3398/)                                                     | BW6X, BWCE   | Two-Way SSL     |
+| [Encrypt Secrets](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-encrypt-and-decrypt-secrets-in-businessworks-and-businessworks-container-edition-r3399/)                                                                 | BW6X, BWCE   | Encryption      |
+| [Basic Auth BW6](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-bwce-security-how-to-use-basic-authentication-in-businessworks-and-businessworks-container-edition-r3403/)                                                                    | BW6X, BWCE   | Authentication  |
+| [HTTP/HTTPS Switch](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-switch-between-http-and-https-using-a-property-in-businessworks-and-businessworks-container-edition-r3404/)                                            | BW6X, BWCE   | Protocol Config |
+| [Email TLS](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-connect-to-an-email-server-using-tlsv12-from-businessworks-and-businessworks-container-edition-r3415/)                                                         | BW6X, BWCE   | Email Security  |
+| [Azure Key Vault](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-connect-to-an-azure-key-vault-in-businessworks-r3568/)                                                                                                   | BW6X, BWCE   | Cloud Security  |
 
 ---
 
@@ -138,6 +138,7 @@
 ### BW6.X & BWCE Development
 
 #### How to Call Dynamic Sub-Processes
+
 **Summary:** Learn techniques for implementing dynamic sub-process invocation in BusinessWorks 6.X and Container Edition.  
 **Tags:** `BW6X`, `BWCE`, `sub-process`, `dynamic-invocation`, `process-orchestration`
 
@@ -149,6 +150,7 @@ The guide covers practical implementation patterns including using the Call Proc
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/how-to-call-dynamic-sub-processes-in-businessworks-and-businessworks-container-edition-r3341/)
 
 #### Include In-Line Comments in Mappings
+
 **Summary:** Best practices for adding inline documentation and comments within BusinessWorks mappings.  
 **Tags:** `BW6X`, `BWCE`, `mapping`, `documentation`, `best-practices`
 
@@ -160,6 +162,7 @@ The guide demonstrates practical approaches for documenting complex transformati
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-include-in-line-comments-in-businessworks-mappings-r3355/)
 
 #### Solve "Unable to De-serialize BW Process Error"
+
 **Summary:** Troubleshooting guide for resolving deserialization errors when debugging multiple applications.  
 **Tags:** `BW6X`, `BWCE`, `debugging`, `troubleshooting`, `studio`
 
@@ -171,9 +174,11 @@ Advanced debugging techniques include managing multiple debug configurations, cl
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-solve-the-%E2%80%9Cunable-to-de-serialize-bw-process-error%E2%80%9D-when-debugging-two-applications-in-businessworks-6x-studio-r3356/)
 
 #### Other Remaining Development Articles
+
 For brevity, I'll provide condensed descriptions for the remaining development articles following the same pattern of summary and detailed description.
 
 #### Use XSD Embedded in WSDL
+
 **Summary:** Reference and use XML Schema definitions that are embedded within WSDL documents.  
 **Tags:** `BW6X`, `BWCE`, `WSDL`, `XSD`, `web-services`
 
@@ -185,6 +190,7 @@ Advanced topics include optimizing performance when working with embedded schema
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-an-xml-schema-definition-embedded-in-an-wsdl-in-businessworks-and-businessworks-container-edition-r3553/)
 
 #### REST JSON Palette Configuration Properties
+
 **Summary:** Comprehensive list of configuration properties available for REST and JSON palette activities.  
 **Tags:** `BW6X`, `BWCE`, `REST`, `JSON`, `configuration`
 
@@ -196,6 +202,7 @@ The guide includes practical examples demonstrating how different property combi
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-properties-available-to-configure-the-businessworks-and-businessworks-container-edition-rest-json-palette-r3554/)
 
 #### JMS Request-Reply Scenarios
+
 **Summary:** Implement synchronous request-reply patterns using JMS temporary queues and correlation IDs.  
 **Tags:** `BW6X`, `BWCE`, `JMS`, `request-reply`, `messaging-patterns`
 
@@ -209,6 +216,7 @@ Advanced patterns include implementing request-reply with multiple responses, ha
 ### BW5.X Development
 
 #### Manage HTTP Flows
+
 **Summary:** Control and optimize HTTP connection pooling and request flow management in BusinessWorks 5.X.  
 **Tags:** `BW5X`, `HTTP`, `flow-control`, `connection-pooling`
 
@@ -220,6 +228,7 @@ Advanced topics include implementing circuit breaker patterns for HTTP services,
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-manage-http-flows-in-tibco-businessworks-5x-r3343/)
 
 #### Connect to Email Server Using TLSv1.2
+
 **Summary:** Configure BusinessWorks 5.X mail activities to use TLSv1.2 for secure email server connections.  
 **Tags:** `BW5X`, `email`, `TLS`, `security`
 
@@ -231,6 +240,7 @@ Advanced topics include managing cipher suite selection, implementing certificat
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-connect-to-an-email-server-using-tlsv12-from-businessworks-5x-r3350/)
 
 #### HTTP Basic Authentication
+
 **Summary:** Implement HTTP basic authentication for securing web services in BusinessWorks 5.X.  
 **Tags:** `BW5X`, `HTTP`, `authentication`, `security`
 
@@ -242,6 +252,7 @@ Advanced authentication topics include implementing credential caching, managing
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-security-how-to-use-http-basic-authentication-in-businessworks-5x-r3351/)
 
 #### Parse JSON with Extra Fields
+
 **Summary:** Handle JSON messages containing unexpected fields or fields in different order without schema validation errors.  
 **Tags:** `BW5X`, `JSON`, `parsing`, `flexibility`
 
@@ -253,6 +264,7 @@ Advanced JSON handling topics include implementing custom JSON validators, manag
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-parse-json-messages-with-extra-fields-or-fields-in-an-unexpected-order-in-businessworks-5x-r3352/)
 
 #### Switch Between HTTP and HTTPS
+
 **Summary:** Dynamically switch between HTTP and HTTPS protocols using runtime configuration without code changes.  
 **Tags:** `BW5X`, `HTTP`, `HTTPS`, `runtime-configuration`
 
@@ -266,6 +278,7 @@ Advanced configuration topics include managing certificates for HTTPS mode, hand
 ### Cross-Version Development
 
 #### Enable Engine Memory Saving Mode
+
 **Summary:** Configure BusinessWorks engine to optimize memory usage for large-scale deployments.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `memory-optimization`, `performance`
 
@@ -283,6 +296,7 @@ Advanced memory management topics include implementing memory budgets for differ
 ### BW6.X Operations
 
 #### EMS Connection Reconnection
+
 **Summary:** Ensure reliable EMS connectivity with automatic reconnection strategies and failover configurations.  
 **Tags:** `BW6X`, `BWCE`, `EMS`, `high-availability`, `connection-management`
 
@@ -296,6 +310,7 @@ Advanced topics include implementing custom reconnection logic for complex scena
 ### BW5.X Operations
 
 #### EMS Connection Management
+
 **Summary:** Ensure reliable EMS connectivity with connection pooling, failover, and reconnection strategies in BW5.X.  
 **Tags:** `BW5X`, `EMS`, `connection-management`, `high-availability`
 
@@ -307,6 +322,7 @@ Critical operational topics include implementing EMS server failover with minima
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-make-sure-tibco-businessworks-5x-can-connect-or-reconnect-to-an-ems-server-in-every-cases-r3344/)
 
 #### Robust Domain Setup
+
 **Summary:** Best practices for setting up a fault-tolerant BusinessWorks 5.X domain with high availability.  
 **Tags:** `BW5X`, `domain`, `high-availability`, `setup`
 
@@ -318,6 +334,7 @@ Advanced topics include implementing domain failover mechanisms, managing split-
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-set-up-a-robust-businessworks-5x-domain-r3345/)
 
 #### Find TRA Component Versions
+
 **Summary:** Identify exact versions of TRA components and libraries in a BusinessWorks 5.X installation.  
 **Tags:** `BW5X`, `TRA`, `versioning`, `troubleshooting`
 
@@ -329,6 +346,7 @@ Advanced diagnostic topics include comparing installed versions against support 
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-find-exact-tra-components-versions-in-a-businessworks-5x-environment-r3346/)
 
 #### Truncate Deployment History
+
 **Summary:** Clean up deployment history tables to improve Administrator performance and reduce database size.  
 **Tags:** `BW5X`, `deployment`, `maintenance`, `database`
 
@@ -340,6 +358,7 @@ Advanced maintenance topics include implementing automated history cleanup proce
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-truncate-deployment-history-in-businessworks-5x-r3347/)
 
 #### Reinstall Hawk and Admin Services
+
 **Summary:** Procedures for uninstalling and reinstalling Hawk Agent and Administrator Server as Windows services.  
 **Tags:** `BW5X`, `Hawk`, `Windows`, `services`, `installation`
 
@@ -351,6 +370,7 @@ Advanced service management topics include configuring service startup parameter
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-uninstall-and-re-install-the-hawk-agent-and-the-administrator-server-as-windows-services-in-a-businessworks-5x-domain-r3348/)
 
 #### Start Engines When Domain Down
+
 **Summary:** Emergency procedures for starting BusinessWorks 5.X engines when the domain administrator is unavailable.  
 **Tags:** `BW5X`, `disaster-recovery`, `domain`, `startup`
 
@@ -364,6 +384,7 @@ Advanced disaster recovery topics include implementing automated failover to loc
 ### Additional Key Articles with Descriptions
 
 #### Zero-Downtime Deployment
+
 **Summary:** Strategies for deploying new application versions without service interruption using rolling updates.  
 **Tags:** `BW6X`, `deployment`, `zero-downtime`, `high-availability`
 
@@ -375,6 +396,7 @@ Advanced deployment strategies include implementing canary releases for gradual 
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-deploy-a-new-release-of-an-application-with-zero-downtime-in-businessworks-r3565/)
 
 #### Process Large Files
+
 **Summary:** Strategies for handling large file processing including streaming, chunking, and pagination.  
 **Tags:** `BW6X`, `BWCE`, `large-files`, `streaming`, `performance`
 
@@ -386,6 +408,7 @@ Advanced file handling topics include implementing resumable file processing, ma
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-process-larges-files-in-businessworks-and-businessworks-container-edition-r3413/)
 
 #### Azure Key Vault Integration
+
 **Summary:** Integrate BusinessWorks with Azure Key Vault for centralized secrets management and certificate storage.  
 **Tags:** `BW6X`, `BWCE`, `Azure`, `Key-Vault`, `secrets`, `cloud`
 
@@ -397,6 +420,7 @@ Advanced integration topics include implementing secret caching with automatic r
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-connect-to-an-azure-key-vault-in-businessworks-r3568/)
 
 #### Getting Started Guide
+
 **Summary:** Comprehensive beginner's guide covering installation and fundamental concepts.  
 **Tags:** `BW6X`, `BWCE`, `getting-started`, `tutorial`, `beginner`
 
@@ -408,6 +432,7 @@ Beyond the basics, the guide introduces important architectural concepts includi
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-get-started-with-businessworks-and-businessworks-container-edition-r3427/)
 
 #### JDBC Best Practices
+
 **Summary:** Important considerations and optimization techniques for JDBC activities.  
 **Tags:** `BW6X`, `BWCE`, `JDBC`, `database`, `best-practices`
 
@@ -419,6 +444,7 @@ Advanced database integration topics include implementing database-specific feat
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-useful-things-to-know-about-jdbc-activities-in-businessworks-and-businessworks-container-edition-r3444/)
 
 #### Studio Tips and Tricks
+
 **Summary:** Collection of productivity tips, shortcuts, and hidden features for BusinessWorks Studio.  
 **Tags:** `BW6X`, `BWCE`, `studio`, `productivity`, `tips`
 
@@ -430,6 +456,7 @@ Advanced Studio optimization includes configuring memory settings for large proj
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-studio-tips-and-tricks-for-businessworks-6x-and-businessworks-container-edition-r3393/)
 
 #### Using OAuth 2.0
+
 **Summary:** Implement OAuth 2.0 authentication and authorization flows in REST services.  
 **Tags:** `BW6X`, `BWCE`, `OAuth`, `authentication`, `REST`, `security`
 
@@ -441,6 +468,7 @@ Advanced OAuth implementation topics include sophisticated token management with
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-using-oauth-20-in-businessworks-and-businessworks-container-edition-r3411/)
 
 #### Basic Authentication Implementation
+
 **Summary:** Implement HTTP basic authentication for REST services and web applications.  
 **Tags:** `BW6X`, `BWCE`, `authentication`, `basic-auth`, `REST`
 
@@ -452,6 +480,7 @@ Advanced authentication topics include implementing account lockout policies to 
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-6x-bwce-security-how-to-use-basic-authentication-in-businessworks-and-businessworks-container-edition-r3403/)
 
 #### HTTPS Server Configuration
+
 **Summary:** Configure BusinessWorks to expose REST APIs and services using HTTPS with SSL certificates.  
 **Tags:** `BW6X`, `BWCE`, `HTTPS`, `SSL/TLS`, `API-security`
 
@@ -463,6 +492,7 @@ Advanced HTTPS configuration topics include implementing perfect forward secrecy
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-security-how-to-expose-an-api-or-a-service-in-https-in-businessworks-and-businessworks-container-edition-r3397/)
 
 #### Enable Activity Level Logging
+
 **Summary:** Configure detailed activity-level logging for debugging and audit purposes in production environments.  
 **Tags:** `BW6X`, `BWCE`, `logging`, `debugging`, `audit`
 
@@ -474,6 +504,7 @@ Advanced logging configurations include implementing contextual logging with cor
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-enable-activity-level-logging-in-businessworks-6x-and-businessworks-container-edition-r3383/)
 
 #### JMS Load Balancing
+
 **Summary:** Configure smooth load balancing for JMS message processing across multiple engine instances.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `JMS`, `load-balancing`
 
@@ -485,6 +516,7 @@ Advanced load balancing topics include implementing work-stealing algorithms for
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-ensure-smooth-load-balancing-of-jms-messages-in-businessworks-5x-businessworks-6x-and-businessworks-container-edition-r3360/)
 
 #### Separate Log Files per Application
+
 **Summary:** Configure independent log files for each deployed application for better log management and analysis.  
 **Tags:** `BW6X`, `logging`, `configuration`, `management`
 
@@ -496,6 +528,7 @@ Advanced logging separation techniques include implementing hierarchical logging
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-have-separate-log-files-per-application-in-businessworks-r3422/)
 
 #### Monitor Memory and Threads via JMX
+
 **Summary:** Use JMX and JVisualVM to monitor AppNode memory consumption, thread pools, and performance metrics.  
 **Tags:** `BW6X`, `JMX`, `monitoring`, `performance`, `memory`
 
@@ -507,6 +540,7 @@ Advanced monitoring techniques include implementing custom MBeans for applicatio
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-monitor-a-businessworks-appnode-memory-and-threads-usage-using-jmx-and-jvisualvm-r3423/)
 
 #### Start Impaired Applications
+
 **Summary:** Techniques for starting applications that have dependency issues or configuration problems.  
 **Tags:** `BW6X`, `BWCE`, `troubleshooting`, `startup`, `recovery`
 
@@ -518,6 +552,7 @@ Advanced recovery techniques include implementing graceful degradation for parti
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-start-an-impaired-application-in-businessworks-and-businessworks-container-edition-r3426/)
 
 #### Parallel Processing Patterns
+
 **Summary:** Implement parallel execution patterns for improved throughput and performance.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `parallelism`, `performance`, `concurrency`
 
@@ -529,6 +564,7 @@ Advanced parallel processing topics include implementing work distribution algor
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-do-parallel-processing-within-a-businessworks-process-r3390/)
 
 #### Sequential Processing Patterns
+
 **Summary:** Ensure ordered message processing while maintaining performance in distributed environments.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `sequencing`, `ordering`, `messaging`
 
@@ -540,6 +576,7 @@ Advanced sequencing techniques include implementing sliding window protocols for
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-process-messages-in-sequence-with-businessworks-r3388/)
 
 #### Limit Memory Usage Patterns
+
 **Summary:** Design patterns and configurations to constrain memory consumption in resource-limited environments.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `memory-management`, `optimization`
 
@@ -551,6 +588,7 @@ Advanced memory management topics include implementing memory budgets for differ
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-limit-memory-usage-in-businessworks-and-businessworks-container-edition-r3370/)
 
 #### Large SQL Results Handling
+
 **Summary:** Optimize database operations for large result sets using pagination, cursors, and batch processing.  
 **Tags:** `BW6X`, `BWCE`, `SQL`, `database`, `performance`, `large-data`
 
@@ -562,6 +600,7 @@ Advanced database patterns include implementing database-side filtering and aggr
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-sql-queries-handling-large-data-volumes-in-businessworks-and-businessworks-container-edition-r3414/)
 
 #### Share Same Port Between Applications
+
 **Summary:** Techniques for configuring multiple BusinessWorks 6.X applications to share the same network port.  
 **Tags:** `BW6X`, `networking`, `port-sharing`, `configuration`
 
@@ -573,6 +612,7 @@ Advanced port sharing techniques include implementing custom routing logic for c
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-how-to-share-the-same-port-between-multiple-businessworks-6x-applications-r3376/)
 
 #### Complex Mapping Scenarios
+
 **Summary:** Advanced mapping techniques for handling complex data transformation scenarios.  
 **Tags:** `BW6X`, `BWCE`, `mapping`, `data-transformation`, `advanced`
 
@@ -584,6 +624,7 @@ Advanced mapping techniques include implementing custom Java functions for compl
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-complex-mapping-scenarios-in-businessworks-6x-and-businessworks-container-edition-r3382/)
 
 #### Using Templates
+
 **Summary:** Create reusable process templates and patterns to standardize development.  
 **Tags:** `BW6X`, `BWCE`, `templates`, `reusability`, `patterns`
 
@@ -595,6 +636,7 @@ Advanced template strategies include implementing dynamic template selection at 
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-use-templates-in-businessworks-and-businessworks-container-edition-r3421/)
 
 #### Module Shared Variables
+
 **Summary:** Understanding scope, lifecycle, and best practices for module shared variables.  
 **Tags:** `BW6X`, `BWCE`, `shared-variables`, `threading`, `state-management`
 
@@ -606,6 +648,7 @@ Advanced shared variable patterns include implementing read-write locks for perf
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-useful-things-to-know-about-module-shared-variables-in-businessworks-and-businessworks-container-edition-r3429/)
 
 #### Handle Badly Formatted JSON
+
 **Summary:** Error handling strategies for REST services receiving malformed JSON.  
 **Tags:** `BW6X`, `BWCE`, `JSON`, `error-handling`, `REST`
 
@@ -617,6 +660,7 @@ Advanced error recovery techniques include implementing progressive JSON parsing
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-get-an-error-message-when-a-rest-component-binding-receives-a-badly-formatted-json-message-in-businessworks-and-businessworks-container-edition-r3547/)
 
 #### Binary Encoding and Decoding
+
 **Summary:** Handle binary data encoding and decoding including Base64 and hexadecimal transformations.  
 **Tags:** `BW6X`, `BWCE`, `encoding`, `binary`, `Base64`
 
@@ -628,6 +672,7 @@ Advanced encoding techniques include implementing streaming encoders for large b
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-decode-encode-a-string-in-binary-format-in-businessworks-and-businessworks-container-edition-r3412/)
 
 #### Date Calculations
+
 **Summary:** Date manipulation techniques for calculating time differences and business days.  
 **Tags:** `BW6X`, `BWCE`, `date-manipulation`, `calculations`
 
@@ -639,6 +684,7 @@ Advanced date handling includes implementing custom calendar systems for differe
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-calculate-the-number-of-days-between-two-dates-in-businessworks-and-businessworks-container-edition-r3523/)
 
 #### SQL Server Windows Authentication from Linux
+
 **Summary:** Configure SQL Server connections using Windows authentication from Linux-based BusinessWorks deployments.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `SQL-Server`, `authentication`, `Linux`
 
@@ -650,6 +696,7 @@ Advanced authentication topics include implementing credential delegation for mu
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw-5x-bw6x-bwce-how-to-connect-to-an-sql-server-database-using-windows-authentication-from-a-linux-environment-r3559/)
 
 #### SFTP Algorithm Negotiation Issues
+
 **Summary:** Fix SSH/SFTP connection failures due to algorithm negotiation issues in the SFTP plugin.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `SFTP`, `SSH`, `troubleshooting`
 
@@ -661,6 +708,7 @@ Advanced SFTP configuration includes implementing custom algorithm preferences, 
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-bw6x-bwce-how-to-resolve-the-%E2%80%9Ccomjcraftjschjschalgonegofailexception-algorithm-negotiation-fail-%E2%80%9D-error-while-using-the-businessworks-plugin-for-sftp-r3518/)
 
 #### Check Runtime Environment
+
 **Summary:** Determine BusinessWorks runtime environment details including version, JVM, and system properties.  
 **Tags:** `BW5X`, `BW6X`, `runtime`, `environment`, `diagnostics`
 
@@ -674,6 +722,7 @@ Advanced diagnostic capabilities include building automated environment verifica
 ### Cross-Version Operations
 
 #### Ensure Stable Response Times
+
 **Summary:** Performance tuning techniques to maintain consistent response times across high-load scenarios.  
 **Tags:** `BW5X`, `BW6X`, `performance`, `tuning`, `stability`
 
@@ -689,6 +738,7 @@ Advanced performance topics include implementing adaptive throttling mechanisms,
 ## Design Patterns
 
 #### Control Flows
+
 **Summary:** Implement flow control patterns including throttling, circuit breakers, and backpressure mechanisms.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `flow-control`, `patterns`, `throttling`
 
@@ -701,6 +751,7 @@ Advanced flow control topics include implementing adaptive throttling based on s
 - **BW6.X/BWCE:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-control-flows-in-businessworks-6x-and-businessworks-container-edition-r3369/)
 
 #### Implement Retry Mechanism
+
 **Summary:** Build robust retry logic with exponential backoff, maximum attempts, and error classification.  
 **Tags:** `BW6X`, `BWCE`, `retry`, `error-handling`, `resilience`
 
@@ -716,6 +767,7 @@ Advanced retry patterns include implementing retry with jitter to prevent thunde
 ## Security
 
 #### IP White/Black Listing
+
 **Summary:** Implement IP-based access control for securing BusinessWorks services and applications.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `security`, `IP-filtering`, `access-control`
 
@@ -727,6 +779,7 @@ Advanced security topics include implementing geo-blocking based on IP location,
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-security-how-to-manage-ip-white-listing-or-black-listing-in-businessworks-and-businessworks-container-edition-r3396/)
 
 #### Implement Mutual Authentication (Two-Way SSL)
+
 **Summary:** Configure mutual TLS authentication for secure bidirectional certificate validation.  
 **Tags:** `BW6X`, `BWCE`, `mutual-auth`, `two-way-SSL`, `certificates`
 
@@ -742,6 +795,7 @@ Critical security topics include managing certificate lifecycle, implementing ce
 ## Article Summary Statistics
 
 ### By Product Version
+
 - **BW5.X Only:** 10 articles
 - **BW6.X Only:** 21 articles
 - **BWCE Only:** 1 article
@@ -750,12 +804,14 @@ Critical security topics include managing certificate lifecycle, implementing ce
 - **Total:** 99 articles
 
 ### By Topic Area
+
 - **Development:** 48 articles
 - **Operations:** 34 articles
 - **Design Patterns:** 7 articles
 - **Security:** 10 articles
 
 ### Key Technology Areas
+
 - **REST/HTTP/Web Services:** 15 articles
 - **JMS/EMS/Messaging:** 12 articles
 - **Configuration Management:** 14 articles

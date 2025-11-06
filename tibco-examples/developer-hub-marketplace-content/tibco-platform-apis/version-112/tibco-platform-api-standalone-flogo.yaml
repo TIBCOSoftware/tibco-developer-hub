@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: "flogo-capability-api-112"
-  description: "API of the Flogo Capability (1.12)"
+  name: 'flogo-capability-api-112'
+  description: 'API of the Flogo Capability (1.12)'
   tags:
     - tibco-platform
     - capability

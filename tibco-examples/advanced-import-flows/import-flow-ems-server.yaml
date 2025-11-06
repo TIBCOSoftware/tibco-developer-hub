@@ -69,31 +69,31 @@ spec:
           ems_server_name:
             type: json
             filePath: ${{ parameters.ems_config_file }}
-            jsonPath: "$.tibemsd.server"
+            jsonPath: '$.tibemsd.server'
           ems_server_routes:
             type: json
             filePath: ${{ parameters.ems_config_file }}
-            jsonPath: "$.routes[*].name"
+            jsonPath: '$.routes[*].name'
           ems_server_topics:
             type: json
             filePath: ${{ parameters.ems_config_file }}
-            jsonPath: "$.topics[*].name"
+            jsonPath: '$.topics[*].name'
           ems_server_global_topics:
             type: json
             filePath: ${{ parameters.ems_config_file }}
-            jsonPath: "$.topics[?(@.global == true)].name"
+            jsonPath: '$.topics[?(@.global == true)].name'
           ems_server_queues:
             type: json
             filePath: ${{ parameters.ems_config_file }}
-            jsonPath: "$.queues[*].name"
+            jsonPath: '$.queues[*].name'
 
     # The import flow debug step, enable it for debugging
-#    - id: log-debug
-#      name: Debug Logs
-#      action: debug:log
-#      input:
-#        message: "Fetched the EMS Skeleton template"
-#        listWorkspace: true
+    #    - id: log-debug
+    #      name: Debug Logs
+    #      action: debug:log
+    #      input:
+    #        message: "Fetched the EMS Skeleton template"
+    #        listWorkspace: true
 
     # Create the Developer Hub YAML Files from the templates, using the input values
     - id: fetchRS
@@ -119,13 +119,13 @@ spec:
       action: fs:rename
       input:
         files:
-          - from: "./tibco-developer-hub-resources/system.yaml"
+          - from: './tibco-developer-hub-resources/system.yaml'
             to: ${{ "./tibco-developer-hub-resources/system-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
             overwrite: true
-          - from: "./tibco-developer-hub-resources/component.yaml"
+          - from: './tibco-developer-hub-resources/component.yaml'
             to: ${{ "./tibco-developer-hub-resources/component-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
             overwrite: true
-          - from:  "./tibco-developer-hub-resources/resources.yaml"
+          - from: './tibco-developer-hub-resources/resources.yaml'
             to: ${{ "./tibco-developer-hub-resources/resources-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
             overwrite: true
 
@@ -136,19 +136,19 @@ spec:
       input:
         failOnError: true
 
-# Register the System, Component & Resources in the catalog
+    # Register the System, Component & Resources in the catalog
     - id: registerSystem
       name: Register System
       action: catalog:register
       input:
-#       optional: true
+        #       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/tibco-developer-hub-resources/system-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
 
     - id: registerComponent
       name: Register Component
       action: catalog:register
       input:
-#       optional: true
+        #       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/tibco-developer-hub-resources/component-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
 
     - id: registerResources
@@ -156,7 +156,7 @@ spec:
       if: ${{ (steps.extract.output.ems_server_topics.length > 0) or (steps.extract.output.ems_server_queues.length > 0) }}
       action: catalog:register
       input:
-#       optional: true
+        #       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/tibco-developer-hub-resources/resources-" + steps.extract.output.ems_server_name[0] + ".yaml" }}
 
   output:

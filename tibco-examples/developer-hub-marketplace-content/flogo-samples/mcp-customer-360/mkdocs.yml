@@ -1,8 +1,6 @@
 # https://www.mkdocs.org/user-guide/configuration/
-site_name: "Flogo Samples - MCP Customer 360"
-site_description: "Flogo Samples - MCP Customer 360"
+site_name: 'Flogo Samples - MCP Customer 360'
+site_description: 'Flogo Samples - MCP Customer 360'
 
 nav:
   - home: index.md
-
-

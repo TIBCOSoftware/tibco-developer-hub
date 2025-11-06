@@ -15,9 +15,7 @@
   "paths": {
     "/v1/dp/apps": {
       "get": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "List all applications",
         "description": "List all flogo applications available on the dataplane",
         "operationId": "ListApps",
@@ -100,9 +98,7 @@
     },
     "/v1/dp/apps/{appId}": {
       "delete": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "Delete Application",
         "description": "Delete Application",
         "operationId": "handleDeleteApp",
@@ -149,9 +145,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Apps - Managed by FLOGO Provisioner"
-        ],
+        "tags": ["Apps - Managed by FLOGO Provisioner"],
         "summary": "Update deployed app configuration",
         "description": "Update deployed app configuration",
         "operationId": "handleUpdateAppDeployment",
@@ -212,9 +206,7 @@
     },
     "/v1/dp/apps/{appId}/details": {
       "get": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "Get App details",
         "description": "Get App details",
         "operationId": "handleGetAppDetailsForAppId",
@@ -263,9 +255,7 @@
     },
     "/v1/dp/apps/{appId}/endpoints": {
       "get": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "List Application endpoints",
         "description": "List Application endpoints for provided App Id. The API returns details about public/private endpoint and ingress configuration for the public endpoint.",
         "operationId": "ListEndpoints",
@@ -347,9 +337,7 @@
     },
     "/v1/dp/apps/{appId}/endpoints/public": {
       "post": {
-        "tags": [
-          "Apps - Managed by FLOGO Provisioner"
-        ],
+        "tags": ["Apps - Managed by FLOGO Provisioner"],
         "summary": "Make App endpoint public",
         "description": "Make App endpoint public",
         "operationId": "handleMakePublicAppEndpointsForAppId",
@@ -408,9 +396,7 @@
         "x-codegen-request-body-name": "body"
       },
       "delete": {
-        "tags": [
-          "Apps - Managed by FLOGO Provisioner"
-        ],
+        "tags": ["Apps - Managed by FLOGO Provisioner"],
         "summary": "Make App endpoint private",
         "description": "Make App endpoint private",
         "operationId": "handleRemovePublicAppEndpointsForAppId",
@@ -459,9 +445,7 @@
     },
     "/v1/dp/apps/{appId}/scale/{count}": {
       "put": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "Scale deployed app",
         "description": "Scale an Application with provided replicas count for an App Id. Please avoid using scale operation when autoscaling is configured.",
         "operationId": "handleScaleApp",
@@ -519,9 +503,7 @@
     },
     "/v1/dp/apps/{appId}/autoscaling": {
       "put": {
-        "tags": [
-          "Apps - Managed by FLOGO Provisioner"
-        ],
+        "tags": ["Apps - Managed by FLOGO Provisioner"],
         "summary": "Modify or Create autoscaling configuration",
         "description": "Modify or Create autoscaling configuration for an application. You can provide min/max replicas and CPU/memory thresholds for the HPA resource configuration",
         "operationId": "ModifyAutoscaling",
@@ -579,9 +561,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Apps - Managed by FLOGO Provisioner"
-        ],
+        "tags": ["Apps - Managed by FLOGO Provisioner"],
         "summary": "Remove autoscaling configuration",
         "description": "Remove autoscaling configuration for an application.",
         "operationId": "RemoveAutoscaling",
@@ -630,9 +610,7 @@
     },
     "/v1/dp/apps/{appId}/config/refresh": {
       "put": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "Refresh Flogo app instance config",
         "description": "Update the app properties without restarting the app instance if app property reconfigure is enabled uisng reconfigure management service like consul or aws",
         "operationId": "HandleRefreshConfigForAppId",
@@ -692,9 +670,7 @@
     },
     "/v1/dp/apps/{appId}/servicemesh": {
       "put": {
-        "tags": [
-          "Apps - Managed by FLOGO Provisioner"
-        ],
+        "tags": ["Apps - Managed by FLOGO Provisioner"],
         "summary": "Enable or disable service mesh for an app",
         "description": "Enable or disable service mesh sidecar of the specified app id",
         "operationId": "EnableDisableServicemesh",
@@ -752,9 +728,7 @@
     },
     "/v1/dp/builds": {
       "get": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "List all builds",
         "description": "List all Flogo application builds present on the Data Plane",
         "operationId": "handleGetBuildsList",
@@ -793,10 +767,7 @@
             "description": "Order the result in asc or desc order",
             "schema": {
               "type": "string",
-              "enum": [
-                "asc",
-                "desc"
-              ]
+              "enum": ["asc", "desc"]
             }
           }
         ],
@@ -824,9 +795,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "Build flogo app using app.json or app.flogo file",
         "description": "Build app executable for given app.json or app.flogo file",
         "operationId": "handleMultipartBuildApp",
@@ -845,11 +814,7 @@
             "description": "Compatible operating system for app binary",
             "schema": {
               "type": "string",
-              "enum": [
-                "linux",
-                "darwin",
-                "windows"
-              ]
+              "enum": ["linux", "darwin", "windows"]
             }
           },
           {
@@ -858,10 +823,7 @@
             "description": "Compatible system architecture for app binary",
             "schema": {
               "type": "string",
-              "enum": [
-                "amd64",
-                "386"
-              ]
+              "enum": ["amd64", "386"]
             }
           }
         ],
@@ -869,9 +831,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "required": [
-                  "app.json"
-                ],
+                "required": ["app.json"],
                 "type": "object",
                 "properties": {
                   "app.json": {
@@ -909,9 +869,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "Import an App Build Zip file",
         "description": "Import an app build by uploading a build zip file",
         "operationId": "handleImportBuildMultipart",
@@ -959,9 +917,7 @@
     },
     "/v1/dp/builds/{buildId}": {
       "get": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "Download app executable using build Id",
         "description": "Download app executable based on the existing buildId",
         "operationId": "handleDownloadAppBuild",
@@ -1001,9 +957,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "Delete build",
         "description": "Delete build from Data Plane",
         "operationId": "handleDeleteBuild",
@@ -1044,9 +998,7 @@
     },
     "/v1/dp/builds/{buildId}/apps": {
       "get": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "List Application from Build Id on the dataplane",
         "description": "List all applications from Build Id on the dataplane",
         "operationId": "ListAppsForBuildId",
@@ -1128,9 +1080,7 @@
     },
     "/v1/dp/builds/{buildId}/deploy": {
       "post": {
-        "tags": [
-          "Apps - Managed by FLOGO Provisioner"
-        ],
+        "tags": ["Apps - Managed by FLOGO Provisioner"],
         "summary": "Deploy app using buildId",
         "description": "Deploy app using existing build Id",
         "operationId": "handleDeployApp",
@@ -1191,9 +1141,7 @@
     },
     "/v1/dp/builds/{buildId}/export": {
       "get": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "Get app.flogo or app.json",
         "description": "To get app.flogo or app.json for given Build Id",
         "operationId": "handleExportAppForBuildId",
@@ -1228,9 +1176,7 @@
     },
     "/v1/dp/builds/{buildId}/exportBuild": {
       "get": {
-        "tags": [
-          "Apps and Builds"
-        ],
+        "tags": ["Apps and Builds"],
         "summary": "Export an app build",
         "description": "Export an app build for the provided build Id",
         "operationId": "handleExportBuild",
@@ -1265,9 +1211,7 @@
     },
     "/v2/dp/builds/{buildId}/values": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Generate values.yaml from an app Build",
         "description": "Generate values.yaml from an app Build for the provided Build Id",
         "operationId": "GenerateValuesYamlFromBuild",
@@ -1338,9 +1282,7 @@
     },
     "/v2/dp/deploy/release": {
       "post": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Deploy an application Helm chart using values.yaml",
         "description": "Deploy or upgrade a TIBCO FLOGO® application Helm chart using values.yaml. An AppId inside values.yaml is mandatory for upgrading an existing application",
         "operationId": "DeployAppChartWithValues",
@@ -1464,9 +1406,7 @@
     },
     "/v2/dp/apps/{appId}/release/values": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Get helm chart values from FLOGO app deployment",
         "description": "Get helm chart values from FLOGO app deployment",
         "operationId": "GetAppChartValues",
@@ -1552,9 +1492,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Update helm chart values for FLOGO app chart",
         "description": "Update helm chart values for FLOGO application chart. You can provide the values.yaml in the payload.",
         "operationId": "UpdateAppChartValues",
@@ -1650,9 +1588,7 @@
     },
     "/v2/dp/apps/{appId}/release/status": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Status of an Application Chart Deployment",
         "description": "Status of an Application deployment for an App Id.",
         "operationId": "AppChartStatus",
@@ -1731,9 +1667,7 @@
     },
     "/v2/dp/apps/{appId}/release/history": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Release history of an Application Chart Deployment",
         "description": "Release history of an Application deployment for an App Id.",
         "operationId": "AppChartHistory",
@@ -1815,9 +1749,7 @@
     },
     "/v2/dp/apps/{appId}/release/rollback": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Rollabck an Application helm chart Release",
         "description": "Rollabck an Application helm chart Release for an App Id and specified revision.",
         "operationId": "AppChartRollback",
@@ -1914,9 +1846,7 @@
     },
     "/v2/dp/apps/{appId}/rename": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Rename an Application Chart Deployment",
         "description": "Rename an Application deployment. Warning: This action will uninstall existing release and re-install it with new name so it may cause service outage for clients",
         "operationId": "AppChartRename",
@@ -2004,9 +1934,7 @@
     },
     "/v2/dp/apps/{appId}/servicemesh": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Enable or disable service mesh for an app",
         "description": "Enable or disable service mesh sidecar of the specified app id",
         "operationId": "EnableDisableServicemeshAppChart",
@@ -2094,9 +2022,7 @@
     },
     "/v2/dp/apps/{appId}/autoscaling": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Modify or Create autoscaling configuration",
         "description": "Modify or Create autoscaling configuration for an application. You can provide min/max replicas and CPU/memory thresholds for the HPA resource configuration",
         "operationId": "ModifyAutoscalingAppChart",
@@ -2184,9 +2110,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Remove autoscaling configuration",
         "description": "Remove autoscaling configuration for an application.",
         "operationId": "RemoveAutoscalingAppChart",
@@ -2265,9 +2189,7 @@
     },
     "/v2/dp/apps/{appId}/endpoints/public": {
       "delete": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Make an Application endpoint private",
         "description": "Make an Application endpoint private. The API removes the Ingress resource to make and endpoint private.",
         "operationId": "MakePrivateAppChart",
@@ -2347,9 +2269,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Make an Application endpoint public",
         "description": "Make an Application endpoint public. The API creates an Ingress resource with provided inputs - ingress class name, FQDN, path prefix, etc",
         "operationId": "MakePublicAppChart",
@@ -2442,9 +2362,7 @@
     },
     "/v1/cp/connectors": {
       "get": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "List Flogo connectors provisioned on Control Plane",
         "description": "List Flogo connectors provisioned on Control Plane",
         "operationId": "handleListConnectorsCP",
@@ -2474,9 +2392,7 @@
     },
     "/v1/dp/connectors": {
       "get": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "List Flogo connectors provisioned on dataplane",
         "description": "List Flogo connectors provisioned on dataplane",
         "operationId": "handleListConnectors",
@@ -2506,9 +2422,7 @@
     },
     "/v1/dp/connectors/{connector}/{version}": {
       "delete": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "Delete Connector from dataplane",
         "description": "Delete Connector from dataplane",
         "operationId": "handleDeleteConnector",
@@ -2556,9 +2470,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "Provision Connector on a dataplane",
         "description": "Provision Connector on a dataplane",
         "operationId": "handleProvisionConnector",
@@ -2608,9 +2520,7 @@
     },
     "/v1/dp/supplements": {
       "get": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "List Supplements provisioned on dataplane",
         "description": "List Supplements connectors provisioned on dataplane",
         "operationId": "handleListSupplements",
@@ -2640,9 +2550,7 @@
     },
     "/v1/dp/supplements/{connector}": {
       "post": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "Upload Flogo supplement on dataplane",
         "description": "Upload Flogo supplement on dataplane",
         "operationId": "handleUploadUserSupplements",
@@ -2654,10 +2562,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [
-                "OracleDatabase",
-                "IBM-MQ"
-              ]
+              "enum": ["OracleDatabase", "IBM-MQ"]
             }
           }
         ],
@@ -2668,9 +2573,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "supplementZip"
-                ],
+                "required": ["supplementZip"],
                 "properties": {
                   "supplementZip": {
                     "type": "string",
@@ -2705,9 +2608,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "Delete supplement from dataplane",
         "description": "Delete supplement from dataplane",
         "operationId": "handleDeleteSupplement",
@@ -2719,10 +2620,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [
-                "OracleDatabase",
-                "IBM-MQ"
-              ]
+              "enum": ["OracleDatabase", "IBM-MQ"]
             }
           }
         ],
@@ -2752,9 +2650,7 @@
     },
     "/v1/dp/extension": {
       "get": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "List Custom Extensions  provisioned on dataplane",
         "description": "List Custom Extensions provisioned on dataplane",
         "operationId": "handleListExtensions",
@@ -2782,9 +2678,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "Upload Flogo extension on dataplane",
         "description": "Upload Flogo extension on dataplane",
         "operationId": "handleUploadExtension",
@@ -2795,9 +2689,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "extensionZip"
-                ],
+                "required": ["extensionZip"],
                 "properties": {
                   "extensionZip": {
                     "type": "string",
@@ -2834,9 +2726,7 @@
     },
     "/v1/dp/extensions/{extension}/{version}": {
       "delete": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "Delete extension from dataplane",
         "description": "Delete extension from dataplane",
         "operationId": "handleDeleteExtension",
@@ -2886,9 +2776,7 @@
     },
     "/v1/cp/flogoversions": {
       "get": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "List Flogo Versions provisioned on the Control Plane",
         "description": "List Flogo Versions provisioned on Control Plane",
         "operationId": "handleListBuildtypeFromCP",
@@ -2918,9 +2806,7 @@
     },
     "/v1/dp/flogoversions": {
       "get": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "List Flogo Versions provisioned on dataplane",
         "description": "List Flogo Versions provisioned on dataplane",
         "operationId": "handleListBuildtypes",
@@ -2950,9 +2836,7 @@
     },
     "/v1/dp/flogoversions/{version}": {
       "post": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "Provision Flogo Version on the dataplane",
         "description": "Provision Flogo Version on the dataplane.",
         "operationId": "handleDownloadBuildtypeFromCP",
@@ -3024,9 +2908,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Provisioned Software & Connectors"
-        ],
+        "tags": ["Provisioned Software & Connectors"],
         "summary": "Delete Flogo Version from dataplane",
         "description": "Delete Flogo Version from dataplane",
         "operationId": "handleDeleteBuildType",

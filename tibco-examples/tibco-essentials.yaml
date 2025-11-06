@@ -6,4 +6,3 @@ spec:
   targets:
     - ./developer-hub-marketplace/tibco-developer-hub-market-place.yaml
     - ./developer-hub-api/developer-hub-api.yaml
-
