@@ -1,0 +1,90 @@
+# copy this file and rename it to app-config.local.yaml
+# then make any updates as needed
+# all *.local.yaml files are ignored by git so it's safe to define secrets in that file
+define: &docUrl https://docs.tibco.com/go/platform-cp/1.13.0/doc/html#cshid=developer_hub_overview
+app:
+  baseUrl: http://localhost:7007
+  docUrl: *docUrl
+  support:
+    url: https://support.tibco.com/s/
+    items:
+      - title: 'TIBCO Support Page'
+        icon: email
+        links:
+          - url: 'https://support.tibco.com/s/'
+            title: 'TIBCO Support'
+      - title: 'TIBCO Documentation Page'
+        icon: docs
+        links:
+          - url: *docUrl
+            title: 'TIBCO® Developer Hub Documentation'
+      - title: 'TIBCO® Developer Hub Open Source Repository'
+        icon: github
+        links:
+          - url: 'https://github.com/TIBCOSoftware/tibco-developer-hub'
+            title: 'TIBCO® Developer Hub Open Source Repository'
+
+backend:
+  auth:
+    externalAccess:
+  baseUrl: http://localhost:7007
+  database:
+    client: better-sqlite3
+    connection: ':memory:'
+
+## Uncomment the below github integrations config to add a PAT to try out
+## new component creation using one of the available templates.
+# integrations:
+#   github:
+#     - host: github.com
+#       # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+#       # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+#       token: ${GITHUB_TOKEN}  #Enter your Github token here
+
+# Uncomment the below catalog config to add the default(example) entities to your software catalog while running developer instance locally using yarn
+integrations:
+  github:
+    - host: github.com
+      # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+      # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+catalog:
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
+      rules:
+        - allow:
+            [
+              Group,
+              Template,
+              System,
+              Domain,
+              Location,
+              Component,
+              API,
+              Resource,
+            ]
+  rules:
+    - allow:
+        [Group, Template, System, Domain, Location, Component, API, Resource]
+auth:
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: development
+  providers:
+    guest: {}
+  # # needs to be enabled if you want to try out github auth
+  # # see https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
+  # # use this config to input the Github credentails directly for your local development use.
+  #   github:
+  #     development:
+  #       clientId: ${AUTH_GITHUB_CLIENT_ID}
+  #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+  # Available providers: [github, guest]
+  # # on local developer setups only github and guest auth providers are available
+  # # Oauthproxy will only be available in Dataplane deployments.
+  enableAuthProviders: [guest]
+essentialLocations:
+  runScheduler: true,
+  frequencyInMinutes: 120
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml

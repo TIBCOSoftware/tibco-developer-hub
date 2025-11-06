@@ -29,6 +29,7 @@ import { Link } from 'react-router-dom';
 import DevHubLogo from './images/devhub-logo.svg';
 import { Config } from '@backstage/config';
 import Typography from '@material-ui/core/Typography';
+import TopologyIcon from '../../icons/topology.svg';
 
 const SIDE_NAV_WIDTH_OPEN = 264;
 const SIDE_NAV_WIDTH_CLOSE = 72;
@@ -474,6 +475,15 @@ const SidebarCustom = ({
           icon={CategoryIcon}
           to="catalog"
           text="Catalog"
+          className={cpClicked ? classes.itemNotSelected : ''}
+          onClick={() => setCpClicked(false)}
+        />
+        <SidebarItem
+          icon={() => (
+            <img src={TopologyIcon} height={24} width={24} alt="logo" />
+          )}
+          to="integration-topology"
+          text="Topology"
           className={cpClicked ? classes.itemNotSelected : ''}
           onClick={() => setCpClicked(false)}
         />

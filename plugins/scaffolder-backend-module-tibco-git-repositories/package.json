@@ -1,6 +1,6 @@
 {
   "name": "@internal/plugin-scaffolder-backend-module-tibco-git-repositories",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "license": "Apache-2.0",
   "private": true,
   "description": "The tibco-git-repositories module for @backstage/plugin-scaffolder-backend",

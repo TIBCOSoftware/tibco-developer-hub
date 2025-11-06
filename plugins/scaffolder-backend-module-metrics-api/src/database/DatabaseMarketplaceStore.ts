@@ -8,6 +8,7 @@ import {
 } from '@backstage/backend-plugin-api';
 import { Knex } from 'knex';
 import { MarketplaceStore } from './MarketplaceStore.ts';
+import { Config } from '@backstage/config';
 
 const migrationsDir = resolvePackagePath(
   '@backstage/plugin-scaffolder-backend',
@@ -91,40 +92,69 @@ export class DatabaseMarketplaceStore implements MarketplaceStore {
     return database;
   }
 
-  async get(): Promise<any> {
+  async get(config: Config): Promise<any> {
     const knex: Knex = this.db;
-    return (
-      knex<{ name: string; namespace: string }[]>('tasks')
+    const client = config.getString('backend.database.client');
+    if (client === 'better-sqlite3') {
+      return knex<{ name: string; namespace: string }[]>('tasks')
         .where(function a() {
           this.where('status', '=', 'completed').whereExists(function b() {
             this.select(knex.raw(1))
               .from(
                 knex.raw(
-                  'jsonb_array_elements(spec::jsonb -> ? -> ? -> ? -> ?) AS tag',
-                  ['templateInfo', 'entity', 'metadata', 'tags'],
+                  "json_each(json_extract(spec, '$.templateInfo.entity.metadata.tags')) AS tag",
                 ),
               )
-              .whereRaw('LOWER(tag::text) = ?', ['"devhub-marketplace"']);
+              .whereRaw("LOWER(tag.value) = 'devhub-marketplace'");
           });
         })
         .andWhere('task_events.event_type', '=', 'completion')
-        /*  .where(function() {
-                    this.where('status', '=', 'completed')
-                        .andWhereRaw("(spec::jsonb -> 'templateInfo' -> 'entity' -> 'metadata' ->'tags')  @> ?::jsonb", ['["tibco"]'])
-                  })*/
         .select(
-          knex.raw(
-            "tasks.spec::json -> 'templateInfo' -> 'entity' -> 'metadata' ->> 'name' as name",
-          ),
-          knex.raw(
-            "tasks.spec::json -> 'templateInfo' -> 'entity' -> 'metadata' ->> 'namespace' as namespace",
-          ),
-          knex.raw(
-            "json_agg(json_build_object('id',tasks.id,'created_at',tasks.created_at, 'output', task_events.body::json -> 'output') order by tasks.created_at DESC) as data",
-          ),
+          knex.raw(`
+    json_extract(tasks.spec, '$.templateInfo.entity.metadata.name') AS name
+  `),
+          knex.raw(`
+    json_extract(tasks.spec, '$.templateInfo.entity.metadata.namespace') AS namespace
+  `),
+          knex.raw(`
+    json_group_array(
+      json_object(
+        'id', tasks.id,
+        'created_at', tasks.created_at,
+        'output', json_extract(task_events.body, '$.output')
+      ) order by tasks.created_at DESC
+    ) AS data
+  `),
         )
         .join('task_events', 'tasks.id', '=', 'task_events.task_id')
-        .groupBy('tasks.spec')
-    );
+        .groupBy('tasks.spec');
+    }
+    return knex<{ name: string; namespace: string }[]>('tasks')
+      .where(function a() {
+        this.where('status', '=', 'completed').whereExists(function b() {
+          this.select(knex.raw(1))
+            .from(
+              knex.raw(
+                'jsonb_array_elements(spec::jsonb -> ? -> ? -> ? -> ?) AS tag',
+                ['templateInfo', 'entity', 'metadata', 'tags'],
+              ),
+            )
+            .whereRaw('LOWER(tag::text) = ?', ['"devhub-marketplace"']);
+        });
+      })
+      .andWhere('task_events.event_type', '=', 'completion')
+      .select(
+        knex.raw(
+          "tasks.spec::json -> 'templateInfo' -> 'entity' -> 'metadata' ->> 'name' as name",
+        ),
+        knex.raw(
+          "tasks.spec::json -> 'templateInfo' -> 'entity' -> 'metadata' ->> 'namespace' as namespace",
+        ),
+        knex.raw(
+          "json_agg(json_build_object('id',tasks.id,'created_at',tasks.created_at, 'output', task_events.body::json -> 'output') order by tasks.created_at DESC) as data",
+        ),
+      )
+      .join('task_events', 'tasks.id', '=', 'task_events.task_id')
+      .groupBy('tasks.spec');
   }
 }

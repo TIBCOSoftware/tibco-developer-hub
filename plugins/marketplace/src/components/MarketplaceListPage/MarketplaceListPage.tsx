@@ -307,6 +307,7 @@ export const MarketplaceListPage = (props: MarketplaceListPageProps) => {
   const fetchApi = useApi(fetchApiRef);
   useEffect(
     () => {
+      setTasks(undefined);
       async function fetchData() {
         const backendUrl = config.getString('backend.baseUrl');
         const cred = await identityApi.getCredentials();
@@ -325,6 +326,9 @@ export const MarketplaceListPage = (props: MarketplaceListPageProps) => {
         const payload: MarketplaceApiData[] = await res.json();
         const entityRefs: string[] = payload
           .map(e => {
+            if (typeof e.data === 'string') {
+              e.data = JSON.parse(e.data);
+            }
             return (
               e.data[0]?.output?.links?.find(
                 l => l.type === 'catalog' && l.entityRef,

@@ -43,10 +43,7 @@ import {
 } from '@backstage/plugin-org';
 import { EntityTechdocsContent } from '@backstage/plugin-techdocs';
 import { EmptyState } from '@backstage/core-components';
-import {
-  Direction,
-  EntityCatalogGraphCard,
-} from '@backstage/plugin-catalog-graph';
+import { Direction } from '@backstage/plugin-catalog-graph';
 import {
   RELATION_API_CONSUMED_BY,
   RELATION_API_PROVIDED_BY,
@@ -69,6 +66,7 @@ import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
+import { EntityIntegrationTopologyCard } from '@internal/plugin-integration-topology';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -151,7 +149,7 @@ const OverviewContent = () => {
         <EntitySwitch.Case if={() => isKind('component') && hasPlatformTag}>
           <Grid item md={12} xs={12}>
             <Grid container spacing={3} alignItems="stretch">
-              <Grid item md={6} xs={12}>
+              <Grid item md={5} xs={12}>
                 <Grid
                   container
                   spacing={3}
@@ -167,18 +165,21 @@ const OverviewContent = () => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item md={6} xs={12}>
-                <EntityCatalogGraphCard variant="gridItem" height={400} />
+              <Grid item md={7} xs={12}>
+                <EntityIntegrationTopologyCard
+                  variant="gridItem"
+                  height={400}
+                />
               </Grid>
             </Grid>
           </Grid>
         </EntitySwitch.Case>
         <EntitySwitch.Case>
-          <Grid item md={6}>
+          <Grid item md={5}>
             <EntityAboutCard variant="gridItem" />
           </Grid>
-          <Grid item md={6} xs={12}>
-            <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <Grid item md={7} xs={12}>
+            <EntityIntegrationTopologyCard variant="gridItem" height={400} />
           </Grid>
         </EntitySwitch.Case>
       </EntitySwitch>
@@ -311,7 +312,7 @@ const apiPage = (
           <EntityAboutCard />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityIntegrationTopologyCard variant="gridItem" height={400} />
         </Grid>
         <Grid item md={4} xs={12}>
           <EntityLinksCard />
@@ -384,7 +385,7 @@ const systemPage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityIntegrationTopologyCard variant="gridItem" height={400} />
         </Grid>
         <Grid item md={6}>
           <EntityHasComponentsCard variant="gridItem" />
@@ -398,7 +399,7 @@ const systemPage = (
       </Grid>
     </EntityLayout.Route>
     <EntityLayout.Route path="/diagram" title="Diagram">
-      <EntityCatalogGraphCard
+      <EntityIntegrationTopologyCard
         variant="gridItem"
         direction={Direction.TOP_BOTTOM}
         title="System Diagram"
@@ -428,7 +429,7 @@ const domainPage = (
           <EntityAboutCard variant="gridItem" />
         </Grid>
         <Grid item md={6} xs={12}>
-          <EntityCatalogGraphCard variant="gridItem" height={400} />
+          <EntityIntegrationTopologyCard variant="gridItem" height={400} />
         </Grid>
         <Grid item md={6}>
           <EntityHasSystemsCard variant="gridItem" />

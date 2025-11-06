@@ -25,6 +25,8 @@ import { Root } from './components/Root';
 import { DefaultStarredEntitiesApi } from '@backstage/plugin-catalog';
 import userEvent from '@testing-library/user-event';
 import { searchApiRef } from '@backstage/plugin-search-react';
+import { TopologyContext } from '@internal/plugin-integration-topology';
+import { translationApiRef } from '@backstage/core-plugin-api/alpha';
 
 describe('App', () => {
   it('should render App', async () => {
@@ -423,6 +425,10 @@ describe('Should render all the routes correctly', () => {
     expect(getByText('Catalog').closest('a')).toHaveAttribute(
       'href',
       '/catalog',
+    );
+    expect(getByText('Topology').closest('a')).toHaveAttribute(
+      'href',
+      '/integration-topology',
     );
     const apis = getAllByText('APIs');
     expect(apis.length).toEqual(2);
@@ -1011,4 +1017,94 @@ describe('Should render all the routes correctly', () => {
     });
     expect(queryByText('flogo7')).not.toBeInTheDocument();
   }, 10000);
+
+  it('should render integration topology page', async () => {
+    jest.mock(
+      '@internal/plugin-integration-topology/src/components/EntityNodeDetails/EntityNodeDetails',
+      () => ({
+        EntityNodeDetails: () => (
+          <div data-testid="mocked-entity-node-details">Entity Details</div>
+        ),
+      }),
+    );
+    const mockedDetailsEntity = {
+      apiVersion: 'scaffolder.backstage.io/v1beta3',
+      kind: 'Component',
+      metadata: {
+        namespace: 'default',
+        name: 'component1-name',
+        title: 'Component1 title',
+        description: 'Component1 description',
+        tags: ['tag1', 'tag2'],
+      },
+      spec: {
+        type: 'service',
+        lifecycle: 'production',
+        system: 'system1-name',
+        owner: 'group1-name',
+        providesApis: ['api1-name'],
+      },
+    };
+    const mockedTopologyContext = {
+      display: 'block',
+      rootEntity: mockedDetailsEntity,
+      detailsEntity: mockedDetailsEntity,
+      detailsLocked: false,
+      toggleDisplay: () => {},
+      setDisplay: () => {},
+      setRootEntity: () => {},
+      setDetailsEntity: () => {},
+      setDetailsLocked: () => {},
+    };
+    const { getByText, getByPlaceholderText } = await renderInTestApp(
+      <TestApiProvider
+        apis={[
+          [
+            configApiRef,
+            new ConfigReader({
+              app: {
+                title: 'test app',
+                baseUrl: 'http://localhost:3000',
+                docUrl:
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
+              },
+              backend: {
+                baseUrl: 'http://localhost:7007',
+              },
+              cpLink: '/cp-url.com',
+            }),
+          ],
+          [catalogApiRef, mockCatalogApi],
+          [searchApiRef, searchApiMock],
+          [translationApiRef, mockApis.translation()],
+          [permissionApiRef, mockApis.permission()],
+        ]}
+      >
+        <TopologyContext.Provider value={mockedTopologyContext}>
+          <Root>{routes}</Root>
+        </TopologyContext.Provider>
+      </TestApiProvider>,
+      {
+        routeEntries: ['/integration-topology'],
+      },
+    );
+    await waitFor(
+      async () => {
+        expect(getByText('Topology View')).toBeInTheDocument();
+        expect(getByText('Graph View')).toBeInTheDocument();
+        expect(getByText('Max depth')).toBeInTheDocument();
+        expect(getByText('Kinds')).toBeInTheDocument();
+        expect(getByText('Relations')).toBeInTheDocument();
+        expect(getByText('Direction')).toBeInTheDocument();
+        expect(getByText('Curve')).toBeInTheDocument();
+        expect(getByText('Simplified')).toBeInTheDocument();
+        expect(getByText('Merge relations')).toBeInTheDocument();
+        expect(getByText('Select Entity Kind')).toBeInTheDocument();
+        expect(getByText('Select Entity Name')).toBeInTheDocument();
+        expect(getByText('Search Entities by Name')).toBeInTheDocument();
+        expect(getByPlaceholderText('component1-name')).toBeInTheDocument();
+      },
+      { timeout: 15000 },
+    );
+  }, 20000);
 });

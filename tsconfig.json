@@ -6,7 +6,8 @@
     "plugins/*/src",
     "plugins/*/config.d.ts",
     "plugins/*/dev",
-    "plugins/*/migrations"
+    "plugins/*/migrations",
+    "plugins/integration-topology/alpha.tsx"
   ],
   "exclude": ["node_modules"],
   "compilerOptions": {

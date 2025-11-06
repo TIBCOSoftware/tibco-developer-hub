@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "main": "dist/index.cjs.js",
   "types": "src/index.ts",
   "private": true,
@@ -25,7 +25,7 @@
     "@backstage/errors": "^1.2.7",
     "@backstage/integration": "^1.17.1",
     "@backstage/plugin-app-backend": "^0.5.4",
-    "@backstage/plugin-auth-backend": "^0.25.2",
+    "@backstage/plugin-auth-backend": "0.25.3",
     "@backstage/plugin-auth-backend-module-github-provider": "^0.3.5",
     "@backstage/plugin-auth-backend-module-guest-provider": "^0.2.10",
     "@backstage/plugin-auth-backend-module-oidc-provider": "^0.4.5",

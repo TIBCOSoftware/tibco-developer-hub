@@ -1,0 +1,69 @@
+{
+  "name": "@internal/plugin-integration-topology",
+  "version": "1.13.0",
+  "license": "Apache-2.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.esm.js",
+    "types": "dist/index.d.ts"
+  },
+  "backstage": {
+    "role": "frontend-plugin",
+    "pluginId": "integration-topology"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "start": "backstage-cli package start",
+    "build": "backstage-cli package build",
+    "lint": "backstage-cli package lint",
+    "test": "backstage-cli package test",
+    "clean": "backstage-cli package clean",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack"
+  },
+  "dependencies": {
+    "@backstage/catalog-model": "^1.7.5",
+    "@backstage/core-components": "^0.17.4",
+    "@backstage/core-plugin-api": "^1.10.9",
+    "@backstage/frontend-plugin-api": "^0.11.0",
+    "@backstage/plugin-catalog-graph": "^0.4.21",
+    "@backstage/plugin-catalog-react": "^1.19.1",
+    "@backstage/plugin-search": "^1.4.28",
+    "@backstage/plugin-search-react": "^1.9.2",
+    "@backstage/theme": "^0.6.7",
+    "@backstage/types": "^1.2.1",
+    "@material-ui/core": "^4.9.13",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.61",
+    "@mui/material": "^7.3.1",
+    "classnames": "^2.5.1",
+    "qs": "^6.14.0",
+    "react-draggable": "^4.5.0",
+    "react-use": "^17.2.4"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
+    "react-dom": "*",
+    "react-router-dom": "^6.3.0"
+  },
+  "devDependencies": {
+    "@backstage/catalog-client": "^1.11.0",
+    "@backstage/cli": "^0.33.1",
+    "@backstage/core-app-api": "^1.18.0",
+    "@backstage/dev-utils": "^1.1.12",
+    "@backstage/plugin-search-common": "^1.2.19",
+    "@backstage/test-utils": "^1.7.10",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.0.0",
+    "@types/qs": "^6",
+    "msw": "^1.0.0",
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+}

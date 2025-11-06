@@ -67,6 +67,7 @@ import {
 } from './components/scaffolder/CustomScaffolderComponent.tsx';
 import { CustomScaffolderPage } from './components/scaffolder/plugin.ts';
 import { MarketplacePage } from '@internal/plugin-marketplace';
+import { IntegrationTopologyPage } from '@internal/plugin-integration-topology';
 
 export const generateProviders = (providerConfig: string[]): any[] => {
   const providers: any[] = [];
@@ -312,6 +313,7 @@ export const routes = (
     </Route>
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
     <Route path="/marketplace" element={<CustomMarketPlacePage />} />
+    <Route path="/integration-topology" element={<IntegrationTopologyPage />} />
   </FlatRoutes>
 );
 export default app.createRoot(
