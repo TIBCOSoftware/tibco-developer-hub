@@ -48,7 +48,8 @@ backend:
   # config options: https://node-postgres.com/api/client
   database:
     client: better-sqlite3
-    connection: ':memory:'
+    connection:
+      ':memory:'
       # https://node-postgres.com/features/ssl
       # you can set the sslmode configuration option via the `PGSSLMODE` environment variable
       # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
@@ -102,9 +103,10 @@ techdocs:
 enableExperimentalRedirectFlow: true
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
-  environment: development
+  environment: production
   providers:
-    guest: {}
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
   # # needs to be enabled if you want to try out github auth
   # # see https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
   # # use this config to input the Github credentails directly for your local development use.

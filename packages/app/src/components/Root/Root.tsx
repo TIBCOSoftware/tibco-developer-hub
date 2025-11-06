@@ -419,7 +419,16 @@ const SidebarCustom = ({
   const redirectToCP = async () => {
     try {
       await identityApi.signOut();
-      window.location.href = cpLink;
+      const enableAuthProviders = config.getOptionalStringArray(
+        'auth.enableAuthProviders',
+      );
+      if (
+        enableAuthProviders &&
+        cpLink &&
+        enableAuthProviders.includes('tibco-control-plane')
+      ) {
+        window.location.href = cpLink;
+      }
     } catch (error) {
       errorApi.post(error as Error);
     }
