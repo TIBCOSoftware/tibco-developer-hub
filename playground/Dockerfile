@@ -109,7 +109,7 @@ RUN pip3 install setuptools
 
 WORKDIR /app
 
-COPY package.json app-config.yaml app-config.production.yaml ./
+COPY package.json app-config.yaml app-config.playground.yaml ./
 # Copy license file
 COPY LICENSE.TXT /opt/tibco/license/
 
