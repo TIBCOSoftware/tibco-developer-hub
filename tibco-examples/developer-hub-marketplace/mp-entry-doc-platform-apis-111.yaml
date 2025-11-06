@@ -2,11 +2,11 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: mp-entry-doc-platform-apis-111
-  title: Platform APIs 1.11 (Most Recent)
+  title: Platform APIs 1.11
   description: Definitions of all the APIs in the TIBCO Platform - version 1.11
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: true
+    isNew: false
     popularity: 0
     isMultiInstall: false
     imageURL: ""
@@ -33,7 +33,7 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  Platform APIs 1.11 (Most Recent) added to your TIBCO Developer Hub
+            ## Get  Platform APIs 1.11 added to your TIBCO Developer Hub
 
             **ID:** mp-entry-doc-platform-apis-111
 
