@@ -190,7 +190,7 @@ export const CardHeader = (props: CardHeaderProps) => {
             <Grid container spacing={0} alignItems="center">
               <img src={SuccessIcon} height={16} width={16} alt="logo" />
               <div className={`th-font-small ${styles.installedText}`}>
-                Installed
+                Added
               </div>
             </Grid>
           </div>

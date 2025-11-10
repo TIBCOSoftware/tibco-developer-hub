@@ -10,7 +10,7 @@ See the [architecture overview](https://backstage.io/docs/overview/architecture-
 
 - NodeJs 20.x
 - yarn 1.22.19
-- Docker (with docker compose) -- to run the database
+- Docker (with docker compose) -- to run the database (less than 4.42.1 version)
 
 ## Getting started
 
@@ -53,10 +53,13 @@ yarn install
 
 ### Setup local environment files
 
-Create a copy the file [`./app-config.template-local.yaml`](./app-config.template-local.yaml) and rename it `app-config.local.yaml`.
+Create a copy of the file [`./app-config.template-local.yaml`](./app-config.template-local.yaml) and rename it `app-config.local.yaml`.
 
 Update the contents of the newly created `app-config.local.yaml` to suit your local configuration.
 
+Create a copy of the file [`./.env.yarn-local`](./.env.yarn-local) and rename it `.env.yarn`.
+
+We can add environment variables through the above file as a input to developer hub.
 The application will load the `app-config.local.yaml`, overriding the configuration in [`app-config.yaml`](./app-config.yaml).
 The `app-config.local.yaml` file is ignored by git, so it's safe to input tokens, passwords, or any other secret values without
 risk of committing the file by mistake.
@@ -98,7 +101,7 @@ Example:
 File name: .env.yarn
 
 ```
-DOC_URL="https://docs.tibco.com/go/platform-cp/1.11.0/doc/html#cshid=developer_hub_overview"
+DOC_URL="https://docs.tibco.com/go/platform-cp/1.12.0/doc/html#cshid=developer_hub_overview"
 GITHUB_TOKEN=xxxxxxxxxx
 ```
 
@@ -119,7 +122,8 @@ docker build -t <customImageName:customImageTag> .
 ## Compatability Matrix
 
 | TIBCO Developer Hub Version | Minimum TIBCO Platform Version |
-| --------------------------- |--------------------------------|
+| --------------------------- | ------------------------------ |
+| 1.12.0                      | 1.12.0                         |
 | 1.11.0                      | 1.11.0                         |
 | 1.10.0                      | 1.10.0                         |
 | 1.9.0                       | 1.9.0                          |

@@ -27,7 +27,7 @@ spec:
   type: import-flow
   presentation:
     buttonLabels:
-      createButtonText: Install
+      createButtonText: Get
   parameters:
     - title: Accept the Marketplace Entry
       required:
@@ -37,7 +37,7 @@ spec:
         description:
           type: "null"
           description: |
-            ## Install  BWCE/6 Import into your TIBCO Developer Hub
+            ## Get  BWCE/6 Import added to your TIBCO Developer Hub
 
             **ID:** mp-entry-if-advanced-bwce6
 
@@ -56,7 +56,7 @@ spec:
             - true
   steps:
     - id: registerItem
-      name: Installing Marketplace Entry...
+      name: Getting Marketplace Entry...
       action: catalog:register
       input:
         catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/advanced-import-flows/import-flow-bw6.yaml

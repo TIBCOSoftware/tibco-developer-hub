@@ -81,7 +81,7 @@ describe('MarketplaceCard Component', () => {
         <MarketplaceCard template={installedTemplate} />
       </TestApiProvider>,
     );
-    expect(screen.getByText('Installed')).toBeInTheDocument();
+    expect(screen.getByText('Added')).toBeInTheDocument();
   });
 
   it('renders additional links when they exist', async () => {

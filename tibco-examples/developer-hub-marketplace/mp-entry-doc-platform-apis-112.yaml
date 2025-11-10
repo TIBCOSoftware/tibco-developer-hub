@@ -1,12 +1,12 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-platform-apis-19
-  title: Platform APIs 1.9
-  description: Definitions of all the APIs in the TIBCO Platform - version 1.9
+  name: mp-entry-doc-platform-apis-112
+  title: Platform APIs 1.12 (Most Recent)
+  description: Definitions of all the APIs in the TIBCO Platform - version 1.12
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
@@ -23,7 +23,7 @@ spec:
   type: document
   presentation:
     buttonLabels:
-      createButtonText: Install
+      createButtonText: Get
   parameters:
     - title: Accept the Marketplace Entry
       required:
@@ -33,11 +33,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Install  Platform APIs 1.9 into your TIBCO Developer Hub
+            ## Get  Platform APIs 1.12 (Most Recent) added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-platform-apis-19
+            **ID:** mp-entry-doc-platform-apis-112
 
-            **Description:** Definitions of all the APIs in the TIBCO Platform - version 1.9 
+            **Description:** Definitions of all the APIs in the TIBCO Platform - version 1.12 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
@@ -52,10 +52,10 @@ spec:
             - true
   steps:
     - id: registerItem
-      name: Installing Marketplace Entry...
+      name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-19/catalog-info-apis-19.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-112/catalog-info-apis-112.yaml
   output:
     links:
       - title: Open in catalog
@@ -67,14 +67,17 @@ spec:
         icon: kind:api
       - icon: kind:api
         title: Open TIBCO Platform API
-        url: /catalog/default/api/tibco-platform-api-19/definition
+        url: /catalog/default/api/tibco-platform-api-112/definition
         type: openButton
       - icon: kind:api
+        title: Open BW5 CE Capability API
+        url: /catalog/default/api/bw5ce-capability-api-112/definition
+      - icon: kind:api
         title: Open BWCE Capability API
-        url: /catalog/default/api/bwce-capability-api-19/definition
+        url: /catalog/default/api/bwce-capability-api-112/definition
       - icon: kind:api
         title: Open Flogo Capability API
-        url: /catalog/default/api/flogo-capability-api-19/definition
+        url: /catalog/default/api/flogo-capability-api-112/definition
       - icon: kind:api
         title: Open TIBCO Developer Hub API
-        url: /catalog/default/api/developer-hub-api-19/definition
+        url: /catalog/default/api/developer-hub-api-112/definition

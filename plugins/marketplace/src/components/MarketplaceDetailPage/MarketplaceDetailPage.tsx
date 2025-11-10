@@ -344,7 +344,7 @@ export const MarketplaceDetailPage = (props: MarketplaceDetailPageProps) => {
                     handleChoose();
                   }}
                 >
-                  Install
+                  Get
                 </button>
               ) : null
             }

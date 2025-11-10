@@ -72,7 +72,7 @@ describe('CardHeaderDetail Component', () => {
         <CardHeaderDetail template={installedTemplate} />
       </TestApiProvider>,
     );
-    expect(screen.getByText('Installed')).toBeInTheDocument();
+    expect(screen.getByText('Added')).toBeInTheDocument();
     expect(screen.getByAltText('new-logo')).toBeInTheDocument();
   });
 
