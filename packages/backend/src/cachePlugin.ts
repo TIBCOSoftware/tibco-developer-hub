@@ -12,7 +12,7 @@ import { Knex } from 'knex';
 const PLUGIN_ID: string = 'tibco_hub_cache';
 
 export default createBackendPlugin({
-  pluginId: 'tibco_hub_cache',
+  pluginId: PLUGIN_ID,
   register(env) {
     env.registerInit({
       deps: {
