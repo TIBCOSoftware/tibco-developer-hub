@@ -17,10 +17,14 @@ export default createBackendPlugin({
     env.registerInit({
       deps: {
         database: coreServices.database,
+        config: coreServices.rootConfig,
       },
-      async init({ database }) {
+      async init({ database, config }) {
         const knex: Knex = await database.getClient();
-        KeyvStore.initialize(knex, PLUGIN_ID);
+        const pluginDivisionMode: string =
+          config.getOptionalString('backend.database.pluginDivisionMode') ||
+          'database';
+        KeyvStore.initialize(knex, pluginDivisionMode, PLUGIN_ID);
         await KeyvStore.keyv.clear();
       },
     });

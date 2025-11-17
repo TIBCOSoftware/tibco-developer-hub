@@ -9,7 +9,11 @@ import { Knex } from 'knex';
 export class KeyvStore {
   public static keyv: Keyv;
   public static keyvMemory: Keyv;
-  public static initialize(knex: Knex, PLUGIN_ID: string) {
+  public static initialize(
+    knex: Knex,
+    pluginDivisionMode: string,
+    PLUGIN_ID: string,
+  ) {
     if (knex.client.driverName === 'pg') {
       const cfg = knex.client.config.connection;
       const connectionString =
@@ -19,7 +23,7 @@ export class KeyvStore {
               cfg.port ?? 5432
             }${cfg.database ? `/${cfg.database}` : ''}`;
       let schema = 'public';
-      if (typeof cfg !== 'string' && !cfg.database) {
+      if (typeof cfg !== 'string' && pluginDivisionMode !== 'database') {
         schema = PLUGIN_ID;
       }
       KeyvStore.keyv = new Keyv(
