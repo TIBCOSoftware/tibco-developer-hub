@@ -114,7 +114,7 @@ auth:
         metadataUrl: http://${CP_DOMAIN}/.well-known/openid-configuration
         clientId: ${OAUTH2_PROXY_CLIENT_ID}
         clientSecret: ${OAUTH2_PROXY_CLIENT_SECRET}
-        additionalScopes: ['offline_access']
+        additionalScopes: ['offline_access', 'TSC']
         tokenSignedResponseAlg: ES256
         prompt: auto
     # Needs to be enabled if you want to try out Github auth
