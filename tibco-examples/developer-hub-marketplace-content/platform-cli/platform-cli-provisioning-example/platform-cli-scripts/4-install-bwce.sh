@@ -110,7 +110,7 @@ echo "Dataplane ID: $DATAPLANE_ID"
 echo "Capability Instances:"
 tibcop tplatform:list-capability-instances --dataplane-id="$DATAPLANE_ID" --profile "$profile"
 # The name is bwce here
-CAPABILITY_ID=$(tibcop tplatform:list-capability-instances --dataplane-id="$DATAPLANE_ID" --json --profile "$profile" | jq --arg NAME "BWCE" '.[] | select(.name == $NAME) | .id' | sed 's/"//g')
+CAPABILITY_ID=$(tibcop tplatform:list-capability-instances --dataplane-id="$DATAPLANE_ID" --json --profile "$profile" | jq --arg NAME "BWCE" '.[] | select(.capability == $NAME) | .id' | sed 's/"//g')
 echo "Capability ID: $CAPABILITY_ID"
 
 echo "Waiting for the bwce capability to be up..."
