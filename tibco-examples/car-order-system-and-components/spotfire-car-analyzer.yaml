@@ -15,6 +15,18 @@ metadata:
   annotations:
     github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
     backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology: #optional
+    entityIcon:
+      icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/512/report_analysis.png
+      iconTooltip: report (flaticon.com)
+    statusIcons:
+      - icon: NewReleases
+        iconColor: pink
+        iconTooltip: New Released!
+      - icon: AssignmentTurnedIn
+        iconColor: seagreen
+        iconTooltip: Report Validated
+
 spec:
   type: service
   lifecycle: production

@@ -15,6 +15,12 @@ kind: Group
 metadata:
   name: finance-department
   description: The Finance Department
+  tibco.developer.hub/topology:
+    theme:
+      name: 'orange'
+    entityIcon:
+      icon: 'https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/512/corporate.png'
+      iconTooltip: department_icon (flaticon.com)
 spec:
   type: department
   profile:
@@ -28,6 +34,12 @@ kind: Group
 metadata:
   name: operational-department
   description: The Operational Department
+  tibco.developer.hub/topology:
+    theme:
+      name: 'orange'
+    entityIcon:
+      icon: 'https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/512/corporate.png'
+      iconTooltip: department_icon (flaticon.com)
 spec:
   type: department
   profile:
@@ -41,5 +53,10 @@ kind: Domain
 metadata:
   name: cars
   description: Everything related to Cars
+  tibco.developer.hub/topology:
+    theme:
+      colors:
+        background: hsla(260, 100%, 95%, 1)
+        iconColor: hsla(260, 54%, 45%, 1)
 spec:
   owner: group:CarImporter

@@ -16,6 +16,12 @@ metadata:
   annotations:
     github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
     backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology: #optional
+    theme:
+      name: green
+    entityIcon:
+      icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/svg/icon-app-bwce.svg
+      iconTooltip: bwce_icon (flaticon.com)
 spec:
   type: service
   lifecycle: production
@@ -40,6 +46,12 @@ metadata:
     - url: https://github.com/TIBCO-Hub-Backstage/tibco-examples/blob/master/sample-api.json
       title: API Spec
       icon: code
+  tibco.developer.hub/topology: #optional
+    theme:
+      name: yellow
+    entityIcon:
+      icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/512/cloud_api.png
+      iconTooltip: cloud_api (flaticon.com)
 spec:
   type: openapi
   lifecycle: production

@@ -12,6 +12,21 @@ metadata:
   annotations:
     github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
     backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology: #optional
+    theme:
+      name: blue
+    entityIcon:
+      icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/512/car_ui.png
+      iconTooltip: car_ui_icon (flaticon.com)
+    statusIcons:
+      - icon: 'Https'
+        iconColor: forestgreen
+        iconTooltip: HTTPS Enabled
+      - icon: 'Language'
+        iconColor: blue
+        iconTooltip: Language Support
+      - icon: 'Devices'
+        iconTooltip: Responsive Design
 spec:
   type: service
   lifecycle: production
