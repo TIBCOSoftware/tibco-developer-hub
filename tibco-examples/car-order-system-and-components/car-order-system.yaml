@@ -9,6 +9,9 @@ metadata:
   tags:
     - cars
     - tibco-examples
+  tibco.developer.hub/topology: #optional
+    theme:
+      name: purple
 spec:
   owner: group:CarImporter
   domain: cars

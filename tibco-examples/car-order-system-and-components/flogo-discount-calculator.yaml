@@ -17,6 +17,54 @@ metadata:
   annotations:
     github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
     backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology: #optional
+    theme:
+      colors:
+        background: 'lightblue'
+        iconColor: 'darkblue'
+    entityIcon:
+      icon: https://www.tibco.com/blog/wp-content/uploads/2018/06/flogo_light-02.png
+      iconTooltip: flogo_light
+    statusIcons:
+      - icon: VerifiedUser
+        iconColor: chartreuse
+        iconTooltip: Security Scan Passed
+      - icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/32/bug_fix_32px.png
+        iconTooltip: bug fixes included  (flaticon.com)
+      - icon: 'https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/32/status_update_32px.png'
+        iconTooltip: service update available  (flaticon.com)
+  tibcoPlatformApps:
+    - appType: flogo
+      appName: flogo-app
+      dataPlaneName: DP-dev
+      dpId: demodpid1
+      capabilityInstanceId: democapabilityInstanceid1
+      appId: demoappid1
+      controlPlaneName: control plane1
+      controlPlaneUrl: https://cphost.cp1-my.localhost.dataplanes.pro
+    - appType: flogo
+      appName: flogo-app
+      dataPlaneName: DP-testing
+      dpId: demodpid1
+      capabilityInstanceId: democapabilityInstanceid1
+      appId: demoappid1
+      controlPlaneName: control plane1
+      controlPlaneUrl: https://cphost.cp1-my.localhost.dataplanes.pro
+    - appType: flogo
+      appName: flogo-app
+      dataPlaneName: DP-QA
+      dpId: demodpid1
+      capabilityInstanceId: democapabilityInstanceid1
+      appId: demoappid1
+      controlPlaneName: control plane1
+      controlPlaneUrl: https://cphost.cp1-my.localhost.dataplanes.pro
+    - appType: flogo
+      appName: flogo-app
+      dataPlaneName: DP-prod
+      dpId: demodpid1
+      capabilityInstanceId: democapabilityInstanceid2
+      appId: demoappid1
+      controlPlaneId: cp2
 spec:
   type: service
   lifecycle: production
@@ -41,6 +89,12 @@ metadata:
     - url: https://github.com/TIBCO-Hub-Backstage/tibco-examples/blob/master/sample-api.json
       title: API Spec
       icon: code
+  tibco.developer.hub/topology: #optional
+    theme:
+      name: yellow
+    entityIcon:
+      icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/512/cloud_api.png
+      iconTooltip: cloud_api_icon (flaticon.com)
 spec:
   type: openapi
   lifecycle: production
