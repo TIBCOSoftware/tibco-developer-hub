@@ -34,7 +34,7 @@ backend:
       # replace these to match your environment
       host: ${POSTGRES_HOST}
       port: ${POSTGRES_PORT}
-      user: {POSTGRES_USER}
+      user: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
 
 ## Uncomment the below github integrations config to add a PAT to try out
