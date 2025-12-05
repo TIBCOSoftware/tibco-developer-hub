@@ -1,15 +1,15 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-platform-apis-112
-  title: Platform APIs 1.12
-  description: Definitions of all the APIs in the TIBCO Platform - version 1.12
+  name: mp-entry-doc-platform-apis-113
+  title: Platform APIs 1.13 (Most Recent)
+  description: Definitions of all the APIs in the TIBCO Platform - version 1.13
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: true
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: TIBCO Platform
         url: https://www.tibco.com/platform
@@ -31,13 +31,13 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
-            ## Get  Platform APIs 1.12 (Most Recent) added to your TIBCO Developer Hub
+            ## Get  Platform APIs 1.13 (Most Recent) added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-platform-apis-112
+            **ID:** mp-entry-doc-platform-apis-113
 
-            **Description:** Definitions of all the APIs in the TIBCO Platform - version 1.12 
+            **Description:** Definitions of all the APIs in the TIBCO Platform - version 1.13 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
@@ -55,7 +55,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-112/catalog-info-apis-112.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-113/catalog-info-apis-113.yaml
   output:
     links:
       - title: Open in catalog
@@ -67,17 +67,17 @@ spec:
         icon: kind:api
       - icon: kind:api
         title: Open TIBCO Platform API
-        url: /catalog/default/api/tibco-platform-api-112/definition
+        url: /catalog/default/api/tibco-platform-api-113/definition
         type: openButton
       - icon: kind:api
         title: Open BW5 CE Capability API
-        url: /catalog/default/api/bw5ce-capability-api-112/definition
+        url: /catalog/default/api/bw5ce-capability-api-113/definition
       - icon: kind:api
         title: Open BWCE Capability API
-        url: /catalog/default/api/bwce-capability-api-112/definition
+        url: /catalog/default/api/bwce-capability-api-113/definition
       - icon: kind:api
         title: Open Flogo Capability API
-        url: /catalog/default/api/flogo-capability-api-112/definition
+        url: /catalog/default/api/flogo-capability-api-113/definition
       - icon: kind:api
         title: Open TIBCO Developer Hub API
-        url: /catalog/default/api/developer-hub-api-112/definition
+        url: /catalog/default/api/developer-hub-api-113/definition
