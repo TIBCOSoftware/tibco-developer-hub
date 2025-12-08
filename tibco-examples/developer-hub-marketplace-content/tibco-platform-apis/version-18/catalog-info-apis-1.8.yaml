@@ -10,4 +10,3 @@ spec:
     - ./tibco-platform-api-standalone-bwce.yaml
     - ./tibco-platform-api-standalone-flogo.yaml
     - ./tibco-platform-api-standalone-developer-hub.yaml
-

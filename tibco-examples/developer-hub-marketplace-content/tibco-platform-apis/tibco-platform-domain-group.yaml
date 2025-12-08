@@ -7,7 +7,7 @@ spec:
   type: organization
   profile:
     displayName: TIBCO
-  children: [ ]
+  children: []
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Domain

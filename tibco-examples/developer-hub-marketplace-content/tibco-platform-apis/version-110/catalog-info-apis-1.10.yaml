@@ -11,4 +11,3 @@ spec:
     - ./tibco-platform-api-standalone-flogo.yaml
     - ./tibco-platform-api-standalone-developer-hub.yaml
     - ./tibco-platform-api-standalone-bw5ce.yaml
-

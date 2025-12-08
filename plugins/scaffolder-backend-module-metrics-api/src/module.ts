@@ -17,14 +17,15 @@ export const scaffolderModuleMetricsApi = createBackendModule({
       deps: {
         httpRouter: coreServices.httpRouter,
         database: coreServices.database,
+        config: coreServices.rootConfig,
       },
-      async init({ httpRouter, database }) {
+      async init({ httpRouter, database, config }) {
         const marketplaceStore = await DatabaseMarketplaceStore.create({
           database,
         });
         httpRouter.use(
           // @ts-ignore
-          await createRouter({ marketplaceStore }),
+          await createRouter({ marketplaceStore, config }),
         );
       },
     });

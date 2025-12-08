@@ -1,0 +1,132 @@
+define: &docUrl https://docs.tibco.com/go/platform-cp/1.12.0/doc/html#cshid=developer_hub_overview
+app:
+  title: TIBCO® Developer Hub
+  # Should be the same as backend.baseUrl when using the `app-backend` plugin.
+  baseUrl: http://localhost:7007
+  support:
+    url: https://support.tibco.com/s/
+    items:
+      - title: 'TIBCO Support Page'
+        icon: email
+        links:
+          - url: 'https://support.tibco.com/s/'
+            title: 'TIBCO Support'
+      - title: 'TIBCO Documentation Page'
+        icon: docs
+        links:
+          - url: *docUrl
+            title: 'TIBCO® Developer Hub Documentation'
+      - title: 'TIBCO® Developer Hub Open Source Repository'
+        icon: github
+        links:
+          - url: 'https://github.com/TIBCOSoftware/tibco-developer-hub'
+            title: 'TIBCO® Developer Hub Open Source Repository'
+  docUrl: *docUrl
+
+organization:
+  name: TIBCO Software's
+
+backend:
+  auth:
+    externalAccess:
+  # Note that the baseUrl should be the URL that the browser and other clients
+  # should use when communicating with the backend, i.e. it needs to be
+  # reachable not just from within the backend host, but from all of your
+  # callers. When its value is "http://localhost:7007", it's strictly private
+  # and can't be reached by others.
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+    # The following host directive binds to all IPv4 interfaces when its value
+    # is "0.0.0.0". This is the most permissive setting. The right value depends
+    # on your specific deployment. If you remove the host line entirely, the
+    # backend will bind on the interface that corresponds to the backend.baseUrl
+    # hostname.
+    host: 0.0.0.0
+  csp:
+    connect-src: ["'self'", 'http:', 'https:']
+  # config options: https://node-postgres.com/api/client
+  database:
+    client: better-sqlite3
+    connection:
+      ':memory:'
+      # https://node-postgres.com/features/ssl
+      # you can set the sslmode configuration option via the `PGSSLMODE` environment variable
+      # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
+      # ssl:
+      #   ca: # if you have a CA file and want to verify it you can uncomment this section
+    #     $file: <file-path>/ca/server.crt
+
+integrations:
+  github:
+    - host: github.com
+      # apps:
+      #   - $include: github-backstage-app-credentials.yaml
+      # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
+      # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
+      # token: ${GITHUB_TOKEN}
+    ### Example for how to add your GitHub Enterprise instance using the API:
+    # - host: ghe.example.net
+    #   apiBaseUrl: https://ghe.example.net/api/v3
+    #   token: ${GHE_TOKEN}
+
+catalog:
+  # Overrides the default list locations from app-config.yaml as these contain example data.
+  # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
+  # on how to get entities into the catalog.
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
+      rules:
+        - allow:
+            [
+              Group,
+              Template,
+              System,
+              Domain,
+              Location,
+              Component,
+              API,
+              Resource,
+            ]
+  rules:
+    - allow:
+        [Group, Template, System, Domain, Location, Component, API, Resource]
+techdocs:
+  builder: 'local' # Alternatives - 'external'
+  generator:
+    runIn: 'local' # Alternatives - 'local'
+    # runIn: 'docker' # Alternatives - 'local'
+    # dockerImage: 'mkdocs:local-dev'
+  publisher:
+    type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+enableExperimentalRedirectFlow: true
+auth:
+  # see https://backstage.io/docs/auth/ to learn about auth providers
+  environment: production
+  providers:
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
+  # # needs to be enabled if you want to try out github auth
+  # # see https://backstage.io/docs/auth/github/provider to learn about GitHub Authentication Provider
+  # # use this config to input the Github credentails directly for your local development use.
+  #   github:
+  #     development:
+  #       clientId: ${AUTH_GITHUB_CLIENT_ID}
+  #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+  # Available providers: [github, guest]
+  # # on local developer setups only github and guest auth providers are available
+  # # Oauthproxy will only be available in Dataplane deployments.
+  enableAuthProviders: [guest]
+scaffolder:
+  # see https://backstage.io/docs/features/software-templates/configuration for software template options
+  defaultAuthor:
+    name: TIBCO® Developer Hub # Defaults to `Scaffolder`
+    email: test@test.com # Defaults to `scaffolder@backstage.io`
+  defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
+essentialLocations:
+  runScheduler: true,
+  frequencyInMinutes: 120
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml

@@ -11,9 +11,9 @@ metadata:
     isMultiInstall: false
     imageURL: ${{values.image_url | dump}}
     moreInfo:
-      - text: "TIBCO"
-        url: "https://www.tibco.com/"
-        icon: "star"
+      - text: 'TIBCO'
+        url: 'https://www.tibco.com/'
+        icon: 'star'
   tags:
     - devhub-marketplace
 
@@ -34,14 +34,14 @@ spec:
           type: 'null' # Needs to be quoted
           description: |
             ## Install  ${{values.title}} into your TIBCO Developer Hub
-            
+
             **ID:** ${{values.name}}
-            
+
             **Description:** ${{values.description}}
-          
+
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](${{values.license_url}}).
-            
+
             **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
 
         accept:
@@ -52,13 +52,13 @@ spec:
             - null
             - true
 
-# Register the item in the Developer Hub
+  # Register the item in the Developer Hub
   steps:
     - id: registerItem
       name: Installing Marketplace Entry...
       action: catalog:register
       input:
-#        optional: true
+        #        optional: true
         catalogInfoUrl: ${{values.catalog_url | dump}}
 
   output:

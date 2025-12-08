@@ -10,7 +10,7 @@ metadata:
     isNew: true
     popularity: 0
     isMultiInstall: false
-    imageURL: ""
+    imageURL: ''
     moreInfo:
       - text: TIBCO Platform CLI
         url: https://docs.tibco.com/pub/platform-cp/1.10.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm
@@ -37,7 +37,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: "null"
+          type: 'null'
           description: |
             ## Get  Platform CLI Provisioning added to your TIBCO Developer Hub
 

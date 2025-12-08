@@ -86,40 +86,40 @@ spec:
             type: workspace
             onlyName: false
             directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
-            regex: "(.*).wsdl"
+            regex: '(.*).wsdl'
           api_files_names:
             type: workspace
             onlyName: true
             directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
-            regex: "(.*).wsdl"
+            regex: '(.*).wsdl'
           db_files:
             type: workspace
             onlyName: false
             directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
-            regex: "(.*).sharedjdbc"
+            regex: '(.*).sharedjdbc'
           db_files_names:
             type: workspace
             onlyName: true
             directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
-            regex: "(.*).sharedjdbc"
+            regex: '(.*).sharedjdbc'
           process_files:
             type: workspace
             onlyName: false
             directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
-            regex: "(.*).process"
+            regex: '(.*).process'
           process_files_names:
             type: workspace
             onlyName: true
             directoryPath: ${{ parameters.application_folder + "/" + parameters.application + "/"}}
-            regex: "(.*).process"
-#
-#    # The import flow debug step, enable it for debugging
-#    - id: log-debug
-#      name: Debug Logs
-#      action: debug:log
-#      input:
-#        message: "Fetched the bw5 Skeleton template"
-#        listWorkspace: true
+            regex: '(.*).process'
+    #
+    #    # The import flow debug step, enable it for debugging
+    #    - id: log-debug
+    #      name: Debug Logs
+    #      action: debug:log
+    #      input:
+    #        message: "Fetched the bw5 Skeleton template"
+    #        listWorkspace: true
 
     # Create the Developer Hub YAML Files from the templates, using the input values
     - id: fetchRS
@@ -150,41 +150,41 @@ spec:
       action: fs:rename
       input:
         files:
-          - from:  ${{ parameters.application_folder + "/system.yaml" }}
+          - from: ${{ parameters.application_folder + "/system.yaml" }}
             to: ${{ parameters.application_folder + "/system-" + parameters.application + ".yaml" }}
             overwrite: true
           - from: ${{ parameters.application_folder + "/component.yaml" }}
             to: ${{ parameters.application_folder + "/components-" + parameters.application + ".yaml" }}
             overwrite: true
-          - from:  ${{ parameters.application_folder + "/resources.yaml" }}
+          - from: ${{ parameters.application_folder + "/resources.yaml" }}
             to: ${{ parameters.application_folder + "/resources-" + parameters.application + ".yaml" }}
             overwrite: true
-          - from:  ${{ parameters.application_folder + "/apis.yaml" }}
+          - from: ${{ parameters.application_folder + "/apis.yaml" }}
             to: ${{ parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
             overwrite: true
 
-# Push the resulting YAML files back into the repository
+    # Push the resulting YAML files back into the repository
     - id: push
       name: Push Current Repo
       action: tibco:git:push
       input:
         failOnError: true
 
-# Register the BW5 System
+    # Register the BW5 System
     - id: registerSystem
       name: Register System
       action: catalog:register
       input:
-#       optional: true
+        #       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/system-" + parameters.application + ".yaml" }}
 
-# Register the BW5 Components, Resources and API's
+    # Register the BW5 Components, Resources and API's
     - id: registerComponents
       name: Register Components
       if: ${{ (steps.extract.output.process_files.length > 0) }}
       action: catalog:register
       input:
-#       optional: true
+        #       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/components-" + parameters.application + ".yaml" }}
 
     - id: registerResources
@@ -192,7 +192,7 @@ spec:
       if: ${{ (steps.extract.output.db_files.length > 0) }}
       action: catalog:register
       input:
-#       optional: true
+        #       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/resources-" + parameters.application + ".yaml" }}
 
     - id: registerApis
@@ -200,7 +200,7 @@ spec:
       if: ${{ (steps.extract.output.api_files.length > 0) }}
       action: catalog:register
       input:
-#       optional: true
+        #       optional: true
         catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application_folder + "/apis-" + parameters.application + ".yaml" }}
 
   output:

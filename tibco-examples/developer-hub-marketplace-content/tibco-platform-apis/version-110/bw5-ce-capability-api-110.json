@@ -15,9 +15,7 @@
   "paths": {
     "/v1/dp/apps": {
       "get": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "List all applications",
         "description": "List all BusinessWorks™ 5 (Containers) applications available on the dataplane",
         "operationId": "ListApps",
@@ -100,9 +98,7 @@
     },
     "/v1/dp/deploy": {
       "post": {
-        "tags": [
-          "Apps - Managed by BW5 Provisioner"
-        ],
+        "tags": ["Apps - Managed by BW5 Provisioner"],
         "summary": "Deploy an application",
         "description": "Deploy or upgrade a TIBCO BusinessWorks™ 5 Container Edition application using Build Id. The API lets you provide override app properties, profile, engine variables, resource limits for the pod, replicas or autoscaling configuration and network policy configurations while deploying or upgrading the app. An AppId in payload is mandatory only for upgrading an existing application, otherwise it should be empty.",
         "operationId": "DeployApp",
@@ -186,9 +182,7 @@
     },
     "/v2/dp/builds/{buildId}/values": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Generate values.yaml from an app Build",
         "description": "Generate values.yaml from an app Build for the provided Build Id",
         "operationId": "GenerateValuesYamlFromBuild",
@@ -268,9 +262,7 @@
     },
     "/v1/dp/builds": {
       "post": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "Create an Application build",
         "description": "Create a TIBCO BusinessWorks™ 5 Container application build. The API expects application ear file, BW5 Container base version and image tags as an input along with Connectors dependencies details. BW5 Container version tags and connectors details can be retrieved by invoking respective APIs to list provisioned software details.",
         "operationId": "CreateBuild",
@@ -380,9 +372,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "Import an app build",
         "description": "Import an app build by uploading a build zip file",
         "operationId": "ImportBuild",
@@ -468,9 +458,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "List all Application builds",
         "description": "List all TIBCO BusinessWorks™ 5 Container Edition Application builds present on the Data Plane",
         "operationId": "ListBuilds",
@@ -509,10 +497,7 @@
             "description": "Order the result in asc or desc order",
             "schema": {
               "type": "string",
-              "enum": [
-                "asc",
-                "desc"
-              ]
+              "enum": ["asc", "desc"]
             }
           }
         ],
@@ -575,9 +560,7 @@
     },
     "/v1/dp/builds/{buildId}/rebuild": {
       "post": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "Re-build an application",
         "description": "Re-build TIBCO BusinessWorks™ 5 Container application, You can provide the Build Id of an existing Application build along with BW5 Container base version and image tag and udpated connector dependencies details to re-build application with newer versions using existing ear file",
         "operationId": "ReBuildApp",
@@ -694,9 +677,7 @@
     },
     "/v1/cp/bw5ceversions": {
       "get": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "List BW5 Container Versions available on the control plane",
         "description": "List BW5 Container Versions available on the control plane",
         "operationId": "ListBuildTypesFromCP",
@@ -759,9 +740,7 @@
     },
     "/v1/dp/bw5ceversions": {
       "get": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "List BW5 Container Versions provisioned on the dataplane",
         "description": "List BW5 Container Versions provisioned on the dataplane. The API returns BW5 Container base version and list of base image tags available for it.",
         "operationId": "ListBuildTypes",
@@ -824,9 +803,7 @@
     },
     "/v1/dp/bw5ceversions/{version}/tags": {
       "put": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Update BW5 Container Version tags",
         "description": "Update BW5 Container Version tags",
         "operationId": "UpdateBW5CEVersionTags",
@@ -909,9 +886,7 @@
     },
     "/v1/dp/bw5ceversions/{version}": {
       "post": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Provision BW5 Container on the dataplane",
         "description": "Provision BW5 Container on the dataplane.",
         "operationId": "ProvisionBW5CEBuildtype",
@@ -984,9 +959,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Delete BW5 Container from the dataplane",
         "description": "Delete BW5 Container from the dataplane. Please ensure the BW5 Container version to be deleted is not used in any applications and builds",
         "operationId": "DeleteBW5CEBuildtype",
@@ -1061,9 +1034,7 @@
     },
     "/v1/dp/bw5ceversions/{version}/baseimages/{baseimagetag}": {
       "delete": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Delete BW5 Container Base image tag from the dataplane",
         "description": "Delete BW5 Container base image tag from the dataplane. Please ensure the base image for the specified BW5 Container version to be deleted is not used in any applications and builds",
         "operationId": "DeleteBW5CEBuildtypeBaseImageTag",
@@ -1148,9 +1119,7 @@
     },
     "/v1/cp/connectors": {
       "get": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "List Connectors available on the control plane",
         "description": "List Connectors available on the control plane",
         "operationId": "ListConnectorsFromCP",
@@ -1213,9 +1182,7 @@
     },
     "/v1/dp/connectors": {
       "get": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "List Connectors provisioned on the dataplane",
         "description": "List Connectors provisioned on the dataplane",
         "operationId": "ListConnectors",
@@ -1298,9 +1265,7 @@
     },
     "/v1/dp/connectors/{connector}/{version}": {
       "post": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Provision Connector on the dataplane",
         "description": "Provision Connector on the dataplane.",
         "operationId": "ProvisionConnector",
@@ -1382,9 +1347,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Delete Connector from the dataplane",
         "description": "Delete Connector from the dataplane. Please ensure the connector to be deleted is not used in any applications or builds",
         "operationId": "DeleteConnector",
@@ -1468,9 +1431,7 @@
     },
     "/v1/dp/connectors/{connector}/{version}/tags": {
       "put": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Update Connector tags from the dataplane",
         "description": "Update Connector tags from the dataplane.",
         "operationId": "UpdateConnectorTags",
@@ -1565,9 +1526,7 @@
     },
     "/v1/dp/namespaces": {
       "get": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "List Namespaces from the dataplane",
         "description": "List Namespaces from the dataplane",
         "operationId": "ListNamespaces",
@@ -1630,9 +1589,7 @@
     },
     "/v1/dp/supplements": {
       "get": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "List Supplements provisioned on the dataplane",
         "description": "List Supplements provisioned on the dataplane",
         "operationId": "ListSupplements",
@@ -1715,9 +1672,7 @@
     },
     "/v1/dp/supplements/{connector}": {
       "get": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Export the Supplement",
         "description": "Export the Supplement for a connector on the dataplane",
         "operationId": "ExportSupplement",
@@ -1798,9 +1753,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Upload the Supplement",
         "description": "Upload the Supplement for a connector on the dataplane",
         "operationId": "UploadSupplement",
@@ -1900,9 +1853,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Delete Connector supplement from the dataplane",
         "description": "Delete Connector supplement from the dataplane. Please ensure the supplement to be deleted is not used in any applications or builds",
         "operationId": "DeleteSupplement",
@@ -1987,9 +1938,7 @@
     },
     "/v1/dp/supplements/{connector}/tags": {
       "put": {
-        "tags": [
-          "Provisioned Software & Plugins"
-        ],
+        "tags": ["Provisioned Software & Plugins"],
         "summary": "Update Supplement tags",
         "description": "Update Supplement tags",
         "operationId": "UpdateSupplementTags",
@@ -2085,9 +2034,7 @@
     },
     "/v1/dp/builds/{buildId}/export": {
       "get": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "Export an app build",
         "description": "Export an app build for the provided Build Id",
         "operationId": "ExportBuild",
@@ -2159,9 +2106,7 @@
     },
     "/v1/dp/builds/{buildId}": {
       "put": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "Update an application build",
         "description": "Update an application build's name and tags",
         "operationId": "UpdateBuild",
@@ -2244,9 +2189,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "Delete an application build",
         "description": "Delete an application Build. Please ensure the build to be deleted is not used by any applications",
         "operationId": "DeleteBuild",
@@ -2320,9 +2263,7 @@
     },
     "/v1/dp/builds/{buildId}/apps": {
       "get": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "List Application from Build Id on the dataplane",
         "description": "List all applications from Build Id on the dataplane",
         "operationId": "ListAppsForBuildId",
@@ -2404,9 +2345,7 @@
     },
     "/v1/dp/apps/{appId}/details": {
       "get": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "Get an Application details",
         "description": "Get an Application details for provided App Id.",
         "operationId": "GetAppDetails",
@@ -2488,9 +2427,7 @@
     },
     "/v1/dp/apps/{appId}/instances": {
       "get": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "Get Application instances",
         "description": "Get list of Application instances for provided App Id.",
         "operationId": "GetAppInstances",
@@ -2572,9 +2509,7 @@
     },
     "/v1/dp/apps/{appId}/endpoints": {
       "get": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "List Application endpoints",
         "description": "List Application endpoints for provided App Id. The API returns details about public/private endpoint and ingress configuration for the public endpoint.",
         "operationId": "ListEndpoints",
@@ -2656,9 +2591,7 @@
     },
     "/v1/dp/apps/{appId}/endpoints/public": {
       "delete": {
-        "tags": [
-          "Apps - Managed by BW5 Provisioner"
-        ],
+        "tags": ["Apps - Managed by BW5 Provisioner"],
         "summary": "Make an Application endpoint private",
         "description": "Make an Application endpoint private. The API removes the Ingress resource to make and endpoint private.",
         "operationId": "MakePrivate",
@@ -2738,9 +2671,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Apps - Managed by BW5 Provisioner"
-        ],
+        "tags": ["Apps - Managed by BW5 Provisioner"],
         "summary": "Make an Application endpoint public",
         "description": "Make an Application endpoint public. The API creates an Ingress resource with provided inputs - ingress class name, FQDN, path prefix, etc",
         "operationId": "MakePublic",
@@ -2833,9 +2764,7 @@
     },
     "/v1/dp/apps/{appId}": {
       "put": {
-        "tags": [
-          "Apps - Managed by BW5 Provisioner"
-        ],
+        "tags": ["Apps - Managed by BW5 Provisioner"],
         "summary": "Update Application configuration",
         "description": "Update Application configuration from dataplane. The application will restart while applying the configuration.",
         "operationId": "UpdateApp",
@@ -2923,9 +2852,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "Delete an Application",
         "description": "Delete an Application from dataplane.",
         "operationId": "DeleteApp",
@@ -3004,9 +2931,7 @@
     },
     "/v1/dp/apps/{appId}/scale": {
       "put": {
-        "tags": [
-          "Apps & Builds"
-        ],
+        "tags": ["Apps & Builds"],
         "summary": "Scale an Application",
         "description": "Scale an Application with provided replicas count for an App Id. Please avoid using scale operation when autoscaling is configured.",
         "operationId": "AppScale",
@@ -3094,9 +3019,7 @@
     },
     "/v1/dp/apps/{appId}/autoscaling": {
       "put": {
-        "tags": [
-          "Apps - Managed by BW5 Provisioner"
-        ],
+        "tags": ["Apps - Managed by BW5 Provisioner"],
         "summary": "Modify or Create autoscaling configuration",
         "description": "Modify or Create autoscaling configuration for an application. You can provide min/max replicas and CPU/memory thresholds for the HPA resource configuration",
         "operationId": "ModifyAutoscaling",
@@ -3184,9 +3107,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Apps - Managed by BW5 Provisioner"
-        ],
+        "tags": ["Apps - Managed by BW5 Provisioner"],
         "summary": "Remove autoscaling configuration",
         "description": "Remove autoscaling configuration for an application.",
         "operationId": "RemoveAutoscaling",
@@ -3265,9 +3186,7 @@
     },
     "/v1/dp/apps/{appId}/servicemesh": {
       "put": {
-        "tags": [
-          "Apps - Managed by BW5 Provisioner"
-        ],
+        "tags": ["Apps - Managed by BW5 Provisioner"],
         "summary": "Enable or disable service mesh for an app",
         "description": "Enable or disable service mesh sidecar of the specified app id",
         "operationId": "EnableDisableServicemesh",
@@ -3355,9 +3274,7 @@
     },
     "/v2/dp/deploy/release": {
       "post": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Deploy an application Helm chart using values.yaml",
         "description": "Deploy or upgrade a TIBCO BusinessWorks™ 5 Container Edition application Helm chart using values.yaml. An AppId inside values.yaml is mandatory for upgrading an existing application",
         "operationId": "DeployAppChartWithValues",
@@ -3496,9 +3413,7 @@
     },
     "/v2/dp/apps/{appId}/release/values": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Get helm chart values from BW5 Container app deployment",
         "description": "Get helm chart values from BW5 Container app deployment",
         "operationId": "GetAppChartValues",
@@ -3584,9 +3499,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Update helm chart values for BW5 Containers app chart",
         "description": "Update helm chart values for BW5 Containers application chart. You can provide the values.yaml in the payload.",
         "operationId": "UpdateAppChartValues",
@@ -3690,9 +3603,7 @@
     },
     "/v2/dp/apps/{appId}/release/status": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Status of an Application Chart Deployment",
         "description": "Status of an Application deployment for an App Id.",
         "operationId": "AppChartStatus",
@@ -3771,9 +3682,7 @@
     },
     "/v2/dp/apps/{appId}/release/history": {
       "get": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Release history of an Application Chart Deployment",
         "description": "Release history of an Application deployment for an App Id.",
         "operationId": "AppChartHistory",
@@ -3855,9 +3764,7 @@
     },
     "/v2/dp/apps/{appId}/release/rollback": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Rollabck an Application helm chart Release",
         "description": "Rollabck an Application helm chart Release for an App Id and specified revision.",
         "operationId": "AppChartRollback",
@@ -3954,9 +3861,7 @@
     },
     "/v2/dp/apps/{appId}/rename": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Rename an Application Chart Deployment",
         "description": "Rename an Application deployment. Warning: This action will uninstall existing release and re-install it with new name so it may cause service outage for clients",
         "operationId": "AppChartRename",
@@ -4044,9 +3949,7 @@
     },
     "/v2/dp/apps/{appId}/servicemesh": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Enable or disable service mesh for an app",
         "description": "Enable or disable service mesh sidecar of the specified app id",
         "operationId": "EnableDisableServicemeshAppChart",
@@ -4134,9 +4037,7 @@
     },
     "/v2/dp/apps/{appId}/autoscaling": {
       "put": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Modify or Create autoscaling configuration",
         "description": "Modify or Create autoscaling configuration for an application. You can provide min/max replicas and CPU/memory thresholds for the HPA resource configuration",
         "operationId": "ModifyAutoscalingAppChart",
@@ -4224,9 +4125,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Remove autoscaling configuration",
         "description": "Remove autoscaling configuration for an application.",
         "operationId": "RemoveAutoscalingAppChart",
@@ -4305,9 +4204,7 @@
     },
     "/v2/dp/apps/{appId}/endpoints/public": {
       "delete": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Make an Application endpoint private",
         "description": "Make an Application endpoint private. The API removes the Ingress resource to make and endpoint private.",
         "operationId": "MakePrivateAppChart",
@@ -4387,9 +4284,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Apps - Managed by Helm Chart"
-        ],
+        "tags": ["Apps - Managed by Helm Chart"],
         "summary": "Make an Application endpoint public",
         "description": "Make an Application endpoint public. The API creates an Ingress resource with provided inputs - ingress class name, FQDN, path prefix, etc",
         "operationId": "MakePublicAppChart",

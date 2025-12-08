@@ -7,6 +7,17 @@ metadata:
   tags:
     - database
     - car-details
+  tibco.developer.hub/topology: #optional
+    theme:
+      name: pastelGreen
+    entityIcon:
+      icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/512/database_storage.png
+      iconTooltip: database_icon (flaticon.com)
+    statusIcons:
+      - icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/32/secure_data_32px.png
+        iconTooltip: Data Encrypted (flaticon.com)
+      - icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/512/shield_warning.png
+        iconTooltip: Security Scan Action Needed (flaticon)
 spec:
   type: database
   lifecycle: production
@@ -22,6 +33,12 @@ metadata:
   tags:
     - s3-bucket
     - promotional-materials
+  tibco.developer.hub/topology: #optional
+    theme:
+      name: navy
+    entityIcon:
+      icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/512/sales.png
+      iconTooltip: promotional_materials (flaticon.com)
 spec:
   type: s3-bucket
   lifecycle: production
@@ -37,6 +54,12 @@ metadata:
   tags:
     - external
     - api
+  tibco.developer.hub/topology: #optional
+    theme:
+      name: yellow
+    entityIcon:
+      icon: https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/refs/heads/main/tibco-examples/car-order-system-and-components/assets/icons/512/cloud_api.png
+      iconTooltip: cloud_api (flaticon.com)
 spec:
   type: external-api
   lifecycle: production

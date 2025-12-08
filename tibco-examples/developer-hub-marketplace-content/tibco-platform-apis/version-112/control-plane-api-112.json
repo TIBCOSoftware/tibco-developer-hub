@@ -30,9 +30,7 @@
   "paths": {
     "/cp/api/v1/data-planes/k8s": {
       "post": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Register a k8s Data Plane",
         "description": "Register a kubernetes Data Plane in the cluster - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -104,9 +102,7 @@
     },
     "/cp/api/v1/data-planes/control-tower": {
       "post": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Register a control tower Data Plane",
         "description": "Register a control tower Data Plane in the cluster - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -178,9 +174,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/namespace": {
       "post": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Create and register a namespace",
         "description": "Create and register a namespace - introduced in 1.10.0",
         "x-since": "1.10.0",
@@ -263,9 +257,7 @@
     },
     "/cp/api/v1/data-planes": {
       "get": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Get Data Planes",
         "description": "Get Data Planes in a Subscription - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -345,9 +337,7 @@
                       "name": "control-tower-dp"
                     }
                   ],
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -387,9 +377,7 @@
     },
     "/cp/api/v1/data-planes/status": {
       "get": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Get Data Planes status",
         "description": "Get status of all Data Planes in a Subscription - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -439,9 +427,7 @@
                       }
                     ]
                   },
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -491,9 +477,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/status": {
       "get": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Get Data Plane status",
         "description": "Get status of a Data Plane with Data Plane Id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -537,9 +521,7 @@
                     "message": "",
                     "tibtunnel-connected": true
                   },
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -589,9 +571,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/commands/{operation}": {
       "get": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Get Data Plane commands",
         "description": "Get Data Plane commands for delete/upgrade operation - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -656,9 +636,7 @@
                       "description": "kubectl command to delete namespace"
                     }
                   ],
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -708,9 +686,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}": {
       "get": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Get Data Plane details",
         "description": "Get Data Plane details using Data Plane id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -779,9 +755,7 @@
                       }
                     ]
                   },
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -829,9 +803,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Update a Data Plane",
         "description": "Update Data Plane name, description and tags - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -883,9 +855,7 @@
                   "response": {
                     "message": "Dataplane 'cv3duui7dsoajnuj4fa0' updated successfully"
                   },
-                  "context": [
-                    "2025-03-11T08:03:36.953Z"
-                  ]
+                  "context": ["2025-03-11T08:03:36.953Z"]
                 }
               }
             }
@@ -934,9 +904,7 @@
         "x-codegen-request-body-name": "payload"
       },
       "delete": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Unregister a Data Plane",
         "description": "Unregister a Data Plane using Data Plane id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -956,9 +924,7 @@
             "description": "Parameter to force delete a Data Plane",
             "schema": {
               "type": "boolean",
-              "enum": [
-                true
-              ]
+              "enum": [true]
             }
           }
         ],
@@ -1006,9 +972,7 @@
                       }
                     ]
                   },
-                  "context": [
-                    "2025-03-11T08:19:52.852Z"
-                  ]
+                  "context": ["2025-03-11T08:19:52.852Z"]
                 }
               }
             }
@@ -1058,9 +1022,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/resource-association": {
       "put": {
-        "tags": [
-          "Data Planes"
-        ],
+        "tags": ["Data Planes"],
         "summary": "Link resource instances to a Data Plane",
         "description": "Link resource instances like Helm repo and Activation server to a Data Plane - introduced in 1.9.0",
         "x-since": "1.9.0",
@@ -1112,9 +1074,7 @@
                   "response": {
                     "message": "Dataplane 'cv3duui7dsoajnuj4fa0' updated successfully"
                   },
-                  "context": [
-                    "2025-03-11T08:03:36.953Z"
-                  ]
+                  "context": ["2025-03-11T08:03:36.953Z"]
                 }
               }
             }
@@ -1165,9 +1125,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/apps": {
       "get": {
-        "tags": [
-          "Apps"
-        ],
+        "tags": ["Apps"],
         "summary": "Get Apps deployed in a Data Plane",
         "description": "Get details of Apps deployed in a Data Plane using Data Plane id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -1256,9 +1214,7 @@
     },
     "/cp/api/v1/apps": {
       "get": {
-        "tags": [
-          "Apps"
-        ],
+        "tags": ["Apps"],
         "summary": "Get Apps in a subscription",
         "description": "Get details of Apps deployed in a subscription - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -1325,9 +1281,7 @@
                       "name": "app-name"
                     }
                   ],
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -1387,9 +1341,7 @@
     },
     "/cp/api/v1/apps/{appId}": {
       "get": {
-        "tags": [
-          "Apps"
-        ],
+        "tags": ["Apps"],
         "summary": "Get App details by App id",
         "description": "Get details of an App deployed in a subscription using App id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -1432,10 +1384,7 @@
                     "id": "cuumooaghufnbqb1mtcg",
                     "name": "app-name",
                     "description": "app description",
-                    "version": [
-                      1,
-                      0
-                    ],
+                    "version": [1, 0],
                     "capability-id": "BWCE",
                     "capability-instance-id": "cuumge27dsoajnuj4f6g",
                     "created-by": "username",
@@ -1444,9 +1393,7 @@
                     "modified-time": 1740467343,
                     "data-plane-id": "cuq4rgaugsdfke0k7k4g"
                   },
-                  "context": [
-                    "2025-03-11T14:37:06.090Z"
-                  ]
+                  "context": ["2025-03-11T14:37:06.090Z"]
                 }
               }
             }
@@ -1506,9 +1453,7 @@
     },
     "/cp/api/v1/apps/{appId}/status": {
       "get": {
-        "tags": [
-          "Apps"
-        ],
+        "tags": ["Apps"],
         "summary": "Get live App status",
         "description": "Get live App status from monitoring using App id - introduced in 1.10.0",
         "x-since": "1.10.0",
@@ -1553,9 +1498,7 @@
                     "status": "Stopped",
                     "instance": 1
                   },
-                  "context": [
-                    "2025-03-11T14:37:06.090Z"
-                  ]
+                  "context": ["2025-03-11T14:37:06.090Z"]
                 }
               }
             }
@@ -1615,9 +1558,7 @@
     },
     "/cp/api/v1/resources/instances/{type}": {
       "post": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Create subscription level resource instance",
         "description": "Create a subscription level resource instance using type and request payload - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -1889,9 +1830,7 @@
                   "response": {
                     "resource_instance_id": "cv7vfkrddha1gdi2167g"
                   },
-                  "context": [
-                    "2025-03-11T08:44:03.972Z"
-                  ]
+                  "context": ["2025-03-11T08:44:03.972Z"]
                 }
               }
             }
@@ -1941,9 +1880,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/resources/instances/{type}": {
       "post": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Create Data plane level resource instance",
         "description": "Create a Data plane level resource instance using type and request payload - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -2353,9 +2290,7 @@
     },
     "/cp/api/v1/resources": {
       "get": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Get resources in the Platform",
         "description": "Get all supported resources provided by TIBCO Platform Control Plane - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -2389,9 +2324,7 @@
                       "name": "Ingress Controller"
                     }
                   ],
-                  "context": [
-                    "2025-03-11T13:29:53.934Z"
-                  ]
+                  "context": ["2025-03-11T13:29:53.934Z"]
                 }
               }
             }
@@ -2441,9 +2374,7 @@
     },
     "/cp/api/v1/resources/instances": {
       "get": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Get all resource instances in a subscription",
         "description": "Get Subscription level resource instances using optional filters - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -2497,9 +2428,7 @@
                       "dataplane-name": "data-plane-name"
                     }
                   ],
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -2549,9 +2478,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/resources/instances": {
       "get": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Get resource instances in a Data Plane",
         "description": "Get Data Plane level resource instances using Data Plane ID - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -2610,9 +2537,7 @@
                       "type": "STORAGE_CLASS"
                     }
                   ],
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -2662,9 +2587,7 @@
     },
     "/cp/api/v1/resources/instances/{resourceInstanceId}": {
       "get": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Get details of resource instance",
         "description": "Get resource instance details by resource instance id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -2716,9 +2639,7 @@
                         }
                       ]
                     },
-                    "context": [
-                      "2024-10-17T06:24:01.743Z"
-                    ]
+                    "context": ["2024-10-17T06:24:01.743Z"]
                   },
                   "example-2": {
                     "status": "success",
@@ -2740,9 +2661,7 @@
                         }
                       ]
                     },
-                    "context": [
-                      "2024-10-17T06:24:01.743Z"
-                    ]
+                    "context": ["2024-10-17T06:24:01.743Z"]
                   },
                   "example-3": {
                     "status": "success",
@@ -2759,9 +2678,7 @@
                       "dataplane-id": "crhb9o190k6c73cq1k3g",
                       "dataplane-name": "data-plane-name"
                     },
-                    "context": [
-                      "2024-10-17T06:24:01.743Z"
-                    ]
+                    "context": ["2024-10-17T06:24:01.743Z"]
                   }
                 }
               }
@@ -2810,9 +2727,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Delete resource instance at subscription level",
         "description": "Delete resource instance at subscription level using resource instance id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -2854,9 +2769,7 @@
                   "response": {
                     "message": "Resource instance 'crt2mvl5si0c7386jn50' deleted successfully"
                   },
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -2904,9 +2817,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Update resource instance at subscription level",
         "description": "Update resource instance at subscription level using resource instance id - introduced in 1.8.0",
         "x-since": "1.8.0",
@@ -3192,9 +3103,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/resources/instances/{resourceInstanceId}": {
       "delete": {
-        "tags": [
-          "Resources"
-        ],
+        "tags": ["Resources"],
         "summary": "Delete a resource instance in given Data Plane",
         "description": "Delete a resource instance in given Data Plane using Data Plane id and resource instance id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -3245,9 +3154,7 @@
                   "response": {
                     "message": "Resource instance 'crt2mvl5si0c7386jn50' deleted successfully"
                   },
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -3297,9 +3204,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/{capabilityId}": {
       "post": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Provision Capability in a Data Plane",
         "description": "Provision Capability in a Data Plane using Data Plane id and Capability id - introduced in 1.6.0",
         "x-since": "1.6.0",
@@ -3320,12 +3225,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [
-                "BWCE",
-                "BW5CE",
-                "FLOGO",
-                "TIBCOHUB"
-              ]
+              "enum": ["BWCE", "BW5CE", "FLOGO", "TIBCOHUB"]
             },
             "x-capability-since": {
               "BWCE": "1.6.0",
@@ -3513,9 +3413,7 @@
     },
     "/cp/api/v1/capabilities": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get Capability list in the Platform",
         "description": "Get list of capabilities which can be provisioned in the Platform - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -3581,9 +3479,7 @@
                       "name": "TIBCO® API Manager"
                     }
                   ],
-                  "context": [
-                    "2024-10-17T16:43:10.990Z"
-                  ]
+                  "context": ["2024-10-17T16:43:10.990Z"]
                 }
               }
             }
@@ -3633,9 +3529,7 @@
     },
     "/cp/api/v1/capabilities/instances": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get Capability instances in a subscription",
         "description": "Get Capability instances ids in a subscription with supported Capability id and Data Plane id optional parameters - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -3683,9 +3577,7 @@
                       ]
                     }
                   ],
-                  "context": [
-                    "2024-10-17T06:24:01.743Z"
-                  ]
+                  "context": ["2024-10-17T06:24:01.743Z"]
                 }
               }
             }
@@ -3735,9 +3627,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/instances": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get all Capability instances in a Data Plane",
         "description": "Get all Capability instances in a Data Plane using Data Plane id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -3788,9 +3678,7 @@
                       "name": "FLOGO"
                     }
                   ],
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -3840,9 +3728,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/capabilities-instances/status": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get Capability instances status",
         "description": "Get Capability instances status in a Data Plane using Data Plane id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -3899,9 +3785,7 @@
                       ]
                     }
                   ],
-                  "context": [
-                    "2024-10-17T16:43:10.990Z"
-                  ]
+                  "context": ["2024-10-17T16:43:10.990Z"]
                 }
               }
             }
@@ -3951,9 +3835,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/instances/{capabilityInstanceId}/status": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get Capability instance status for a Capability",
         "description": "Get Capability instance status for a Capability using Data Plane id and Capability instance id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -4014,9 +3896,7 @@
                       }
                     ]
                   },
-                  "context": [
-                    "2024-10-11T08:56:06.293Z"
-                  ]
+                  "context": ["2024-10-11T08:56:06.293Z"]
                 }
               }
             }
@@ -4066,9 +3946,7 @@
     },
     "/cp/api/v1/data-planes/{dataPlaneId}/capabilities/instances/{capabilityInstanceId}": {
       "get": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "Get Capability instance details in a Data Plane",
         "description": "Get Capability instance details in a Data Plane using Data Plane id and Capability instance id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -4127,11 +4005,7 @@
                     "namespace": "abcd",
                     "region": "",
                     "tags": null,
-                    "version": [
-                      1,
-                      5,
-                      0
-                    ],
+                    "version": [1, 5, 0],
                     "resource-instances": [
                       {
                         "id": "cuumg7a7dsoajnuj4f5g",
@@ -4143,9 +4017,7 @@
                       }
                     ]
                   },
-                  "context": [
-                    "2025-03-11T14:03:13.596Z"
-                  ]
+                  "context": ["2025-03-11T14:03:13.596Z"]
                 }
               }
             }
@@ -4203,9 +4075,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Capabilities"
-        ],
+        "tags": ["Capabilities"],
         "summary": "De-provision a Capability instance from a Data Plane",
         "description": "De-provision a Capability instance from a Data Plane using Data Plane id and Capability instance id - introduced in 1.5.0",
         "x-since": "1.5.0",
@@ -4256,9 +4126,7 @@
                   "response": {
                     "message": "Capability cv3duui7dsoajnuj4fa0 deleted successfully"
                   },
-                  "context": [
-                    "2025-03-11T14:03:13.596Z"
-                  ]
+                  "context": ["2025-03-11T14:03:13.596Z"]
                 }
               }
             }
@@ -4308,9 +4176,7 @@
     },
     "/cp/api/v1/users-with-temp-passwords": {
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Add users to CP subscription",
         "description": "Add users to CP subscription and get temporary password - introduced in 1.11.0",
         "parameters": [],
@@ -4411,9 +4277,7 @@
           "code": "CP-10000",
           "message": "Error summary",
           "details": "Error details",
-          "context": [
-            "2025-03-11T04:53:52Z"
-          ]
+          "context": ["2025-03-11T04:53:52Z"]
         }
       },
       "Denied": {
@@ -4428,11 +4292,7 @@
         }
       },
       "registerK8sDataPlanePayload": {
-        "required": [
-          "name",
-          "namespace",
-          "service-account-name"
-        ],
+        "required": ["name", "namespace", "service-account-name"],
         "type": "object",
         "properties": {
           "name": {
@@ -4576,12 +4436,7 @@
         }
       },
       "registerControlTowerDataPlanePayload": {
-        "required": [
-          "name",
-          "namespace",
-          "resources",
-          "service-account-name"
-        ],
+        "required": ["name", "namespace", "resources", "service-account-name"],
         "type": "object",
         "properties": {
           "name": {
@@ -4789,9 +4644,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "namespace"
-        ],
+        "required": ["namespace"],
         "example": {
           "namespace": "my-data-plane-namespace"
         }
@@ -4803,10 +4656,7 @@
             "type": "string"
           },
           "response": {
-            "required": [
-              "commands",
-              "id"
-            ],
+            "required": ["commands", "id"],
             "type": "object",
             "properties": {
               "id": {
@@ -4867,9 +4717,7 @@
               }
             ]
           },
-          "context": [
-            "2025-03-11T04:44:07.803Z"
-          ]
+          "context": ["2025-03-11T04:44:07.803Z"]
         }
       },
       "apiResponseRegisterDataPlaneNamespace": {
@@ -4914,9 +4762,7 @@
               "description": "kubectl command to create namespace"
             }
           },
-          "context": [
-            "2025-03-11T04:44:07.803Z"
-          ]
+          "context": ["2025-03-11T04:44:07.803Z"]
         }
       },
       "dataPlaneUpdatePayload": {
@@ -4941,9 +4787,7 @@
         "example": {
           "name": "my-data-plane",
           "description": "data plane description",
-          "tags": [
-            "tag1"
-          ]
+          "tags": ["tag1"]
         }
       },
       "dataPlaneLinkResourcePayload": {
@@ -4956,10 +4800,7 @@
           "resource-type": {
             "type": "string",
             "description": "Resource type. Can be one of the following - ACTIVATION_SERVER or HELM_REPO",
-            "enum": [
-              "ACTIVATION_SERVER",
-              "HELM_REPO"
-            ]
+            "enum": ["ACTIVATION_SERVER", "HELM_REPO"]
           },
           "operation": {
             "type": "string",
@@ -4973,9 +4814,7 @@
         }
       },
       "dataPlaneUpdateResponse": {
-        "required": [
-          "message"
-        ],
+        "required": ["message"],
         "type": "object",
         "properties": {
           "message": {
@@ -4985,9 +4824,7 @@
         }
       },
       "apiResponseDeleteDataPlane": {
-        "required": [
-          "message"
-        ],
+        "required": ["message"],
         "type": "object",
         "properties": {
           "message": {
@@ -5003,11 +4840,7 @@
         }
       },
       "Commands": {
-        "required": [
-          "cmd",
-          "description",
-          "id"
-        ],
+        "required": ["cmd", "description", "id"],
         "type": "object",
         "properties": {
           "cmd": {
@@ -5025,9 +4858,7 @@
         }
       },
       "deleteResourceInstanceResponse": {
-        "required": [
-          "message"
-        ],
+        "required": ["message"],
         "type": "object",
         "properties": {
           "message": {
@@ -5037,9 +4868,7 @@
         }
       },
       "deProvisionCapabilityResponse": {
-        "required": [
-          "message"
-        ],
+        "required": ["message"],
         "type": "object",
         "properties": {
           "message": {
@@ -5081,10 +4910,7 @@
               "app_resource_instance_ids": null,
               "app_state": "Stopped",
               "app_tags": [],
-              "app_version": [
-                1,
-                0
-              ],
+              "app_version": [1, 0],
               "capability_id": "BWCE",
               "capability_instance_description": null,
               "capability_instance_id": "cuumge27dsoajnuj4f6g",
@@ -5092,11 +4918,7 @@
               "capability_instance_namespace": "cap-ns",
               "capability_instance_status": "provisioned",
               "capability_instance_tags": null,
-              "capability_instance_version": [
-                1,
-                5,
-                0
-              ],
+              "capability_instance_version": [1, 5, 0],
               "created_by": "username",
               "created_time": 1740467298,
               "dp_description": "",
@@ -5112,9 +4934,7 @@
               "subscription_id": "cuq4qiqugsdfke0k7k3g"
             }
           ],
-          "context": [
-            "2025-03-11T14:03:13.596Z"
-          ]
+          "context": ["2025-03-11T14:03:13.596Z"]
         }
       },
       "AppDetails": {
@@ -5675,12 +5495,7 @@
       "apiResponseSubscriptionResourceInstances": {
         "type": "array",
         "items": {
-          "required": [
-            "id",
-            "name",
-            "scope",
-            "type"
-          ],
+          "required": ["id", "name", "scope", "type"],
           "type": "object",
           "properties": {
             "id": {
@@ -5809,11 +5624,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "url",
-          "name",
-          "agent-name"
-        ]
+        "required": ["url", "name", "agent-name"]
       },
       "resourceIngressControllerSchema": {
         "type": "object",
@@ -5824,12 +5635,7 @@
           },
           "ingress-controller": {
             "type": "string",
-            "enum": [
-              "nginx",
-              "kong",
-              "traefik",
-              "openshiftRouter"
-            ]
+            "enum": ["nginx", "kong", "traefik", "openshiftRouter"]
           },
           "ingress-class-name": {
             "type": "string",
@@ -5850,12 +5656,7 @@
             }
           }
         },
-        "required": [
-          "name",
-          "ingress-controller",
-          "ingress-class-name",
-          "fqdn"
-        ]
+        "required": ["name", "ingress-controller", "ingress-class-name", "fqdn"]
       },
       "resourceStorageClassSchema": {
         "type": "object",
@@ -5871,10 +5672,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "storage-class-name"
-        ]
+        "required": ["name", "storage-class-name"]
       },
       "bwceCapabilityProvisionSchema": {
         "type": "object",
@@ -6063,13 +5861,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "alias",
-          "url",
-          "repo",
-          "pull-latest-charts"
-        ]
+        "required": ["name", "alias", "url", "repo", "pull-latest-charts"]
       },
       "emailReceiverSchema": {
         "type": "object",
@@ -6089,16 +5881,10 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "email"
-            ]
+            "enum": ["email"]
           }
         },
-        "required": [
-          "name",
-          "email",
-          "type"
-        ]
+        "required": ["name", "email", "type"]
       },
       "alertRuleSchema": {
         "type": "object",
@@ -6113,10 +5899,7 @@
           "capability": {
             "type": "string",
             "description": "Capability name for which the alert rule is being created",
-            "enum": [
-              "BWCE",
-              "FLOGO"
-            ]
+            "enum": ["BWCE", "FLOGO"]
           },
           "alert-message": {
             "type": "string"
@@ -6129,11 +5912,7 @@
           },
           "severity": {
             "type": "string",
-            "enum": [
-              "critical",
-              "warning",
-              "info"
-            ]
+            "enum": ["critical", "warning", "info"]
           },
           "config-details": {
             "type": "object",
@@ -6144,12 +5923,7 @@
               },
               "alert-rule-operator": {
                 "type": "string",
-                "enum": [
-                  "<",
-                  ">",
-                  "<=",
-                  ">="
-                ],
+                "enum": ["<", ">", "<=", ">="],
                 "description": "To be used in conjunction with the threshold-value to evaluate the alert rule."
               },
               "alert-rule-category": {
@@ -6203,10 +5977,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "url"
-        ]
+        "required": ["name", "url"]
       },
       "resourceDatabaseConfigSchema": {
         "type": "object",
@@ -6217,10 +5988,7 @@
           },
           "database-type": {
             "type": "string",
-            "enum": [
-              "postgres",
-              "mysql"
-            ]
+            "enum": ["postgres", "mysql"]
           },
           "host": {
             "type": "string",
@@ -6264,10 +6032,7 @@
           },
           "transport": {
             "type": "string",
-            "enum": [
-              "EMS",
-              "RV"
-            ]
+            "enum": ["EMS", "RV"]
           },
           "rv": {
             "type": "object",
@@ -6285,10 +6050,7 @@
                 "description": "RV Daemon (ex: 'tcp:<port>' or 'tcp:<remote-host>:<port>')"
               }
             },
-            "required": [
-              "rv-service",
-              "rv-daemon"
-            ],
+            "required": ["rv-service", "rv-daemon"],
             "description": "RV-specific transport configuration."
           },
           "ems": {
@@ -6344,29 +6106,19 @@
                 "description": "Do not verify EMS SSL Host Name. If set as false, provide ems-ssl-expected-hostname."
               }
             },
-            "required": [
-              "ems-server-url",
-              "ems-user-name"
-            ],
+            "required": ["ems-server-url", "ems-user-name"],
             "description": "EMS-specific transport configuration."
           }
         },
         "oneOf": [
           {
-            "required": [
-              "rv"
-            ]
+            "required": ["rv"]
           },
           {
-            "required": [
-              "ems"
-            ]
+            "required": ["ems"]
           }
         ],
-        "required": [
-          "domain-name",
-          "transport"
-        ],
+        "required": ["domain-name", "transport"],
         "example": {
           "RVExample": {
             "domain-name": "domain1",
@@ -6429,11 +6181,7 @@
             }
           }
         },
-        "required": [
-          "name",
-          "proxies",
-          "exporters"
-        ]
+        "required": ["name", "proxies", "exporters"]
       },
       "resourceO11yServerConfiguration": {
         "type": "object",
@@ -6450,10 +6198,7 @@
           },
           "scope": {
             "type": "string",
-            "enum": [
-              "SUBSCRIPTION",
-              "DATAPLANE"
-            ]
+            "enum": ["SUBSCRIPTION", "DATAPLANE"]
           },
           "enabled": {
             "type": "boolean"
@@ -6472,9 +6217,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name"
-        ]
+        "required": ["name"]
       },
       "elasticSearchSchema": {
         "type": "object",
@@ -6502,11 +6245,7 @@
             }
           }
         },
-        "required": [
-          "name",
-          "logIndex",
-          "endpoint"
-        ]
+        "required": ["name", "logIndex", "endpoint"]
       },
       "elasticSearchSchemaNoLogIndex": {
         "type": "object",
@@ -6531,10 +6270,7 @@
             }
           }
         },
-        "required": [
-          "name",
-          "endpoint"
-        ]
+        "required": ["name", "endpoint"]
       },
       "elasticSearchSchemaNoLogIndexAndHeaders": {
         "type": "object",
@@ -6553,10 +6289,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "endpoint"
-        ]
+        "required": ["name", "endpoint"]
       },
       "kafkaSchema": {
         "type": "object",
@@ -6584,12 +6317,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "name",
-          "brokers",
-          "topic",
-          "protocol-version"
-        ]
+        "required": ["name", "brokers", "topic", "protocol-version"]
       },
       "otlpSchema": {
         "type": "object",
@@ -6603,17 +6331,10 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "http",
-              "grpc"
-            ]
+            "enum": ["http", "grpc"]
           }
         },
-        "required": [
-          "name",
-          "endpoint",
-          "type"
-        ]
+        "required": ["name", "endpoint", "type"]
       },
       "apiCapabilityInstanceStatusResponse": {
         "type": "object",
@@ -6672,11 +6393,7 @@
             }
           }
         },
-        "required": [
-          "firstname",
-          "lastname",
-          "email"
-        ],
+        "required": ["firstname", "lastname", "email"],
         "example": [
           {
             "firstname": "test",
@@ -6766,9 +6483,7 @@
             ],
             "error": []
           },
-          "context": [
-            "2024-11-11T10:54:08.949Z"
-          ]
+          "context": ["2024-11-11T10:54:08.949Z"]
         }
       }
     },
@@ -6789,10 +6504,7 @@
         "value": {
           "name": "alert-receiver-name",
           "description": "alert receiver description",
-          "email": [
-            "username-1@domain.com",
-            "username-2@domain.com"
-          ],
+          "email": ["username-1@domain.com", "username-2@domain.com"],
           "type": "email"
         }
       },
@@ -6872,9 +6584,7 @@
       "KAFKA_EXAMPLE": {
         "value": {
           "name": "resource-name",
-          "brokers": [
-            "broker-name"
-          ],
+          "brokers": ["broker-name"],
           "topic": "topic",
           "protocol-version": "1.0.0",
           "username": "username",

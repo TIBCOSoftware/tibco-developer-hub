@@ -11,7 +11,7 @@ metadata:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ""
+    imageURL: ''
     moreInfo:
       - text: BW5 Documentation
         url: https://docs.tibco.com/products/tibco-activematrix-businessworks-5-14-0
@@ -32,7 +32,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: "null"
+          type: 'null'
           description: |
             ## Get  BusinessWorks 5 added to your TIBCO Developer Hub
 

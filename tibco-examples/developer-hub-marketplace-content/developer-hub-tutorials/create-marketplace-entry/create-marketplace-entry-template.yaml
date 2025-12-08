@@ -48,18 +48,18 @@ spec:
             - template
             - import-flow
         catalog_url:
-            title: Catalog URL
-            type: string
-            description: URL of the catalog entry to be used in the Marketplace Entry
+          title: Catalog URL
+          type: string
+          description: URL of the catalog entry to be used in the Marketplace Entry
         image_url:
-            title: Image URL
-            type: string
-            description: URL of the image to be used in the Marketplace Entry (leave empty for default image)
+          title: Image URL
+          type: string
+          description: URL of the image to be used in the Marketplace Entry (leave empty for default image)
         license_url:
-            title: License URL
-            type: string
-            description: URL of the license for the Marketplace Entry
-            default: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT
+          title: License URL
+          type: string
+          description: URL of the license for the Marketplace Entry
+          default: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT
         owner:
           title: Owner
           type: string

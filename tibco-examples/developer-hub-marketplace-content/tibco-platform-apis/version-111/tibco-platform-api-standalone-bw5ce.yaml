@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: "bw5ce-capability-api-111"
-  description: "API of the BW5 Container Edition Capability (1.11)"
+  name: 'bw5ce-capability-api-111'
+  description: 'API of the BW5 Container Edition Capability (1.11)'
   tags:
     - tibco-platform
     - capability

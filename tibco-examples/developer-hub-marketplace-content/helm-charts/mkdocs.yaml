@@ -6,6 +6,5 @@ nav:
   - Helm Charts: https://github.com/TIBCOSoftware/tp-helm-charts/blob/main/README.md
   - Helm Charts - GitHub: https://github.com/TIBCOSoftware/tp-helm-charts/
 
-
 plugins:
   - techdocs-core

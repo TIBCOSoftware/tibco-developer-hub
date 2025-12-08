@@ -10,9 +10,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "dataplanes"
-        ],
+        "tags": ["dataplanes"],
         "security": [
           {
             "bearer": []
@@ -29,9 +27,7 @@
             "required": true,
             "in": "query",
             "schema": {
-              "enum": [
-                "name"
-              ],
+              "enum": ["name"],
               "type": "string"
             }
           },
@@ -40,9 +36,7 @@
             "required": true,
             "in": "query",
             "schema": {
-              "enum": [
-                "asc"
-              ],
+              "enum": ["asc"],
               "type": "string"
             }
           }
@@ -52,9 +46,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "dataplanes"
-        ],
+        "tags": ["dataplanes"],
         "security": [
           {
             "bearer": []
@@ -80,9 +72,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "dataplanes"
-        ],
+        "tags": ["dataplanes"],
         "security": [
           {
             "bearer": []
@@ -110,9 +100,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "dataplanes"
-        ],
+        "tags": ["dataplanes"],
         "security": [
           {
             "bearer": []
@@ -138,9 +126,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "dataplanes"
-        ],
+        "tags": ["dataplanes"],
         "security": [
           {
             "bearer": []
@@ -166,9 +152,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "dataplanes"
-        ],
+        "tags": ["dataplanes"],
         "security": [
           {
             "bearer": []
@@ -185,9 +169,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "apps"
-        ],
+        "tags": ["apps"],
         "security": [
           {
             "bearer": []
@@ -219,9 +201,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "apps"
-        ],
+        "tags": ["apps"],
         "security": [
           {
             "bearer": []
@@ -238,9 +218,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "capabilities"
-        ],
+        "tags": ["capabilities"],
         "security": [
           {
             "bearer": []
@@ -264,9 +242,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "capabilities"
-        ],
+        "tags": ["capabilities"],
         "security": [
           {
             "bearer": []
@@ -296,9 +272,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "capabilities"
-        ],
+        "tags": ["capabilities"],
         "security": [
           {
             "bearer": []
@@ -332,9 +306,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "capabilities"
-        ],
+        "tags": ["capabilities"],
         "security": [
           {
             "bearer": []
@@ -351,9 +323,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "resources"
-        ],
+        "tags": ["resources"],
         "security": [
           {
             "bearer": []
@@ -376,9 +346,7 @@
             "required": true,
             "in": "query",
             "schema": {
-              "enum": [
-                "DATAPLANE"
-              ],
+              "enum": ["DATAPLANE"],
               "type": "string"
             }
           }
@@ -388,9 +356,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "resources"
-        ],
+        "tags": ["resources"],
         "security": [
           {
             "bearer": []
@@ -418,9 +384,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "resources"
-        ],
+        "tags": ["resources"],
         "security": [
           {
             "bearer": []
@@ -450,9 +414,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "resources"
-        ],
+        "tags": ["resources"],
         "security": [
           {
             "bearer": []
@@ -498,9 +460,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
             "bearer": []
@@ -517,9 +477,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
             "bearer": []
@@ -536,9 +494,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
             "bearer": []
@@ -563,9 +519,7 @@
             "required": true,
             "in": "query",
             "schema": {
-              "enum": [
-                "CP"
-              ],
+              "enum": ["CP"],
               "type": "string"
             }
           }
@@ -575,9 +529,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "users"
-        ],
+        "tags": ["users"],
         "security": [
           {
             "bearer": []

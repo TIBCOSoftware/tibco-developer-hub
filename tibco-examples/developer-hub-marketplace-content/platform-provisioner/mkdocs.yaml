@@ -7,6 +7,5 @@ nav:
   - Platform Provisioner - Design: https://github.com/TIBCOSoftware/platform-provisioner/blob/main/docs/design/README.md
   - Platform Provisioner - GitHub: https://github.com/TIBCOSoftware/platform-provisioner/
 
-
 plugins:
   - techdocs-core

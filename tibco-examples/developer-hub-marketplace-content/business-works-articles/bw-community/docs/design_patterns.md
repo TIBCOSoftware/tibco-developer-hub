@@ -1,6 +1,7 @@
 ### Design Patterns Articles
 
 #### Control Flows
+
 **Summary:** Implement flow control patterns including throttling, circuit breakers, and backpressure mechanisms.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `flow-control`, `patterns`, `throttling`
 
@@ -13,6 +14,7 @@ Advanced flow control topics include implementing adaptive throttling based on s
 - **BW6.X/BWCE:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-control-flows-in-businessworks-6x-and-businessworks-container-edition-r3369/)
 
 #### Implement Retry Mechanism
+
 **Summary:** Build robust retry logic with exponential backoff, maximum attempts, and error classification.  
 **Tags:** `BW6X`, `BWCE`, `retry`, `error-handling`, `resilience`
 
@@ -28,6 +30,7 @@ Advanced retry patterns include implementing retry with jitter to prevent thunde
 ## Security
 
 #### IP White/Black Listing
+
 **Summary:** Implement IP-based access control for securing BusinessWorks services and applications.  
 **Tags:** `BW5X`, `BW6X`, `BWCE`, `security`, `IP-filtering`, `access-control`
 
@@ -39,6 +42,7 @@ Advanced security topics include implementing geo-blocking based on IP location,
 **Link:** [Article](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-security-how-to-manage-ip-white-listing-or-black-listing-in-businessworks-and-businessworks-container-edition-r3396/)
 
 #### Implement Mutual Authentication (Two-Way SSL)
+
 **Summary:** Configure mutual TLS authentication for secure bidirectional certificate validation.  
 **Tags:** `BW6X`, `BWCE`, `mutual-auth`, `two-way-SSL`, `certificates`
 
@@ -51,14 +55,13 @@ Critical security topics include managing certificate lifecycle, implementing ce
 
 ---
 
-| Article Title | Version | Focus Area |
-|--------------|---------|------------|
-| [Control Flows BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-control-flows-in-businessworks-5x-r3349/) | BW5X | Flow Control |
-| [Control Flows BW6](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-control-flows-in-businessworks-6x-and-businessworks-container-edition-r3369/) | BW6X, BWCE | Flow Control |
-| [Limit Memory](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-limit-memory-usage-in-businessworks-and-businessworks-container-edition-r3370/) | All Versions | Resource Management |
-| [Retry Mechanism](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-implement-a-retry-mechanism-in-businessworks-6x-and-businessworks-container-edition-r3385/) | BW6X, BWCE | Error Handling |
-| [Sequential Processing](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-process-messages-in-sequence-with-businessworks-r3388/) | All Versions | Message Ordering |
-| [Parallel Processing](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-do-parallel-processing-within-a-businessworks-process-r3390/) | All Versions | Concurrency |
-| [Large Files](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-process-larges-files-in-businessworks-and-businessworks-container-edition-r3413/) | BW6X, BWCE | File Processing |
-| [Large SQL Results](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-sql-queries-handling-large-data-volumes-in-businessworks-and-businessworks-container-edition-r3414/) | BW6X, BWCE | Database Patterns |
-
+| Article Title                                                                                                                                                                                                                           | Version      | Focus Area          |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------- |
+| [Control Flows BW5](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw5x-how-to-control-flows-in-businessworks-5x-r3349/)                                                                        | BW5X         | Flow Control        |
+| [Control Flows BW6](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-control-flows-in-businessworks-6x-and-businessworks-container-edition-r3369/)                               | BW6X, BWCE   | Flow Control        |
+| [Limit Memory](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-limit-memory-usage-in-businessworks-and-businessworks-container-edition-r3370/)                             | All Versions | Resource Management |
+| [Retry Mechanism](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-implement-a-retry-mechanism-in-businessworks-6x-and-businessworks-container-edition-r3385/)                   | BW6X, BWCE   | Error Handling      |
+| [Sequential Processing](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-process-messages-in-sequence-with-businessworks-r3388/)                                            | All Versions | Message Ordering    |
+| [Parallel Processing](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-bw5x-how-to-do-parallel-processing-within-a-businessworks-process-r3390/)                                        | All Versions | Concurrency         |
+| [Large Files](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-process-larges-files-in-businessworks-and-businessworks-container-edition-r3413/)                                 | BW6X, BWCE   | File Processing     |
+| [Large SQL Results](https://community.tibco.com/articles/37_tibco-platform/40_integration/53_businessworks/bw6x-bwce-how-to-manage-sql-queries-handling-large-data-volumes-in-businessworks-and-businessworks-container-edition-r3414/) | BW6X, BWCE   | Database Patterns   |

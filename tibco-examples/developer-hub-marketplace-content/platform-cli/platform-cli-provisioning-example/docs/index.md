@@ -9,32 +9,34 @@
 [https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/platform-cli/platform-cli-provisioning-example/platform-cli-scripts](https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/platform-cli/platform-cli-provisioning-example/platform-cli-scripts)
 
 ## TIBCO Platform CLI
+
 TIBCO Platform CLI is a command-line tool to interact with TIBCO Control Plane from command-line. You can manage data planes and capabilities from CLI. It allows the execution of commands through a terminal using interactive command-line prompts or a script.
 
 ## Benefits of TIBCO Platform CLI
+
 - You can interact with the TIBCO Control Plane and data planes from a terminal.
 - You can record the commands in a script. Then you can run repeatable tasks by running a script.
 - The CLI for the TIBCO Platform enables you to create platform environments (Data plane, Capabilities, and Apps) automatically in a scripted and repeatable way.
 - You can quickly regenerate TIBCO Control Plane environments if they are destroyed.
 
 ## Example Description
+
 This example allows you to script out (any) of the following steps:
 
 1. Register a dataplane
 2. Install the Developer Hub
 3. Install the Flogo Capability
 4. Install the BWCE Capability
-6. Remove the Developer Hub from a dataplane
-7. Remove the Flogo Capability from a dataplane
-8. Remove the BWCE Capability from a dataplane
-9. Unregister a dataplane
+5. Remove the Developer Hub from a dataplane
+6. Remove the Flogo Capability from a dataplane
+7. Remove the BWCE Capability from a dataplane
+8. Unregister a dataplane
 
 In this way you can quickly setup environments on the TIBCO Platform
 
 ## Configuration
 
-To get started open the file **run_tibco_platform_scripts.sh** and configure the following section 
-
+To get started open the file **run_tibco_platform_scripts.sh** and configure the following section
 
 ```shell
 # Run a login
@@ -52,6 +54,7 @@ platform_cli_profile="<Your_CLI_Profile>"
 # Base FQDN for all services, e.g. mydomain.com
 fqdn_base="<Your_EndPoint_URL>"
 ```
+
 Provide a use-case, your base URL and specify your CLI profile, for more information on profiles see: [Using Profiles](https://docs.tibco.com/pub/platform-cp/1.10.0/doc/html/Default.htm#CLI/authentication.htm?TocPath=TIBCO%2520Platform%2520CLI%257C_____5)
 
 Optionally you can specify the platform cli to use and your kube config file in **0-common-script-functions.sh**
