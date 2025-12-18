@@ -11,8 +11,8 @@ source 0-common-script-functions.sh
 # Use Case (cant use _ in the name) (Name can be maximum 17 characters long)
 use_case="Test"
 version=v$(date +%s)
-# Use a specific version, for example to uninstall an existing version
-# version="v1750842261"
+# Use a specific version, for example to uninstall an existing version v1758725294
+# version="v1765976027"
 # Platform CLI Profile to use
 platform_cli_profile="<Your_CLI_Profile>"
 
@@ -21,32 +21,29 @@ fqdn_base="<Your_EndPoint_URL>"
 
 # Script configuration
 
-# do_install_dataplane=true
 do_install_dataplane=false
-
-# do_install_dev_hub=true
 do_install_dev_hub=false
-
-# do_install_flogo=true
 do_install_flogo=false
-
-# do_install_bwce=true
 do_install_bwce=false
+do_install_bw5ce=false
 
+#do_install_dataplane=true
+#do_install_dev_hub=true
+#do_install_flogo=true
+#do_install_bwce=true
+#do_install_bw5ce=true
 
-# do_remove_dev_hub=true
 do_remove_dev_hub=false
-
-# do_remove_flogo=true
 do_remove_flogo=false
-
-# do_remove_bwce=true
 do_remove_bwce=false
-
-# do_remove_dataplane=true
+do_remove_bw5ce=false
 do_remove_dataplane=false
 
-
+#do_remove_dev_hub=true
+#do_remove_flogo=true
+#do_remove_bwce=true
+#do_remove_bw5ce=true
+#do_remove_dataplane=true
 
 echo "-------------------------------------------------------------------------";
 echo "----- CONFIGURATION: Profile: $platform_cli_profile";
@@ -55,6 +52,7 @@ echo "---     do_install_dataplane: $do_install_dataplane";
 echo "---       do_install_dev_hub: $do_install_dev_hub";
 echo "---         do_install_flogo: $do_install_flogo";
 echo "---          do_install_bwce: $do_install_bwce";
+echo "---         do_install_bw5ce: $do_install_bw5ce";
 echo "---        do_remove_dev_hub: $do_remove_dev_hub";
 echo "---          do_remove_flogo: $do_remove_flogo";
 echo "---           do_remove_bwce: $do_remove_bwce";
@@ -131,6 +129,25 @@ bwce_fqdn="$version-$use_case_lower-bwce.$fqdn_base"
 # bwce Path Prefix
 bwce_path_prefix="/tibco/bwce/$version"
 
+#################################
+# BW5CE Configuration
+#################################
+# bw5ce resource instance name for storage
+# Flogo and BW5CE share the same storage resource, so we use the same name
+bw5ce_ri_name_storage="$flogo_ri_name_storage"
+# bw5ce_ri_name_storage="StorageResourceBW5CE_$version"
+# bw5ce resource instance name for ingress
+bw5ce_ri_name_ingress="IngressResourceBW5CE_$version"
+# bw5ce Storage Class Name
+bw5ce_storage_class_name="efs-sc"
+# bw5ce Ingress Class Name
+bw5ce_ingress_class_name="nginx"
+# bw5ce Ingress Controller
+bw5ce_ingress_controller="nginx"
+# bw5ce FQDN
+bw5ce_fqdn="$version-$use_case_lower-bw5ce.$fqdn_base"
+# bw5ce Path Prefix
+bw5ce_path_prefix="/tibco/bw5ce/$version"
 
 
 
@@ -155,6 +172,11 @@ if [ "$do_install_bwce" = true ]; then
   ./4-install-bwce.sh "$platform_cli_profile" "$dataplane_name" "$bwce_path_prefix" "$bwce_fqdn" "$bwce_ri_name_storage" "$bwce_ri_name_ingress" "$bwce_storage_class_name" "$bwce_ingress_class_name" "$bwce_ingress_controller"
 fi
 
+if [ "$do_install_bw5ce" = true ]; then
+  echo "Installing BW5CE..."
+  ./5-install-bw5ce.sh "$platform_cli_profile" "$dataplane_name" "$bw5ce_path_prefix" "$bw5ce_fqdn" "$bw5ce_ri_name_storage" "$bw5ce_ri_name_ingress" "$bw5ce_storage_class_name" "$bw5ce_ingress_class_name" "$bw5ce_ingress_controller"
+fi
+
 
 
 if [ "$do_remove_dev_hub" = true ]; then
@@ -172,9 +194,14 @@ if [ "$do_remove_bwce" = true ]; then
   ./8-remove-bwce-from-dataplane.sh "$platform_cli_profile" "$dataplane_name"
 fi
 
+if [ "$do_remove_bw5ce" = true ]; then
+  echo "Removing BW5CE..."
+  ./9-remove-bw5ce-from-dataplane.sh "$platform_cli_profile" "$dataplane_name"
+fi
+
 if [ "$do_remove_dataplane" = true ]; then
   echo "Removing Dataplane..."
-  ./9-unregister-dataplane.sh "$platform_cli_profile" "$dataplane_name"
+  ./10-unregister-dataplane.sh "$platform_cli_profile" "$dataplane_name"
 fi
 
 
@@ -194,6 +221,7 @@ echo "---     do_install_dataplane: $do_install_dataplane";
 echo "---       do_install_dev_hub: $do_install_dev_hub";
 echo "---         do_install_flogo: $do_install_flogo";
 echo "---          do_install_bwce: $do_install_bwce";
+echo "---         do_install_bw5ce: $do_install_bw5ce";
 echo "---        do_remove_dev_hub: $do_remove_dev_hub";
 echo "---          do_remove_flogo: $do_remove_flogo";
 echo "---           do_remove_bwce: $do_remove_bwce";

@@ -27,10 +27,12 @@ This example allows you to script out (any) of the following steps:
 2. Install the Developer Hub
 3. Install the Flogo Capability
 4. Install the BWCE Capability
-5. Remove the Developer Hub from a dataplane
-6. Remove the Flogo Capability from a dataplane
-7. Remove the BWCE Capability from a dataplane
-8. Unregister a dataplane
+5. Install the BW5CE Capability
+6. Remove the Developer Hub from a dataplane
+7. Remove the Flogo Capability from a dataplane
+8. Remove the BWCE Capability from a dataplane
+9. Remove the BW5CE Capability from a dataplane
+10.Unregister a dataplane
 
 In this way you can quickly setup environments on the TIBCO Platform
 
@@ -72,30 +74,29 @@ Speficy the steps you want to execute in **run_tibco_platform_scripts.sh**
 ```shell
 # Script configuration
 
-# do_install_dataplane=true
 do_install_dataplane=false
-
-# do_install_dev_hub=true
 do_install_dev_hub=false
-
-# do_install_flogo=true
 do_install_flogo=false
-
-# do_install_bwce=true
 do_install_bwce=false
+do_install_bw5ce=false
 
+#do_install_dataplane=true
+#do_install_dev_hub=true
+#do_install_flogo=true
+#do_install_bwce=true
+#do_install_bw5ce=true
 
-# do_remove_dev_hub=true
 do_remove_dev_hub=false
-
-# do_remove_flogo=true
 do_remove_flogo=false
-
-# do_remove_bwce=true
 do_remove_bwce=false
-
-# do_remove_dataplane=true
+do_remove_bw5ce=false
 do_remove_dataplane=false
+
+#do_remove_dev_hub=true
+#do_remove_flogo=true
+#do_remove_bwce=true
+#do_remove_bw5ce=true
+#do_remove_dataplane=true
 ```
 
 When you install the TIBCO Developer hub and you want to provide a GitHub token, configure the file **tibco-hub-secret.yaml**
