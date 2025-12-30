@@ -1,6 +1,6 @@
 {
   "name": "@internal/plugin-scaffolder-backend-module-metrics-api",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "license": "Apache-2.0",
   "private": true,
   "description": "The metrics-api backend module for the scaffolder plugin.",
