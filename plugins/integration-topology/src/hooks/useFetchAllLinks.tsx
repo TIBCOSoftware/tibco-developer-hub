@@ -13,6 +13,19 @@ export interface PlatformLink {
   pAppType: string;
 }
 
+// Utility function to construct CP URL from a link string
+const constructCpUrl = (link: string): string => {
+  let outCpLink = link;
+  const pattern = /^((http|https|ftp):\/\/)/;
+  if (!pattern.test(outCpLink)) {
+    if (outCpLink.startsWith('/')) {
+      outCpLink = outCpLink.slice(1);
+    }
+    outCpLink = `https://${outCpLink}`;
+  }
+  return outCpLink;
+};
+
 export const useFetchAllLinks = (entity: Entity | null | undefined) => {
   const [cpLink, setCpLink] = useState('');
   const [externalLinks, setExternalLinks] = useState<EntityLink[]>([]);
@@ -28,6 +41,8 @@ export const useFetchAllLinks = (entity: Entity | null | undefined) => {
   // Use ref to track if component is still mounted to prevent memory leaks
   const isMountedRef = useRef(true);
 
+  const config = useApi(configApiRef);
+
   const getPlatformLinks = useCallback(() => {
     let cpApps: any[] = [];
     const platformLinksArray: PlatformLink[] = [];
@@ -38,7 +53,15 @@ export const useFetchAllLinks = (entity: Entity | null | undefined) => {
     ) {
       cpApps = entity.metadata.tibcoPlatformApps as JsonArray;
       for (const app of cpApps) {
+        let userProvidedCpLink: string | null = null;
         if (app && typeof app === 'object') {
+          if (
+            app?.controlPlaneUrl?.toString() !== undefined &&
+            app?.controlPlaneUrl?.toString() !== ''
+          ) {
+            // Override cpLink if controlPlaneUrl is provided in metadata
+            userProvidedCpLink = app?.controlPlaneUrl?.toString();
+          }
           // Only create link if we have the required fields
           const appType = app.appType?.toString();
           const dpId = app.dpId?.toString();
@@ -54,7 +77,9 @@ export const useFetchAllLinks = (entity: Entity | null | undefined) => {
             dataPlaneName
           ) {
             platformLinksArray.push({
-              pLink: `${cpLink}/cp/${appType.toLowerCase()}/appdetails/processes?dp_id=${dpId}&capability_instance_id=${capabilityInstanceId}&app_id=${appId}`,
+              pLink: `${
+                userProvidedCpLink || cpLink
+              }/cp/${appType.toLowerCase()}/appdetails/processes?dp_id=${dpId}&capability_instance_id=${capabilityInstanceId}&app_id=${appId}`,
               pLabel: dataPlaneName,
               pAppType: appType,
             });
@@ -64,8 +89,6 @@ export const useFetchAllLinks = (entity: Entity | null | undefined) => {
     }
     return platformLinksArray;
   }, [cpLink, entity]);
-
-  const config = useApi(configApiRef);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -80,11 +103,15 @@ export const useFetchAllLinks = (entity: Entity | null | undefined) => {
       try {
         const link = config.getOptionalString('cpLink');
         if (isMountedRef.current && link) {
-          // Convert to string to handle edge cases where config returns non-string values
-          setCpLink(String(link));
+          // Convert to string in case getOptionalString returns a non-string value
+          const linkStr = String(link);
+          const constructedLink = constructCpUrl(linkStr);
+          setCpLink(constructedLink);
         }
-      } catch (err: any | null) {
-        setError(err?.toString());
+      } catch (err) {
+        if (isMountedRef.current) {
+          setError(err instanceof Error ? err.message : String(err));
+        }
       }
     };
 
@@ -92,14 +119,12 @@ export const useFetchAllLinks = (entity: Entity | null | undefined) => {
   }, [config]);
 
   useEffect(() => {
-    if (!isMountedRef.current) return;
-
-    if (entity === null || entity === undefined) {
+    if (!isMountedRef.current || !entity) {
       return;
     }
 
     setPlatformLinks([]);
-    if (cpLink && cpLink !== '') {
+    if (cpLink) {
       const links = getPlatformLinks();
       if (isMountedRef.current) {
         setPlatformLinks(links);
@@ -108,9 +133,7 @@ export const useFetchAllLinks = (entity: Entity | null | undefined) => {
   }, [entity, cpLink, getPlatformLinks]);
 
   useEffect(() => {
-    if (!isMountedRef.current) return;
-
-    if (entity === null || entity === undefined) {
+    if (!isMountedRef.current || !entity) {
       return;
     }
 

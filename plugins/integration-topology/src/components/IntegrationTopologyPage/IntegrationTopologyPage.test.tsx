@@ -17,6 +17,14 @@ import { GetEntitiesByRefsRequest } from '@backstage/catalog-client';
 import { searchApiRef, MockSearchApi } from '@backstage/plugin-search-react';
 import { SearchResult } from '@backstage/plugin-search-common';
 
+// Mock the useFetchAllEntities hook
+jest.mock('../../hooks/useFetchAllEntities', () => ({
+  useFetchAllEntities: jest.fn(),
+}));
+
+const mockUseFetchAllEntities = require('../../hooks/useFetchAllEntities')
+  .useFetchAllEntities as jest.MockedFunction<any>;
+
 // Mock ResizeObserver
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
@@ -135,6 +143,16 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
     ],
   };
 
+  // Configure mock to return entities and kinds
+  beforeEach(() => {
+    mockUseFetchAllEntities.mockReturnValue({
+      entities: [entityC, entityE],
+      kinds: ['Component'],
+      loading: false,
+      error: null,
+    });
+  });
+
   const allEntities: Record<string, Entity> = {
     'Component:d/c': entityC,
     'Component:d/e': entityE,
@@ -240,20 +258,16 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
   });
 
   describe('Draggable EntityNodeDetails Conditional Rendering', () => {
-    it('does not render Draggable components when conditions are not met', async () => {
+    it('renders Draggable components when entities are available and detailsEntity is set', async () => {
       await renderInTestApp(wrapper, {
         mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
       });
 
       await waitFor(() => {
-        // In topology view, but draggable won't render because entities state isn't properly set up
+        // In topology view with entities available, draggable should render since setDetailsEntity is called
         expect(screen.getByLabelText('Topology View')).toBeChecked();
-        expect(
-          screen.queryByTestId('draggable-component'),
-        ).not.toBeInTheDocument();
-        expect(
-          screen.queryByTestId('entity-node-details'),
-        ).not.toBeInTheDocument();
+        expect(screen.getByTestId('draggable-component')).toBeInTheDocument();
+        expect(screen.getByTestId('entity-node-details')).toBeInTheDocument();
       });
     });
 
@@ -286,10 +300,8 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
       await waitFor(() => {
         expect(screen.getByLabelText('Topology View')).toBeChecked();
         expect(screen.getByTestId('topology-graph')).toBeInTheDocument();
-        // Draggable won't render without proper entity state setup
-        expect(
-          screen.queryByTestId('draggable-component'),
-        ).not.toBeInTheDocument();
+        // Draggable should render with proper entity state setup
+        expect(screen.getByTestId('draggable-component')).toBeInTheDocument();
       });
 
       // Switch to graph view
@@ -317,10 +329,107 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
         expect(
           screen.queryByTestId('entity-relations-graph'),
         ).not.toBeInTheDocument();
-        // Still no draggable without proper state
+        // Draggable should render with proper state
+        expect(screen.getByTestId('draggable-component')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('No Entities Available Display Logic', () => {
+    const wrapperNoEntities = (
+      <TestApiProvider
+        apis={[
+          [catalogApiRef, catalogApi],
+          [searchApiRef, mockSearchApi],
+        ]}
+      >
+        <IntegrationTopologyPage />
+      </TestApiProvider>
+    );
+
+    beforeEach(() => {
+      // Override mock to return no entities
+      mockUseFetchAllEntities.mockReturnValue({
+        entities: [],
+        kinds: [],
+        loading: false,
+        error: null,
+      });
+    });
+
+    afterEach(() => {
+      // Reset to default mock with entities
+      mockUseFetchAllEntities.mockReturnValue({
+        entities: [entityC, entityE],
+        kinds: ['Component'],
+        loading: false,
+        error: null,
+      });
+    });
+
+    it('displays "No entities available to display" message in topology view when no entities are available', async () => {
+      await renderInTestApp(wrapperNoEntities, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        expect(screen.getByLabelText('Topology View')).toBeChecked();
+        expect(
+          screen.getByText('No entities available to display'),
+        ).toBeInTheDocument();
+        expect(screen.queryByTestId('topology-graph')).not.toBeInTheDocument();
         expect(
           screen.queryByTestId('draggable-component'),
         ).not.toBeInTheDocument();
+      });
+    });
+
+    it('displays "No entities available to display" message in graph view when no entities are available', async () => {
+      await renderInTestApp(wrapperNoEntities, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      // Switch to graph view
+      const graphViewInput = screen.getByLabelText('Graph View');
+      await userEvent.click(graphViewInput);
+
+      await waitFor(() => {
+        expect(graphViewInput).toBeChecked();
+        expect(
+          screen.getByText('No entities available to display'),
+        ).toBeInTheDocument();
+        expect(
+          screen.queryByTestId('entity-relations-graph'),
+        ).not.toBeInTheDocument();
+        expect(screen.queryByTestId('topology-graph')).not.toBeInTheDocument();
+        expect(
+          screen.queryByTestId('draggable-component'),
+        ).not.toBeInTheDocument();
+      });
+    });
+
+    it('does not render graph components when entities array is empty but still shows filters', async () => {
+      await renderInTestApp(wrapperNoEntities, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        // Filters should still be visible
+        expect(
+          screen.getByTestId('selected-kind-dropdown'),
+        ).toBeInTheDocument();
+        expect(screen.getByTestId('searchable-dropdown')).toBeInTheDocument();
+
+        // But no graph or draggable components
+        expect(screen.queryByTestId('topology-graph')).not.toBeInTheDocument();
+        expect(
+          screen.queryByTestId('draggable-component'),
+        ).not.toBeInTheDocument();
+
+        // And shows the no entities message
+        expect(
+          screen.getByText('No entities available to display'),
+        ).toBeInTheDocument();
       });
     });
   });

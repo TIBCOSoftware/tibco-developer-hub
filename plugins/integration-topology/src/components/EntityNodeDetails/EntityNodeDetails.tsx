@@ -4,7 +4,7 @@
 
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { Link as BackstageLink } from '@backstage/core-components';
 import { Entity, DEFAULT_NAMESPACE } from '@backstage/catalog-model';
 import { useApi, IconComponent } from '@backstage/core-plugin-api';
 import {
@@ -424,11 +424,12 @@ export const EntityNodeDetails = () => {
                   {platformLinks &&
                     platformLinks.length > 0 &&
                     platformLinks.map((cpApp: PlatformLink, index: number) => (
-                      <Link
+                      <BackstageLink
                         key={index}
                         className={classes.tSectionContentItem}
                         to={cpApp.pLink}
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         {' '}
                         <CustomDeploymentIcon
@@ -446,7 +447,7 @@ export const EntityNodeDetails = () => {
                           y={12}
                         />
                         {cpApp.pLabel}
-                      </Link>
+                      </BackstageLink>
                     ))}
                 </div>
               </div>

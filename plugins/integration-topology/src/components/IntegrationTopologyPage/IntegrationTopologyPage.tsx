@@ -279,32 +279,47 @@ export const TopologyPage = (
   const analytics = useAnalytics();
   const onNodeClick = useCallback(
     (node: EntityNode, event: MouseEvent<unknown>) => {
-      const nodeEntityName = parseEntityRef(node.id);
-
-      if (event.shiftKey) {
-        const path = catalogEntityRoute({
-          kind: nodeEntityName.kind.toLocaleLowerCase('en-US'),
-          namespace: nodeEntityName.namespace.toLocaleLowerCase('en-US'),
-          name: nodeEntityName.name,
-        });
-
-        analytics.captureEvent(
-          'click',
-          node.entity.metadata.title ?? humanizeEntityRef(nodeEntityName),
-          { attributes: { to: path } },
-        );
-        navigate(path);
-      } else {
-        analytics.captureEvent(
-          'click',
-          node.entity.metadata.title ?? humanizeEntityRef(nodeEntityName),
-        );
-        setRootEntityNames([nodeEntityName]);
+      if (!node || !node.id || !node.entity) {
+        return;
       }
-      setEntityListForCurrentKind(
-        entities.filter(e => e.kind === node.entity.kind),
-      );
-      setRootEntity(node.entity);
+
+      try {
+        const nodeEntityName = parseEntityRef(node.id);
+        if (!nodeEntityName || !nodeEntityName.kind || !nodeEntityName.name) {
+          return;
+        }
+
+        if (event.shiftKey) {
+          const path = catalogEntityRoute({
+            kind: nodeEntityName.kind.toLocaleLowerCase('en-US'),
+            namespace:
+              nodeEntityName.namespace?.toLocaleLowerCase('en-US') || 'default',
+            name: nodeEntityName.name,
+          });
+
+          analytics.captureEvent(
+            'click',
+            node.entity.metadata?.title ?? humanizeEntityRef(nodeEntityName),
+            { attributes: { to: path } },
+          );
+          navigate(path);
+        } else {
+          analytics.captureEvent(
+            'click',
+            node.entity.metadata?.title ?? humanizeEntityRef(nodeEntityName),
+          );
+          setRootEntityNames([nodeEntityName]);
+        }
+
+        if (entities && node.entity.kind) {
+          setEntityListForCurrentKind(
+            entities.filter(e => e && e.kind === node.entity.kind),
+          );
+        }
+        setRootEntity(node.entity);
+      } catch (error) {
+        // Handle error silently
+      }
     },
     [
       catalogEntityRoute,
@@ -412,28 +427,52 @@ export const TopologyPage = (
   }, [showFilters, sidebarState]);
 
   useEffect(() => {
-    if (rootEntityNames.length === 0 && entities.length > 0) {
-      // If no root is selected, set the first component available in the list
-      const componentEntities = entities.filter(e => e.kind === 'Component');
-      const firstEntity = componentEntities.sort((a, b) =>
-        a.metadata.name.localeCompare(b.metadata.name),
-      )?.[0];
-      setRootEntityNames([parseEntityRef(stringifyEntityRef(firstEntity))]);
-      setEntityListForCurrentKind(
-        entities.filter(e => e.kind === firstEntity.kind),
-      );
+    if (!entities || entities.length === 0) {
+      return;
     }
 
-    if (rootEntityNames.length > 0) {
-      const rootEntity = entities.find(
-        e => stringifyEntityRef(e) === stringifyEntityRef(rootEntityNames[0]),
+    if (rootEntityNames.length === 0) {
+      // If no root is selected, set the first component available in the list
+      const componentEntities = entities.filter(
+        e => e && e.kind === 'Component',
       );
-      if (rootEntity) {
+      if (componentEntities.length === 0) {
+        return;
+      }
+      const firstEntity = componentEntities
+        .filter(e => e && e.metadata && e.metadata.name)
+        .sort((a, b) => a.metadata.name.localeCompare(b.metadata.name))?.[0];
+
+      if (!firstEntity) {
+        return;
+      }
+
+      try {
+        setRootEntityNames([parseEntityRef(stringifyEntityRef(firstEntity))]);
         setEntityListForCurrentKind(
-          entities.filter(e => e.kind === rootEntity.kind),
+          entities.filter(e => e && e.kind === firstEntity.kind),
         );
-        setRootEntity(rootEntity);
-        setDetailsEntity(rootEntity);
+      } catch (error) {
+        return;
+      }
+    }
+
+    if (rootEntityNames && rootEntityNames.length > 0 && rootEntityNames[0]) {
+      try {
+        const rootEntity = entities.find(
+          e =>
+            e &&
+            stringifyEntityRef(e) === stringifyEntityRef(rootEntityNames[0]),
+        );
+        if (rootEntity && rootEntity.kind) {
+          setEntityListForCurrentKind(
+            entities.filter(e => e && e.kind === rootEntity.kind),
+          );
+          setRootEntity(rootEntity);
+          setDetailsEntity(rootEntity);
+        }
+      } catch (error) {
+        // Handle error silently
       }
     }
 
@@ -483,33 +522,57 @@ export const TopologyPage = (
               <SelectedKindDropDown
                 label="Select Entity Kind"
                 selected={
-                  rootEntityNames &&
-                  rootEntityNames
-                    .map(e =>
-                      e.kind === 'api'
-                        ? e.kind.toLocaleUpperCase()
-                        : e.kind[0].toLocaleUpperCase() + e.kind.slice(1),
-                    )
-                    .join(', ')
+                  rootEntityNames && rootEntityNames.length > 0
+                    ? rootEntityNames
+                        .filter(e => e && e.kind)
+                        .map(e =>
+                          e.kind === 'api'
+                            ? e.kind.toLocaleUpperCase()
+                            : e.kind[0].toLocaleUpperCase() + e.kind.slice(1),
+                        )
+                        .join(', ')
+                    : ''
                 }
-                items={kinds.map(v => ({
-                  label: v,
-                  value: v,
-                }))}
+                items={
+                  kinds && kinds.length > 0
+                    ? kinds.map(v => ({
+                        label: v,
+                        value: v,
+                      }))
+                    : []
+                }
                 onChange={currentKind => {
-                  const newRootEntities = entities.filter(
-                    e => e.kind === currentKind,
-                  );
-                  if (newRootEntities.length > 0) {
-                    newRootEntities.sort((a, b) =>
-                      a.metadata.name.localeCompare(b.metadata.name),
+                  if (!currentKind || !entities) {
+                    return;
+                  }
+
+                  try {
+                    const newRootEntities = entities.filter(
+                      e => e && e.kind === currentKind,
                     );
-                    const newRootEntity = newRootEntities[0];
-                    const newRootEntityName = humanizeEntityRef(newRootEntity);
-                    setRootEntityNames([parseEntityRef(newRootEntityName)]);
-                    setEntityListForCurrentKind(
-                      entities.filter(e => e.kind === newRootEntity.kind),
-                    );
+                    if (newRootEntities.length > 0) {
+                      const validEntities = newRootEntities.filter(
+                        e => e && e.metadata && e.metadata.name,
+                      );
+                      if (validEntities.length === 0) {
+                        return;
+                      }
+
+                      validEntities.sort((a, b) =>
+                        a.metadata.name.localeCompare(b.metadata.name),
+                      );
+                      const newRootEntity = validEntities[0];
+                      const newRootEntityName =
+                        humanizeEntityRef(newRootEntity);
+                      setRootEntityNames([parseEntityRef(newRootEntityName)]);
+                      setEntityListForCurrentKind(
+                        entities.filter(
+                          e => e && e.kind === newRootEntity.kind,
+                        ),
+                      );
+                    }
+                  } catch (error) {
+                    // Handle error silently
                   }
                 }}
               />
@@ -520,17 +583,29 @@ export const TopologyPage = (
                   multiple={false}
                   rootEntityNames={rootEntityNames}
                   defaultValue={rootEntityNames && rootEntityNames[0]?.name}
-                  givenValues={entityListForCurrentKind.map(
-                    v => v.metadata.name,
-                  )}
+                  givenValues={
+                    entityListForCurrentKind
+                      ? entityListForCurrentKind
+                          .filter(v => v && v.metadata && v.metadata.name)
+                          .map(v => v.metadata.name)
+                      : []
+                  }
                   onSelected={(name: string) => {
-                    const newRootEntity = entityListForCurrentKind.find(
-                      e => e.metadata.name === name,
-                    );
-                    if (newRootEntity) {
-                      const newRootEntityName =
-                        humanizeEntityRef(newRootEntity);
-                      setRootEntityNames([parseEntityRef(newRootEntityName)]);
+                    if (!name || !entityListForCurrentKind) {
+                      return;
+                    }
+
+                    try {
+                      const newRootEntity = entityListForCurrentKind.find(
+                        e => e && e.metadata && e.metadata.name === name,
+                      );
+                      if (newRootEntity) {
+                        const newRootEntityName =
+                          humanizeEntityRef(newRootEntity);
+                        setRootEntityNames([parseEntityRef(newRootEntityName)]);
+                      }
+                    } catch (error) {
+                      // Handle error silently
                     }
                   }}
                 />
@@ -539,17 +614,29 @@ export const TopologyPage = (
                 label="Search Entities by Name"
                 rootEntityNames={rootEntityNames}
                 onSelected={(name, callback) => {
-                  const newRootEntity = entities.find(
-                    e => e.metadata.name === name,
-                  );
-                  if (newRootEntity) {
-                    const newRootEntityName = humanizeEntityRef(newRootEntity);
-                    setRootEntityNames([parseEntityRef(newRootEntityName)]);
-                    setEntityListForCurrentKind(
-                      entities.filter(e => e.kind === newRootEntity.kind),
-                    );
+                  if (!name || !entities) {
+                    callback?.();
+                    return;
                   }
-                  callback();
+
+                  try {
+                    const newRootEntity = entities.find(
+                      e => e && e.metadata && e.metadata.name === name,
+                    );
+                    if (newRootEntity) {
+                      const newRootEntityName =
+                        humanizeEntityRef(newRootEntity);
+                      setRootEntityNames([parseEntityRef(newRootEntityName)]);
+                      setEntityListForCurrentKind(
+                        entities.filter(
+                          e => e && e.kind === newRootEntity.kind,
+                        ),
+                      );
+                    }
+                  } catch (error) {
+                    // Handle error silently
+                  }
+                  callback?.();
                 }}
               />
               <MaxDepthFilter value={maxDepth} onChange={setMaxDepth} />
@@ -588,7 +675,7 @@ export const TopologyPage = (
                 <ZoomOutMap className="icon" />{' '}
                 {t('catalogGraphPage.zoomOutDescription')}
               </Typography>
-              {view === 'topology' ? (
+              {view === 'topology' && (
                 <>
                   {entities &&
                     rootEntityNames &&
@@ -605,7 +692,58 @@ export const TopologyPage = (
                         </div>
                       </Draggable>
                     )}
-                  <TopologyGraph
+                  {entities &&
+                  entities.length > 0 &&
+                  rootEntityNames &&
+                  rootEntityNames.length > 0 ? (
+                    <TopologyGraph
+                      {...props}
+                      rootEntityNames={rootEntityNames}
+                      maxDepth={maxDepth}
+                      kinds={
+                        selectedKinds && selectedKinds.length > 0
+                          ? selectedKinds
+                          : undefined
+                      }
+                      relations={
+                        selectedRelations && selectedRelations.length > 0
+                          ? selectedRelations
+                          : undefined
+                      }
+                      mergeRelations={mergeRelations}
+                      unidirectional={unidirectional}
+                      onNodeClick={onNodeClick}
+                      direction={direction}
+                      relationPairs={relationPairs}
+                      entityFilter={entityFilter}
+                      className={classes.graph}
+                      zoom="enabled"
+                      curve={curve}
+                      showArrowHeads
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: '100%',
+                        width: '100%',
+                      }}
+                    >
+                      <Typography variant="h6" color="textSecondary">
+                        No entities available to display
+                      </Typography>
+                    </div>
+                  )}
+                </>
+              )}
+              {view !== 'topology' &&
+                entities &&
+                entities.length > 0 &&
+                rootEntityNames &&
+                rootEntityNames.length > 0 && (
+                  <EntityRelationsGraph
                     {...props}
                     rootEntityNames={rootEntityNames}
                     maxDepth={maxDepth}
@@ -628,35 +766,27 @@ export const TopologyPage = (
                     className={classes.graph}
                     zoom="enabled"
                     curve={curve}
-                    showArrowHeads
                   />
-                </>
-              ) : (
-                <EntityRelationsGraph
-                  {...props}
-                  rootEntityNames={rootEntityNames}
-                  maxDepth={maxDepth}
-                  kinds={
-                    selectedKinds && selectedKinds.length > 0
-                      ? selectedKinds
-                      : undefined
-                  }
-                  relations={
-                    selectedRelations && selectedRelations.length > 0
-                      ? selectedRelations
-                      : undefined
-                  }
-                  mergeRelations={mergeRelations}
-                  unidirectional={unidirectional}
-                  onNodeClick={onNodeClick}
-                  direction={direction}
-                  relationPairs={relationPairs}
-                  entityFilter={entityFilter}
-                  className={classes.graph}
-                  zoom="enabled"
-                  curve={curve}
-                />
-              )}
+                )}
+              {view !== 'topology' &&
+                (!entities ||
+                  entities.length === 0 ||
+                  !rootEntityNames ||
+                  rootEntityNames.length === 0) && (
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      height: '100%',
+                      width: '100%',
+                    }}
+                  >
+                    <Typography variant="h6" color="textSecondary">
+                      No entities available to display
+                    </Typography>
+                  </div>
+                )}
             </Paper>
           </Grid>
         </Grid>

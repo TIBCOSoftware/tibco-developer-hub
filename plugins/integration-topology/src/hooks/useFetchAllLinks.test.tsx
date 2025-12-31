@@ -355,6 +355,221 @@ describe('useFetchAllLinks', () => {
       });
     });
 
+    it('should use user-provided controlPlaneUrl when available in app metadata', async () => {
+      const entityWithUserProvidedCpLink = createMockEntity('Component', {
+        name: 'component-with-user-cp-url',
+        namespace: 'default',
+        tibcoPlatformApps: [
+          {
+            appType: 'BWCE',
+            dpId: 'dp-123',
+            capabilityInstanceId: 'cap-456',
+            appId: 'app-789',
+            dataPlaneName: 'Custom Control Plane App',
+            controlPlaneUrl: 'https://custom-cp.example.com',
+          },
+        ],
+      });
+
+      const { result } = renderHookWithProvider(
+        entityWithUserProvidedCpLink,
+        mockConfigWithCpLink,
+      );
+
+      await waitFor(() => {
+        // cpLink state should remain as the config value, not overridden
+        expect(result.current.cpLink).toBe(
+          'https://tibco-platform.example.com',
+        );
+      });
+
+      await waitFor(() => {
+        expect(result.current.platformLinks).toHaveLength(1);
+        expect(result.current.platformLinks[0]).toEqual({
+          pLink:
+            'https://custom-cp.example.com/cp/bwce/appdetails/processes?dp_id=dp-123&capability_instance_id=cap-456&app_id=app-789',
+          pLabel: 'Custom Control Plane App',
+          pAppType: 'BWCE',
+        });
+      });
+    });
+
+    it('should use different controlPlaneUrl for each app when specified', async () => {
+      const entityWithMultipleCpUrls = createMockEntity('Component', {
+        name: 'component-with-multiple-cp-urls',
+        namespace: 'default',
+        tibcoPlatformApps: [
+          {
+            appType: 'BWCE',
+            dpId: 'dp-dev',
+            capabilityInstanceId: 'cap-dev',
+            appId: 'app-dev',
+            dataPlaneName: 'Development App',
+            controlPlaneUrl: 'https://dev-cp.example.com',
+          },
+          {
+            appType: 'Flogo',
+            dpId: 'dp-prod',
+            capabilityInstanceId: 'cap-prod',
+            appId: 'app-prod',
+            dataPlaneName: 'Production App',
+            controlPlaneUrl: 'https://prod-cp.example.com',
+          },
+        ],
+      });
+
+      const { result } = renderHookWithProvider(
+        entityWithMultipleCpUrls,
+        mockConfigWithCpLink,
+      );
+
+      await waitFor(() => {
+        // cpLink state should remain as the config value, not overridden
+        expect(result.current.cpLink).toBe(
+          'https://tibco-platform.example.com',
+        );
+      });
+
+      await waitFor(() => {
+        expect(result.current.platformLinks).toHaveLength(2);
+        expect(result.current.platformLinks[0]).toEqual({
+          pLink:
+            'https://dev-cp.example.com/cp/bwce/appdetails/processes?dp_id=dp-dev&capability_instance_id=cap-dev&app_id=app-dev',
+          pLabel: 'Development App',
+          pAppType: 'BWCE',
+        });
+        expect(result.current.platformLinks[1]).toEqual({
+          pLink:
+            'https://prod-cp.example.com/cp/flogo/appdetails/processes?dp_id=dp-prod&capability_instance_id=cap-prod&app_id=app-prod',
+          pLabel: 'Production App',
+          pAppType: 'Flogo',
+        });
+      });
+    });
+
+    it('should use config cpLink when controlPlaneUrl is not provided in app', async () => {
+      const entityWithMixedCpUrls = createMockEntity('Component', {
+        name: 'component-with-mixed-cp-urls',
+        namespace: 'default',
+        tibcoPlatformApps: [
+          {
+            appType: 'BWCE',
+            dpId: 'dp-custom',
+            capabilityInstanceId: 'cap-custom',
+            appId: 'app-custom',
+            dataPlaneName: 'Custom CP App',
+            controlPlaneUrl: 'https://custom-cp.example.com',
+          },
+          {
+            appType: 'Flogo',
+            dpId: 'dp-default',
+            capabilityInstanceId: 'cap-default',
+            appId: 'app-default',
+            dataPlaneName: 'Default CP App',
+            // No controlPlaneUrl provided
+          },
+        ],
+      });
+
+      const { result } = renderHookWithProvider(
+        entityWithMixedCpUrls,
+        mockConfigWithCpLink,
+      );
+
+      await waitFor(() => {
+        // cpLink state should remain as the config value
+        expect(result.current.cpLink).toBe(
+          'https://tibco-platform.example.com',
+        );
+      });
+
+      await waitFor(() => {
+        expect(result.current.platformLinks).toHaveLength(2);
+        expect(result.current.platformLinks[0]).toEqual({
+          pLink:
+            'https://custom-cp.example.com/cp/bwce/appdetails/processes?dp_id=dp-custom&capability_instance_id=cap-custom&app_id=app-custom',
+          pLabel: 'Custom CP App',
+          pAppType: 'BWCE',
+        });
+        expect(result.current.platformLinks[1]).toEqual({
+          pLink:
+            'https://tibco-platform.example.com/cp/flogo/appdetails/processes?dp_id=dp-default&capability_instance_id=cap-default&app_id=app-default',
+          pLabel: 'Default CP App',
+          pAppType: 'Flogo',
+        });
+      });
+    });
+
+    it('should ignore empty string controlPlaneUrl and use config cpLink', async () => {
+      const entityWithEmptyCpUrl = createMockEntity('Component', {
+        name: 'component-with-empty-cp-url',
+        namespace: 'default',
+        tibcoPlatformApps: [
+          {
+            appType: 'BWCE',
+            dpId: 'dp-123',
+            capabilityInstanceId: 'cap-456',
+            appId: 'app-789',
+            dataPlaneName: 'Empty URL App',
+            controlPlaneUrl: '',
+          },
+        ],
+      });
+
+      const { result } = renderHookWithProvider(
+        entityWithEmptyCpUrl,
+        mockConfigWithCpLink,
+      );
+
+      await waitFor(() => {
+        expect(result.current.cpLink).toBe(
+          'https://tibco-platform.example.com',
+        );
+      });
+
+      await waitFor(() => {
+        expect(result.current.platformLinks).toHaveLength(1);
+        expect(result.current.platformLinks[0].pLink).toContain(
+          'https://tibco-platform.example.com/cp/bwce/',
+        );
+      });
+    });
+
+    it('should handle undefined controlPlaneUrl and use config cpLink', async () => {
+      const entityWithUndefinedCpUrl = createMockEntity('Component', {
+        name: 'component-with-undefined-cp-url',
+        namespace: 'default',
+        tibcoPlatformApps: [
+          {
+            appType: 'Flogo',
+            dpId: 'dp-xyz',
+            capabilityInstanceId: 'cap-xyz',
+            appId: 'app-xyz',
+            dataPlaneName: 'Undefined URL App',
+            controlPlaneUrl: undefined,
+          },
+        ],
+      });
+
+      const { result } = renderHookWithProvider(
+        entityWithUndefinedCpUrl,
+        mockConfigWithCpLink,
+      );
+
+      await waitFor(() => {
+        expect(result.current.cpLink).toBe(
+          'https://tibco-platform.example.com',
+        );
+      });
+
+      await waitFor(() => {
+        expect(result.current.platformLinks).toHaveLength(1);
+        expect(result.current.platformLinks[0].pLink).toContain(
+          'https://tibco-platform.example.com/cp/flogo/',
+        );
+      });
+    });
+
     it('should not generate platform links when cpLink is not available', async () => {
       const { result } = renderHookWithProvider(
         mockEntityWithTibcoPlatformApps,
@@ -967,7 +1182,7 @@ describe('useFetchAllLinks', () => {
       );
 
       await waitFor(() => {
-        expect(result.current.cpLink).toBe('123');
+        expect(result.current.cpLink).toBe('https://123');
       });
 
       // Should still work with non-string cpLink

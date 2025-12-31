@@ -130,7 +130,7 @@ scaffolder:
     email: test@test.com # Defaults to `scaffolder@backstage.io`
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
 essentialLocations:
-  runScheduler: true,
+  runScheduler: true # Set to false to disable periodic updates
   frequencyInMinutes: 120
   locations:
     - type: url
