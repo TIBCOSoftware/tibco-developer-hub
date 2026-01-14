@@ -3,15 +3,14 @@ kind: Template
 metadata:
   name: mp-entry-doc-platform-provisioner
   title: TIBCO Platform Provisioner
-  description:
-    Documentation for the TIBCO Platform Provisioner. This is a tool to
+  description: Documentation for the TIBCO Platform Provisioner. This is a tool to
     provision the TIBCO Platform using pipelines.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: TIBCO Platform
         url: https://www.tibco.com/platform
@@ -36,7 +35,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  TIBCO Platform Provisioner added to your TIBCO Developer Hub
 
@@ -74,3 +73,6 @@ spec:
         title: Open TIBCO Platform Provisioner Docs
         url: /docs/default/system/platform-provisioner
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

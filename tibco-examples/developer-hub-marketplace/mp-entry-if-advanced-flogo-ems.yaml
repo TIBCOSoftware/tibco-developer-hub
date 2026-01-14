@@ -11,7 +11,7 @@ metadata:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: TIBCO
         url: https://www.tibco.com/
@@ -34,7 +34,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  Flogo & EMS added to your TIBCO Developer Hub
 
@@ -72,3 +72,6 @@ spec:
         title: Run import flow for Flogo & EMS
         url: /create/templates/default/import-flow-flogo-ems
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

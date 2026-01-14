@@ -10,7 +10,7 @@ metadata:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: TIBCO
         url: https://www.tibco.com/
@@ -33,7 +33,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  Template to Create a Template added to your TIBCO Developer Hub
 
@@ -71,3 +71,6 @@ spec:
         title: Run Template to Create Templates
         url: /create/templates/default/template-for-template
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

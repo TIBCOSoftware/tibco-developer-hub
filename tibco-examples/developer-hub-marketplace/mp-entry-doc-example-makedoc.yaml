@@ -8,7 +8,7 @@ metadata:
     BusinessWorks 5 project to display the documentation in TIBCO Developer Hub.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: true
+    isNew: false
     popularity: 0
     isMultiInstall: false
     imageURL: https://behaimits.com/wp-content/uploads/2024/05/makedoc-1-e1715073138385.png
@@ -40,7 +40,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  MakeDoc Example added to your TIBCO Developer Hub
 
@@ -78,3 +78,6 @@ spec:
         title: Open MakeDoc Sample Docs
         url: /docs/default/component/makedoc-examples
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

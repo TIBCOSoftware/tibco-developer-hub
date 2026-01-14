@@ -11,7 +11,7 @@ metadata:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: Flogo
         url: https://docs.tibco.com/products/tibco-flogo-enterprise
@@ -24,6 +24,7 @@ metadata:
     - flogo-templates
     - integration
     - testing
+    - flogo
 spec:
   owner: group:default/marketplace-entries-group
   type: template
@@ -37,7 +38,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  Flogo Unit Testing (Debug) added to your TIBCO Developer Hub
 
@@ -75,3 +76,6 @@ spec:
         title: Run Flogo Unit Testing (Debug) Template
         url: /create/templates/default/template-flogo-unit-testing-debug
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

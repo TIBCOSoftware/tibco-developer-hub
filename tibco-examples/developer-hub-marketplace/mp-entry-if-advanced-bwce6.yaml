@@ -3,15 +3,14 @@ kind: Template
 metadata:
   name: mp-entry-if-advanced-bwce6
   title: BWCE/6 Import
-  description:
-    An advanced Import Flow for TIBCO BusinessWorks Container Edition /
+  description: An advanced Import Flow for TIBCO BusinessWorks Container Edition /
     6. This example imports projects and dependencies on shared modules.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: BWCE Documentation
         url: https://docs.tibco.com/products/tibco-businessworks-container-edition-2-10-0
@@ -36,7 +35,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  BWCE/6 Import added to your TIBCO Developer Hub
 
@@ -74,3 +73,6 @@ spec:
         title: Run import flow for BW6/CE
         url: /create/templates/default/import-flow-bw6
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

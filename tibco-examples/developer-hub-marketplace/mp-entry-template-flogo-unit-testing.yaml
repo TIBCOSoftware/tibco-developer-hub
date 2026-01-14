@@ -3,8 +3,7 @@ kind: Template
 metadata:
   name: mp-entry-template-flogo-unit-testing
   title: Flogo Unit Testing
-  description:
-    Unit testing is a technique where individual components or flows of
+  description: Unit testing is a technique where individual components or flows of
     an application are tested in isolation. With unit testing, you can monitor
     the health of your application and detect errors in individual flows or
     activity levels. While designing an application with multiple flows and
@@ -16,7 +15,7 @@ metadata:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: Flogo
         url: https://docs.tibco.com/products/tibco-flogo-enterprise
@@ -29,6 +28,7 @@ metadata:
     - flogo-templates
     - integration
     - testing
+    - flogo
 spec:
   owner: group:default/marketplace-entries-group
   type: template
@@ -42,7 +42,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  Flogo Unit Testing added to your TIBCO Developer Hub
 
@@ -80,3 +80,6 @@ spec:
         title: Run Flogo Unit Testing Template
         url: /create/templates/default/template-flogo-unit-testing
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

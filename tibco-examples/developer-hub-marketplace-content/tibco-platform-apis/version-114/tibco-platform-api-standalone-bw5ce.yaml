@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: "bw5ce-capability-api-114"
+  description: "API of the BW5 Container Edition Capability (1.14)"
+  tags:
+    - tibco-platform
+    - capability
+spec:
+  type: openapi
+  lifecycle: production
+  owner: TIBCO
+  definition:
+    $text: ./bw5ce-capability-api-114.json

@@ -7,10 +7,10 @@ metadata:
     dataplanes & capabilities on the TIBCO Platform using a script.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: true
+    isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: TIBCO Platform CLI
         url: https://docs.tibco.com/pub/platform-cp/1.10.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm
@@ -37,7 +37,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  Platform CLI Provisioning added to your TIBCO Developer Hub
 
@@ -75,3 +75,6 @@ spec:
         title: Documentation Platform CLI Provisioning example
         url: /docs/default/component/platform-cli-provisioning-example
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

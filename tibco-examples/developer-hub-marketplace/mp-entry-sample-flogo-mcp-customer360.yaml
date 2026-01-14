@@ -14,7 +14,7 @@ metadata:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: Flogo MCP Developer Preview
         url: https://www.tibco.com/blog/2025/08/07/introducing-tibco-flogo-connector-for-model-context-protocol-mcp-developer-preview/
@@ -28,6 +28,7 @@ metadata:
     - developer-preview
     - artificial-intelligence
     - model-context-protocol
+    - flogo
 spec:
   owner: group:default/marketplace-entries-group
   type: sample
@@ -41,7 +42,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  Flogo MCP Customer 360 added to your TIBCO Developer Hub
 
@@ -82,3 +83,6 @@ spec:
       - icon: kind:component
         title: Clone with VSCode
         url: vscode://vscode.git/clone?url=https://github.com/TIBCOSoftware/flogo-enterprise-hub/
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

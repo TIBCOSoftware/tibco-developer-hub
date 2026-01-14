@@ -3,8 +3,7 @@ kind: Template
 metadata:
   name: mp-entry-doc-dh-create-marketplace-entry
   title: Create a Marketplace Entry
-  description:
-    Documentation on how to create your own Marketplace Entry in TIBCO
+  description: Documentation on how to create your own Marketplace Entry in TIBCO
     Developer Hub. This documentation provides a step-by-step guide on how to
     create Marketplace Entries for TIBCO products.
   backstage.io/techdocs-ref: dir:.
@@ -12,7 +11,7 @@ metadata:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: TIBCO Developer Hub
         url: https://github.com/TIBCOSoftware/tibco-developer-hub
@@ -34,7 +33,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  Create a Marketplace Entry added to your TIBCO Developer Hub
 
@@ -72,3 +71,6 @@ spec:
         title: Open Create Your Own Marketplace Entry Docs
         url: /docs/default/System/create-marketplace-entry
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

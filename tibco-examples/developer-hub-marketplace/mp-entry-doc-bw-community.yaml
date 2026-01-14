@@ -11,7 +11,7 @@ metadata:
     isNew: true
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: TIBCO Developer Hub
         url: https://github.com/TIBCOSoftware/tibco-developer-hub
@@ -37,7 +37,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  BW Community Articles added to your TIBCO Developer Hub
 
@@ -75,3 +75,6 @@ spec:
         title: Open BW Community Docs
         url: /docs/default/System/bw-community
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

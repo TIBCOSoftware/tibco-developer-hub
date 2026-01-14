@@ -10,7 +10,7 @@ metadata:
     isNew: false
     popularity: 0
     isMultiInstall: false
-    imageURL: ''
+    imageURL: ""
     moreInfo:
       - text: Flogo
         url: https://docs.tibco.com/products/tibco-flogo-enterprise
@@ -23,6 +23,7 @@ metadata:
     - flogo-templates
     - integration
     - rest
+    - flogo
 spec:
   owner: group:default/marketplace-entries-group
   type: template
@@ -36,7 +37,7 @@ spec:
       errorMessage: Please accept the Marketplace Entry
       properties:
         description:
-          type: 'null'
+          type: "null"
           description: |
             ## Get  Flogo REST Features Sample added to your TIBCO Developer Hub
 
@@ -74,3 +75,6 @@ spec:
         title: Run Flogo REST Features Sample Template
         url: /create/templates/default/template-flogo-rest-basic
         type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard
