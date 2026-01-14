@@ -32,7 +32,7 @@ This example allows you to script out (any) of the following steps:
 7. Remove the Flogo Capability from a dataplane
 8. Remove the BWCE Capability from a dataplane
 9. Remove the BW5CE Capability from a dataplane
-10.Unregister a dataplane
+10. Unregister a dataplane
 
 In this way you can quickly setup environments on the TIBCO Platform
 
