@@ -1,0 +1,90 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-ai-powered-visual-prompt-engine-flogo
+  title: Visual Prompt Engine for Flogo
+  description: Revolutionary Visual Prompt Engineering for TIBCO Flogo that
+    transforms AI integration. Combines Flogo MCP Trigger, Flogo workflow, and
+    Pongo2 templates to let enterprises design intelligent, conditional AI
+    prompts through familiar drag-and-drop interfaces. Uses the power of
+    conditional templating using pongo2 syntax to build even custom prompts for
+    AI Agents.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - icon: docs
+        text: Documentation
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-prompt-engineering-activity/docs/index.md
+      - icon: github
+        text: GitHub Repository
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-prompt-engineering-activity/
+  tags:
+    - devhub-marketplace
+    - flogo
+    - pongo2
+    - prompt-engineering
+    - custom-activity
+spec:
+  owner: group:default/marketplace-entries-group
+  type: sample
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Visual Prompt Engine for Flogo added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-ai-powered-visual-prompt-engine-flogo
+
+            **Description:** Revolutionary Visual Prompt Engineering for TIBCO Flogo that transforms AI integration. Combines Flogo MCP Trigger, Flogo workflow, and Pongo2 templates to let enterprises design intelligent, conditional AI prompts through familiar drag-and-drop interfaces. Uses the power of conditional templating using pongo2 syntax to build even custom prompts for AI Agents. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/flogo-enterprise-hub//blob/master/LICENSE).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-prompt-engineering-activity/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Documents
+        url: /docs?filters%5Buser%5D=all&limit=20
+        icon: techdocs
+      - icon: catalog
+        title: Open AI Powered Visual Prompt Engine for Flogo
+        url: /catalog/default/component/ai-powered-visual-prompt-engine-flogo
+        type: openButton
+      - icon: docs
+        title: Open Prompt Engine for Flogo Docs
+        url: /docs/default/component/ai-powered-visual-prompt-engine-flogo
+      - icon: kind:component
+        title: Clone with VSCode
+        url: vscode://vscode.git/clone?url=https://github.com/TIBCOSoftware/flogo-enterprise-hub/
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

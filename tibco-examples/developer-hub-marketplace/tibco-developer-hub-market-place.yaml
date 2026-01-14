@@ -22,4 +22,5 @@ spec:
     - ./mp-entry-template-flogo-unit-testing-debug.yaml
     - ./mp-entry-doc-example-makedoc.yaml
     - ./mp-entry-flogo-ml-if-abnormally-detection-sample.yaml
+    - ./mp-entry-ai-powered-visual-prompt-engine-flogo.yaml
     - ./doc-platform-previous-apis.yaml

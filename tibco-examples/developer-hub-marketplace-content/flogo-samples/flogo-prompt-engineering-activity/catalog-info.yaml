@@ -1,0 +1,38 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: flogo-samples
+  description: Flogo Samples
+spec:
+  type: organization
+  profile:
+    displayName: Flogo Samples
+    email: info@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'ai-powered-visual-prompt-engine-flogo'
+  description: 'Revolutionary Visual Prompt Engineering for TIBCO Flogo that transforms AI integration. Combines Flogo MCP Trigger, Flogo workflow, and Pongo2 templates to let enterprises design intelligent, conditional AI prompts through familiar drag-and-drop interfaces. Uses the power of conditional templating using pongo2 syntax to build even custom prompts for AI Agents.'
+  links:
+    - title: Clone with VSCode
+      url: "vscode://vscode.git/clone?url=https://github.com/TIBCOSoftware/flogo-enterprise-hub.git"
+    - title: Open In GitHub
+      url: "https://github.com/TIBCOSoftware/flogo-enterprise-hub/blob/master/extensions/README.md"
+      icon: github
+    - title: Flogo Documentation
+      url: "https://docs.tibco.com/pub/flogo/2.25.8/doc/html/Default.htm"
+      icon: docs
+  tags:
+    - flogo
+    - pongo2
+    - prompt-engineering
+    - custom-activity
+  annotations:
+    github.com/project-slug: "https://github.com/TIBCOSoftware/flogo-enterprise-hub"
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: integration
+  lifecycle: development
+  owner: flogo-samples

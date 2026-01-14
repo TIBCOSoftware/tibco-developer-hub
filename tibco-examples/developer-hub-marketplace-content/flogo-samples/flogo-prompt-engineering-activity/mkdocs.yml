@@ -1,0 +1,12 @@
+# https://www.mkdocs.org/user-guide/configuration/
+site_name: "AI-Powered Visual Prompt Engine for TIBCO Flogo"
+site_description: "AI-Powered Visual Prompt Engine for TIBCO Flogo"
+
+nav:
+  - home: index.md
+  - AI Prompt Engine: TIBCO-AI-Prompt-Engine.md
+  - build test guide: BUILD_TEST_GUIDE.md
+  - json schema guide: JSON_SCHEMA_GUIDE.md
+  - pong2 examples: PONGO2_EXAMPLES.md
+  - troubleshooting: TROUBLESHOOTING.md
+  - screenshots: screenshots.md
