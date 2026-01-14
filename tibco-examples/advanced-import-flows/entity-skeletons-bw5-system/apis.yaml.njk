@@ -36,6 +36,9 @@ metadata:
     - url: ${{ "https://"  + (values.repoUrl | parseRepoUrl).host + "/" + (values.repoUrl | parseRepoUrl).owner + "/" +  (values.repoUrl | parseRepoUrl).repo + "/blob/main/" + values.application_folder + "/" + values.application + "/" + values.api_files[loop.index0] }}
       title: API Spec
       icon: code
+  tibco.developer.hub/topology:
+    theme:
+      name: 'orange'
 spec:
   type: wsdl
   lifecycle: production
