@@ -1,0 +1,39 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: flogo-samples
+  description: Flogo Samples
+spec:
+  type: organization
+  profile:
+    displayName: Flogo Samples
+    email: info@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: 'flogo-ml-if-abnormally-detection-sample'
+  description: 'This sample uses TIBCO Flogo in tandem with Python Scikit-learn open-source machine learning library to demonstrate Artificial Intelligence Machine Learning (AI-ML) in a real-time eventing scenario deployable into the TIBCO Platform.'
+  links:
+    - title: Clone with VSCode
+      url: "vscode://vscode.git/clone?url=https://github.com/TIBCOSoftware/flogo-enterprise-hub.git"
+    - title: Open In GitHub
+      url: "https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/demos/flogo-machine-learning-anomaly-detection"
+      icon: github
+    - title: Flogo Documentation
+      url: "https://docs.tibco.com/pub/flogo/2.25.8/doc/html/Default.htm"
+      icon: docs
+  tags:
+    - artificial-intelligence
+    - machine-learning
+    - isolation-forest
+    - flogo
+    - python
+  annotations:
+    github.com/project-slug: "https://github.com/TIBCOSoftware/flogo-enterprise-hub"
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: integration
+  lifecycle: development
+  owner: flogo-samples
