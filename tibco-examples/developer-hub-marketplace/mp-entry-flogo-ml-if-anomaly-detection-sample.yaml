@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-flogo-ml-if-abnormally-detection-sample
-  title: Abnormally Detection Sample
+  name: mp-entry-flogo-ml-if-anomaly-detection-sample
+  title: Anomaly Detection Sample
   description: This sample uses TIBCO Flogo in tandem with Python Scikit-learn
     open-source machine learning library to demonstrate Artificial Intelligence
     Machine Learning (AI-ML) in a real-time eventing scenario deployable into
@@ -16,10 +16,10 @@ metadata:
     moreInfo:
       - icon: docs
         text: Documentation
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-machine-learning-abnormally-detection/docs/index.md
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-machine-learning-anomaly-detection/docs/index.md
       - icon: github
         text: GitHub Repository
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-machine-learning-abnormally-detection/
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-machine-learning-anomaly-detection/
   tags:
     - devhub-marketplace
     - artificial-intelligence
@@ -42,9 +42,9 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  Abnormally Detection Sample added to your TIBCO Developer Hub
+            ## Get  Anomaly Detection Sample added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-flogo-ml-if-abnormally-detection-sample
+            **ID:** mp-entry-flogo-ml-if-anomaly-detection-sample
 
             **Description:** This sample uses TIBCO Flogo in tandem with Python Scikit-learn open-source machine learning library to demonstrate Artificial Intelligence Machine Learning (AI-ML) in a real-time eventing scenario deployable into the TIBCO Platform. 
 
@@ -64,7 +64,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-machine-learning-abnormally-detection/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-machine-learning-anomaly-detection/catalog-info.yaml
   output:
     links:
       - title: Open in catalog
@@ -75,12 +75,12 @@ spec:
         url: /docs?filters%5Buser%5D=all&limit=20
         icon: techdocs
       - icon: catalog
-        title: Open Flogo ML IF Abnormally Detection Sample
-        url: /catalog/default/component/flogo-ml-if-abnormally-detection-sample
+        title: Open Flogo ML IF Anomaly Detection Sample
+        url: /catalog/default/component/flogo-ml-if-anomaly-detection-sample
         type: openButton
       - icon: docs
-        title: Open Flogo ML IF Abnormally Detection Docs
-        url: /docs/default/component/flogo-ml-if-abnormally-detection-sample
+        title: Open Flogo ML IF Anomaly Detection Docs
+        url: /docs/default/component/flogo-ml-if-anomaly-detection-sample
       - icon: kind:component
         title: Clone with VSCode
         url: vscode://vscode.git/clone?url=https://github.com/TIBCOSoftware/flogo-enterprise-hub/

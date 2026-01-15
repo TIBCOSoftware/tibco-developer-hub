@@ -13,7 +13,7 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: 'flogo-ml-if-abnormally-detection-sample'
+  name: 'flogo-ml-if-anomaly-detection-sample'
   description: 'This sample uses TIBCO Flogo in tandem with Python Scikit-learn open-source machine learning library to demonstrate Artificial Intelligence Machine Learning (AI-ML) in a real-time eventing scenario deployable into the TIBCO Platform.'
   links:
     - title: Clone with VSCode

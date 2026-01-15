@@ -1,4 +1,4 @@
-# Flogo Machine Learning Isolation Forest Abnormally Detection
+# Flogo Machine Learning Isolation Forest Anomaly Detection
 
 This sample uses TIBCO Flogo in tandem with Python Scikit-learn open-source machine learning library to demonstrate Artificial Intelligence Machine Learning (AI-ML) in a real-time eventing scenario deployable into the TIBCO Platform. 
 
@@ -103,7 +103,7 @@ The sample can be run from within Visual Studio Code. The follow are the steps t
         ````
 2. Open the MachineTemperature.flogo, select a Flogo Runtime and click Run.
 
-3. You will see print out in the Flogo application and the Python application which shows first the few-shot training being executed followed by abnormally detection reporting temperature which are normal and temperature which are not.
+3. You will see print out in the Flogo application and the Python application which shows first the few-shot training being executed followed by anomaly detection reporting temperature which are normal and temperature which are not.
 
 <a name="platform" />
 
@@ -128,7 +128,7 @@ Use the steps below to deploy this sample into TIBCO Platform.
 This section are some of the questions that are asked about this sample. 
 
 1. Can I use this for all obnormally detection use-cases?
-   * Just like any machine learning algorithm, Isolation Forest is suitable for detecting abnormally that have specific characteristic. However, you can choose and deploy other algorithms that would satisfy your use-case.
+   * Just like any machine learning algorithm, Isolation Forest is suitable for detecting anomaly that have specific characteristic. However, you can choose and deploy other algorithms that would satisfy your use-case.
 
 2. How do you scale up this sample?
    * Given that Python deployed in Kubernetes, you can use Native Kubernetes load balancing and scaling mechanism to adjust to the workload.

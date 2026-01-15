@@ -1,0 +1,6 @@
+# https://www.mkdocs.org/user-guide/configuration/
+site_name: "Flogo ML IF Anomaly Detection Sample"
+site_description: "Flogo ML IF Anomaly Detection Sample"
+
+nav:
+  - home: index.md
