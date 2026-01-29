@@ -15,7 +15,7 @@ export const tibcoThemeLight = createUnifiedTheme({
     palette: {
       ...palettes.light,
       primary: {
-        main: '#1774e5', // Changes inactive, clickable links, buttons, icons
+        main: '#1774e5', // Changes inactive, clickable links, buttons, icons  #1774e5
       },
       secondary: {
         main: '#565a6e',

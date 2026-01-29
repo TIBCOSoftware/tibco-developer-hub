@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: extension-generators-templates-locations
+spec:
+  targets:
+    - ./generators/catalog-info.yaml
+    - ./generator-docs/catalog-info.yaml
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tibco-flogo-generators
+  description: TIBCO Flogo generators group
+spec:
+  type: organization
+  profile:
+    displayName: TIBCO Flogo Generators
+  children: []

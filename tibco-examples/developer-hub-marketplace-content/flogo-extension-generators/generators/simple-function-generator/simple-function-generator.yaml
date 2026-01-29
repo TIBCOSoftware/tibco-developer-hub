@@ -1,0 +1,269 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: simple-function-generator
+  title: Flogo Function Extension Scaffolder
+  description: |
+    Welcome to the Flogo Function Extension Scaffolder. This template generates a scaffold golang repository for creating Flogo function extension. 
+
+    ## Pre-requisite actions before running this template
+
+    Before running this template please head over to https://github.com/TIBCOSoftware/flogo-enterprise-hub and fork this repository.
+
+
+    ## Post-actions to be done after running this template
+
+    This template will create the Flogo Activity Extension under the extensions folder in your forked version of this repository
+    before committing the changes back.
+
+    1. Clone the repository e.g. `gh repo clone organization/flogo-enterprise-hub`
+    2. Run `go mod tidy` in the folder under extensions/<your-extension-name>
+
+  tags:
+    - flogo
+    - generator
+    - tibco
+    - template
+    - developer-hub
+spec:
+  owner: group:default/tibco-flogo-generators
+  type: service
+
+  parameters:
+    - title: Flogo Enterprise Hub Repository Location
+      description: >
+        Please provide details of your github repository where your fork of TIBCOSoftware/flogo-enterprise-hub resides.
+      required:
+        - repoUrl
+        - branchName
+      properties:
+        repoUrl:
+          title: GitHub repository
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        branchName:
+          title: Branch name
+          type: string
+          default: main
+          description: Name of the branch to commit repository changes to
+
+    - title: Contribution Details
+      required:
+        - functionPackageName
+        - version
+        - title
+        - description
+      properties:
+        category:
+          title: Category
+          type: string
+          description: Extension category e.g. utility, dates, strings, numbers
+          ui:options:
+            placeholder: utility
+        extensionName:
+          title: ExtensionName
+          type: string
+          description: Extension name of the function
+          ui:options:
+            placeholder: 'logger'
+        functionPackageName:
+          title: Function Package Name
+          type: string
+          description: Function
+          ui:options:
+            placeholder: 'utility'
+        version:
+          title: Version
+          type: string
+          default: '1.0.0'
+        title:
+          title: Title
+          type: string
+          description: Title of the function package name
+          ui:options:
+            placeholder: 'Utility Functions'
+        description:
+          title: Description
+          type: string
+          description: Description of the function package name
+          ui:options:
+            placeholder: 'My Custom Utility Functions'
+
+    - title: Function Details
+      required:
+        - functionList
+      properties:
+        functionList:
+          title: List of functions and their arguments provided by the package
+          description: 'Provide a list of one or more functions with their signatures'
+          type: array
+          ui:options:
+            addable: true
+            removable: true
+          items:
+            type: object
+            required:
+              - functionName
+              - returnType
+            properties:
+              functionName:
+                title: Function Name
+                type: string
+                description: Name of the function
+                ui:options:
+                  placeholder: 'add'
+              functionDescription:
+                title: Function Description
+                type: string
+                description: Brief description of the function
+                ui:options:
+                  placeholder: 'Brief description of the function'
+              functionExample:
+                title: Function Example
+                type: string
+                description: Example of the function use
+                ui:options:
+                  placeholder: "utility.EAN13('123456789012') => 8"
+              returnType:
+                title: Return Type
+                type: string
+                description: |
+                  Return type of the function:
+                  • string - text data
+                  • int - whole numbers
+                  • number - decimal numbers  
+                  • boolean - true/false values
+                  • datetime - date and time
+                  • object - complex data structures
+                  • any - any data type
+                enum:
+                  - string
+                  - int
+                  - number
+                  - boolean
+                  - datetime
+                  - object
+                  - any
+                enumNames:
+                  - 'Returns a String (text data)'
+                  - 'Returns a Integer (whole numbers)'
+                  - 'Returns a Number (decimal numbers)'
+                  - 'Returns a Boolean (true/false)'
+                  - 'Returns a DateTime (date and time)'
+                  - 'Returns an Object (complex data)'
+                  - 'Returns an Any (any type)'
+                default: string
+                ui:field: Select
+                ui:options:
+                  placeholder: 'Select return type'
+              arguments:
+                title: Arguments
+                type: array
+                description: Function arguments
+                ui:options:
+                  addable: true
+                  removable: true
+                items:
+                  type: object
+                  required:
+                    - argName
+                    - argType
+                  properties:
+                    argName:
+                      title: Argument Name
+                      type: string
+                      description: Name of the argument
+                      ui:options:
+                        placeholder: 'arg1'
+                      ui:className: font-semibold
+                    argType:
+                      title: Argument Type
+                      type: string
+                      description: Type of the argument
+                      enum:
+                        - string
+                        - int
+                        - number
+                        - boolean
+                        - datetime
+                        - object
+                        - any
+                      enumNames:
+                        - 'Accepts a String (text data)'
+                        - 'Accepts a Integer (whole numbers)'
+                        - 'Accepts a Number (decimal numbers)'
+                        - 'Accepts a Boolean (true/false)'
+                        - 'Accepts a DateTime (date and time)'
+                        - 'Accepts an Object (complex data)'
+                        - 'Accepts an Any (any type)'
+                      default: string
+                      ui:field: Select
+                      ui:options:
+                        placeholder: 'Select argument type'
+
+  # The import flow consist out of 4 steps:
+  # 1. Fetch the project from GitHub
+  # 2. Generate the Component YAML
+  # 3. Commit the Component YAML file back to the GitHub project branch creating a pull request
+  # 4. Register the Component in the catalog
+
+  steps:
+    - id: clone
+      name: Clone the Project
+      action: tibco:git:clone
+      input:
+        failOnError: true
+        repoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
+
+    - id: generateFunctionGo
+      name: Generate function.go
+      each: ${{ parameters.functionList}}
+      action: fetch:template:file
+      input:
+        url: ./skeleton/function.go
+        targetPath: ${{ "extensions/" + parameters.category + "/src/" + parameters.extensionName + "/functions/" + parameters.functionPackageName + "/" + each.value.functionName + ".go" }}
+        replace: true
+        values:
+          functionPackageName: ${{ parameters.functionPackageName }}
+          functionName: ${{ each.value.functionName }}
+          arguments: ${{ each.value.arguments }}
+          returnType: ${{ each.value.returnType }}
+
+    - id: generateGoMod
+      name: Generate go.mod
+      action: fetch:template:file
+      input:
+        url: ./skeleton/go.mod
+        targetPath: ${{ "extensions/" + parameters.category + "/src/" + parameters.extensionName + "/functions/" + parameters.functionPackageName + "/go.mod" }}
+        replace: true
+        values:
+          owner: ${{ (parameters.repoUrl | parseRepoUrl).owner }}
+          functionPackageName: ${{ parameters.functionPackageName }}
+
+    - id: generateDescriptor.json
+      name: Generate descriptor.json
+      action: fetch:template:file
+      input:
+        url: ./skeleton/descriptor.json
+        targetPath: ${{ "extensions/" + parameters.category + "/src/" + parameters.extensionName + "/functions/" + parameters.functionPackageName + "/descriptor.json" }}
+        replace: true
+        values:
+          functionPackageName: ${{ parameters.functionPackageName }}
+          functionPackageTitle: ${{ parameters.title }}
+          functionPackageDescription: ${{ parameters.description }}
+          functionList: ${{ parameters.functionList }}
+
+    - id: push
+      name: Push Current Repo
+      action: tibco:git:push
+      input:
+        failOnError: true
+
+  output:
+    links:
+      # If you are not using register step above, remove the below Open in catalog link.
+      - title: Repository (Pull Request)
+        url: ${{ steps.cpr.output.remoteUrl }}

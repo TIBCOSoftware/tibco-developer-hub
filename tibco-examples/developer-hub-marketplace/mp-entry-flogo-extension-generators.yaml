@@ -1,0 +1,91 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-flogo-extension-generators
+  title: Flogo Extension Generators
+  description: The TIBCO Flogo Extension Generator templates are an accelerator in
+    TIBCO Developer Hub for the creation of your own custom extension for TIBCO
+    Flogo written in Golang.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - icon: docs
+        text: Documentation
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-extension-generators/generator-docs/docs/index.md
+      - icon: github
+        text: GitHub Repository
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-extension-generators/
+  tags:
+    - devhub-marketplace
+    - flogo
+    - custom-activity
+spec:
+  owner: group:default/marketplace-entries-group
+  type: template
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Flogo Extension Generators added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-flogo-extension-generators
+
+            **Description:** The TIBCO Flogo Extension Generator templates are an accelerator in TIBCO Developer Hub for the creation of your own custom extension for TIBCO Flogo written in Golang. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/flogo-enterprise-hub//blob/master/LICENSE).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-extension-generators/generator-templates.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Documents
+        url: /docs?filters%5Buser%5D=all&limit=20
+        icon: techdocs
+      - title: Templates
+        url: /create?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
+        icon: kind:template
+      - icon: kind:template
+        title: Run Activity Extension Template
+        url: /create/templates/default/simple-activity-generator
+      - icon: kind:template
+        title: Run Trigger Extension Template
+        url: /create/templates/default/simple-trigger-generator
+      - icon: kind:template
+        title: Run Function Extension Template
+        url: /create/templates/default/simple-function-generator
+      - icon: docs
+        title: Open Flogo Extension Generators Docs
+        url: /docs/default/system/tibco-flogo-generators/flogo-function-extension-scaffolder
+        type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

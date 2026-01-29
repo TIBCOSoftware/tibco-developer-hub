@@ -1,0 +1,78 @@
+{
+	"title": "${{values.trigger.triggerName}} Trigger",
+	"version": "${{values.version}}",
+	"type": "flogo:trigger",
+	"name": "${{values.trigger.triggerName}}",
+	"author": "Created by Flogo Extension Generator",
+	"display": {
+		"description": "${{values.triggerName}} trigger",
+		"category": "${{values.category}}",
+		"visible": true,
+		"smallIcon": "icons/trigger-icon@2x.png",
+		"largeIcon": "icons/trigger-icon@3x.png",
+		"tags": ["${{values.category}}"]
+	},
+	"ref": "github.com/${{values.owner}}/flogo-enterprise-hub/extensions/${{values.extensionName}}/src/trigger/${{values.trigger.triggerName}}",
+	"handler": {
+		"settings": [
+{% for o in values.trigger.handler %}
+        {
+            "name": "${{o.fieldName}}",
+            "type": "${{o.fieldType}}",
+            "required": ${{o.isRequired}},
+            "description": "${{o.description}}",
+            "value":"Default_Value",
+            "display": {
+                "name": "${{o.fieldName}}",
+                "description": "${{o.description}}",
+                "required": ${{o.isRequired}},
+                "type":"${{o.fieldType}}",
+                "appPropertySupport": ${{o.isAppPropertySupport}}
+            }
+        }{% if not loop.last %},{% endif %}
+{%- endfor %}
+		]
+	},
+	"settings": [
+{% for o in values.trigger.settings %}
+        {
+           "name": "${{o.fieldName}}",
+           "type": "${{o.fieldType}}",
+           "required": ${{o.isRequired}}{% if o.fieldType == "object" %},
+            "display": {
+                "name": "JSON Schema",
+                "description": "An example JSON-based object",
+                "type": "texteditor",
+                "syntax": "json",
+                "mappable": true,
+                "visible": true
+            }{% else %},
+            "display": {
+                "name": "${{o.fieldName}}",
+                "description": "${{o.description}}",
+                "required": ${{o.isRequired}},
+                "type":"${{o.fieldType}}",
+                "appPropertySupport": ${{o.isAppPropertySupport}}
+            }
+            {% endif %}
+        }{% if not loop.last %},{% endif %}
+{%- endfor %}
+	],
+ 	"outputs": [
+{% for o in values.trigger.output %}
+        {
+           "name": "${{o.fieldName}}",
+           "type": "${{o.fieldType}}",
+           "required": ${{o.isRequired}}{% if o.fieldType == "object" %},
+            "display": {
+                "name": "JSON Schema",
+                "description": "An example JSON-based object",
+                "type": "texteditor",
+                "syntax": "json",
+                "mappable": true,
+                "visible": true
+            }{% endif %}
+        }{% if not loop.last %},{% endif %}
+{%- endfor %}
+  	]
+}

@@ -1,0 +1,364 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: simple-activity-generator
+  title: Flogo Activity Extension Scaffolder
+  description: |
+    Welcome to the Flogo Activity Extension Scaffolder. This template generates a scaffold golang repository for creating Flogo activity extension. 
+
+    ## Pre-requisite actions before running this template
+
+    Before running this template please head over to https://github.com/TIBCOSoftware/flogo-enterprise-hub and fork this repository.
+
+
+    ## Post-actions to be done after running this template
+
+    This template will create the Flogo Activity Extension under the extensions folder in your forked version of this repository
+    before committing the changes back.
+
+    1. Clone the repository e.g. `gh repo clone organization/flogo-enterprise-hub`
+    2. Run `go mod tidy` in the folder under extensions/<your-extension-name>
+
+  tags:
+    - flogo
+    - generator
+    - tibco
+    - template
+    - developer-hub
+spec:
+  owner: group:default/tibco-flogo-generators
+  type: service
+
+  parameters:
+    - title: Flogo Enterprise Hub Repository Location
+      description: >
+        Please provide details of your github repository where your fork of TIBCOSoftware/flogo-enterprise-hub resides.
+      required:
+        - repoUrl
+        - branchName
+      properties:
+        repoUrl:
+          title: GitHub repository
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        branchName:
+          title: Branch name
+          type: string
+          default: main
+          description: Name of the branch to commit repository changes to
+
+    - title: Contribution Details
+      required:
+        - extensionName
+        - version
+        - category
+        - description
+      properties:
+        category:
+          title: Category
+          type: string
+          description: Extension category e.g. general, default, crypto, logging
+          ui:options:
+            placeholder: general
+        extensionName:
+          title: ExtensionName
+          type: string
+          description: Extension name of the activity
+          ui:options:
+            placeholder: 'logger'
+        version:
+          title: Version
+          type: string
+          default: '1.0.0'
+        description:
+          title: Description
+          type: string
+          description: Brief one-line description of the extension
+        overview:
+          title: Overview
+          type: string
+          description: Overview of the extension
+          default: 'This extension provides the following features...'
+
+    - title: Activity Configurator
+      required:
+        - activityList
+      properties:
+        activityList:
+          title: List of activities and their signatures provided by the package
+          description: 'Provide a list of one or more activities with their signatures'
+          type: array
+          ui:options:
+            addable: true
+            removable: true
+          items:
+            type: object
+            required:
+              - activityName
+              - settings
+              - input
+              - output
+            properties:
+              activityName:
+                title: Activity Name
+                type: string
+                description: Name of the activity
+                ui:options:
+                  placeholder: 'logger'
+              overview:
+                title: Overview of the activity
+                type: string
+                description: Overview of the activity
+                ui:widget: textarea
+                ui:options:
+                  placeholder: 'Overview of what this activity is about...'
+                  rows: 3
+              description:
+                title: Description of the activity
+                type: string
+                description: Description of the activity
+                ui:widget: textarea
+                ui:options:
+                  placeholder: 'Additional details about this activity...'
+                  rows: 3
+              settings:
+                title: Activity settings field definition
+                type: array
+                description: Settings configuration
+                ui:options:
+                  addable: true
+                  removable: true
+                items:
+                  type: object
+                  required:
+                    - fieldName
+                    - fieldType
+                    - description
+                    - isRequired
+                    - isAppPropertySupport
+                  properties:
+                    fieldName:
+                      title: Field Name
+                      type: string
+                      description: Name of the field
+                      ui:options:
+                        placeholder: 'fieldName'
+                      ui:className: font-semibold
+                    fieldType:
+                      title: Field Data Type
+                      type: string
+                      description: Data type of the field
+                      enum:
+                        - string
+                        - int
+                        - number
+                        - boolean
+                        - datetime
+                        - object
+                        - any
+                      enumNames:
+                        - 'A String (text data)'
+                        - 'An Integer (whole numbers)'
+                        - 'A a Number (decimal numbers)'
+                        - 'A a Boolean (true/false)'
+                        - 'A a DateTime (date and time)'
+                        - 'An Object (complex data)'
+                        - 'An Any (any type)'
+                      default: string
+                      ui:field: Select
+                      ui:options:
+                        placeholder: 'Select data type'
+                    description:
+                      title: Field Description
+                      type: string
+                      description: Description of the field
+                      ui:options:
+                        placeholder: 'This description appears on tooltip hover'
+                      ui:className: font-semibold
+                    isRequired:
+                      title: Field is Required
+                      type: boolean
+                      default: true
+                      description: Is this a required/mandatory field?
+                      ui:widget: checkbox
+                      ui:options:
+                        - label: false
+                    isAppPropertySupport:
+                      title: Application property supported
+                      type: boolean
+                      default: true
+                      description: Can be set via application properties?
+                      ui:widget: checkbox
+                      ui:options:
+                        - label: false
+              input:
+                title: Activity input field definition
+                type: array
+                description: Input configuration
+                ui:options:
+                  addable: true
+                  removable: true
+                items:
+                  type: object
+                  required:
+                    - fieldName
+                    - fieldType
+                    - description
+                    - isRequired
+                  properties:
+                    fieldName:
+                      title: Field Name
+                      type: string
+                      description: Name of the field
+                      ui:options:
+                        placeholder: 'fieldName'
+                      ui:className: font-semibold
+                    fieldType:
+                      title: Field Data Type
+                      type: string
+                      description: Data type of the field
+                      enum:
+                        - string
+                        - int
+                        - number
+                        - boolean
+                        - datetime
+                        - object
+                        - any
+                      enumNames:
+                        - 'A String (text data)'
+                        - 'An Integer (whole numbers)'
+                        - 'A a Number (decimal numbers)'
+                        - 'A a Boolean (true/false)'
+                        - 'A a DateTime (date and time)'
+                        - 'An Object (complex data)'
+                        - 'An Any (any type)'
+                      default: string
+                      ui:field: Select
+                      ui:options:
+                        placeholder: 'Select data type'
+                    description:
+                      title: Field Description
+                      type: string
+                      description: Description of the field
+                      ui:options:
+                        placeholder: 'This description appears on tooltip hover'
+                      ui:className: font-semibold
+                    isRequired:
+                      title: Field is Required
+                      type: boolean
+                      description: Is this a required/mandatory field?
+                      default: true
+                      ui:widget: checkbox
+                      ui:options:
+                        - label: false
+              output:
+                title: Activity output field definition
+                type: array
+                description: Output configuration
+                ui:options:
+                  addable: true
+                  removable: true
+                items:
+                  type: object
+                  required:
+                    - fieldName
+                    - fieldType
+                    - description
+                    - isRequired
+                  properties:
+                    fieldName:
+                      title: Field Name
+                      type: string
+                      description: Name of the field
+                      ui:options:
+                        placeholder: 'fieldName'
+                      ui:className: font-semibold
+                    fieldType:
+                      title: Field Data Type
+                      type: string
+                      description: Data type of the field
+                      enum:
+                        - string
+                        - int
+                        - number
+                        - boolean
+                        - datetime
+                        - object
+                        - any
+                      enumNames:
+                        - 'A String (text data)'
+                        - 'An Integer (whole numbers)'
+                        - 'A a Number (decimal numbers)'
+                        - 'A a Boolean (true/false)'
+                        - 'A a DateTime (date and time)'
+                        - 'An Object (complex data)'
+                        - 'An Any (any type)'
+                      default: string
+                      ui:field: Select
+                      ui:options:
+                        placeholder: 'Select data type'
+                    description:
+                      title: Field Description
+                      type: string
+                      description: Description of the field
+                      ui:options:
+                        placeholder: 'This description appears on tooltip hover'
+                      ui:className: font-semibold
+                    isRequired:
+                      title: Field is Required
+                      type: boolean
+                      description: Is this a required/mandatory field?
+                      default: true
+                      ui:widget: checkbox
+                      ui:options:
+                        - label: false
+
+  # The import flow consist out of 4 steps:
+  # 1. Fetch the project from GitHub
+  # 2. Generate the Component YAML
+  # 3. Commit the Component YAML file back to the GitHub project branch creating a pull request
+  # 4. Register the Component in the catalog
+
+  steps:
+    - id: clone
+      name: Clone the Project
+      action: tibco:git:clone
+      input:
+        failOnError: true
+        repoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo }}
+
+    - id: generateActivity
+      name: Generate activity
+      each: ${{ parameters.activityList}}
+      action: fetch:template
+      input:
+        url: ./skeleton
+        targetPath: ${{ "extensions/" + parameters.category + "/src/" + parameters.extensionName + "/activity/" + each.value.activityName + "/" }}
+        replace: true
+        copyWithoutTemplating:
+          - '**/*.png'
+        values:
+          extensionName: ${{ parameters.extensionName }}
+          owner: ${{ (parameters.repoUrl | parseRepoUrl).owner }}
+          category: ${{ parameters.category }}
+          version: ${{ parameters.version }}
+          description: ${{ parameters.description }}
+          overview: ${{ parameters.overview }}
+          activity: ${{ each.value }}
+          activityName: ${{ each.value.activityName }}
+
+    - id: push
+      name: Push Current Repo
+      action: tibco:git:push
+      input:
+        failOnError: true
+
+  output:
+    links:
+      # If you are not using register step above, remove the below Open in catalog link.
+      - title: Repository (Pull Request)
+        url: ${{ steps.cpr.output.remoteUrl }}

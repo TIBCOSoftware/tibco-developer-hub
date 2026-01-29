@@ -1,0 +1,72 @@
+{
+    "name": "${{values.activity.activityName}}",
+    "version": "${{values.version}}",
+    "type": "flogo:activity",
+    "title": "${{values.activity.activityName}}",
+    "author": "Created by Flogo Extension Generator",
+    "display": {
+        "category": "${{values.extensionName}}",
+        "visible": true,
+        "description": "",
+        "smallIcon": "icons/activity-icon@2x.png",
+	"largeIcon": "icons/activity-icon@3x.png"
+    },
+    "feature": {
+        "retry": {
+            "enabled": true
+        }
+    },
+    "ref": "github.com/${{values.owner}}/flogo-enterprise-hub/extensions/${{values.extensionName}}/src/activity/${{values.activity.activityName}}",
+    "settings": [
+{% for o in values.activity.settings %}
+        {
+            "name": "${{o.fieldName}}",
+            "type": "${{o.fieldType}}",
+            "required": ${{o.isRequired}},
+            "description": "${{o.description}}",
+            "value":"Default_Value",
+            "display": {
+                "name": "${{o.fieldName}}",
+                "description": "${{o.description}}",
+                "required": ${{o.isRequired}},
+                "type":"${{o.fieldType}}",
+                "appPropertySupport": ${{o.isAppPropertySupport}}
+            }
+        }{% if not loop.last %},{% endif %}
+{%- endfor %}
+    ],
+    "inputs": [
+{% for o in values.activity.input %}
+        {
+            "name": "${{o.fieldName}}",
+            "type": "${{o.fieldType}}",
+            "required": ${{o.isRequired}}{% if o.fieldType == "object" %},
+            "display": {
+                "name": "JSON Schema",
+                "description": "An example JSON-based object",
+                "type": "texteditor",
+                "syntax": "json",
+                "mappable": true,
+                "visible": true
+            }{% endif %}
+        }{% if not loop.last %},{% endif %}
+{%- endfor %}
+    ],
+    "outputs": [
+{% for o in values.activity.output %}
+        {
+           "name": "${{o.fieldName}}",
+           "type": "${{o.fieldType}}",
+           "required": ${{o.isRequired}}{% if o.fieldType == "object" %},
+            "display": {
+                "name": "JSON Schema",
+                "description": "An example JSON-based object",
+                "type": "texteditor",
+                "syntax": "json",
+                "mappable": true,
+                "visible": true
+            }{% endif %}
+        }{% if not loop.last %},{% endif %}
+{%- endfor %}
+    ]
+}

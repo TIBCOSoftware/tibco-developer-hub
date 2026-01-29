@@ -1,0 +1,15 @@
+site_name: 'TIBCO Flogo Extension Generators'
+site_description: 'TIBCO Flogo Extension Generators'
+
+nav:
+  - Introduction: ./index.md
+  - Activity Scaffolder: ./flogo-activity-extension-scaffolder.md
+  - Trigger Scaffolder: ./flogo-trigger-extension-scaffolder.md
+  - Function Scaffolder: ./flogo-function-extension-scaffolder.md
+  - How to write a Flogo Function Extension: ./how-to-write-a-flogo-function-extension.md
+  - How to write a Flogo Activity Extension: ./how-to-write-a-flogo-activity-extension.md
+  - How to write a Flogo Trigger Extension: ./how-to-write-a-flogo-trigger-extension.md
+
+
+plugins:
+  - techdocs-core

@@ -1,0 +1,27 @@
+{
+  "name": "${{values.functionPackageName}}",
+  "type": "flogo:function",
+  "version": "1.0.0",
+  "title": "${{values.functionPackageTitle}}",
+  "description": "${{values.functionPackageDescription}}",
+  "functions": [
+{% for func in values.functionList %}
+    {
+      "name": "${{func.functionName}}",
+      "description": "${{func.functionDescription}}",
+      "example": "${{func.functionExample}}",
+      "args": [
+{%- for arg in func.arguments %}
+        {
+          "name": "${{arg.argName}}",
+          "type": "${{arg.argType}}"
+        }{% if not loop.last %},{% endif %}
+{%- endfor %}
+      ],
+      "return": {
+        "type": "${{func.returnType}}"
+      }
+    }{% if not loop.last %},{% endif %}
+{%- endfor %}
+  ]
+}
