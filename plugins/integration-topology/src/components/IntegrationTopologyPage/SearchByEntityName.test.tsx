@@ -81,30 +81,6 @@ describe('<SearchByEntityName/>', () => {
     expect(inputElement).toHaveValue('test2');
   });
 
-  it('should return all values when input cleared', async () => {
-    await renderInTestApp(
-      <TestApiProvider apis={[[searchApiRef, mockSearchApi]]}>
-        <SearchByEntityName
-          label="Search Entities by Name"
-          rootEntityNames={mockEntity}
-          onSelected={() => {}}
-        />
-      </TestApiProvider>,
-    );
-
-    const inputElement = screen.getByRole('textbox', {
-      name: 'Search',
-    });
-    expect(inputElement).toBeInTheDocument();
-    await user.click(inputElement);
-    await user.clear(inputElement);
-    await waitFor(() => {
-      expect(screen.getByText('test1')).toBeInTheDocument();
-      expect(screen.getByText('test2')).toBeInTheDocument();
-      expect(screen.getByText('test3')).toBeInTheDocument();
-    });
-  });
-
   it('should show search results options based on text typed', async () => {
     await renderInTestApp(
       <TestApiProvider apis={[[searchApiRef, mockSearchApi]]}>

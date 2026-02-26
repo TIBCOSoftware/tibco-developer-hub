@@ -15,9 +15,9 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import capitalize from 'lodash/capitalize';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { EntityTypeFilterCopy } from '../MarketplaceListPage/MarketplaceListPage.tsx';
+import { formatTypeDisplay } from '../MarketplaceCard/CardHeader.tsx';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -118,7 +118,7 @@ export const MarketplaceCategoryPicker = () => {
                 checked={selected}
               />
             }
-            label={capitalize(option)}
+            label={formatTypeDisplay(option)}
           />
         )}
         size="small"

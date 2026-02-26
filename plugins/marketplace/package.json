@@ -1,6 +1,6 @@
 {
   "name": "@internal/plugin-marketplace",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "license": "Apache-2.0",
   "private": true,
   "main": "src/index.ts",
@@ -44,6 +44,7 @@
   },
   "peerDependencies": {
     "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.13.1 || ^17.0.0 || ^18.0.0",
     "react-router-dom": "*"
   },
   "devDependencies": {
@@ -53,13 +54,17 @@
     "@backstage/plugin-catalog": "^1.31.1",
     "@backstage/plugin-permission-common": "^0.9.1",
     "@backstage/test-utils": "^1.7.10",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.0.0",
     "@types/lodash": "^4",
+    "@types/react": "^18",
     "@types/react-highlight-words": "^0",
     "msw": "^1.0.0",
     "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.3.0",
     "swr": "^2.3.3"
   },
   "files": [

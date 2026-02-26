@@ -1,6 +1,6 @@
 {
   "name": "@internal/plugin-integration-topology",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "license": "Apache-2.0",
   "private": true,
   "main": "src/index.ts",
@@ -56,12 +56,16 @@
     "@backstage/dev-utils": "^1.1.12",
     "@backstage/plugin-search-common": "^1.2.19",
     "@backstage/test-utils": "^1.7.10",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.0.0",
     "@types/qs": "^6",
+    "@types/react": "^18",
     "msw": "^1.0.0",
-    "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^6.3.0"
   },
   "files": [
     "dist"

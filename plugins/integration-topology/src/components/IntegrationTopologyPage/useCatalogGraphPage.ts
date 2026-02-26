@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import {
@@ -62,8 +62,10 @@ export function useCatalogGraphPage({
 
   const query = useMemo(
     () =>
-      (qs.parse(location.search, { arrayLimit: 0, ignoreQueryPrefix: true }) ||
-        {}) as {
+      (qs.parse(location.search, {
+        arrayLimit: 10000,
+        ignoreQueryPrefix: true,
+      }) || {}) as {
         selectedRelations?: string[] | string;
         selectedKinds?: string[] | string;
         rootEntityRefs?: string[] | string;

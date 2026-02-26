@@ -55,6 +55,7 @@ export function filterTags(tags: string[]) {
       'mp-sample',
       'mp-template',
       'mp-import-flow',
+      'mp-ai',
     ].includes(tag.toLowerCase());
   });
 }

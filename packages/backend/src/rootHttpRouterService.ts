@@ -1,12 +1,11 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import { rootHttpRouterServiceFactory } from '@backstage/backend-defaults/rootHttpRouter';
 import express, { Request, Response, Router } from 'express';
 import { getCPUrl } from './utils.ts';
 import { DevHubConfig } from './config.ts';
-import proxy from 'express-http-proxy';
 import { idmJwtMiddlewareFunction } from './idmJwtMiddleware.ts';
 import { KeyvStore } from './cacheService.ts';
 import cookieParser from 'cookie-parser';
@@ -24,17 +23,35 @@ export default rootHttpRouterServiceFactory({
     if (cpUrl.host && cpUrl.proxy) {
       router.get(
         DevHubConfig.wellKnownApiPath,
-        proxy(cpUrl.proxy, {
-          proxyReqPathResolver: () => {
-            return DevHubConfig.wellKnownApiPath;
-          },
-          // @ts-ignore
-          proxyReqOptDecorator: proxyReqOpts => {
-            proxyReqOpts.headers['x-cp-host'] = cpUrl.host;
-            proxyReqOpts.method = 'GET';
-            return proxyReqOpts;
-          },
-        }),
+        async (_request: Request, response: Response) => {
+          logger.info('Well-known endpoint registered');
+          const param: any = {
+            method: 'GET',
+            headers: {
+              'x-cp-host': cpUrl.host,
+            },
+          };
+          try {
+            const res = await fetch(
+              cpUrl.proxy + DevHubConfig.wellKnownApiPath,
+              param,
+            );
+            if (!res.ok) {
+              const errorBody = await res.text();
+              logger.error(
+                `Invalid response in in well-known endpoint, HTTP error! status: ${res.status} - ${errorBody}`,
+              );
+              response.status(res.status).send(errorBody);
+            }
+            const data: any = await res.json();
+            response.json(data);
+          } catch (err) {
+            logger.error('Error in well-known endpoint:', err as Error);
+            response
+              .status(500)
+              .send(`Internal Server Error: ${(err as Error).message}`);
+          }
+        },
       );
     } else {
       logger.error(
