@@ -1,5 +1,5 @@
 # Stage 1 - Create yarn install skeleton layer
-FROM alpine:3.22.2 AS packages
+FROM alpine:3.23.3 AS packages
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -15,11 +15,11 @@ COPY plugins plugins
 RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -exec rm -rf {} \+
 
 # Stage 2 - Build layer
-FROM alpine:3.22.2 as build
+FROM alpine:3.23.3 as build
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
-ENV NODE_VERSION="22.16.0-r2"
+ENV NODE_VERSION="24.13.0-r1"
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
     --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
@@ -54,11 +54,11 @@ RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
     && tar xzf packages/backend/dist/bundle.tar.gz -C packages/backend/dist/bundle
 
 # Stage 3 - Node builder layer
-FROM alpine:3.22.2 as node-builder
+FROM alpine:3.23.3 as node-builder
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
-ENV NODE_VERSION="22.16.0-r2"
+ENV NODE_VERSION="24.13.0-r1"
 ENV NODE_ENV=production
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
@@ -84,12 +84,12 @@ RUN --mount=type=cache,target=/home/nonroot/.yarn/berry/cache,sharing=locked,uid
     yarn workspaces focus --all --production && yarn cache clean --all
 
 # Stage 4 - Final layer
-FROM --platform=linux/amd64 alpine:3.22.2
+FROM alpine:3.23.3
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
 ENV PYTHON_VERSION="~3.12"
-ENV NODE_VERSION="22.16.0-r2"
+ENV NODE_VERSION="24.13.0-r1"
 ENV NODE_ENV=production
 ENV PYTHON=/usr/bin/python3
 

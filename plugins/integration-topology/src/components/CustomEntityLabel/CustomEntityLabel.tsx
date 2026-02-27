@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -63,7 +63,7 @@ export const CustomEntityLabel = ({
           <CustomTooltip
             key={`tooltip-${index}`}
             title={relation}
-            xPos={isVertical ? -24 : -24}
+            xPos={-24}
             yPos={isVertical ? 24 : 30}
           />
         </g>

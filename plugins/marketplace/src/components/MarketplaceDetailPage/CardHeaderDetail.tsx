@@ -16,6 +16,8 @@ import SampleBgIcon from '../../images/sample-bg.svg';
 import SampleIcon from '../../images/sample-icon.svg';
 import BlankBgIcon from '../../images/blank-bg.svg';
 import BlankIcon from '../../images/blank-icon.svg';
+import AIBgIcon from '../../images/ai-bg.svg';
+import AIIcon from '../../images/ai-icon.svg';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 import Highlighter from 'react-highlight-words';
 import { HighlightContext } from '../Filtering/HighlightContext.tsx';
@@ -35,6 +37,7 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import { TibcoIcon } from '../../Icons/TibcoIcon.tsx';
+import { formatTypeDisplay } from '../MarketplaceCard/CardHeader.tsx';
 
 const useStyles = makeStyles({
   categoryText: {
@@ -139,6 +142,10 @@ const HeaderImage = ({ template }: CardHeaderProps) => {
     case 'import-flow':
       bg = ImportFlowBgIcon;
       icon = ImportFlowIcon;
+      break;
+    case 'artificial-intelligence':
+      bg = AIBgIcon;
+      icon = AIIcon;
       break;
     default:
       bg = BlankBgIcon;
@@ -307,7 +314,7 @@ export const CardHeaderDetail = (props: CardHeaderProps) => {
         <div>
           <Grid container spacing={0} alignItems="center">
             <div className={styles.categoryText}>
-              {props.template.spec?.type}
+              {formatTypeDisplay(props.template.spec?.type)}
             </div>
             {isNew && (
               <img className={styles.newIcon} src={NewIcon} alt="new-logo" />

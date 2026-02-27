@@ -1,9 +1,9 @@
 {
   "name": "root",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "private": true,
   "engines": {
-    "node": "20 || 22"
+    "node": "22 || 24"
   },
   "scripts": {
     "start": "NODE_OPTIONS=--no-node-snapshot backstage-cli repo start",
@@ -43,6 +43,9 @@
   "resolutions": {
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/dom": "^10.4.0",
+    "isolated-vm": "^6.0.2",
     "@kubernetes/client-node": "^1.0.0-rc7",
     "jsonpath-plus": "^10.3.0",
     "@octokit/request-error": "^5.1.1",
@@ -50,9 +53,13 @@
     "@octokit/plugin-paginate-rest": "^9.2.2",
     "tar-fs": "^2.1.4",
     "tar": "^7.5.2",
-    "axios": "^1.12.0",
+    "axios": "^1.13.5",
     "fast-redact": "^3.5.0",
-    "@swc/core": "1.13.5"
+    "undici": "^7.3.0",
+    "@swc/core": "1.13.5",
+    "fast-xml-parser": "^5.3.4",
+    "@backstage/plugin-techdocs-node": "^1.14.1",
+    "@isaacs/brace-expansion": "^5.0.1 "
   },
   "prettier": "@spotify/prettier-config",
   "lint-staged": {
