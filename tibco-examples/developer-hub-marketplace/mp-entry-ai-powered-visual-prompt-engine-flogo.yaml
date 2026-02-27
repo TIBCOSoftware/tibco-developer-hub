@@ -30,7 +30,7 @@ metadata:
     - custom-activity
 spec:
   owner: group:default/marketplace-entries-group
-  type: sample
+  type: artificial-intelligence
   presentation:
     buttonLabels:
       createButtonText: Get
