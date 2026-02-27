@@ -18,7 +18,7 @@ You need to configure the action in your backend:
 ## From your Backstage root directory
 
 ```
-yarn --cwd packages/backend add @internal/plugin-scaffolder-backend-module-trigger-jenkins-job@^1.4.0
+yarn --cwd packages/backend add @internal/plugin-scaffolder-backend-module-trigger-jenkins-job
 ```
 
 Configure the action:
@@ -28,27 +28,14 @@ Import the action that you'd like to register to your backstage instance.
 
 ```typescript
 // packages/backend/src/index.ts
-import { triggerJenkinsJobAction } from '@internal/plugin-scaffolder-backend-module-trigger-jenkins-job';
-import {coreServices} from '@backstage/backend-plugin-api';
-...
-
-const scaffolderModuleCustomExtensions = createBackendModule({
-    pluginId: 'scaffolder', // name of the plugin that the module is targeting
-    moduleId: 'custom-extensions',
-    register(env) {
-        env.registerInit({
-            deps: {
-                scaffolder: scaffolderActionsExtensionPoint,
-                config: coreServices.rootConfig,
-            },
-            async init({ scaffolder, config }) {
-                scaffolder.addActions(new (triggerJenkinsJobAction as any)(config));
-                scaffolder.addActions(new (ExtractParametersAction as any)());
-                scaffolder.addActions(new (createYamlAction as any)());
-            },
-        });
-    },
-});
+//import after
+backend.add(
+    import('@internal/backstage-plugin-scaffolder-backend-module-import-flow'),
+);
+//here
+backend.add(
+    import('@internal/plugin-scaffolder-backend-module-trigger-jenkins-job'),
+);
 ```
 
 # app-config
