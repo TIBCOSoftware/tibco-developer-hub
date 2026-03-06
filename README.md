@@ -8,9 +8,10 @@ See the [architecture overview](https://backstage.io/docs/overview/architecture-
 
 ## Pre-requisites
 
-- NodeJs 20.x
-- yarn 1.22.19
-- Docker (with docker compose) -- to run the database (less than 4.42.1 version)
+- NodeJs 24.x [installation](https://nodejs.org/en/download)
+- yarn 4.4.1 [installation](https://yarnpkg.com/getting-started/install)
+- Docker (with docker compose) -- to run the database (less than 4.42.1 version) [installation](https://docs.docker.com/engine/install)
+- isolated-vm module, follow their [requirements section](https://github.com/laverdet/isolated-vm#requirements).
 
 ## Getting started
 
@@ -74,22 +75,6 @@ yarn start
 
 When the command finishes running, it should open up a browser window displaying your app. If not, you can open a browser and directly navigate to the frontend at http://localhost:3000/tibco/hub .
 
-For development purposes it might be more convenient to start the backend and the frontend server in different terminals.
-This way you can restart each one independently and the most importantly, makes it easier to read the log outputs and
-identify where the logs are coming from.
-
-Start the backend server
-
-```sh
-yarn start-backend
-```
-
-Start the frontend server
-
-```sh
-yarn start
-```
-
 ### Use of .env.yarn file to load environment variables
 
 To start TIBCO® Developer Hub with predefined environment variables, create a .env.yarn file under root of the project directory.
@@ -101,7 +86,7 @@ Example:
 File name: .env.yarn
 
 ```
-DOC_URL="https://docs.tibco.com/go/platform-cp/1.14.0/doc/html#cshid=developer_hub_overview"
+DOC_URL="https://docs.tibco.com/go/platform-cp/1.15.0/doc/html#cshid=developer_hub_overview"
 GITHUB_TOKEN=xxxxxxxxxx
 ```
 
@@ -123,6 +108,7 @@ docker build -t <customImageName:customImageTag> .
 
 | TIBCO Developer Hub Version | Minimum TIBCO Platform Version |
 | --------------------------- | ------------------------------ |
+| 1.15.0                      | 1.15.0                         |
 | 1.14.0                      | 1.12.0                         |
 | 1.13.0                      | 1.12.0                         |
 | 1.12.0                      | 1.12.0                         |
@@ -159,7 +145,7 @@ A partial summary of the third party software and licenses used in this project 
 
 ---
 
-Copyright 2024 Cloud Software Group, Inc.
+Copyright 2023-2026 Cloud Software Group, Inc.
 
 License. This project is Licensed under the Apache License, Version 2.0 (the "License").
 You may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0

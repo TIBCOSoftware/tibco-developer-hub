@@ -16,6 +16,8 @@ import SampleBgIcon from '../../images/sample-bg.svg';
 import SampleIcon from '../../images/sample-icon.svg';
 import BlankBgIcon from '../../images/blank-bg.svg';
 import BlankIcon from '../../images/blank-icon.svg';
+import AIBgIcon from '../../images/ai-bg.svg';
+import AIIcon from '../../images/ai-icon.svg';
 
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 import Highlighter from 'react-highlight-words';
@@ -27,6 +29,7 @@ import {
 } from '@backstage/plugin-catalog-react';
 import { RELATION_OWNED_BY } from '@backstage/catalog-model';
 import NewIcon from '../../images/new.svg';
+import { capitalize } from 'lodash';
 
 const useStyles = makeStyles({
   installedText: {
@@ -84,6 +87,15 @@ const useStyles = makeStyles({
 });
 
 /**
+ * Formats the type string for display, handling special cases and formatting to title case.
+ */
+export function formatTypeDisplay(type?: string): string {
+  if (!type) return '';
+
+  return type.replace(/-/g, ' ').split(' ').map(capitalize).join(' ');
+}
+
+/**
  * Props for the CardHeader component
  */
 export interface CardHeaderProps {
@@ -112,6 +124,10 @@ function HeaderImage({ template }: CardHeaderProps) {
     case 'import-flow':
       bg = ImportFlowBgIcon;
       icon = ImportFlowIcon;
+      break;
+    case 'artificial-intelligence':
+      bg = AIBgIcon;
+      icon = AIIcon;
       break;
     default:
       bg = BlankBgIcon;
@@ -174,7 +190,9 @@ export const CardHeader = (props: CardHeaderProps) => {
       <Grid container spacing={0} justifyContent="space-between">
         <div>
           <Grid container spacing={0} alignItems="center">
-            <div className="th-font-small">{props.template.spec?.type}</div>
+            <div className="th-font-small">
+              {formatTypeDisplay(props.template.spec?.type)}
+            </div>
             {isNew && (
               <img
                 data-testid="new-image"

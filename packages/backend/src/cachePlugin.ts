@@ -7,15 +7,19 @@ import {
   createBackendPlugin,
 } from '@backstage/backend-plugin-api';
 import { KeyvStore } from './cacheService.ts';
+import { Knex } from 'knex';
+
+const PLUGIN_ID: string = 'tibco_hub_cache';
 
 export default createBackendPlugin({
-  pluginId: 'tibco_hub_cache',
+  pluginId: PLUGIN_ID,
   register(env) {
     env.registerInit({
       deps: {
+        database: coreServices.database,
         config: coreServices.rootConfig,
       },
-      async init({ config }) {
+      async init({ database, config }) {
         const enableAuthProviders = config.getOptionalStringArray(
           'auth.enableAuthProviders',
         );
@@ -23,7 +27,11 @@ export default createBackendPlugin({
           enableAuthProviders &&
           enableAuthProviders.includes('tibco-control-plane')
         ) {
-          KeyvStore.initialize();
+          const knex: Knex = await database.getClient();
+          const pluginDivisionMode: string =
+            config.getOptionalString('backend.database.pluginDivisionMode') ||
+            'database';
+          KeyvStore.initialize(knex, pluginDivisionMode, PLUGIN_ID);
           await KeyvStore.keyv.clear();
         }
       },

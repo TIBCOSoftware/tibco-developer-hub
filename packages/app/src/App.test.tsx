@@ -775,6 +775,32 @@ describe('Should render all the routes correctly', () => {
                  }
                  ]*/
           },
+          {
+            apiVersion: 'scaffolder.backstage.io/v1beta3',
+            kind: 'Template',
+            metadata: {
+              namespace: 'default',
+              name: 'ai-agent1-name',
+              title: 'AI Agent 1 title',
+              description: 'AI Agent 1 description',
+              tags: ['devhub-marketplace', 'ai', 'agent'],
+              'tibco.developer.hub/marketplace': {
+                isNew: false,
+                moreInfo: [
+                  {
+                    text: 'AI Agent Info',
+                    url: 'https://ai-agent-info.com',
+                    icon: 'docs',
+                  },
+                ],
+              },
+            },
+            spec: {
+              type: 'artificial-intelligence',
+              system: 'system1-name',
+              owner: 'group:default/group1-name',
+            },
+          },
         ],
       }),
       getEntitiesByRefs: async () => ({
@@ -946,15 +972,16 @@ describe('Should render all the routes correctly', () => {
     const entry = getByText('Marketplace2 title');
     expect(entry).toBeInTheDocument();
     expect(getByText('Marketplace2 description')).toBeInTheDocument();
-    expect(getAllByText('Get').length).toEqual(2);
+    expect(getAllByText('Get').length).toEqual(3);
     expect(getByText('Open')).toBeInTheDocument();
     expect(getByText('Open').closest('a')).toHaveAttribute(
       'href',
       '/catalog/default/template/template1-name',
     );
-    expect(getByText('document')).toBeInTheDocument();
-    expect(getByText('sample')).toBeInTheDocument();
-    expect(getByText('template')).toBeInTheDocument();
+    expect(getByText('Document')).toBeInTheDocument();
+    expect(getByText('Sample')).toBeInTheDocument();
+    expect(getByText('Template')).toBeInTheDocument();
+    expect(getByText('Artificial Intelligence')).toBeInTheDocument();
     expect(getByText('Added')).toBeInTheDocument();
     expect(getByTestId('new-image')).toBeInTheDocument();
     //   expect(getByText('Group1 display name')).toBeInTheDocument();
@@ -978,6 +1005,14 @@ describe('Should render all the routes correctly', () => {
     expect(getByText('flogo1')).toBeInTheDocument();
     expect(getByText('flogo2')).toBeInTheDocument();
     expect(getByText('flogo3')).toBeInTheDocument();
+    expect(getByText('AI Agent 1 title')).toBeInTheDocument();
+    expect(getByText('AI Agent 1 description')).toBeInTheDocument();
+    expect(getByText('ai')).toBeInTheDocument();
+    expect(getByText('agent')).toBeInTheDocument();
+    expect(getByText('AI Agent Info').closest('a')).toHaveAttribute(
+      'href',
+      'https://ai-agent-info.com',
+    );
     expect(queryByText('flogo4')).not.toBeInTheDocument();
     expect(queryByText('flogo7')).not.toBeInTheDocument();
     await userEvent.click(entry);
@@ -985,10 +1020,10 @@ describe('Should render all the routes correctly', () => {
       expect(getByTestId('detail-container')).toBeInTheDocument();
     });
     expect(getByTestId('detail-default-image')).toBeInTheDocument();
-    expect(getAllByText('Get').length).toEqual(3);
+    expect(getAllByText('Get').length).toEqual(4);
     expect(getAllByText('Marketplace2 title').length).toEqual(2);
     expect(getAllByText('Marketplace2 description').length).toEqual(2);
-    expect(getAllByText('sample').length).toEqual(2);
+    expect(getAllByText('Sample').length).toEqual(2);
     expect(getAllByText('flogo').length).toEqual(2);
     expect(getAllByText('Get more info').length).toEqual(2);
 

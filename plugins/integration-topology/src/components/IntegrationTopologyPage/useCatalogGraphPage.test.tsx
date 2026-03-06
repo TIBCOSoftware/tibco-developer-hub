@@ -15,8 +15,7 @@
  */
 import { RELATION_MEMBER_OF } from '@backstage/catalog-model';
 import { renderHook, waitFor } from '@testing-library/react';
-import { ReactNode } from 'react';
-import { act } from 'react-dom/test-utils';
+import { ReactNode, act } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Direction } from '@backstage/plugin-catalog-graph';
 import { useCatalogGraphPage } from './useCatalogGraphPage';
