@@ -152,7 +152,7 @@ spec:
       name: Register
       action: catalog:register
       input:
-        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/" + parameters.application.replace("/", ".") + "/" + parameters.application + "/" + parameters.application +"-bwce-catalog-info.yaml" }}
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application + "/" + parameters.application + "-bwce-catalog-info.yaml" }}
 
   output:
     links:

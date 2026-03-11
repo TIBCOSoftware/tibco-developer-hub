@@ -148,7 +148,7 @@ spec:
       name: Register
       action: catalog:register
       input:
-        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/" + parameters.application.replace("/", ".") + '/' + parameters.application + "-flogo-catalog-info.yaml" }}
+        catalogInfoUrl: ${{ "https://"  + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" +  (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + parameters.application + "-flogo-catalog-info.yaml" }}
 
   output:
     links:
