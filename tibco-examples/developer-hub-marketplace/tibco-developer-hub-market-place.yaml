@@ -12,7 +12,7 @@ spec:
     - ./mp-entry-if-advanced-bwce6.yaml
     - ./mp-entry-if-advanced-ems.yaml
     - ./mp-entry-if-advanced-flogo-ems.yaml
-    - ./mp-entry-doc-platform-apis-114.yaml
+    - ./mp-entry-doc-platform-apis-115.yaml
     - ./mp-entry-sample-flogo-mcp-customer360.yaml
     - ./mp-entry-platform-cli-provisioning-example.yaml
     - ./mp-entry-doc-platform-provisioner.yaml
