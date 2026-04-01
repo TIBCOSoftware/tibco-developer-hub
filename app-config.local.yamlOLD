@@ -33,35 +33,29 @@ backend:
     dangerouslyDisableDefaultAuthPolicy: true
   # auth:
   #   externalAccess:
-  baseUrl: http://172.19.92.53:7007
+  baseUrl: http://localhost:7007
   listen:
-    host: 172.19.92.53
     port: 7007
     # Uncomment the following host directive to bind to all IPv4 interfaces and
     # not just the baseUrl hostname.
-   
+    # host: 0.0.0.0
   cors:
     origin: 
     - http://localhost:3000
     - http://127.0.0.1:3000
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
-  # database:
-  #   client: better-sqlite3
-  #   connection: ':memory:'
   database:
-    client: pg
-    connection:
-      # replace these to match your environment
-      host: localhost
-      port: 5432
-      user: postgres
-      password: example
-      # host: ${POSTGRES_HOST}
-      # port: ${POSTGRES_PORT}
-      # user: ${POSTGRES_USER}
-      # password: ${POSTGRES_PASSWORD}
-
+    client: better-sqlite3
+    connection: ':memory:'
+  # database:
+  #   client: pg
+  #   connection:
+  #     # replace these to match your environment
+  #     host: ${POSTGRES_HOST}
+  #     port: ${POSTGRES_PORT}
+  #     user: ${POSTGRES_USER}
+  #     password: ${POSTGRES_PASSWORD}
 
 ## Uncomment the below github integrations config to add a PAT to try out
 ## new component creation using one of the available templates.
