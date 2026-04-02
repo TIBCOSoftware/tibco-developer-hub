@@ -19,7 +19,7 @@ FROM alpine:3.23.3 as build
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
-ENV NODE_VERSION="24.13.0-r1"
+ENV NODE_VERSION="24.14.1-r0"
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
     --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
@@ -58,7 +58,7 @@ FROM alpine:3.23.3 as node-builder
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
-ENV NODE_VERSION="24.13.0-r1"
+ENV NODE_VERSION="24.14.1-r0"
 ENV NODE_ENV=production
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
@@ -89,9 +89,11 @@ FROM alpine:3.23.3
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
 ENV PYTHON_VERSION="~3.12"
-ENV NODE_VERSION="24.13.0-r1"
+ENV NODE_VERSION="24.14.1-r0"
 ENV NODE_ENV=production
 ENV PYTHON=/usr/bin/python3
+
+RUN apk upgrade --no-cache
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
     --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
@@ -105,6 +107,7 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+RUN pip3 install --upgrade pip
 RUN pip3 install mkdocs-techdocs-core==1.6.0
 RUN pip3 install setuptools
 
