@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: "flogo-capability-api-116"
+  description: "API of the Flogo Capability (1.16)"
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - tibco-platform
+    - capability
+spec:
+  type: openapi
+  lifecycle: production
+  owner: TIBCO
+  definition:
+    $text: ./flogo-capability-api-116.json

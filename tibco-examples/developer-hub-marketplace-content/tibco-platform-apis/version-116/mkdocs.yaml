@@ -1,0 +1,12 @@
+site_name: 'TIBCO Platform APIs 1.16 - Changelog'
+site_description: 'Complete API changelog for TIBCO Platform APIs from version 1.7 through 1.16'
+
+nav:
+  - Overview: index.md
+  - Control Plane API: control-plane-api.md
+  - BWCE Capability API: bwce-capability-api.md
+  - BW5 CE Capability API: bw5ce-capability-api.md
+  - Flogo Capability API: flogo-capability-api.md
+
+plugins:
+  - techdocs-core
