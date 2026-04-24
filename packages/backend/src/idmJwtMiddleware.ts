@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import { NextFunction, Request, RequestHandler, Response } from 'express';
@@ -142,6 +142,7 @@ export const idmJwtMiddlewareFunction = (
           return next();
         }
       } catch (error: any) {
+        await deleteFromCache(token || '');
         if (error instanceof AuthenticationError) {
           return next(error);
         }

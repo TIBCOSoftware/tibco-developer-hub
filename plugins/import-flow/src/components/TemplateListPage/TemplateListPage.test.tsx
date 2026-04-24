@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import { DefaultStarredEntitiesApi } from '@backstage/plugin-catalog';
@@ -204,6 +204,79 @@ describe('TemplateListPage for import flow', () => {
     );
     await waitFor(() => {
       expect(getByText('Test import flow title')).toBeInTheDocument();
+    });
+  });
+
+  describe('TemplateUserListPicker (excludedTags prop)', () => {
+    it('renders TemplateUserListPicker instead of UserListPicker when excludedTags are provided', async () => {
+      const { getByTestId } = await renderInTestApp(
+        <TestApiProvider
+          apis={[
+            [catalogApiRef, mockCatalogApi],
+            [
+              starredEntitiesApiRef,
+              new DefaultStarredEntitiesApi({
+                storageApi: mockApis.storage(),
+              }),
+            ],
+            [permissionApiRef, mockApis.permission()],
+          ]}
+        >
+          <TemplateListPage excludedTags={['import-flow']} />
+        </TestApiProvider>,
+        mountedRoutes,
+      );
+
+      expect(getByTestId('template-user-list-picker')).toBeInTheDocument();
+    });
+
+    it('does not render TemplateUserListPicker when excludedTags are not provided', async () => {
+      const { queryByTestId } = await renderInTestApp(
+        <TestApiProvider
+          apis={[
+            [catalogApiRef, mockCatalogApi],
+            [
+              starredEntitiesApiRef,
+              new DefaultStarredEntitiesApi({
+                storageApi: mockApis.storage(),
+              }),
+            ],
+            [permissionApiRef, mockApis.permission()],
+          ]}
+        >
+          <TemplateListPage />
+        </TestApiProvider>,
+        mountedRoutes,
+      );
+
+      expect(
+        queryByTestId('template-user-list-picker'),
+      ).not.toBeInTheDocument();
+    });
+
+    it('renders TemplateUserListPicker when both requiredTags and excludedTags are provided', async () => {
+      const { getByTestId } = await renderInTestApp(
+        <TestApiProvider
+          apis={[
+            [catalogApiRef, mockCatalogApi],
+            [
+              starredEntitiesApiRef,
+              new DefaultStarredEntitiesApi({
+                storageApi: mockApis.storage(),
+              }),
+            ],
+            [permissionApiRef, mockApis.permission()],
+          ]}
+        >
+          <TemplateListPage
+            requiredTags={['self-service']}
+            excludedTags={['devhub-marketplace']}
+          />
+        </TestApiProvider>,
+        mountedRoutes,
+      );
+
+      expect(getByTestId('template-user-list-picker')).toBeInTheDocument();
     });
   });
 

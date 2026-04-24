@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import {
@@ -9,6 +9,7 @@ import {
 } from '@backstage/backend-plugin-api';
 import { CatalogClient } from '@backstage/catalog-client';
 import { ResponseError } from '@backstage/errors';
+import { catalogServiceRef } from '@backstage/plugin-catalog-node';
 
 interface Location {
   type?: string;
@@ -50,6 +51,7 @@ export default createBackendModule({
         discovery: coreServices.discovery,
         scheduler: coreServices.scheduler,
         auth: coreServices.auth,
+        catalog: catalogServiceRef,
       },
       async init({ logger, config, discovery, auth, scheduler }) {
         try {
@@ -73,7 +75,7 @@ export default createBackendModule({
                   minutes: essentialLocations.frequencyInMinutes || 60 * 2,
                 },
                 timeout: { minutes: 5 },
-                initialDelay: { seconds: 0 },
+                initialDelay: { seconds: 30 },
                 scope: 'global',
                 id: 'add-essential-location-scheduler',
                 fn: async () => {
@@ -96,7 +98,7 @@ export default createBackendModule({
                 token,
               );
               logger.info('Essential location added successfully.');
-            }, 0);
+            }, 30 * 1000);
           }
         } catch (e) {
           logger.error(

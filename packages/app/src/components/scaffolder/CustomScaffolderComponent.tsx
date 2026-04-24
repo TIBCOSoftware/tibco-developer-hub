@@ -1,10 +1,11 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import { ScaffolderPage } from '@backstage/plugin-scaffolder';
+import { TemplateListPage } from '@internal/backstage-plugin-import-flow';
 
 export interface TemplateGroups {
   name: string;
@@ -44,7 +45,9 @@ export const CustomScaffolderComponent = () => {
   const templateGroups: undefined | TemplateGroups[] = templateGroupsValue(
     config.getOptional('templateGroups'),
   );
-  let groups;
+  let groups:
+    | { title: string; filter: (entity: TemplateEntityV1beta3) => boolean }[]
+    | undefined;
   if (templateGroups) {
     groups = [];
     for (const templateGroup of templateGroups) {
@@ -63,20 +66,31 @@ export const CustomScaffolderComponent = () => {
   }
   return (
     <ScaffolderPage
-      templateFilter={entity => {
-        const tags = entity.metadata.tags?.map(v => v.toLowerCase());
-        return !(
-          tags?.includes('import-flow') ||
-          tags?.includes('devhub-marketplace') ||
-          tags?.includes('devhub-internal')
-        );
-      }}
-      groups={groups}
-      headerOptions={{
-        pageTitleOverride: 'Develop a new component',
-        title: 'Develop a new component',
-        subtitle:
-          'Develop new software components using standard templates in your organization',
+      components={{
+        EXPERIMENTAL_TemplateListPageComponent: () => (
+          <TemplateListPage
+            templateFilter={entity => {
+              const tags = entity.metadata.tags?.map(v => v.toLowerCase());
+              return !(
+                tags?.includes('import-flow') ||
+                tags?.includes('devhub-marketplace') ||
+                tags?.includes('devhub-internal')
+              );
+            }}
+            excludedTags={[
+              'import-flow',
+              'devhub-marketplace',
+              'devhub-internal',
+            ]}
+            groups={groups}
+            headerOptions={{
+              pageTitleOverride: 'Develop a new component',
+              title: 'Develop a new component',
+              subtitle:
+                'Develop new software components using standard templates in your organization',
+            }}
+          />
+        ),
       }}
     />
   );

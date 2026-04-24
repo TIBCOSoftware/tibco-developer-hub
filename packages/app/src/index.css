@@ -29,3 +29,33 @@ html {
 *:after {
   box-sizing: inherit;
 }
+
+/*
+ * Override @backstage/ui CSS custom property tokens to align with the TIBCO
+ * app theme (primary: #1774e5). These unlayered rules take precedence over the
+ * @layer tokens and @layer components declarations in @backstage/ui/css/styles.css,
+ * ensuring Dialog and Button components render with TIBCO brand colors.
+ */
+
+/* 1. Align solid (primary) button background with TIBCO primary color */
+:root {
+  --bui-bg-solid: #1774e5;
+  --bui-bg-solid-hover: #0e4f9e;
+  --bui-bg-solid-pressed: #0e2d65;
+  --bui-bg-solid-disabled: #a3c5f5;
+  /* Focus ring matches primary */
+  --bui-ring: #1774e5;
+}
+
+/*
+ * 2. Override destructive primary button colors to use TIBCO blue instead of
+ * the hardcoded red (#dc2626) set by @backstage/ui Button.module.css.
+ * These custom properties (--bg-solid-danger-*) are element-scoped inside
+ * @layer components, so an unlayered attribute-selector rule overrides them.
+ */
+[data-variant='primary'][data-destructive='true'] {
+  --bg-solid-danger: #1774e5;
+  --bg-solid-danger-hover: #0e4f9e;
+  --bg-solid-danger-pressed: #0e2d65;
+  --bg-solid-danger-disabled: #a3c5f5;
+}
