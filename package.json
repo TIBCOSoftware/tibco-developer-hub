@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "private": true,
   "engines": {
     "node": "22 || 24"
@@ -14,7 +14,7 @@
     "tsc:full": "tsc --skipLibCheck false --incremental false",
     "clean": "backstage-cli repo clean",
     "test": "backstage-cli repo test",
-    "test:all": "backstage-cli repo test --coverage --testResultsProcessor jest-sonar-reporter --runInBand --testTimeout=30000",
+    "test:all": "backstage-cli repo test --silent --coverage --testResultsProcessor jest-sonar-reporter --runInBand --testTimeout=30000",
     "test:e2e": "playwright test",
     "fix": "backstage-cli repo fix",
     "lint": "backstage-cli repo lint --since origin/main",
@@ -55,14 +55,19 @@
     "tar": "^7.5.11",
     "axios": "^1.13.5",
     "fast-redact": "^3.5.0",
-    "undici": "^7.3.0",
+    "undici": "^7.24.5",
     "@swc/core": "1.13.5",
-    "fast-xml-parser": "^5.5.6",
+    "fast-xml-parser": "^5.5.8",
     "@backstage/plugin-techdocs-node": "^1.14.1",
     "@isaacs/brace-expansion": "^5.0.1",
     "@tootallnate/once": "^3.0.1",
     "underscore": "^1.13.8",
-    "file-type": "^21.3.1"
+    "file-type": "^21.3.1",
+    "flatted": "^3.4.0",
+    "yauzl": "^3.2.1",
+    "protobufjs": "^7.5.5",
+    "basic-ftp": "^5.3.0",
+    "follow-redirects": "^1.16.0"
   },
   "prettier": "@spotify/prettier-config",
   "lint-staged": {
