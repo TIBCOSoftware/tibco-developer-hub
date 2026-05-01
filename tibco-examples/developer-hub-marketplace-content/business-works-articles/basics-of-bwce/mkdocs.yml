@@ -1,0 +1,11 @@
+site_name: BWCE Basics Learning Guide
+site_description: Comprehensive learning guide for TIBCO BusinessWorks Container Edition fundamentals, featuring hands-on tutorials, sample applications, and practical exercises for developers new to BWCE
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core
+
+docs_dir: docs
+site_dir: site

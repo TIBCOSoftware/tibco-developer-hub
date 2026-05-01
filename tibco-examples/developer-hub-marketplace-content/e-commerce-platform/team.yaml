@@ -1,0 +1,253 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tibco-organization
+  description: The TIBCO organization
+spec:
+  type: organization
+  profile:
+    displayName: TIBCO
+    email: tibco@tibco.com
+    picture: https://www.tibco.com/sites/tibco/files/media_entity/2021-05/TIBCO-logo.png
+  children:
+    - group:default/tibco-integration-team
+    - group:default/tibco-flogo-team
+    - group:default/platform-team
+    - group:default/marketplace-entries-group
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tibco-integration-team
+  description: The team responsible for TIBCO integration solutions and BWCE templates
+spec:
+  type: team
+  profile:
+    displayName: TIBCO Integration Team
+    email: integration-team@tibco.com
+    picture: https://www.tibco.com/sites/tibco/files/media_entity/2021-05/TIBCO-logo.png
+  parent: group:default/tibco-organization
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tibco-flogo-team
+  description: The team responsible for Flogo extensions and activities
+spec:
+  type: team
+  profile:
+    displayName: TIBCO Flogo Team
+    email: flogo-team@tibco.com
+    picture: https://www.tibco.com/sites/tibco/files/media_entity/2021-05/TIBCO-logo.png
+  parent: group:default/tibco-organization
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tibco-templates
+  description: The team responsible for TIBCO template development and management
+spec:
+  type: team
+  profile:
+    displayName: TIBCO Templates Team
+    email: templates@tibco.com
+    picture: https://www.tibco.com/sites/tibco/files/media_entity/2021-05/TIBCO-logo.png
+  parent: group:default/tibco-organization
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: marketplace-entries-group
+  description: The group responsible for managing marketplace entries and templates
+spec:
+  type: team
+  profile:
+    displayName: Marketplace Entries Group
+    email: marketplace@tibco.com
+    picture: https://www.tibco.com/sites/tibco/files/media_entity/2021-05/TIBCO-logo.png
+  parent: group:default/tibco-organization
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: ecommerce-team
+  description: The team responsible for the e-commerce platform
+spec:
+  type: team
+  profile:
+    displayName: E-Commerce Team
+    email: ecommerce-team@example.com
+    picture: https://example.com/ecommerce-team-logo.png
+  parent: group:default/engineering
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: engineering
+  description: The engineering organization
+spec:
+  type: organization
+  profile:
+    displayName: Engineering
+    email: engineering@example.com
+    picture: https://example.com/engineering-logo.png
+  children:
+    - group:default/ecommerce-team
+    - group:default/inventory-team
+    - group:default/order-team
+    - group:default/shipping-team
+    - group:default/user-team
+    - group:default/catalog-team
+    - group:default/checkout-team
+    - group:default/cart-team
+    - group:default/database-team
+    - group:default/payments-team
+  members: [jdoe]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: inventory-team
+  description: The team responsible for managing inventory
+spec:
+  type: team
+  profile:
+    displayName: Inventory Team
+    email: inventory-team@example.com
+  parent: group:default/engineering
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: order-team
+  description: The team responsible for order processing
+spec:
+  type: team
+  profile:
+    displayName: Order Team
+    email: order-team@example.com
+  parent: group:default/engineering
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: shipping-team
+  description: The team responsible for shipping integration
+spec:
+  type: team
+  profile:
+    displayName: Shipping Team
+    email: shipping-team@example.com
+  parent: group:default/engineering
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: user-team
+  description: The team responsible for user management
+spec:
+  type: team
+  profile:
+    displayName: User Team
+    email: user-team@example.com
+  parent: group:default/engineering
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: catalog-team
+  description: The team responsible for the product catalog
+spec:
+  type: team
+  profile:
+    displayName: Catalog Team
+    email: catalog-team@example.com
+  parent: group:default/engineering
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: checkout-team
+  description: The team responsible for the checkout process
+spec:
+  type: team
+  profile:
+    displayName: Checkout Team
+    email: checkout-team@example.com
+  parent: group:default/engineering
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: cart-team
+  description: The team responsible for cart management
+spec:
+  type: team
+  profile:
+    displayName: Cart Team
+    email: cart-team@example.com
+  parent: group:default/engineering
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: database-team
+  description: The team responsible for database administration
+spec:
+  type: team
+  profile:
+    displayName: Database Team
+    email: database-team@example.com
+  parent: group:default/engineering
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: payments-team
+  description: The team responsible for payment processing
+spec:
+  type: team
+  profile:
+    displayName: Payments Team
+    email: payments-team@example.com
+  parent: group:default/engineering
+  children: []
+  members: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: jdoe
+spec:
+  profile:
+    displayName: Jenny Doe
+    email: jenny-doe@example.com
+    picture: https://example.com/staff/jenny-with-party-hat.jpeg
+  memberOf: [engineering]

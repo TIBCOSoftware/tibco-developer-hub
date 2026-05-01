@@ -1,33 +1,37 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-template-flogo-unit-testing-debug
-  title: Flogo Unit Testing (Debug)
-  description: Unit Testing - Playing a Test Case Once (Flow Debugger) in Flogo.
-    With Unit Testing, you can monitor the health of your application and detect
-    errors in individual flows or activity levels.
+  name: mp-entry-template-flogo-ai-healthcare-compliance
+  title: Healthcare Compliance Agent
+  description: A HIPAA-aware patient support assistant built with the TIBCO Flogo
+    Agentic AI Connector. Features custom PHI guardrails that redact SSN, DOB,
+    and MRN from every LLM interaction, a file-based custom conversation store
+    for audit trails, and custom tool handlers for appointment scheduling,
+    clinic finding, and medication guidance.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
     moreInfo:
-      - text: Flogo
-        url: https://www.tibco.com/content/dam/tibco/documents/data-sheet/tibco-flogo-enterprise.pdf
+      - text: Flogo Agentic AI
+        url: https://docs.tibco.com/pub/flogo/latest/doc/html/Default.htm#connectors/agentic-AI/agentic-AI-overview.htm
         icon: docs
-      - text: Samples
-        url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/
+      - text: Agentic AI Samples
+        url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/Agentic_AI/
         icon: github
   tags:
     - devhub-marketplace
-    - flogo-templates
-    - integration
-    - testing
+    - artificial-intelligence
+    - agentic-ai
+    - healthcare
+    - hipaa
+    - guardrails
     - flogo
 spec:
   owner: group:default/marketplace-entries-group
-  type: template
+  type: artificial-intelligence
   presentation:
     buttonLabels:
       createButtonText: Get
@@ -40,11 +44,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  Flogo Unit Testing (Debug) added to your TIBCO Developer Hub
+            ## Get  Healthcare Compliance Agent added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-template-flogo-unit-testing-debug
+            **ID:** mp-entry-template-flogo-ai-healthcare-compliance
 
-            **Description:** Unit Testing - Playing a Test Case Once (Flow Debugger) in Flogo. With Unit Testing, you can monitor the health of your application and detect errors in individual flows or activity levels. 
+            **Description:** A HIPAA-aware patient support assistant built with the TIBCO Flogo Agentic AI Connector. Features custom PHI guardrails that redact SSN, DOB, and MRN from every LLM interaction, a file-based custom conversation store for audit trails, and custom tool handlers for appointment scheduling, clinic finding, and medication guidance. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/flogo-enterprise-hub//blob/master/LICENSE).
@@ -62,7 +66,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-templates/template-flogo-unit-testing-debug.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-ai-agents/template-flogo-ai-healthcare-compliance.yaml
   output:
     links:
       - title: Open in catalog
@@ -73,8 +77,8 @@ spec:
         url: /create?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
         icon: kind:template
       - icon: kind:template
-        title: Run Flogo Unit Testing (Debug) Template
-        url: /create/templates/default/template-flogo-unit-testing-debug
+        title: Run Healthcare Compliance Agent Template
+        url: /create/templates/default/template-flogo-ai-healthcare-compliance
         type: openButton
       - title: Back to Marketplace
         url: /marketplace

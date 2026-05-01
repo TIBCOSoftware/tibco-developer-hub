@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: Shipping API
+  version: v1
+paths:
+  /rates:
+    get:
+      summary: Get shipping rates
+      parameters:
+        - in: query
+          name: origin
+          schema:
+            type: string
+          description: Origin postal code
+        - in: query
+          name: destination
+          schema:
+            type: string
+          description: Destination postal code
+        - in: query
+          name: weight
+          schema:
+            type: number
+            format: float
+          description: Package weight in kilograms
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    provider:
+                      type: string
+                    service:
+                      type: string
+                    rate:
+                      type: number
+                      format: float
+                    estimatedDelivery:
+                      type: string
+                      format: date-time
+  /tracking/{trackingId}:
+    get:
+      summary: Get shipment tracking information
+      parameters:
+        - in: path
+          name: trackingId
+          schema:
+            type: string
+          required: true
+          description: Shipment tracking ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  location:
+                    type: string
+                  estimatedDelivery:
+                    type: string
+                    format: date-time
+                  events:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: string
+                          format: date-time
+                        location:
+                          type: string
+                        description:
+                          type: string

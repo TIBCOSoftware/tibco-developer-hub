@@ -1,0 +1,32 @@
+site_name: ${{ values.name | dump }}
+site_description: ${{ values.description | dump }}
+
+nav:
+  - Introduction: index.md
+  - Architecture Overview: architecture.md
+  - Development Setup: development-setup.md
+  - Creating Applications: creating-applications.md
+  - Process Design: process-design.md
+  - Configuration: configuration.md
+  {% if values.include_sample_app -%}
+  - Sample Application: sample-application.md
+  {% endif -%}
+  {% if values.include_exercises -%}
+  - Hands-on Exercises: exercises.md
+  {% endif -%}
+  {% if values.include_docker_setup -%}
+  - Docker Deployment: docker-deployment.md
+  {% endif -%}
+  {% if values.include_kubernetes_deploy -%}
+  - Kubernetes Deployment: kubernetes-deployment.md
+  {% endif -%}
+  {% if values.include_monitoring -%}
+  - Monitoring & Logging: monitoring.md
+  {% endif -%}
+  {% if values.include_best_practices -%}
+  - Best Practices: best-practices.md
+  {% endif -%}
+  - Resources: resources.md
+
+plugins:
+  - techdocs-core

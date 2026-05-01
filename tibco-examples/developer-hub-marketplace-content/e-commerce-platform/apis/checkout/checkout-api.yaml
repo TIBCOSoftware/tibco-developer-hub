@@ -1,0 +1,124 @@
+openapi: 3.0.0
+info:
+  title: Checkout API
+  version: v1
+paths:
+  /checkout:
+    post:
+      summary: Initiate checkout process
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cartId:
+                  type: string
+                  description: ID of the shopping cart
+                shippingAddress:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip:
+                      type: string
+                    country:
+                      type: string
+                billingAddress:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                    city:
+                      type: string
+                    state:
+                      type: string
+                    zip:
+                      type: string
+                    country:
+                      type: string
+                paymentMethod:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    cardNumber:
+                      type: string
+                    expiryDate:
+                      type: string
+                    cvv:
+                      type: string
+      responses:
+        '200':
+          description: Checkout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderId:
+                    type: string
+                    description: ID of the created order
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+  /orders/{orderId}:
+    get:
+      summary: Get order details
+      parameters:
+        - in: path
+          name: orderId
+          schema:
+            type: string
+          required: true
+          description: ID of the order
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderId:
+                    type: string
+                  status:
+                    type: string
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: string
+                        name:
+                          type: string
+                        quantity:
+                          type: integer
+                        price:
+                          type: number
+                          format: float
+                  shippingAddress:
+                    type: object
+                    # ... (same as above) ...
+                  billingAddress:
+                    type: object
+                    # ... (same as above) ...
+                  paymentInfo:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      last4Digits:
+                        type: string
+                      amount:
+                        type: number
+                        format: float
+        '404':
+          description: Order not found

@@ -1,0 +1,118 @@
+# Code Folder: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/Agentic_AI/Smart-Supply-Chain-Assistant
+# Doc File: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/Agentic_AI/Smart-Supply-Chain-Assistant/README.md
+# Doc File Target Path: ./docs/index.md
+# name: flogo-ai-supply-chain
+# title: Smart Supply Chain Assistant
+# description: A procurement intelligence assistant demonstrating the List of MCP Servers and Custom Tool features of the TIBCO Flogo Agentic AI Connector. Connects a single AI Agent to multiple MCP servers simultaneously for inventory and supplier data, with a custom Flogo tool for creating purchase orders — all through natural language.
+
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: flogo-ai-agents-group
+  description: Location of Flogo AI Agents Group
+spec:
+  targets:
+    - ./flogo-ai-agents-group.yaml
+---
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: template-flogo-ai-supply-chain
+  title: 'Smart Supply Chain Assistant'
+  description: 'A procurement intelligence assistant demonstrating the List of MCP Servers and Custom Tool features of the TIBCO Flogo Agentic AI Connector. Connects a single AI Agent to multiple MCP servers simultaneously for inventory and supplier data, with a custom Flogo tool for creating purchase orders — all through natural language.'
+  tags:
+    - flogo
+    - tibco
+    - agentic-ai
+spec:
+  owner: flogo-ai-agents
+  type: integration
+
+  parameters:
+    - title: Fill in some steps
+      required:
+        - name
+        - description
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the Flogo AI Agent Application
+          ui:field: EntityNamePicker
+          ui:autofocus: true
+        description:
+          title: Description
+          type: string
+          description: A description for the Flogo AI Agent
+          default: 'My Smart Supply Chain Assistant'
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+    - id: fetch
+      name: Flogo AI Agent Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          owner: ${{ parameters.owner }}
+          repoUrl: ${{ parameters.repoUrl }}
+
+    - id: fetch-code
+      action: fetch:plain
+      name: Fetch code
+      input:
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/Agentic_AI/Smart-Supply-Chain-Assistant'
+
+    - id: fetch-docs
+      action: fetch:plain:file
+      name: Fetch docs
+      input:
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/Agentic_AI/Smart-Supply-Chain-Assistant/README.md'
+        targetPath: './docs/index.md'
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+        icon: github
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+      - title: Clone in VS Code
+        url: ${{ "vscode://vscode.git/clone?url=" + steps.publish.output.remoteUrl }}
+        icon: scaffolder

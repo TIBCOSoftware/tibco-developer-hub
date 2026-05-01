@@ -1,0 +1,38 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ values.name | dump }}
+  description: ${{ values.description | dump }}
+  tags:
+    - bwce
+    - learning
+    - tutorial
+    - ${{ values.learning_level }}
+    {% if values.include_sample_app %}- sample-app{% endif %}
+    {% if values.include_exercises %}- hands-on{% endif %}
+    {% if values.include_docker_setup %}- docker{% endif %}
+    {% if values.include_kubernetes_deploy %}- kubernetes{% endif %}
+  annotations:
+    github.com/project-slug: ${{ values.destination.owner + "/" + values.destination.repo }}
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-id: ${{ values.name }}
+  links:
+    - title: TIBCO BusinessWorks CE
+      url: https://www.tibco.com/products/tibco-businessworks
+      icon: star
+    - title: Documentation
+      url: https://docs.tibco.com/products/tibco-businessworks-container-edition
+      icon: docs
+    {% if values.include_sample_app -%}
+    - title: Sample Application
+      url: ./src/sample-scheduler-app
+      icon: code
+    {% endif -%}
+spec:
+  type: documentation
+  lifecycle: development
+  owner: ${{ values.owner | dump }}
+  dependsOn:
+    {% if values.include_sample_app -%}
+    - component:sample-scheduler-app
+    {% endif -%}

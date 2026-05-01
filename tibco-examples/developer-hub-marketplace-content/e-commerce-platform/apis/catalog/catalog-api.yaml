@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: Catalog API
+  version: v1
+paths:
+  /products:
+    get:
+      summary: Get all products
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  /products/{productId}:
+    get:
+      summary: Get a product by ID
+      parameters:
+        - in: path
+          name: productId
+          schema:
+            type: string
+          required: true
+          description: The ID of the product
+      responses:
+        '200':
+          description: The requested product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Product not found
+  /products/{productId}/inventory:
+    get:
+      summary: Get product inventory information
+      parameters:
+        - in: path
+          name: productId
+          schema:
+            type: string
+          required: true
+          description: The ID of the product
+      responses:
+        '200':
+          description: The product's inventory information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productId:
+                    type: string
+                  quantity:
+                    type: integer
+        '404':
+          description: Product not found
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        imageUrl:
+          type: string

@@ -1,0 +1,21 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: Product-Catalogue-OpenAPI
+  description: The openapi product catalogue information
+  tags:
+    - store
+    - rest
+  links:
+    - url: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/e-commerce-platform/apis/
+      title: GitHub Repo
+      icon: github
+    - url: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/e-commerce-platform/apis/Soap-Example.wsdl
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/catalog-team
+  definition:
+    $text: ./skeleton/openapi-product-catalogue.json

@@ -13,7 +13,7 @@ metadata:
     imageURL: ""
     moreInfo:
       - text: Flogo
-        url: https://docs.tibco.com/products/tibco-flogo-enterprise
+        url: https://www.tibco.com/content/dam/tibco/documents/data-sheet/tibco-flogo-enterprise.pdf
         icon: docs
       - text: Samples
         url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/

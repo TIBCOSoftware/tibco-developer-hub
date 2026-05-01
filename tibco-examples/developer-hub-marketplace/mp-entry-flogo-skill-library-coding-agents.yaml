@@ -1,0 +1,93 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-flogo-skill-library-coding-agents
+  title: Flogo Skill Library
+  description: Skills for AI coding agents (such as Claude Code) to design, build,
+    test, and deploy TIBCO Flogo integration applications. Drop these skills
+    into any project to give your coding agent step-by-step recipes and CLI
+    references for the Flogo Design Assistant, Flogo build CLI, and TIBCO
+    Platform CLI — including ready-to-use patterns like REST-to-database APIs
+    and Excel-driven mappings. Install the documentation, then run the included
+    template to scaffold a new project pre-seeded with the skills.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - icon: docs
+        text: Flogo
+        url: https://www.tibco.com/content/dam/tibco/documents/data-sheet/tibco-flogo-enterprise.pdf
+      - icon: github
+        text: Flogo Samples
+        url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/
+      - icon: github
+        text: Flogo Skills
+        url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/skills-library
+      - icon: star
+        text: Claude Code
+        url: https://www.anthropic.com/claude-code
+  tags:
+    - devhub-marketplace
+    - artificial-intelligence
+    - coding-agents
+    - claude-code
+    - skills
+    - flogo
+    - developer-productivity
+spec:
+  owner: group:default/marketplace-entries-group
+  type: artificial-intelligence
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Flogo Skill Library added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-flogo-skill-library-coding-agents
+
+            **Description:** Skills for AI coding agents (such as Claude Code) to design, build, test, and deploy TIBCO Flogo integration applications. Drop these skills into any project to give your coding agent step-by-step recipes and CLI references for the Flogo Design Assistant, Flogo build CLI, and TIBCO Platform CLI — including ready-to-use patterns like REST-to-database APIs and Excel-driven mappings. Install the documentation, then run the included template to scaffold a new project pre-seeded with the skills. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/flogo-enterprise-hub//blob/master/LICENSE).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-skills/flogo-skill-library/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Documents
+        url: /docs?filters%5Buser%5D=all&limit=20
+        icon: techdocs
+      - icon: docs
+        title: Open Flogo Skill Library Docs
+        url: /docs/default/system/flogo-skill-library
+        type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: e-commerce-platform-locations
+  description: E-Commerce Platform Locations
+spec:
+  targets:
+    - ./ecommerce-platform.yaml
+    - ./team.yaml
+    - ./apis/all-apis.yaml

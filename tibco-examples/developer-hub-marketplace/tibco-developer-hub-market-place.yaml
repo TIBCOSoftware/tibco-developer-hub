@@ -24,4 +24,9 @@ spec:
     - ./mp-entry-flogo-ml-if-anomaly-detection-sample.yaml
     - ./mp-entry-ai-powered-visual-prompt-engine-flogo.yaml
     - ./mp-entry-flogo-extension-generators.yaml
+    - ./mp-entry-sample-ecommerce-platform.yaml
+    - ./mp-entry-bwce-basics-guide.yaml
+    - ./mp-entry-template-flogo-ai-healthcare-compliance.yaml
+    - ./mp-entry-template-flogo-ai-mobile-customer-care.yaml
+    - ./mp-entry-template-flogo-ai-supply-chain.yaml
     - ./doc-platform-previous-apis.yaml

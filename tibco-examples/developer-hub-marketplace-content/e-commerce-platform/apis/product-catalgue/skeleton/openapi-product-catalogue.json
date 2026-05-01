@@ -1,0 +1,362 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Product-Catalogue",
+        "description": "API for managing a product catalog.\n\n",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/products": {
+            "get": {
+                "summary": "",
+                "description": "Get all Products",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "default": 0
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "default": "string"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "default": "string"
+                                            },
+                                            "price": {
+                                                "type": "integer",
+                                                "default": 0
+                                            },
+                                            "category": {
+                                                "type": "string",
+                                                "default": "string"
+                                            },
+                                            "availability": {
+                                                "type": "boolean",
+                                                "default": true
+                                            }
+                                        }
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "id": 0,
+                                        "name": "string",
+                                        "description": "string",
+                                        "price": 0,
+                                        "category": "string",
+                                        "availability": true
+                                    }
+                                ]
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "tags": [
+                    "Products"
+                ]
+            },
+            "post": {
+                "summary": "",
+                "description": "Create new Products",
+                "parameters": [],
+                "responses": {
+                    "201": {
+                        "description": "success response",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    "valid"
+                                ]
+                            }
+                        },
+                        "headers": {}
+                    }
+                },
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "default": 0
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "default": "string"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "default": "string"
+                                    },
+                                    "price": {
+                                        "type": "integer",
+                                        "default": 0
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "default": "string"
+                                    },
+                                    "availability": {
+                                        "type": "boolean",
+                                        "default": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Products"
+                ]
+            }
+        },
+        "/products/{productId}": {
+            "get": {
+                "summary": "",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "productId",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "default": 0
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "default": "string"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "default": "string"
+                                        },
+                                        "price": {
+                                            "type": "integer",
+                                            "default": 0
+                                        },
+                                        "category": {
+                                            "type": "string",
+                                            "default": "string"
+                                        },
+                                        "availability": {
+                                            "type": "boolean",
+                                            "default": true
+                                        }
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "id": 0,
+                                        "name": "string",
+                                        "description": "string",
+                                        "price": 0,
+                                        "category": "string",
+                                        "availability": true
+                                    }
+                                ]
+                            }
+                        },
+                        "headers": {}
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        },
+                        "headers": {}
+                    }
+                },
+                "tags": [
+                    "Products"
+                ]
+            },
+            "put": {
+                "summary": "",
+                "description": "Update a product",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "productId",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": [
+                                    {
+                                        "msg": "success"
+                                    }
+                                ]
+                            }
+                        },
+                        "headers": {}
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        },
+                        "headers": {}
+                    }
+                },
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "default": 0
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "default": "string"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "default": "string"
+                                    },
+                                    "price": {
+                                        "type": "integer",
+                                        "default": 0
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "default": "string"
+                                    },
+                                    "availability": {
+                                        "type": "boolean",
+                                        "default": true
+                                    }
+                                }
+                            },
+                            "example": [
+                                {
+                                    "id": 0,
+                                    "name": "string",
+                                    "description": "string",
+                                    "price": 0,
+                                    "category": "string",
+                                    "availability": true
+                                }
+                            ]
+                        }
+                    }
+                },
+                "tags": [
+                    "Products"
+                ]
+            },
+            "delete": {
+                "summary": "",
+                "description": "Delete a product",
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "productId",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "default": ""
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success response",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "msg": "success"
+                                    }
+                                ]
+                            }
+                        },
+                        "headers": {}
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        },
+                        "headers": {}
+                    }
+                },
+                "tags": [
+                    "Products"
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Products"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "API-Key": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "xxx-xxxx-xxxx-xx"
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "https://api.example.com/catalog",
+            "description": "example server hosting API"
+        }
+    ]
+}

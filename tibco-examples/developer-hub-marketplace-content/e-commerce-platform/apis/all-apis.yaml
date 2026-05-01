@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: ecommerce-apis-collection
+  title: E-Commerce Platform APIs Collection
+  description: Complete collection of e-commerce platform APIs including cart, catalog, checkout, product catalogue, shipment tracking, and SOAP services
+  annotations:
+    github.com/project-slug: TIBCOSoftware/tibco-developer-hub
+  tags:
+    - ecommerce
+    - apis
+    - microservices
+spec:
+  targets:
+    - ./product-catalgue/openapi-product-catalogue.yaml
+    - ./soap-wsdl/api-soap-wsdl.yaml

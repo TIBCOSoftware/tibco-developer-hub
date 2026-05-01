@@ -1,0 +1,44 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: flogo-skill-library
+  description: Flogo Skill Library
+spec:
+  type: organization
+  profile:
+    displayName: Flogo Skill Library
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: flogo-skill-library
+  description: Skills for AI coding agents working with TIBCO Flogo
+spec:
+  owner: flogo-skill-library
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: flogo-skill-library
+  description: 'A library of skills for AI coding agents (Claude Code, etc.) to design, build, test, and deploy TIBCO Flogo integration applications.'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - flogo
+    - artificial-intelligence
+    - coding-agents
+    - skills
+    - claude-code
+spec:
+  owner: flogo-skill-library
+  domain: flogo-skill-library
+---
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: flogo-skill-library-template-location
+  description: Pointer to the Flogo Skill Library scaffolder template
+spec:
+  targets:
+    - ./flogo-skill-library-template.yaml

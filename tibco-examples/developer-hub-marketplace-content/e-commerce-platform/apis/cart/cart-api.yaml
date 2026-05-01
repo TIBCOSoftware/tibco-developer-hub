@@ -1,0 +1,172 @@
+openapi: 3.0.0
+info:
+  title: Cart API
+  version: v1
+paths:
+  /carts:
+    post:
+      summary: Create a new cart
+      responses:
+        '201':
+          description: Cart created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cartId:
+                    type: string
+                    description: The ID of the created cart
+    get:
+      summary: Get all carts (admin only)
+      responses:
+        '200':
+          description: List of carts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    cartId:
+                      type: string
+                    userId:
+                      type: string
+                    items:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          productId:
+                            type: string
+                          quantity:
+                            type: integer
+  /carts/{cartId}:
+    get:
+      summary: Get cart details
+      parameters:
+        - in: path
+          name: cartId
+          schema:
+            type: string
+          required: true
+          description: The ID of the cart
+      responses:
+        '200':
+          description: Cart details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cartId:
+                    type: string
+                  userId:
+                    type: string
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        productId:
+                          type: string
+                        quantity:
+                          type: integer
+        '404':
+          description: Cart not found
+    put:
+      summary: Update cart
+      parameters:
+        - in: path
+          name: cartId
+          schema:
+            type: string
+          required: true
+          description: The ID of the cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      productId:
+                        type: string
+                      quantity:
+                        type: integer
+      responses:
+        '200':
+          description: Cart updated
+        '400':
+          description: Bad request
+        '404':
+          description: Cart not found
+    delete:
+      summary: Delete cart
+      parameters:
+        - in: path
+          name: cartId
+          schema:
+            type: string
+          required: true
+          description: The ID of the cart
+      responses:
+        '204':
+          description: Cart deleted
+        '404':
+          description: Cart not found
+  /carts/{cartId}/items:
+    post:
+      summary: Add item to cart
+      parameters:
+        - in: path
+          name: cartId
+          schema:
+            type: string
+          required: true
+          description: The ID of the cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: string
+                quantity:
+                  type: integer
+      responses:
+        '201':
+          description: Item added to cart
+        '400':
+          description: Bad request
+        '404':
+          description: Cart not found
+  /carts/{cartId}/items/{productId}:
+    delete:
+      summary: Remove item from cart
+      parameters:
+        - in: path
+          name: cartId
+          schema:
+            type: string
+          required: true
+          description: The ID of the cart
+        - in: path
+          name: productId
+          schema:
+            type: string
+          required: true
+          description: The ID of the product to remove
+      responses:
+        '204':
+          description: Item removed from cart
+        '404':
+          description: Cart or item not found

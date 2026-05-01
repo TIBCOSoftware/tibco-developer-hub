@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jndi:namedResource xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:http="http://xsd.tns.tibco.com/bw/models/sharedresource/httpclient" xmlns:jndi="http://xsd.tns.tibco.com/amf/models/sharedresource/jndi" xmi:id="_4qs7AEGREe6YD7IIlyzvKw" name="sample-scheduler-app.HttpClientResource" type="http:HttpClientConfiguration">
+  <jndi:configuration xsi:type="http:HttpClientConfiguration" xmi:id="_4qs7AUGREe6YD7IIlyzvKw" acceptRedirect="true" httpClientVersion="httpcomponents" retryCount="3" idleConnectionTimeout="3000" useDefaultSSL="true" hystrixCommandName="sample-scheduler-app.HttpClientResource" cmdExecutionIsolationStrategy="COUNT_BASED" cmdExecutionIsolationTimeout="10" cmdExecutionIsolationInterruptOnTimeout="true" cmdExecutionIsolationSemaphoreMaxConcRequests="8" cmdCircuitBreakerRequestVolumeThreshold="50" cmdCircuitBreakerSleepWindow="100" cmdCircuitBreakerErrorThresholdPercentage="100" cmdMetricsRollingStatsTime="100" cmdMetricsRollingStatsNumBuckets="60000" cmdMetricsHealthSnapshotInterval="500" tpCoreSize="10" tpMaxQueueSize="60000" tpQueueSizeRejectionThreshold="6000" tpKeepAliveTime="1">
+    <tcpDetails xmi:id="_4qs7AkGREe6YD7IIlyzvKw" port="443"/>
+  </jndi:configuration>
+</jndi:namedResource>

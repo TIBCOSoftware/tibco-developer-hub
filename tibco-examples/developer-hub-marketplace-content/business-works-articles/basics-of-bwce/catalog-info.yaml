@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: bwce-basics-learning-guide
+  description: BWCE Basics Learning Guide
+spec:
+  targets:
+    - ./bwce-basics-learning-guide.yaml
+    - ./template-bwce-basics.yaml
+    - ./../../e-commerce-platform/team.yaml

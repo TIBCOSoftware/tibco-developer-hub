@@ -1,0 +1,582 @@
+# system: ecommerce
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: ecommerce-platform
+  description: This system comprises a collection of interconnected services and APIs, including a storefront web application, catalog management, shopping cart functionality, order processing, and payment integration. It leverages a microservices architecture to provide scalability and flexibility
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - ecommerce
+    - microservices
+    - retail
+  tibco.developer.hub/topology:
+    theme:
+      name: blue
+    entityIcon:
+      icon: Store
+      iconTooltip: E-commerce Platform
+    statusIcons:
+      - icon: VerifiedUser
+        iconColor: forestgreen
+        iconTooltip: Production Ready
+spec:
+  owner: ecommerce-team
+  domain: e-commerce
+  environments:
+    - name: production
+      baseUrl: https://ecommerce.example.com
+    - name: staging
+      baseUrl: https://staging.ecommerce.example.com
+    - name: development
+      baseUrl: https://dev.ecommerce.example.com
+---
+# domain: ecommerce
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: e-commerce
+  description: The e-commerce domain
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - ecommerce
+    - microservices
+    - retail
+  tibco.developer.hub/topology:
+    theme:
+      name: purple
+    entityIcon:
+      icon: Storefront
+      iconTooltip: E-commerce Domain
+spec:
+  owner: group:default/ecommerce-team
+---
+# storefront.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: storefront
+  description: The user-facing storefront website
+  annotations:
+    jenkins.io/job-full-name: storefront-relese-v1
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - ecommerce
+    - microservices
+    - retail
+  tibco.developer.hub/topology:
+    theme:
+      name: blue
+    entityIcon:
+      icon: Storefront
+      iconTooltip: Storefront Web App
+    statusIcons:
+      - icon: Https
+        iconColor: forestgreen
+        iconTooltip: HTTPS Enabled
+      - icon: Devices
+        iconColor: steelblue
+        iconTooltip: Responsive Design
+      - icon: Language
+        iconColor: blue
+        iconTooltip: Multi-language Support
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/ecommerce-team
+  system: ecommerce-platform
+  providesApis:
+    - api:default/catalog-api
+    - api:default/cart-api
+    - api:default/checkout-api
+  consumesApis:
+    - catalog-api
+    - checkout-api
+    - shipping-api
+    - cart-api
+  dependsOn:
+    - component:default/user-service
+    - component:default/inventory-service
+    - component:default/order-service
+    - component:default/shipping-service
+    - resource:default/payment-gateway
+  apiConsumedBy:
+    - component:default/user-service
+    - component:default/inventory-service
+    - component:default/order-service
+    - component:default/shipping-service
+    - resource:default/payment-gateway
+---
+# catalog-api.yaml
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: catalog-api
+  description: Provides product catalog information
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: yellow
+    entityIcon:
+      icon: MenuBook
+      iconTooltip: Product Catalog API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/catalog-team
+
+  dependsOn:
+    - resource:default/catalog-database
+    - component:default/inventory-service
+  apiConsumedBy:
+    - component:default/storefront
+  definition:
+    $text: ./apis/catalog/catalog-api.yaml
+---
+# cart-api.yaml
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: cart-api
+  description: Manages shopping carts and user sessions
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: yellow
+    entityIcon:
+      icon: ShoppingCart
+      iconTooltip: Shopping Cart API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/cart-team
+
+  dependsOn:
+    - resource:default/cart-database
+    - component:default/user-service
+  apiConsumedBy:
+    - component:default/storefront
+  definition:
+    $text: ./apis/cart/cart-api.yaml
+---
+# checkout-api.yaml
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: checkout-api
+  description: Handles order processing and payment integration
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: yellow
+    entityIcon:
+      icon: Payment
+      iconTooltip: Checkout API
+    statusIcons:
+      - icon: Lock
+        iconColor: forestgreen
+        iconTooltip: PCI Compliant
+spec:
+  type: openapi # Corrected typo here
+  lifecycle: production
+  owner: group:default/checkout-team
+
+  dependsOn:
+    - component:default/order-service
+    - resource:default/payment-gateway
+  apiConsumedBy:
+    - component:default/storefront
+  definition:
+    $text: ./apis/checkout/checkout-api.yaml
+---
+# user-service.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: user-service
+  description: Manages user accounts and authentication
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: green
+    entityIcon:
+      icon: AccountCircle
+      iconTooltip: User Service
+    statusIcons:
+      - icon: Lock
+        iconColor: forestgreen
+        iconTooltip: Authentication Secured
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/user-team
+  system: ecommerce-platform
+  providesApis:
+    - api:default/cart-api
+    - api:default/user-api
+  dependsOn:
+    - resource:default/user-database
+---
+# inventory-service.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: inventory-service
+  description: Tracks product inventory levels
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: orange
+    entityIcon:
+      icon: Inventory
+      iconTooltip: Inventory Service
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/inventory-team
+  system: ecommerce-platform
+  dependsOn: # Corrected relationship type here
+    - resource:default/inventory-database
+  providesApis:
+    - api:default/catalog-api
+    - api:default/inventory-api
+---
+# order-service.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: order-service
+  description: Processes and fulfills orders
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: purple
+    entityIcon:
+      icon: Receipt
+      iconTooltip: Order Service
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/order-team
+  system: ecommerce-platform
+  consumesApis:
+    - resource:default/order-database
+    - component:default/inventory-service
+    - component:default/shipping-service
+  providesApis:
+    - api:default/order-api
+---
+# shipping-service.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: shipping-service
+  description: Integrates with shipping providers
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: pastelGreen
+    entityIcon:
+      icon: LocalShipping
+      iconTooltip: Shipping Service
+spec:
+  type: service
+  lifecycle: production
+  owner: group:default/shipping-team
+  system: ecommerce-platform
+  consumesApis:
+    - api:default/shipping-api
+  providesApis:
+    - api:default/shipping-api
+---
+# shipping-api.yaml
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: shipping-api
+  description: Provides shipping rates and tracking information
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: yellow
+    entityIcon:
+      icon: LocalShipping
+      iconTooltip: Shipping API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/shipping-team
+  system: ecommerce-platform
+  apiConsumedBy:
+    - component:default/shipping-service
+    - component:default/order-service
+  definition:
+    $text: ./apis/shipment-tracking/shipping-api.yaml
+---
+# order-api.yaml
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: order-api
+  description: Handles order creation, tracking, and management
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: yellow
+    entityIcon:
+      icon: Receipt
+      iconTooltip: Order API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/order-team
+  system: ecommerce-platform
+  apiConsumedBy:
+    - component:default/order-service
+    - component:default/storefront
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Order API
+      version: v1
+    paths:
+      /orders:
+        post:
+          summary: Create a new order
+          responses:
+            '201':
+              description: Order created
+        get:
+          summary: Get all orders
+          responses:
+            '200':
+              description: List of orders
+      /orders/{orderId}:
+        get:
+          summary: Get order details
+          responses:
+            '200':
+              description: Order details
+---
+# user-api.yaml
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: user-api
+  description: Manages user authentication, profiles, and account operations
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: yellow
+    entityIcon:
+      icon: AccountCircle
+      iconTooltip: User API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/user-team
+  system: ecommerce-platform
+  apiConsumedBy:
+    - component:default/user-service
+    - component:default/storefront
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: User API
+      version: v1
+    paths:
+      /users:
+        get:
+          summary: Get user profile
+          responses:
+            '200':
+              description: User profile
+        post:
+          summary: Create user account
+          responses:
+            '201':
+              description: User created
+      /auth/login:
+        post:
+          summary: User login
+          responses:
+            '200':
+              description: Login successful
+---
+# inventory-api.yaml
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: inventory-api
+  description: Manages product inventory levels, stock tracking, and availability
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/topology:
+    theme:
+      name: yellow
+    entityIcon:
+      icon: Inventory
+      iconTooltip: Inventory API
+spec:
+  type: openapi
+  lifecycle: production
+  owner: group:default/inventory-team
+  system: ecommerce-platform
+  apiConsumedBy:
+    - component:default/inventory-service
+    - component:default/catalog-api
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: Inventory API
+      version: v1
+    paths:
+      /inventory/{productId}:
+        get:
+          summary: Get inventory level for product
+          responses:
+            '200':
+              description: Inventory level
+        put:
+          summary: Update inventory level
+          responses:
+            '200':
+              description: Inventory updated
+      /inventory/check:
+        post:
+          summary: Check availability for multiple products
+          responses:
+            '200':
+              description: Availability status
+---
+# payment-gateway.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: payment-gateway
+  description: External payment gateway service
+  tibco.developer.hub/topology:
+    theme:
+      name: navy
+    entityIcon:
+      icon: CreditCard
+      iconTooltip: Payment Gateway
+    statusIcons:
+      - icon: Public
+        iconColor: steelblue
+        iconTooltip: External Service
+      - icon: VerifiedUser
+        iconColor: forestgreen
+        iconTooltip: PCI-DSS Compliant
+spec:
+  type: resource
+  lifecycle: production
+  owner: group:default/payments-team
+  system: ecommerce-platform
+---
+# catalog-database.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: catalog-database
+  description: Database for product catalog data
+  tibco.developer.hub/topology:
+    theme:
+      name: pastelGreen
+    entityIcon:
+      icon: Storage
+      iconTooltip: Catalog Database
+spec:
+  type: resource
+  lifecycle: production
+  owner: group:default/database-team
+  system: ecommerce-platform
+---
+# cart-database.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: cart-database
+  description: Database for shopping cart data
+  tibco.developer.hub/topology:
+    theme:
+      name: pastelGreen
+    entityIcon:
+      icon: Storage
+      iconTooltip: Cart Database
+spec:
+  type: resource
+  lifecycle: production
+  owner: group:default/database-team
+  system: ecommerce-platform
+---
+# user-database.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: user-database
+  description: Database for user account data
+  tibco.developer.hub/topology:
+    theme:
+      name: pastelGreen
+    entityIcon:
+      icon: Storage
+      iconTooltip: User Database
+    statusIcons:
+      - icon: Lock
+        iconColor: forestgreen
+        iconTooltip: Data Encrypted at Rest
+spec:
+  type: resource
+  lifecycle: production
+  owner: group:default/database-team
+
+---
+# order-database.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: order-database
+  description: Database for order information
+  tibco.developer.hub/topology:
+    theme:
+      name: pastelGreen
+    entityIcon:
+      icon: Storage
+      iconTooltip: Order Database
+spec:
+  type: resource
+  lifecycle: production
+  owner: group:default/database-team
+
+---
+# inventory-database.yaml
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: inventory-database
+  description: Database for inventory data
+  tibco.developer.hub/topology:
+    theme:
+      name: pastelGreen
+    entityIcon:
+      icon: Storage
+      iconTooltip: Inventory Database
+spec:
+  type: resource
+  lifecycle: production
+  owner: group:default/database-team
+
+---
+

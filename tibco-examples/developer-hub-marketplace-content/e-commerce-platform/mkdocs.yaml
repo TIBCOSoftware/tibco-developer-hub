@@ -1,0 +1,29 @@
+site_name: E-Commerce Platform Documentation
+site_description: Comprehensive e-commerce platform with microservices architecture and complete API suite
+
+nav:
+  - Introduction: index.md
+  - Data Management: index.md#data-management
+  - Deployment: index.md#deployment
+  - Monitoring and Logging: index.md#monitoring-and-logging
+  - Security: index.md#security
+  - Future Enhancements: index.md#future-enhancements
+
+plugins:
+  - techdocs-core
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - content.code.annotate
+    - search.highlight
+    - search.suggest
+    - search.share

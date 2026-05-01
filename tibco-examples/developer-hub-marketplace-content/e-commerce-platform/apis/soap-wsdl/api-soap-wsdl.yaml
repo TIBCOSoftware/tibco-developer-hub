@@ -1,0 +1,36 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: t-shirt-inventory-soap-service
+  description: The T-Shirt Inventory Service
+  tags:
+    - store
+    - wsdl
+  links:
+    - url: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/e-commerce-platform/apis
+      title: GitHub Repo
+      icon: github
+    - url: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/e-commerce-platform/apis/soap-wsdl/skeleton/Soap-Example.wsdl
+      title: WSDL Service
+      icon: code
+spec:
+  type: wsdl
+  lifecycle: production
+  owner: sc-dach
+  definition:
+    $text: ./skeleton/Soap-Example.wsdl
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: sc-dach
+  description: The SC DACH organization
+spec:
+  type: organization
+  profile:
+    displayName: SC DACH
+    email: sc-dach@example.com
+    picture: https://example.com/sc-dach-logo.png
+  parent: "null"
+  children: []
+  members:  []

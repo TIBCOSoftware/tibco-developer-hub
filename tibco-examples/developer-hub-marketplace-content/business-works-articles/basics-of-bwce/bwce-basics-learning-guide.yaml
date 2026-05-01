@@ -1,0 +1,30 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: bwce-basics-learning-guide
+  title: BWCE Basics Learning Guide
+  description: Comprehensive learning guide for TIBCO BusinessWorks Container Edition fundamentals, featuring hands-on tutorials, sample applications, and practical exercises for developers new to BWCE
+  tags:
+    - bwce
+    - learning
+    - tutorial
+  annotations:
+    github.com/project-slug: TIBCOSoftware/tibco-developer-hub
+    backstage.io/techdocs-ref: dir:.
+  links:
+    - title: TIBCO Documentation
+      url: https://docs.tibco.com/products/tibco-businessworks-container-edition
+      icon: docs
+    - title: Sample Application
+      url: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/marketplace-content/business-works-articles/basics-of-bwce/skeleton/src
+      icon: code
+    - title: Learning Resources
+      url: https://community.tibco.com/
+      icon: learning
+    - title: Source Repository
+      url: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/marketplace-content/business-works-articles/basics-of-bwce
+      icon: github
+spec:
+  type: documentation
+  lifecycle: production
+  owner: group:default/tibco-organization

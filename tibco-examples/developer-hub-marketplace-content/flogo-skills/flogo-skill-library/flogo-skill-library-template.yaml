@@ -1,0 +1,119 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: flogo-skill-library-template
+  title: Flogo Skill Library
+  description: Create a new project pre-seeded with the Flogo Skill Library — a set of skills for AI coding agents to build, test, and deploy TIBCO Flogo applications.
+  tags:
+    - flogo
+    - artificial-intelligence
+    - coding-agents
+    - claude-code
+spec:
+  owner: flogo-skill-library
+  type: integration
+
+  parameters:
+    - title: Project Details
+      required:
+        - name
+        - description
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the project
+          ui:field: EntityNamePicker
+          ui:autofocus: true
+          default: my-flogo-coding-agent-project
+        description:
+          title: Description
+          type: string
+          description: Description of the project
+          default: A Flogo project seeded with skills for AI coding agents
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+    - title: Choose a location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  steps:
+    - id: fetch
+      name: Skill Library Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+          owner: ${{ parameters.owner }}
+          repoUrl: ${{ parameters.repoUrl }}
+
+    - id: fetch-skills
+      action: fetch:plain
+      name: Fetch skills
+      input:
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/skills-library/.claude/skills'
+        targetPath: './.claude/skills'
+
+    - id: fetch-agent
+      action: fetch:plain:file
+      name: Fetch agent instructions
+      input:
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/blob/master/skills-library/AGENT.md'
+        targetPath: './CLAUDE.md'
+
+    - id: fetch-images
+      action: fetch:plain
+      name: Fetch images
+      input:
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/skills-library/images'
+        targetPath: './docs/images'
+
+    - id: fetch-docs
+      action: fetch:plain:file
+      name: Fetch docs
+      input:
+        url: 'https://github.com/TIBCOSoftware/flogo-enterprise-hub/blob/master/skills-library/README.md'
+        targetPath: './docs/index.md'
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+        icon: github
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+      - title: Clone in VS Code
+        url: ${{ "vscode://vscode.git/clone?url=" + steps.publish.output.remoteUrl }}
+        icon: scaffolder

@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: flogo-ai-agents
+  description: Flogo Agentic AI Samples
+spec:
+  type: organization
+  profile:
+    displayName: Flogo Agentic AI Samples
+    email: info@acme.com
+  children: []

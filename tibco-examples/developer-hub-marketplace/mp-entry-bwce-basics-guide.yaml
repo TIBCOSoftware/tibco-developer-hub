@@ -1,33 +1,39 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-template-flogo-unit-testing-debug
-  title: Flogo Unit Testing (Debug)
-  description: Unit Testing - Playing a Test Case Once (Flow Debugger) in Flogo.
-    With Unit Testing, you can monitor the health of your application and detect
-    errors in individual flows or activity levels.
+  name: mp-entry-bwce-basics-guide
+  title: BWCE Basics Learning Guide
+  description: Comprehensive learning guide for TIBCO BusinessWorks Container
+    Edition fundamentals, featuring hands-on tutorials, sample applications, and
+    practical exercises for developers new to BWCE.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
     moreInfo:
-      - text: Flogo
-        url: https://www.tibco.com/content/dam/tibco/documents/data-sheet/tibco-flogo-enterprise.pdf
+      - text: TIBCO BusinessWorks CE
+        url: https://www.tibco.com/products/tibco-businessworks
         icon: docs
-      - text: Samples
-        url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/
+      - text: TIBCO Documentation
+        icon: docs
+        url: https://docs.tibco.com/products/tibco-businessworks-container-edition
+      - text: Learning Resources
+        icon: learning
+        url: https://community.tibco.com/
+      - text: GitHub Repository
         icon: github
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/business-works-articles/basics-of-bwce
   tags:
     - devhub-marketplace
-    - flogo-templates
-    - integration
-    - testing
-    - flogo
+    - bwce
+    - starting-guide
+    - learning
+    - tutorial
 spec:
   owner: group:default/marketplace-entries-group
-  type: template
+  type: document
   presentation:
     buttonLabels:
       createButtonText: Get
@@ -40,14 +46,14 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  Flogo Unit Testing (Debug) added to your TIBCO Developer Hub
+            ## Get  BWCE Basics Learning Guide added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-template-flogo-unit-testing-debug
+            **ID:** mp-entry-bwce-basics-guide
 
-            **Description:** Unit Testing - Playing a Test Case Once (Flow Debugger) in Flogo. With Unit Testing, you can monitor the health of your application and detect errors in individual flows or activity levels. 
+            **Description:** Comprehensive learning guide for TIBCO BusinessWorks Container Edition fundamentals, featuring hands-on tutorials, sample applications, and practical exercises for developers new to BWCE. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
-            This item is subject to the following [license](https://github.com/TIBCOSoftware/flogo-enterprise-hub//blob/master/LICENSE).
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
 
             **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
         accept:
@@ -62,19 +68,22 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-templates/template-flogo-unit-testing-debug.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/business-works-articles/basics-of-bwce/catalog-info.yaml
   output:
     links:
       - title: Open in catalog
         type: catalog
         icon: catalog
         entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Documents
+        url: /docs?filters%5Buser%5D=all&limit=20
+        icon: techdocs
       - title: Templates
         url: /create?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
         icon: kind:template
-      - icon: kind:template
-        title: Run Flogo Unit Testing (Debug) Template
-        url: /create/templates/default/template-flogo-unit-testing-debug
+      - icon: docs
+        title: Open BWCE Basics Guide Docs
+        url: /docs/default/component/bwce-basics-learning-guide
         type: openButton
       - title: Back to Marketplace
         url: /marketplace
