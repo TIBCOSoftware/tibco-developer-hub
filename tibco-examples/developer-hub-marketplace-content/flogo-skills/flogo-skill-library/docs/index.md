@@ -216,4 +216,4 @@ The skills reference a few placeholder values that you should set once in your p
 - **Check the agent's commands.** The `fda` and `tibcop` commands are well-documented in the skills — if the agent does something unexpected, ask it to explain which skill it used and which command it ran.
 
 
-[Open Template to Create a new Projec with Flogo Skills](/tibco/hub/create/templates/default/flogo-skill-library-template)
+[Open Template to Create a new Project with Flogo Skills](/tibco/hub/create/templates/default/flogo-skill-library-template)
