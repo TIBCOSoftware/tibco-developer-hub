@@ -29,4 +29,5 @@ spec:
     - ./mp-entry-template-flogo-ai-healthcare-compliance.yaml
     - ./mp-entry-template-flogo-ai-mobile-customer-care.yaml
     - ./mp-entry-template-flogo-ai-supply-chain.yaml
+    - ./mp-entry-flogo-skill-library-coding-agents.yaml
     - ./doc-platform-previous-apis.yaml
