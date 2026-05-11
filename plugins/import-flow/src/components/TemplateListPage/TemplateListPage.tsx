@@ -1,12 +1,10 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
-import { useApp, useRouteRef } from '@backstage/core-plugin-api';
-
+import { type ComponentType, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { parseEntityRef, stringifyEntityRef } from '@backstage/catalog-model';
 import {
   Content,
   ContentHeader,
@@ -15,15 +13,19 @@ import {
   Page,
   SupportButton,
 } from '@backstage/core-components';
+import { useApp, useRouteRef } from '@backstage/core-plugin-api';
 import {
+  CatalogFilterLayout,
   EntityKindPicker,
   EntityListProvider,
+  EntityOwnerPicker,
   EntitySearchBar,
   EntityTagPicker,
-  CatalogFilterLayout,
   UserListPicker,
-  EntityOwnerPicker,
 } from '@backstage/plugin-catalog-react';
+import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
+import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
+import { TemplateGroupFilter } from '@backstage/plugin-scaffolder-react';
 import {
   ScaffolderPageContextMenu,
   TemplateCategoryPicker,
@@ -31,19 +33,20 @@ import {
 } from '@backstage/plugin-scaffolder-react/alpha';
 
 import { RegisterExistingButton } from './RegisterExistingButton';
-import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
-import { parseEntityRef, stringifyEntityRef } from '@backstage/catalog-model';
-import { TemplateGroupFilter } from '@backstage/plugin-scaffolder-react';
+import { TemplateTypeFilter } from './TemplateTypeFilter';
+import { TemplateUserListPicker } from './TemplateUserListPicker';
 
 /**
  * @alpha
  */
 export type TemplateListPageProps = {
-  TemplateCardComponent?: React.ComponentType<{
+  TemplateCardComponent?: ComponentType<{
     template: TemplateEntityV1beta3;
   }>;
   groups?: TemplateGroupFilter[];
   templateFilter?: (entity: TemplateEntityV1beta3) => boolean;
+  requiredTags?: string[];
+  excludedTags?: string[];
   contextMenu?: {
     editor?: boolean;
     actions?: boolean;
@@ -66,52 +69,64 @@ const createGroupsWithOther = (
 ): TemplateGroupFilter[] => [
   ...groups,
   {
-    title: 'Other Import Flows',
-    filter: e => ![...groups].some(({ filter }) => filter(e)),
+    title: 'Other Templates',
+    filter: e => !groups.some(({ filter }) => filter(e)),
   },
 ];
+
+/** Builds context-menu props for {@link ScaffolderPageContextMenu}. */
+function useScaffolderContextMenu(
+  contextMenu: TemplateListPageProps['contextMenu'],
+) {
+  const navigate = useNavigate();
+  const editorLink = useRouteRef(scaffolderPlugin.routes.edit);
+  const actionsLink = useRouteRef(scaffolderPlugin.routes.actions);
+  const tasksLink = useRouteRef(scaffolderPlugin.routes.listTasks);
+
+  return {
+    onEditorClicked:
+      contextMenu?.editor !== false ? () => navigate(editorLink()) : undefined,
+    onActionsClicked:
+      contextMenu?.actions !== false
+        ? () => navigate(actionsLink())
+        : undefined,
+    onTasksClicked:
+      contextMenu?.tasks !== false ? () => navigate(tasksLink()) : undefined,
+  };
+}
 
 /**
  * @alpha
  */
 export const TemplateListPage = (props: TemplateListPageProps) => {
-  const registerComponentLink = useRouteRef(
-    scaffolderPlugin.externalRoutes.registerComponent,
-  );
   const {
     TemplateCardComponent,
     groups: givenGroups = [],
     templateFilter,
+    requiredTags,
+    excludedTags,
     headerOptions,
+    contextMenu,
   } = props;
+
   const navigate = useNavigate();
-  const editorLink = useRouteRef(scaffolderPlugin.routes.edit);
-  const actionsLink = useRouteRef(scaffolderPlugin.routes.actions);
-  const tasksLink = useRouteRef(scaffolderPlugin.routes.listTasks);
-  const viewTechDocsLink = useRouteRef(
-    scaffolderPlugin.externalRoutes.viewTechDoc,
-  );
-  const templateRoute = useRouteRef(scaffolderPlugin.routes.selectedTemplate);
+  const location = useLocation();
   const app = useApp();
 
+  const templateType = location.pathname.split('/')[1] || '';
   const groups = givenGroups.length
     ? createGroupsWithOther(givenGroups)
     : [defaultGroup];
 
-  const scaffolderPageContextMenuProps = {
-    onEditorClicked:
-      props?.contextMenu?.editor !== false
-        ? () => navigate(editorLink())
-        : undefined,
-    onActionsClicked:
-      props?.contextMenu?.actions !== false
-        ? () => navigate(actionsLink())
-        : undefined,
-    onTasksClicked:
-      props?.contextMenu?.tasks !== false
-        ? () => navigate(tasksLink())
-        : undefined,
-  };
+  const registerComponentLink = useRouteRef(
+    scaffolderPlugin.externalRoutes.registerComponent,
+  );
+  const templateRoute = useRouteRef(scaffolderPlugin.routes.selectedTemplate);
+  const viewTechDocsLink = useRouteRef(
+    scaffolderPlugin.externalRoutes.viewTechDoc,
+  );
+
+  const scaffolderContextMenuProps = useScaffolderContextMenu(contextMenu);
 
   const additionalLinksForEntity = useCallback(
     (template: TemplateEntityV1beta3) => {
@@ -135,46 +150,65 @@ export const TemplateListPage = (props: TemplateListPageProps) => {
   const onTemplateSelected = useCallback(
     (template: TemplateEntityV1beta3) => {
       const { namespace, name } = parseEntityRef(stringifyEntityRef(template));
-
       navigate(templateRoute({ namespace, templateName: name }));
     },
     [navigate, templateRoute],
   );
 
+  const registerButtonTitle =
+    templateType && templateType !== 'create'
+      ? `Register Existing ${templateType
+          .split('-')
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')}`
+      : 'Register Existing Component';
+
+  const supportButtonText = `Create new software components using ${
+    templateType ? templateType.split('-').join(' ') : 'templates'
+  }`;
+
   return (
     <EntityListProvider>
-      <Page themeId="import-flow">
+      <Page themeId={templateType || 'scaffolder'}>
         <Header
           pageTitleOverride="Create a new component"
           title="Create a new component"
           subtitle="Create new software components using standard templates in your organization"
           {...headerOptions}
         >
-          <ScaffolderPageContextMenu {...scaffolderPageContextMenuProps} />
+          <ScaffolderPageContextMenu {...scaffolderContextMenuProps} />
         </Header>
+
         <Content>
           <ContentHeader>
             <RegisterExistingButton
-              title="Register Existing Import Flow"
+              title={registerButtonTitle}
               to={registerComponentLink && registerComponentLink()}
             />
-            <SupportButton>
-              Import new software components using import flows
-            </SupportButton>
+            <SupportButton>{supportButtonText}</SupportButton>
           </ContentHeader>
 
           <CatalogFilterLayout>
             <CatalogFilterLayout.Filters>
               <EntitySearchBar />
               <EntityKindPicker initialFilter="template" hidden />
-              <UserListPicker
-                initialFilter="all"
-                availableFilters={['all', 'starred']}
+              <TemplateTypeFilter
+                requiredTags={requiredTags}
+                excludedTags={excludedTags}
               />
+              {excludedTags?.length ? (
+                <TemplateUserListPicker />
+              ) : (
+                <UserListPicker
+                  initialFilter="all"
+                  availableFilters={['all', 'starred']}
+                />
+              )}
               <TemplateCategoryPicker />
               <EntityTagPicker />
               <EntityOwnerPicker />
             </CatalogFilterLayout.Filters>
+
             <CatalogFilterLayout.Content>
               <TemplateGroups
                 groups={groups}

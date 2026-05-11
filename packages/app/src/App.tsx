@@ -58,7 +58,7 @@ import { CatalogImportPage } from './components/catalog-import/CatalogImportPage
 import { catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { Button } from '@material-ui/core';
 import { UnifiedThemeProvider } from '@backstage/theme';
-import { ImportFlowPage } from '@internal/backstage-plugin-import-flow';
+import { TemplateListPage } from '@internal/backstage-plugin-import-flow';
 import { catalogMessages } from './translations/catalogIndex';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import {
@@ -206,20 +206,26 @@ const CustomImportFlowPage = () => {
   }
   return (
     <ScaffolderPage
-      templateFilter={entity => {
-        const tags = entity.metadata.tags?.map(v => v.toLowerCase());
-        return !!(
-          tags?.includes('import-flow') && !tags?.includes('devhub-internal')
-        );
-      }}
-      groups={groups}
       components={{
-        EXPERIMENTAL_TemplateListPageComponent: ImportFlowPage,
-      }}
-      headerOptions={{
-        pageTitleOverride: 'Import Flow',
-        title: 'Import Flow',
-        subtitle: 'Import new software components using import flows',
+        EXPERIMENTAL_TemplateListPageComponent: () => (
+          <TemplateListPage
+            templateFilter={entity => {
+              const tags = entity.metadata.tags?.map(v => v.toLowerCase());
+              return !!(
+                tags?.includes('import-flow') &&
+                !tags?.includes('devhub-internal')
+              );
+            }}
+            requiredTags={['import-flow']}
+            excludedTags={['devhub-internal']}
+            groups={groups}
+            headerOptions={{
+              pageTitleOverride: 'Import Flow',
+              title: 'Import Flow',
+              subtitle: 'Import new software components using import flows',
+            }}
+          />
+        ),
       }}
     />
   );

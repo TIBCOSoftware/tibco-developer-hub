@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import {
@@ -9,7 +9,7 @@ import {
 import { KeyvStore } from './cacheService.ts';
 import { Knex } from 'knex';
 
-const PLUGIN_ID: string = 'tibco_hub_cache';
+const PLUGIN_ID: string = 'tibcohubcache';
 
 export default createBackendPlugin({
   pluginId: PLUGIN_ID,

@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "private": true,
   "bundled": true,
   "backstage": {
@@ -40,7 +40,7 @@
     "@backstage/plugin-techdocs-react": "^1.3.1",
     "@backstage/plugin-user-settings": "^0.8.24",
     "@backstage/theme": "^0.6.7",
-    "@backstage/ui": "^0.6.0",
+    "@backstage/ui": "^0.12.0",
     "@fontsource/source-sans-pro": "^4.5.11",
     "@internal/backstage-plugin-import-flow": "workspace:^",
     "@internal/plugin-integration-topology": "workspace:^",
