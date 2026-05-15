@@ -14,9 +14,58 @@ kind: Group
 metadata:
   name: mp-behaim-its
   description: Behaim ITS SW Company
+  links:
+    - url: https://behaimits.com/
+      title: Behaimits
+      icon: web
 spec:
   type: organization
   profile:
     displayName: Behaim ITS
     email: contact_us@behaimits.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: p4future
+  description: P4Future
+  links:
+    - url: https://www.p4future.com/en/
+      title: P4Future
+      icon: web
+spec:
+  type: organization
+  profile:
+    displayName: P4Future
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: prowess
+  description: Prowess
+  links:
+    - url: https://www.prowesssoft.com/
+      title: Prowess
+      icon: web
+spec:
+  type: organization
+  profile:
+    displayName: Prowess
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: key-partner
+  description: Key Partner
+  links:
+    - url: https://www.keypartner.com/en/
+      title: Key Partner
+      icon: web
+spec:
+  type: organization
+  profile:
+    displayName: Key Partner
   children: []
