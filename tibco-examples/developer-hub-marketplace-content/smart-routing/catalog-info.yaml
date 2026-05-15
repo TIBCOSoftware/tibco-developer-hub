@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: smart-routing
+  description: Smart Routing
+spec:
+  type: organization
+  profile:
+    displayName: Smart Routing
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: smart-routing
+  description: Smart Routing integration sample (partner contribution by Key Partner)
+spec:
+  owner: smart-routing
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: smart-routing
+  description: 'Configurable, database-driven document router for TIBCO integrations. Routes documents to one or more downstream systems based on rules in a SQL Server catalog, with per-route JOLT JSON-to-JSON transformations.'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - sample
+    - integration
+    - document-routing
+spec:
+  owner: smart-routing
+  domain: smart-routing

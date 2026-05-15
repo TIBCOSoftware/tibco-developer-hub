@@ -1,0 +1,415 @@
+# =============================================================================
+# TP-Generic-Deploy-Pipeline.yml
+# -----------------------------------------------------------------------------
+# Purpose  : Deploy a pre-built TIBCO Platform (BWCE) application to the DP
+#            namespace via the /dp/deploy REST API, then roll it out to the
+#            chosen Kubernetes cluster (AKS / EKS / GKE).
+#
+# Stages   : 1. DeployToTibcoPlatform  – builds JSON payload, calls DP /deploy
+#            2. DeployToCluster        – cloud-specific kubeconfig + kubectl
+#
+# Cloud providers supported:
+#   aks  → Azure Kubernetes Service   (uses az CLI)
+#   eks  → Amazon Elastic Kubernetes  (uses aws CLI)
+#   gke  → Google Kubernetes Engine   (uses gcloud CLI)
+#
+# Variable group required: Tibco_Build_Deploy_Secrets
+#   - AZURE_PAT   : Azure DevOps Personal Access Token (for git clone)
+#   - API_TOKEN   : TIBCO Platform Bearer token
+# =============================================================================
+
+trigger: none   # Manual or triggered by another pipeline only
+
+# =============================================================================
+# PARAMETERS
+# =============================================================================
+parameters:
+
+  # ---------------------------------------------------------------------------
+  # AGENT POOL
+  # ---------------------------------------------------------------------------
+  - name: agentPoolName
+    displayName: 'Agent Pool Name'
+    type: string
+    default: 'RPC-TIBCO-AKS-Pool'         # Self-hosted pool with kubectl/az/aws/gcloud
+
+  # ---------------------------------------------------------------------------
+  # TIBCO PLATFORM DEPLOY INPUTS
+  # ---------------------------------------------------------------------------
+  - name: appName
+    displayName: 'App Name'                # Registered application name in TIBCO Platform
+    type: string
+
+  - name: buildId
+    displayName: 'Build ID'               # Build ID returned by the TP Build API (Stage 1)
+    type: string
+
+  - name: profile
+    displayName: 'Profile Name'           # TIBCO deployment profile (QA / DEV / PROD)
+    type: string
+
+  - name: tags
+    displayName: 'Tags (comma-separated)' # Metadata tags stored on the deployment
+    type: string
+
+  - name: appProperties
+    displayName: 'appProperties File Name (e.g. properties.json)'  # JSON file with app config
+    type: string
+
+  # ---------------------------------------------------------------------------
+  # TIBCO PLATFORM DEPLOY API
+  # ---------------------------------------------------------------------------
+  - name: tpDeployApiUrl
+    displayName: 'TIBCO Platform Deploy API URL'
+    type: string
+    default: 'https://FQDN/tibco-qa/public/v1/dp/deploy'   # Replace FQDN per environment
+
+  - name: tpNamespace
+    displayName: 'TIBCO DP Namespace'     # TIBCO Data Plane Kubernetes namespace
+    type: string
+    default: 'tp-dp-qa-ns'
+
+  # ---------------------------------------------------------------------------
+  # CLOUD PROVIDER SELECTOR
+  # ---------------------------------------------------------------------------
+  - name: cloudProvider
+    displayName: 'Target Cloud Provider'
+    type: string
+    default: 'aks'
+    values:
+      - aks    # Azure Kubernetes Service
+      - eks    # Amazon Elastic Kubernetes Service
+      - gke    # Google Kubernetes Engine
+
+  # ---------------------------------------------------------------------------
+  # KUBERNETES DEPLOYMENT
+  # ---------------------------------------------------------------------------
+  - name: imageName
+    displayName: 'Container Image to Deploy'         # Full image ref, e.g. myacr.azurecr.io/app:1.0.0
+    type: string
+
+  - name: k8sNamespace
+    displayName: 'Kubernetes Namespace'              # Target namespace for the workload
+    type: string
+    default: 'default'
+
+  - name: k8sDeploymentName
+    displayName: 'Kubernetes Deployment Name'        # Name of the K8s Deployment resource
+    type: string
+    default: 'tp-app'
+
+  - name: k8sContainerName
+    displayName: 'Kubernetes Container Name in Deployment'   # Container spec name inside the pod
+    type: string
+    default: 'tp-container'
+
+# =============================================================================
+# VARIABLE GROUPS
+# =============================================================================
+variables:
+  - group: Tibco_Build_Deploy_Secrets   # Provides: AZURE_PAT, API_TOKEN
+
+# =============================================================================
+# STAGE 1 – DEPLOY VIA TIBCO PLATFORM DP
+# =============================================================================
+stages:
+  - stage: DeployToTibcoPlatform
+    displayName: 'Stage 1 – Deploy via TIBCO Platform DP'
+    jobs:
+      - job: BuildPayloadAndCallDP
+        displayName: 'Build JSON Payload & Call DP /deploy'
+        pool:
+          name: ${{ parameters.agentPoolName }}
+        steps:
+          - checkout: none   # Repo is cloned manually below to control destination path
+
+          # -------------------------------------------------------------------
+          # STEP 1 – Clone TCI repository
+          # -------------------------------------------------------------------
+          - script: |
+              echo "============================================================"
+              echo " STEP 1 – Clone TCI repository"
+              echo " Branch : TP_QA"
+              echo " App    : ${{ parameters.appName }}"
+              echo " Cloud  : ${{ parameters.cloudProvider }}"
+              echo "============================================================"
+
+              # Remove any stale clone from a previous run
+              if [ -d "TCI" ]; then
+                echo "📁 Removing existing 'TCI' directory..."
+                rm -rf TCI
+              fi
+
+              git clone \
+                --branch TP_QA \
+                "https://$(AZURE_PAT)@dev.azure.com/RPCSharedServices/TCI/_git/TCI"
+            displayName: 'Clone TCI Git Repository'
+
+          # -------------------------------------------------------------------
+          # STEP 2 – Build JSON payload and call TIBCO Platform Deploy API
+          # -------------------------------------------------------------------
+          - script: |
+              echo "============================================================"
+              echo " STEP 2 – Build JSON payload & call TP Deploy API"
+              echo "============================================================"
+
+              # ---- Convert comma-separated tags to a JSON array ----
+              echo "🔧 Converting tags to JSON array..."
+              IFS=',' read -ra TAG_ARR <<< "${{ parameters.tags }}"
+              TAG_JSON=$(printf '"%s",' "${TAG_ARR[@]}")
+              TAG_JSON="[${TAG_JSON%,}]"
+              echo "   Tags JSON : $TAG_JSON"
+
+              # ---- Load external appProperties JSON from the cloned repo ----
+              APP_PROPERTIES_PATH="$(System.DefaultWorkingDirectory)/TCI/COMMONSERVICES/TP_Deployment/Profiles/QA/${{ parameters.appProperties }}"
+              echo "📄 Reading appProperties from: $APP_PROPERTIES_PATH"
+
+              if [ ! -f "$APP_PROPERTIES_PATH" ]; then
+                echo "❌ ERROR: appProperties file not found: $APP_PROPERTIES_PATH"
+                exit 1
+              fi
+
+              APP_PROPERTIES=$(cat "$APP_PROPERTIES_PATH")
+              echo "✅ appProperties loaded."
+
+              # ---- Assemble the full deploy request payload ----
+              # systemProperties  : BW engine-level JVM tunables
+              # resourceLimits    : CPU / memory requests & limits for the pod
+              # networkPolicies   : egress/ingress rules for the TIBCO app container
+              echo "⚙️ Constructing deploy JSON payload..."
+              DEPLOY_JSON=$(jq -n \
+                --argjson appProperties  "$APP_PROPERTIES" \
+                --arg     appId          "" \
+                --arg     buildId        "${{ parameters.buildId }}" \
+                --arg     appName        "${{ parameters.appName }}" \
+                --arg     profile        "${{ parameters.profile }}" \
+                --argjson systemProps    '[{"name":"BW_ENGINE_STEPCOUNT","value":"-1"},{"name":"BW_ENGINE_THREADCOUNT","value":"8"}]' \
+                --argjson resourceLimits '{"limits":{"cpu":"1","memory":"4Gi"},"requests":{"cpu":"1","memory":"4Gi"}}' \
+                --argjson tags           "$TAG_JSON" \
+              '{
+                appId: $appId,
+                buildId: $buildId,
+                appName: $appName,
+                eula: true,
+                profile: $profile,
+                appProperties: $appProperties,
+                systemProperties: $systemProps,
+                resourceLimits: $resourceLimits,
+                replicas: 1,
+                enableAutoscaling: false,
+                autoscalingConfig: {},
+                networkPolicies: {
+                  egressNetworkPolicies: {
+                    internetWeb: "enable",
+                    internetAll: "enable"
+                  },
+                  ingressNetworkPolicies: {}
+                },
+                enableExecutionHistory: true,
+                volumeMounts: [],
+                volumes: [],
+                persistentVolumeClaims: [],
+                tags: $tags
+              }')
+
+              echo "$DEPLOY_JSON" > payload.json
+              echo "📘 Generated deploy payload:"
+              jq . payload.json
+
+              # ---- POST to TIBCO Platform Deploy endpoint ----
+              FULL_URL="${{ parameters.tpDeployApiUrl }}?namespace=${{ parameters.tpNamespace }}"
+              echo "🚀 Calling TP Deploy API: $FULL_URL"
+
+              curl -v -k --fail --location "$FULL_URL" \
+                --header "Content-Type: application/json" \
+                --header "Authorization: Bearer $(API_TOKEN)" \
+                --data @payload.json
+
+              echo "✅ TIBCO Platform deployment request completed."
+            displayName: 'Build & POST Deploy Payload to TIBCO Platform'
+
+# =============================================================================
+# STAGE 2 – CLOUD-SPECIFIC KUBERNETES DEPLOYMENT (AKS / EKS / GKE)
+# =============================================================================
+# This stage runs after DeployToTibcoPlatform succeeds.
+# Only ONE of the three cloud-provider jobs will execute, determined by
+# the 'cloudProvider' parameter evaluated at queue time.
+# =============================================================================
+  - stage: DeployToCluster
+    displayName: 'Stage 2 – Cloud-specific Kubernetes Deployment'
+    dependsOn: DeployToTibcoPlatform
+    condition: succeeded()
+    jobs:
+
+      # ========================================================================
+      # AKS – Azure Kubernetes Service
+      # ========================================================================
+      # Prerequisites on the agent:
+      #   • Azure CLI (az) installed and logged-in, OR service-principal env vars set
+      #   • kubectl installed
+      # To configure kubeconfig for AKS, uncomment and fill in the az commands below.
+      # ========================================================================
+      - job: Deploy_AKS
+        displayName: 'Deploy to AKS (Azure)'
+        pool:
+          name: ${{ parameters.agentPoolName }}
+        condition: eq('${{ parameters.cloudProvider }}', 'aks')
+        steps:
+          - script: |
+              echo "============================================================"
+              echo " AKS Deployment"
+              echo " Namespace  : ${{ parameters.k8sNamespace }}"
+              echo " Deployment : ${{ parameters.k8sDeploymentName }}"
+              echo " Container  : ${{ parameters.k8sContainerName }}"
+              echo " Image      : ${{ parameters.imageName }}"
+              echo "============================================================"
+
+              if [ -z "${{ parameters.imageName }}" ]; then
+                echo "❌ ERROR: 'imageName' is required for deployment."
+                exit 1
+              fi
+
+              # ----------------------------------------------------------------
+              # AKS CONTEXT SETUP (uncomment if kubeconfig is not pre-configured)
+              # ----------------------------------------------------------------
+              # Option A – Service Principal login:
+              # az login \
+              #   --service-principal \
+              #   --username  "$(AKS_CLIENT_ID)" \
+              #   --password  "$(AKS_CLIENT_SECRET)" \
+              #   --tenant    "$(AKS_TENANT_ID)"
+              #
+              # Option B – Merge kubeconfig from the AKS cluster:
+              # az aks get-credentials \
+              #   --resource-group "$(AKS_RESOURCE_GROUP)" \
+              #   --name           "$(AKS_CLUSTER_NAME)" \
+              #   --overwrite-existing
+              # ----------------------------------------------------------------
+
+              echo "🚀 Updating container image on AKS..."
+              kubectl -n "${{ parameters.k8sNamespace }}" \
+                set image deployment/"${{ parameters.k8sDeploymentName }}" \
+                "${{ parameters.k8sContainerName }}"="${{ parameters.imageName }}" \
+                --record
+
+              echo "⏳ Waiting for rollout to complete..."
+              kubectl -n "${{ parameters.k8sNamespace }}" \
+                rollout status deployment/"${{ parameters.k8sDeploymentName }}"
+
+              echo "✅ AKS deployment completed successfully."
+            displayName: 'AKS – kubectl set image & rollout status'
+
+      # ========================================================================
+      # EKS – Amazon Elastic Kubernetes Service
+      # ========================================================================
+      # Prerequisites on the agent:
+      #   • AWS CLI (aws) installed and configured with appropriate IAM permissions
+      #   • kubectl installed
+      # To configure kubeconfig for EKS, uncomment and fill in the aws command below.
+      # ========================================================================
+      - job: Deploy_EKS
+        displayName: 'Deploy to EKS (AWS)'
+        pool:
+          name: ${{ parameters.agentPoolName }}
+        condition: eq('${{ parameters.cloudProvider }}', 'eks')
+        steps:
+          - script: |
+              echo "============================================================"
+              echo " EKS Deployment"
+              echo " Namespace  : ${{ parameters.k8sNamespace }}"
+              echo " Deployment : ${{ parameters.k8sDeploymentName }}"
+              echo " Container  : ${{ parameters.k8sContainerName }}"
+              echo " Image      : ${{ parameters.imageName }}"
+              echo "============================================================"
+
+              if [ -z "${{ parameters.imageName }}" ]; then
+                echo "❌ ERROR: 'imageName' is required for deployment."
+                exit 1
+              fi
+
+              # ----------------------------------------------------------------
+              # EKS CONTEXT SETUP (uncomment if kubeconfig is not pre-configured)
+              # ----------------------------------------------------------------
+              # Option A – Merge kubeconfig from the EKS cluster:
+              # aws eks update-kubeconfig \
+              #   --name   "$(EKS_CLUSTER_NAME)" \
+              #   --region "$(AWS_REGION)"
+              #
+              # Option B – Assume an IAM role first, then fetch kubeconfig:
+              # aws sts assume-role \
+              #   --role-arn    "arn:aws:iam::ACCOUNT_ID:role/ROLE_NAME" \
+              #   --role-session-name "ado-deploy"
+              # aws eks update-kubeconfig \
+              #   --name   "$(EKS_CLUSTER_NAME)" \
+              #   --region "$(AWS_REGION)"
+              # ----------------------------------------------------------------
+
+              echo "🚀 Updating container image on EKS..."
+              kubectl -n "${{ parameters.k8sNamespace }}" \
+                set image deployment/"${{ parameters.k8sDeploymentName }}" \
+                "${{ parameters.k8sContainerName }}"="${{ parameters.imageName }}" \
+                --record
+
+              echo "⏳ Waiting for rollout to complete..."
+              kubectl -n "${{ parameters.k8sNamespace }}" \
+                rollout status deployment/"${{ parameters.k8sDeploymentName }}"
+
+              echo "✅ EKS deployment completed successfully."
+            displayName: 'EKS – kubectl set image & rollout status'
+
+      # ========================================================================
+      # GKE – Google Kubernetes Engine
+      # ========================================================================
+      # Prerequisites on the agent:
+      #   • Google Cloud SDK (gcloud) installed and authenticated
+      #   • kubectl installed (gcloud components install kubectl, if needed)
+      # To configure kubeconfig for GKE, uncomment and fill in the gcloud commands below.
+      # ========================================================================
+      - job: Deploy_GKE
+        displayName: 'Deploy to GKE (GCP)'
+        pool:
+          name: ${{ parameters.agentPoolName }}
+        condition: eq('${{ parameters.cloudProvider }}', 'gke')
+        steps:
+          - script: |
+              echo "============================================================"
+              echo " GKE Deployment"
+              echo " Namespace  : ${{ parameters.k8sNamespace }}"
+              echo " Deployment : ${{ parameters.k8sDeploymentName }}"
+              echo " Container  : ${{ parameters.k8sContainerName }}"
+              echo " Image      : ${{ parameters.imageName }}"
+              echo "============================================================"
+
+              if [ -z "${{ parameters.imageName }}" ]; then
+                echo "❌ ERROR: 'imageName' is required for deployment."
+                exit 1
+              fi
+
+              # ----------------------------------------------------------------
+              # GKE CONTEXT SETUP (uncomment if kubeconfig is not pre-configured)
+              # ----------------------------------------------------------------
+              # Option A – Authenticate with a service account key file:
+              # gcloud auth activate-service-account \
+              #   --key-file="$(GOOGLE_APPLICATION_CREDENTIALS)"
+              #
+              # Option B – Merge kubeconfig from the GKE cluster:
+              # gcloud container clusters get-credentials "$(GKE_CLUSTER_NAME)" \
+              #   --zone    "$(GKE_ZONE)" \
+              #   --project "$(GCP_PROJECT_ID)"
+              #
+              # Option C – Workload Identity Federation (keyless):
+              # gcloud auth login --cred-file="$(GOOGLE_APPLICATION_CREDENTIALS)"
+              # ----------------------------------------------------------------
+
+              echo "🚀 Updating container image on GKE..."
+              kubectl -n "${{ parameters.k8sNamespace }}" \
+                set image deployment/"${{ parameters.k8sDeploymentName }}" \
+                "${{ parameters.k8sContainerName }}"="${{ parameters.imageName }}" \
+                --record
+
+              echo "⏳ Waiting for rollout to complete..."
+              kubectl -n "${{ parameters.k8sNamespace }}" \
+                rollout status deployment/"${{ parameters.k8sDeploymentName }}"
+
+              echo "✅ GKE deployment completed successfully."
+            displayName: 'GKE – kubectl set image & rollout status'

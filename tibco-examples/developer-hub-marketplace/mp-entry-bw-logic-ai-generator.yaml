@@ -1,0 +1,93 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-bw-logic-ai-generator
+  title: BW Logic AI Generator
+  description: Local AI tool contributed by Prowess that turns plain-English
+    business logic into BW5 XSLT or BW6 Java/expression code. Streamlit UI in
+    front of an Ollama-hosted LLM, so prompts and generated code never leave the
+    developer machine.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - icon: github
+        text: Marketplace Source
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/bw-ai-generator/
+      - icon: star
+        text: Streamlit
+        url: https://streamlit.io
+      - icon: star
+        text: Ollama
+        url: https://ollama.com
+  tags:
+    - devhub-marketplace
+    - artificial-intelligence
+    - businessworks
+    - bw5
+    - bw6
+    - xslt
+    - code-generation
+    - ollama
+    - prowess
+    - partner-contribution
+spec:
+  owner: group:default/prowess
+  type: artificial-intelligence
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  BW Logic AI Generator added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-bw-logic-ai-generator
+
+            **Description:** Local AI tool contributed by Prowess that turns plain-English business logic into BW5 XSLT or BW6 Java/expression code. Streamlit UI in front of an Ollama-hosted LLM, so prompts and generated code never leave the developer machine. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/bw-ai-generator/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Documents
+        url: /docs?filters%5Buser%5D=all&limit=20
+        icon: techdocs
+      - icon: catalog
+        title: Open BW Logic AI Generator
+        url: /catalog/default/system/bw-ai-generator
+        type: openButton
+      - icon: docs
+        title: Open BW Logic AI Generator Docs
+        url: /docs/default/system/bw-ai-generator
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

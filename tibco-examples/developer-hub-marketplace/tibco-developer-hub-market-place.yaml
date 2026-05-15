@@ -30,4 +30,8 @@ spec:
     - ./mp-entry-template-flogo-ai-mobile-customer-care.yaml
     - ./mp-entry-template-flogo-ai-supply-chain.yaml
     - ./mp-entry-flogo-skill-library-coding-agents.yaml
+    - ./mp-entry-sample-flogo-custom-log-palette.yaml
+    - ./mp-entry-sample-smart-routing.yaml
+    - ./mp-entry-sample-prowess-tp-cicd-pipelines.yaml
+    - ./mp-entry-bw-logic-ai-generator.yaml
     - ./doc-platform-previous-apis.yaml

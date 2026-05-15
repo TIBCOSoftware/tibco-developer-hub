@@ -1,0 +1,8 @@
+site_name: 'TIBCO Platform CI/CD Pipelines'
+site_description: 'tp-cicd-pipelines'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

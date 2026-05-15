@@ -1,0 +1,20 @@
+{
+    "Header": {
+        "flowId": "MainFlow",
+        "sessionId": "1234567890",
+        "correlationId": "1234567890",
+        "trackingId": "1234567890",
+        "sender": "1234567890",
+        "serviceScope": "1234567890",
+        "contextParams": [
+            {
+                "key": "StartActivity",
+                "value": "jdjjdjdjd"
+            },
+            {
+                "key": "StopActivity",
+                "value": "jdjjdjdjd"
+            }
+        ]
+    }
+}

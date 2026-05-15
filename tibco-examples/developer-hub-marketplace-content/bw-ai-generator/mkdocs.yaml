@@ -1,0 +1,8 @@
+site_name: 'BW Logic AI Generator'
+site_description: 'bw-ai-generator'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

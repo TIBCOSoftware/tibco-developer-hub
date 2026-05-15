@@ -1,0 +1,8 @@
+site_name: 'Smart Routing'
+site_description: 'smart-routing'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

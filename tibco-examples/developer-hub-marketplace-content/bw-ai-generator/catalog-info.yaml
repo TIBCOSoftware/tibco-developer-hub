@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: bw-ai-generator
+  description: BW Logic AI Generator
+spec:
+  type: organization
+  profile:
+    displayName: BW Logic AI Generator
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: bw-ai-generator
+  description: AI-driven custom function generator for TIBCO BusinessWorks (partner contribution by Prowess)
+spec:
+  owner: bw-ai-generator
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: bw-ai-generator
+  description: 'Local AI tool that turns plain-English business logic into BW5 XSLT or BW6 Java/expression code. Streamlit UI in front of an Ollama-hosted LLM.'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - artificial-intelligence
+    - businessworks
+    - code-generation
+spec:
+  owner: bw-ai-generator
+  domain: bw-ai-generator

@@ -1,0 +1,8 @@
+site_name: 'Flogo Custom Log Palette'
+site_description: 'flogo-custom-log-palette-doc'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

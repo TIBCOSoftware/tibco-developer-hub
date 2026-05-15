@@ -1,0 +1,91 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-sample-flogo-custom-log-palette
+  title: Flogo Custom Log Palette
+  description: Sample Flogo connector contributed by p4future that adds three
+    structured-logging activities (Set and Log, Custom Log, Custom Exception
+    Log). Produces text or JSON logs enriched with flow-scoped context
+    (correlationId, sessionId, trackingId), optimized for Elasticsearch
+    ingestion and process mining. Includes Go source and full documentation.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - icon: docs
+        text: Flogo
+        url: https://www.tibco.com/content/dam/tibco/documents/data-sheet/tibco-flogo-enterprise.pdf
+      - icon: github
+        text: Source
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-extensions/custom-log-palette/
+      - icon: chat
+        text: p4future
+        url: https://p4future.com
+  tags:
+    - devhub-marketplace
+    - flogo
+    - extension
+    - logging
+    - observability
+    - p4future
+    - partner-contribution
+spec:
+  owner: group:default/p4future
+  type: sample
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Flogo Custom Log Palette added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-sample-flogo-custom-log-palette
+
+            **Description:** Sample Flogo connector contributed by p4future that adds three structured-logging activities (Set and Log, Custom Log, Custom Exception Log). Produces text or JSON logs enriched with flow-scoped context (correlationId, sessionId, trackingId), optimized for Elasticsearch ingestion and process mining. Includes Go source and full documentation. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/flogo-enterprise-hub/blob/master/extensions/custom-log-palette/LICENSE).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-extensions/custom-log-palette/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - icon: catalog
+        title: Open Flogo Custom Log Palette
+        url: /catalog/default/system/flogo-custom-log-palette
+        type: openButton
+      - title: Documents
+        url: /docs?filters%5Buser%5D=all&limit=20
+        icon: techdocs
+      - icon: docs
+        title: Open Flogo Custom Log Palette Docs
+        url: /docs/default/system/flogo-custom-log-palette
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

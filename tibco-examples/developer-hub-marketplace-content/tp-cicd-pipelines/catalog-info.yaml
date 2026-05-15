@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tp-cicd-pipelines
+  description: TIBCO Platform CI/CD Pipelines
+spec:
+  type: organization
+  profile:
+    displayName: TIBCO Platform CI/CD Pipelines
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: tp-cicd-pipelines
+  description: Reusable Azure DevOps pipelines for TIBCO Platform (partner contribution by Prowess)
+spec:
+  owner: tp-cicd-pipelines
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: tp-cicd-pipelines
+  description: 'Three reusable Azure DevOps pipelines that automate BWCE application build and multi-cloud (AKS/EKS/GKE) deployment via TIBCO Platform Build & Deploy APIs.'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - sample
+    - ci-cd
+    - tibco-platform
+spec:
+  owner: tp-cicd-pipelines
+  domain: tp-cicd-pipelines

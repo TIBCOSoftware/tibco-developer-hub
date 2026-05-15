@@ -1,0 +1,67 @@
+{
+	"title": "Custom Log",
+	"name": "tibco-custom-log",
+	"author": "p4future.com",
+	"type": "flogo:activity",
+	"version": "1.0.0",
+	"display": {
+		"visible": true,
+		"description": "Custom Log Message Activity",
+		"category": "CustomLog",
+		"smallIcon": "icons/customlog-icon-2x.png",
+		"largeIcon": "icons/customlog-icon-3x.png"
+	},
+	"ref": "github.com/extensions/customlogpalette/src/app/CustomLog/activity/customlog",
+	"inputs": [
+		{
+			"name": "Log Level",
+			"type": "string",
+			"required": true,
+			"value": "INFO",
+			"display": {
+				"description": "Set log level",
+				"name": "Log Level",
+				"type": "dropdown",
+				"selection": "single",
+				"appPropertySupport": true
+			},
+			"allowed": [
+				"INFO",
+				"WARN",
+				"ERROR",
+				"DEBUG"
+			]
+
+		},
+		{
+			"name": "flowInfo",
+			"type": "boolean",
+			"value": false,
+			"display": {
+				"description": "Append Flow Instance ID, Flow Name and Activity Name to the message",
+				"name": "Add Flow Details",
+				"appPropertySupport": true
+			}
+		},
+		{
+            "name": "LogInput",
+            "type": "complex_object",
+            "display": {
+                "name": "Custom Log Input Parameters",
+                "description": "The input parameters you want to set for the custom log",
+                "type": "params",
+                "schema": "{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"parameterName\":{\"type\":\"string\"},\"type\":{\"type\":{\"enum\":[\"string\",\"number\",\"boolean\"]}},\"repeating\":{\"type\":{\"enum\":[\"true\",\"false\"]}},\"required\":{\"type\":{\"enum\":[\"true\",\"false\"]}}}}}",
+                "mappable": true
+            },
+            "value": {
+                "metadata": "",
+                "value": "[{\"parameterName\":\"loggerName\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"logFormat\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"targetSystem\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"message\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+            }
+        },
+        {
+            "name":"additionalLogParams",
+            "type": "object",
+            "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"keyValuePair\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}},\"required\":[\"name\",\"value\"]}}}}"
+        }
+	]
+}

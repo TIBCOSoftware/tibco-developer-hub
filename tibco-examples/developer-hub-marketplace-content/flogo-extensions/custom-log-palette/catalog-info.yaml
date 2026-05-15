@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: flogo-custom-log-palette-doc
+  description: Flogo Custom Log Palette Documentation
+spec:
+  type: organization
+  profile:
+    displayName: Flogo Custom Log Palette Documentation
+#    email: info@p4future.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: flogo-custom-log-palette-doc
+  description: A group of Flogo extension documents
+spec:
+  owner: flogo-custom-log-palette-doc
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: flogo-custom-log-palette
+  description: 'Flogo Custom Log Palette - structured logging activities for TIBCO Flogo (contributed by p4future)'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - documentation
+    - flogo-extension
+spec:
+  owner: flogo-custom-log-palette-doc
+  domain: flogo-custom-log-palette-doc

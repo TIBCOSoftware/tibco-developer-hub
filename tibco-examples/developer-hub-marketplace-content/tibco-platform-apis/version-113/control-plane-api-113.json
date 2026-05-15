@@ -4869,17 +4869,17 @@
                 "description": "helm command to authenticate helm repo "
               },
               {
-                "cmd": "echo -e 'kubectl apply -f - <<EOF\napiVersion: v1\nkind: Namespace\nmetadata:\n  name: my-namespace\n  labels:\n    platform.tibco.com/dataplane-id: cv7rv5jddha1gdi2162g\nEOF' | bash",
+                "cmd": "echo -e 'kubectl apply -f - <<EOF\napiVersion: v1\nkind: Namespace\nmetadata:\n  name: my-namespace\n  labels:\n    platform.tibco.com/dataplane-id: ID\nEOF' | bash",
                 "id": "K8S_CREATE_NAMESPACE",
                 "description": "kubectl command to create namespace"
               },
               {
-                "cmd": "helm upgrade --install -n my-namespace dp-configure-namespace my-repo-alias/dp-configure-namespace --version 1.5.3  --set global.tibco.dataPlaneId=cv7rv5jddha1gdi2162g --set global.tibco.subscriptionId=cuq4qiqugsdfke0k7k3g --set global.tibco.primaryNamespaceName=my-namespace --set global.tibco.serviceAccount=my-service-account --set global.tibco.containerRegistry.url=https://www.registy-url.com --set global.tibco.containerRegistry.username=username --set global.tibco.containerRegistry.password=password --set global.tibco.containerRegistry.repository=repository-name --set global.tibco.enableClusterScopedPerm=true",
+                "cmd": "helm upgrade --install -n my-namespace dp-configure-namespace my-repo-alias/dp-configure-namespace --version 1.5.3  --set global.tibco.dataPlaneId=ID --set global.tibco.subscriptionId=XYZ --set global.tibco.primaryNamespaceName=my-namespace --set global.tibco.serviceAccount=my-service-account --set global.tibco.containerRegistry.url=https://www.registy-url.com --set global.tibco.containerRegistry.username=username --set global.tibco.containerRegistry.password=password --set global.tibco.containerRegistry.repository=repository-name --set global.tibco.enableClusterScopedPerm=true",
                 "id": "K8S_CREATE_RBAC",
                 "description": "helm command to create rbacs"
               },
               {
-                "cmd": "helm upgrade --install dp-core-infrastructure -n my-namespace my-repo-alias/dp-core-infrastructure --version 1.5.4 --set global.tibco.dataPlaneId=cv7rv5jddha1gdi2162g --set global.tibco.subscriptionId=cuq4qiqugsdfke0k7k3g --set tp-tibtunnel.configure.accessKey=G9nPuU5wpJXqDrBMl5uw4G5bUmWjXwyFbpvCBMsjJLQ --set tp-tibtunnel.connect.url=https://rajt.cp1-tunnel.localhost.dataplanes.pro/sub-cuq4qiqugsdfke0k7k3g-dp-cv7rv5jddha1gdi2162g --set global.tibco.serviceAccount=my-service-account --set global.tibco.containerRegistry.url=https://www.registy-url.com --set global.tibco.containerRegistry.repository=repository-name --set global.proxy.httpProxy=http://www.http-proxy.com --set global.proxy.httpsProxy=https://www.https-proxy.com --set global.proxy.noProxy='https://www.no-proxy.com' --set global.tibco.cpCertificateSecret=my-custom-certificate --set global.logging.fluentbit.enabled=true",
+                "cmd": "helm upgrade --install dp-core-infrastructure -n my-namespace my-repo-alias/dp-core-infrastructure --version 1.5.4 --set global.tibco.dataPlaneId=ID --set global.tibco.subscriptionId=XYZ --set tp-tibtunnel.configure.accessKey=XXX --set tp-tibtunnel.connect.url=https://cp-tunnel.localhost.dataplanes.pro/sub-XXX --set global.tibco.serviceAccount=my-service-account --set global.tibco.containerRegistry.url=https://www.registy-url.com --set global.tibco.containerRegistry.repository=repository-name --set global.proxy.httpProxy=http://www.http-proxy.com --set global.proxy.httpsProxy=https://www.https-proxy.com --set global.proxy.noProxy='https://www.no-proxy.com' --set global.tibco.cpCertificateSecret=my-custom-certificate --set global.logging.fluentbit.enabled=true",
                 "id": "K8S_INSTALL_DP_CORE_INFRASTRUCTURE",
                 "description": "helm command to install/upgrade dp core infrastructure"
               }
@@ -5127,7 +5127,7 @@
               "modified_time": 1740467343,
               "registered_region": "global",
               "running_region": "",
-              "subscription_id": "cuq4qiqugsdfke0k7k3g"
+              "subscription_id": "XYZ"
             }
           ],
           "context": [

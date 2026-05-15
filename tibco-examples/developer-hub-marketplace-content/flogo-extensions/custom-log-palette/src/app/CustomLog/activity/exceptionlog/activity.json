@@ -1,0 +1,64 @@
+{
+	"title": "Exception Log",
+	"name": "tibco-exception-log",
+	"author": "p4future.com",
+	"type": "flogo:activity",
+	"version": "1.0.0",
+	"display": {
+		"visible": true,
+		"description": "Custom Exception Log Message Activity",
+		"category": "CustomLog",
+		"smallIcon": "icons/exceptionlog-icon-2x.png",
+		"largeIcon": "icons/exceptionlog-icon-3x.png"
+	},
+	"ref": "github.com/extensions/customlogpalette/src/app/CustomLog/activity/exceptionlog",
+	"inputs": [
+		{
+			"name": "Log Level",
+			"type": "string",
+			"required": true,
+			"value": "ERROR",
+			"display": {
+				"description": "Set log level to ERROR",
+				"name": "Exception Log Level",
+				"type": "dropdown",
+				"selection": "single",
+				"appPropertySupport": false
+			},
+			"allowed": [
+				"ERROR"
+			]
+
+		},
+		{
+			"name": "flowInfo",
+			"type": "boolean",
+			"value": false,
+			"display": {
+				"description": "Append Flow Instance ID, Flow Name and Activity Name to the message",
+				"name": "Add Flow Details",
+				"appPropertySupport": true
+			}
+		},
+		{
+            "name": "ExceptionLogInput",
+            "type": "complex_object",
+            "display": {
+                "name": "Custom ExceptionLog Input Parameters",
+                "description": "The input parameters you want to set for the custom exception log",
+                "type": "params",
+                "schema": "{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"parameterName\":{\"type\":\"string\"},\"type\":{\"type\":{\"enum\":[\"string\",\"number\",\"boolean\"]}},\"repeating\":{\"type\":{\"enum\":[\"true\",\"false\"]}},\"required\":{\"type\":{\"enum\":[\"true\",\"false\"]}}}}}",
+                "mappable": true
+            },
+            "value": {
+                "metadata": "",
+                "value": "[{\"parameterName\":\"loggerName\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"logFormat\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"errorCode\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"errorMessage\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"errorData\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+            }
+        },
+        {
+            "name":"additionalLogParams",
+            "type": "object",
+            "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"keyValuePair\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"}},\"required\":[\"name\",\"value\"]}}}}"
+        }
+	]
+}
