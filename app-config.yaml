@@ -2,6 +2,7 @@ define: &docUrl ${DOC_URL}
 app:
   title: TIBCO® Developer Hub
   baseUrl: http://localhost:7007/tibco/hub
+  packages: all
   support:
     url: https://support.tibco.com/s/
     items:
@@ -74,6 +75,11 @@ backend:
         #ssl: require # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
       #ca: # if you have a CA file and want to verify it you can uncomment this section
       #$file: <file-path>/ca/server.crt
+  actions:
+    pluginSources:
+      - auth
+      - catalog
+      - scaffolder
 
 integrations:
   github:
@@ -128,6 +134,10 @@ auth:
     #     production:
     #       clientId: ${AUTH_GITHUB_CLIENT_ID}
     #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+  # see https://backstage.io/docs/ai/mcp-actions#client-id-metadata-documents
+  # to learn more about client id metadata documents
+  experimentalClientIdMetadataDocuments:
+    enabled: false
   enableAuthProviders: [tibco-control-plane]
   #   Available providers:
   #   for local deployments
@@ -146,6 +156,14 @@ scaffolder:
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
 catalog:
   locations: []
+
+kubernetes:
+
+mcpActions:
+  enabled: false
+  name: 'TIBCO® Developer Hub'
+  description: 'Tools for managing your software catalog, creating new services from templates, and exploring your developer portal' # optional
+
 essentialLocations:
   runScheduler: true # Set to false to disable periodic updates
   frequencyInMinutes: 120

@@ -297,7 +297,7 @@ export function ExtractParametersAction() {
           z
             .record(
               z.string(),
-              z.union([
+              (z.union as any)([
                 importSchemaXMLXpath,
                 importSchemaXMLJsonPath,
                 importSchemaJson,

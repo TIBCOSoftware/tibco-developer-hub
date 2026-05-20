@@ -1,0 +1,17 @@
+diff --git a/dist/index.esm.js b/dist/index.esm.js
+index f53eb18fccd294e22eeb2977348972a0cf429067..e34e1bf3320f24865fa618bab98785684f2744a9 100644
+--- a/dist/index.esm.js
++++ b/dist/index.esm.js
+@@ -3,4 +3,12 @@ export { MockAnalyticsApi } from './apis/AnalyticsApi/MockAnalyticsApi.esm.js';
+ export { createExtensionTester } from './app/createExtensionTester.esm.js';
+ export { renderInTestApp } from './app/renderInTestApp.esm.js';
+ export { renderTestApp } from './app/renderTestApp.esm.js';
++export function createApiMock(apiRef, defaultFactory) {
++  return function mock(partialImpl = {}) {
++    return { ...defaultFactory(), ...partialImpl };
++  };
++}
++export function attachMockApiFactory(apiRef, instance) {
++  return instance;
++}
+ //# sourceMappingURL=index.esm.js.map

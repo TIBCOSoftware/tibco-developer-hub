@@ -13,7 +13,7 @@ import {
 import { LoggerService } from '@backstage/backend-plugin-api';
 import { DevHubConfig } from './config.ts';
 import { KeyvStore } from './cacheService.ts';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { fetch } from 'undici';
 
 const cpUrl = getCPUrl();

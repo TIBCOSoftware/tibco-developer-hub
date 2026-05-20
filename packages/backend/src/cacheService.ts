@@ -3,8 +3,8 @@
  */
 
 import Keyv from 'keyv';
-import KeyvPostgres from '@keyv/postgres';
 import { Knex } from 'knex';
+import KeyvPostgres from '@keyv/postgres';
 
 export class KeyvStore {
   public static keyv: Keyv;

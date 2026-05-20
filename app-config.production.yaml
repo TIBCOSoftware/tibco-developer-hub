@@ -3,6 +3,7 @@ app:
   title: TIBCO® Developer Hub
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
   baseUrl: http://localhost:7007/tibco/hub
+  packages: all
   support:
     url: https://support.tibco.com/s/
     items:
@@ -66,6 +67,11 @@ backend:
       # ssl:
       #   ca: # if you have a CA file and want to verify it you can uncomment this section
       #     $file: <file-path>/ca/server.crt
+  actions:
+    pluginSources:
+      - auth
+      - catalog
+      - scaffolder
 
 integrations:
   github:
@@ -120,6 +126,10 @@ auth:
     #     production:
     #       clientId: ${AUTH_GITHUB_CLIENT_ID}
     #       clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+  # see https://backstage.io/docs/ai/mcp-actions#client-id-metadata-documents
+  # to learn more about client id metadata documents
+  experimentalClientIdMetadataDocuments:
+    enabled: false
   enableAuthProviders: [tibco-control-plane]
   # Available providers:
   # [tibco-control-plane]
@@ -129,6 +139,14 @@ scaffolder:
     name: TIBCO® Developer Hub # Defaults to `Scaffolder`
     email: test@test.com # Defaults to `scaffolder@backstage.io`
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
+
+kubernetes:
+
+mcpActions:
+  enabled: false
+  name: 'TIBCO® Developer Hub'
+  description: 'Tools for managing your software catalog, creating new services from templates, and exploring your developer portal' # optional
+
 essentialLocations:
   runScheduler: true # Set to false to disable periodic updates
   frequencyInMinutes: 120

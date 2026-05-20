@@ -1,19 +1,23 @@
-/*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
- */
+import {
+  createTranslationMessages,
+  createFrontendModule,
+} from '@backstage/frontend-plugin-api';
+import { TranslationBlueprint } from '@backstage/plugin-app-react';
+import { catalogTranslationRef } from '@backstage/plugin-catalog';
 
-import { createTranslationResource } from '@backstage/core-plugin-api/alpha';
-import { catalogTranslationRef } from '@backstage/plugin-catalog/alpha';
-
-export const catalogMessages = createTranslationResource({
-  ref: catalogTranslationRef,
-  translations: {
-    en: () =>
-      // @ts-ignore
-      Promise.resolve({
-        default: {
-          'indexPage.createButtonTitle': 'Develop',
-        },
-      }),
-  },
+export const catalogTranslations = createFrontendModule({
+  pluginId: 'app',
+  extensions: [
+    TranslationBlueprint.make({
+      name: 'catalog-overrides',
+      params: {
+        resource: createTranslationMessages({
+          ref: catalogTranslationRef,
+          messages: {
+            'indexPage.createButtonTitle': 'Develop',
+          },
+        }),
+      },
+    }),
+  ],
 });

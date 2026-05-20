@@ -27,11 +27,15 @@ export default createBackendPlugin({
           enableAuthProviders &&
           enableAuthProviders.includes('tibco-control-plane')
         ) {
-          const knex: Knex = await database.getClient();
+          const knex = await database.getClient();
           const pluginDivisionMode: string =
             config.getOptionalString('backend.database.pluginDivisionMode') ||
             'database';
-          KeyvStore.initialize(knex, pluginDivisionMode, PLUGIN_ID);
+          KeyvStore.initialize(
+            knex as any as Knex,
+            pluginDivisionMode,
+            PLUGIN_ID,
+          );
           await KeyvStore.keyv.clear();
         }
       },

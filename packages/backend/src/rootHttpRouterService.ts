@@ -9,7 +9,7 @@ import { DevHubConfig } from './config.ts';
 import { idmJwtMiddlewareFunction } from './idmJwtMiddleware.ts';
 import { KeyvStore } from './cacheService.ts';
 import cookieParser from 'cookie-parser';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 export default rootHttpRouterServiceFactory({
   configure: async ({ app, middleware, routes, logger, config }) => {
@@ -17,11 +17,17 @@ export default rootHttpRouterServiceFactory({
       app.use(middleware.cors());
     }
 
-    // Applying body parsers before because middleware now reads req.body for scaffolder tasks
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
-
     const router = Router();
+
+    if (config.getOptionalBoolean('mcpActions.enabled') === false) {
+      router.use(
+        '/api/mcp-actions',
+        (_request: Request, response: Response) => {
+          response.status(404).json({ error: 'MCP actions is disabled' });
+        },
+      );
+    }
+
     const cpUrl = getCPUrl();
     if (cpUrl.host && cpUrl.proxy) {
       router.get(
@@ -73,6 +79,7 @@ export default rootHttpRouterServiceFactory({
     ) {
       router.post(
         '/api/oidc/backchannel-logout',
+        express.json(),
         async (request: Request, response: Response) => {
           try {
             const logout_token = request.body?.logout_token;
@@ -110,6 +117,9 @@ export default rootHttpRouterServiceFactory({
         },
       );
       app.use(cookieParser());
+      // idmJwtMiddleware modifies req.body for scaffolder task creation (POST /v2/tasks),
+      // so body must be pre-parsed for that path only.
+      app.use('/api/scaffolder', express.json());
       // @ts-ignore
       app.use(idmJwtMiddlewareFunction(logger));
     }

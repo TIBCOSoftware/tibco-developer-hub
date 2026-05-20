@@ -3,10 +3,8 @@
  */
 
 import { createBackendModule } from '@backstage/backend-plugin-api';
-import {
-  scaffolderActionsExtensionPoint,
-  scaffolderTemplatingExtensionPoint,
-} from '@backstage/plugin-scaffolder-node/alpha';
+import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node';
+import { scaffolderTemplatingExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
 import {
   createYamlAction,
   createDecodeBase64,

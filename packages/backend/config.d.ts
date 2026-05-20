@@ -1,6 +1,7 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-declare module 'express-http-proxy';
 declare module 'cookie-parser';
+declare module 'https-proxy-agent';
+declare module 'http-proxy-agent';
