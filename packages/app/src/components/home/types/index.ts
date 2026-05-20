@@ -3,12 +3,15 @@
  */
 
 export enum HomeCardType {
+  Topology = 'Topology',
+  MarketPlace = 'Marketplace',
+  Document = 'Document',
   System = 'System',
   Component = 'Component',
-  Document = 'Document',
   API = 'API',
   Template = 'Template',
-  ImportFlow = 'Import flow',
+  SelfService = 'Self Service',
+  ImportFlow = 'Import Flow',
   WalkThrough = 'Walk-through',
 }
 
@@ -21,6 +24,7 @@ type CardInfo = {
   star?: boolean;
   namespace?: string;
   kind?: HomeCardType;
+  url?: string;
 };
 export type ExtraInfo = {
   subTitle: string;

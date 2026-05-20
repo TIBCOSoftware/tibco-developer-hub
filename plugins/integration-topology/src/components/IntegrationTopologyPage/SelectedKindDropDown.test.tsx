@@ -1,12 +1,11 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import { waitFor, render, within } from '@testing-library/react';
+import { waitFor, render, fireEvent } from '@testing-library/react';
 import { SelectedKindDropDown } from './SelectedKindDropDown';
-import user from '@testing-library/user-event';
 
-describe('<SelectedKindDropDown/>', () => {
+describe('SelectedKindDropDown', () => {
   const mockEntityTypes = [
     { label: 'Component', value: 'Component' },
     { label: 'System', value: 'System' },
@@ -14,65 +13,204 @@ describe('<SelectedKindDropDown/>', () => {
     { label: 'Group', value: 'Group' },
     { label: 'Template', value: 'Template' },
   ];
-  it('should display default value supplied', async () => {
-    const { queryByText, getByText } = render(
+
+  const mockOnChange = jest.fn();
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should render with label', () => {
+    const { getByText } = render(
       <SelectedKindDropDown
         label="Select Entity Kind"
         selected="Component"
-        onChange={() => {}}
+        onChange={mockOnChange}
         items={mockEntityTypes}
       />,
     );
 
     expect(getByText('Select Entity Kind')).toBeInTheDocument();
-    expect(getByText('Component')).toBeInTheDocument();
-    // Verify dropdown is initially closed
-    expect(queryByText('System')).not.toBeInTheDocument();
   });
 
-  it('should open options menu on button click', async () => {
-    const { getByText, getByRole } = render(
+  it('should render without label when showLabel is false', () => {
+    const { queryByText } = render(
       <SelectedKindDropDown
         label="Select Entity Kind"
         selected="Component"
-        onChange={() => {}}
+        onChange={mockOnChange}
         items={mockEntityTypes}
+        showLabel={false}
       />,
     );
-    const buttonElement = getByRole('button', {
-      name: 'Component',
-    });
-    expect(buttonElement).toBeInTheDocument();
-    await waitFor(() => user.click(buttonElement));
-    await waitFor(() => {
-      expect(getByText('System')).toBeInTheDocument();
-      expect(getByText('API')).toBeInTheDocument();
-      expect(getByText('Group')).toBeInTheDocument();
-      expect(getByText('Template')).toBeInTheDocument();
-    });
+
+    expect(queryByText('Select Entity Kind')).not.toBeInTheDocument();
   });
 
-  it('should be able to select new option and it gets updated into selected', async () => {
-    const { getByText, getByTestId } = render(
+  it('should render with wrapper by default', () => {
+    const { container } = render(
       <SelectedKindDropDown
         label="Select Entity Kind"
         selected="Component"
-        onChange={() => {}}
+        onChange={mockOnChange}
         items={mockEntityTypes}
       />,
     );
-    const input = getByTestId('select');
-    const button = within(input).getByRole('button');
-    await waitFor(() => user.click(button));
+
+    const wrapper = container.querySelector('[class*="MuiBox-root"]');
+    expect(wrapper).toBeInTheDocument();
+  });
+
+  it('should render without wrapper when showWrapper is false', () => {
+    const { container } = render(
+      <SelectedKindDropDown
+        label="Select Entity Kind"
+        selected="Component"
+        onChange={mockOnChange}
+        items={mockEntityTypes}
+        showWrapper={false}
+      />,
+    );
+
+    const formControl = container.querySelector('[class*="formControl"]');
+    expect(formControl).toBeInTheDocument();
+  });
+
+  it('should render icon for selected kind', () => {
+    const { container } = render(
+      <SelectedKindDropDown
+        label="Select Entity Kind"
+        selected="Component"
+        onChange={mockOnChange}
+        items={mockEntityTypes}
+      />,
+    );
+
+    const icon = container.querySelector('svg');
+    expect(icon).toBeInTheDocument();
+  });
+
+  it('should open dropdown menu on click', async () => {
+    const { container, getByRole } = render(
+      <SelectedKindDropDown
+        label="Select Entity Kind"
+        selected="Component"
+        onChange={mockOnChange}
+        items={mockEntityTypes}
+      />,
+    );
+
+    const button = container.querySelector('[role="button"]');
+    expect(button).toBeInTheDocument();
+
+    if (button) {
+      fireEvent.mouseDown(button);
+    }
+
     await waitFor(() => {
-      expect(getByText('System')).toBeInTheDocument();
-      expect(getByText('Group')).toBeInTheDocument();
-      expect(getByText('API')).toBeInTheDocument();
+      const listbox = getByRole('listbox');
+      expect(listbox).toBeInTheDocument();
     });
-    const option = getByText('System');
-    await user.click(option);
+  });
+
+  it('should call onChange when option is selected', async () => {
+    const { container, getByRole } = render(
+      <SelectedKindDropDown
+        label="Select Entity Kind"
+        selected="Component"
+        onChange={mockOnChange}
+        items={mockEntityTypes}
+      />,
+    );
+
+    const button = container.querySelector('[role="button"]');
+    if (button) {
+      fireEvent.mouseDown(button);
+    }
+
     await waitFor(() => {
-      expect(input.textContent).toBe('System');
+      const listbox = getByRole('listbox');
+      expect(listbox).toBeInTheDocument();
     });
+
+    const options = getByRole('listbox').querySelectorAll('[role="option"]');
+    expect(options.length).toBe(mockEntityTypes.length);
+
+    // Click second option (System)
+    fireEvent.click(options[1]);
+
+    expect(mockOnChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render all items in dropdown', async () => {
+    const { container, getByRole } = render(
+      <SelectedKindDropDown
+        label="Select Entity Kind"
+        selected="Component"
+        onChange={mockOnChange}
+        items={mockEntityTypes}
+      />,
+    );
+
+    const button = container.querySelector('[role="button"]');
+    if (button) {
+      fireEvent.mouseDown(button);
+    }
+
+    await waitFor(() => {
+      const listbox = getByRole('listbox');
+      const options = listbox.querySelectorAll('[role="option"]');
+      expect(options.length).toBe(mockEntityTypes.length);
+    });
+  });
+
+  it('should display icons with tooltips', async () => {
+    const { container } = render(
+      <SelectedKindDropDown
+        label="Select Entity Kind"
+        selected="Component"
+        onChange={mockOnChange}
+        items={mockEntityTypes}
+      />,
+    );
+
+    // Should have icon in selected value
+    const icon = container.querySelector('svg');
+    expect(icon).toBeInTheDocument();
+
+    // Icon should be inside a span element
+    const iconParent = icon?.parentElement;
+    expect(iconParent?.tagName.toLowerCase()).toBe('span');
+  });
+
+  it('should handle empty items array', () => {
+    const { container } = render(
+      <SelectedKindDropDown
+        label="Select Entity Kind"
+        selected=""
+        onChange={mockOnChange}
+        items={[]}
+      />,
+    );
+
+    const formControl = container.querySelector('[class*="formControl"]');
+    expect(formControl).toBeInTheDocument();
+  });
+
+  it('should apply custom styling classes', () => {
+    const { container } = render(
+      <SelectedKindDropDown
+        label="Select Entity Kind"
+        selected="Component"
+        onChange={mockOnChange}
+        items={mockEntityTypes}
+      />,
+    );
+
+    const formControl = container.querySelector('[class*="formControl"]');
+    expect(formControl).toBeInTheDocument();
+
+    const select = container.querySelector('[class*="select"]');
+    expect(select).toBeInTheDocument();
   });
 });

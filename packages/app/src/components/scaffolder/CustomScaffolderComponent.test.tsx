@@ -18,6 +18,7 @@ import { ConfigReader, FlatRoutes } from '@backstage/core-app-api';
 import { permissionApiRef } from '@backstage/plugin-permission-react';
 import { configApiRef } from '@backstage/core-plugin-api';
 import { Route } from 'react-router';
+import { waitFor } from '@testing-library/react';
 import { CustomScaffolderPage } from './plugin.ts';
 import { DefaultStarredEntitiesApi } from '@backstage/plugin-catalog';
 import {
@@ -144,7 +145,9 @@ describe('<CustomScaffolderPage>', () => {
         },
       },
     );
-    expect(getByText('Develop a new component')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(getByText('Develop a new component')).toBeInTheDocument();
+    });
     expect(
       getByText(
         'Develop new software components using standard templates in your organization',

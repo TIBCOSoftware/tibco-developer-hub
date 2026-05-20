@@ -30,6 +30,10 @@ import DevHubLogo from './images/devhub-logo.svg';
 import { Config } from '@backstage/config';
 import Typography from '@material-ui/core/Typography';
 import TopologyIcon from '../../icons/topology.svg';
+import ImportFlowIcon from '../../icons/importflow.svg';
+import DocumentsIcon from '../../icons/documents.svg';
+import SelfServiceIcon from '../../icons/selfservice.svg';
+import RegisterIcon from '../../icons/register.svg';
 
 const SIDE_NAV_WIDTH_OPEN = 264;
 const SIDE_NAV_WIDTH_CLOSE = 72;
@@ -506,9 +510,11 @@ const SidebarCustom = ({
         <SidebarItem
           className={cpClicked ? classes.itemNotSelected : ''}
           onClick={() => setCpClicked(false)}
-          icon={() => <TibcoIcon iconName="pl-icon-documentation" />}
+          icon={() => (
+            <img src={DocumentsIcon} height={24} width={24} alt="logo" />
+          )}
           to="docs"
-          text="Docs"
+          text="Documents"
         />
         <SidebarItem
           className={cpClicked ? classes.itemNotSelected : ''}
@@ -529,9 +535,29 @@ const SidebarCustom = ({
         <SidebarItem
           className={cpClicked ? classes.itemNotSelected : ''}
           onClick={() => setCpClicked(false)}
-          icon={() => <TibcoIcon iconName="pl-icon-upload" />}
+          icon={() => (
+            <img src={SelfServiceIcon} height={24} width={24} alt="logo" />
+          )}
+          to="self-service-flow"
+          text="Self Service"
+        />
+        <SidebarItem
+          className={cpClicked ? classes.itemNotSelected : ''}
+          onClick={() => setCpClicked(false)}
+          icon={() => (
+            <img src={ImportFlowIcon} height={24} width={24} alt="logo" />
+          )}
           to="import-flow"
           text="Import..."
+        />
+        <SidebarItem
+          className={cpClicked ? classes.itemNotSelected : ''}
+          onClick={() => setCpClicked(false)}
+          icon={() => (
+            <img src={RegisterIcon} height={24} width={24} alt="logo" />
+          )}
+          to="catalog-import"
+          text="Register..."
         />
         {/* End global nav */}
       </SidebarGroup>

@@ -136,6 +136,30 @@ export const idmJwtMiddlewareFunction = (
         }
       }
       try {
+        // Inject token into scaffolder task secrets for POST /v2/tasks
+        if (req.method === 'POST' && req.path.endsWith('/v2/tasks')) {
+          logger.info(
+            `[cpTokenInjector] Detected scaffolder task creation request`,
+          );
+          if (token) {
+            if (!req.body || typeof req.body !== 'object') {
+              logger.warn(
+                `[cpTokenInjector] req.body is not an object, initializing`,
+              );
+              req.body = {};
+            }
+            if (!req.body.secrets || typeof req.body.secrets !== 'object') {
+              req.body.secrets = {};
+            }
+            req.body.secrets.cpToken = token;
+
+            logger.info(
+              `[cpTokenInjector] Successfully injected cpToken into scaffolder task secrets`,
+            );
+          } else {
+            logger.warn(`[cpTokenInjector] No token found to inject`);
+          }
+        }
         const responseJwt = await getJwtFromToken(token || '');
         if (responseJwt && cicToken) {
           req.headers.authorization = `Bearer ${responseJwt}`;

@@ -1,6 +1,7 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
+
 import { CompoundEntityRef } from '@backstage/catalog-model';
 import { ChangeEvent, useMemo, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
@@ -45,6 +46,7 @@ export type SearchableDropDownProps = {
   filterSelectedOptions?: boolean;
   limitTags?: number;
   multiple?: boolean;
+  showLabel?: boolean;
 };
 
 /**
@@ -139,9 +141,13 @@ const SearchableEntityNameDropDown = (props: SearchableDropDownProps) => {
 
 export const SearchableDropDown = (props: SearchableDropDownProps) => {
   const classes = useStyles();
+  const { showLabel = true } = props;
+
   return (
     <FormControl className={classes.formControl} fullWidth>
-      <div className={classes.label}>{props.label}</div>
+      {showLabel && props.label && (
+        <div className={classes.label}>{props.label}</div>
+      )}
       <SearchableEntityNameDropDown {...props} />
     </FormControl>
   );

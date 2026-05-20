@@ -1,5 +1,5 @@
 # Stage 1 - Create yarn install skeleton layer
-FROM alpine:3.23.3 AS packages
+FROM alpine:3.23.4 AS packages
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -15,7 +15,7 @@ COPY plugins plugins
 RUN find packages \! -name "package.json" -mindepth 2 -maxdepth 2 -exec rm -rf {} \+
 
 # Stage 2 - Build layer
-FROM alpine:3.23.3 as build
+FROM alpine:3.23.4 as build
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
@@ -54,7 +54,7 @@ RUN mkdir packages/backend/dist/skeleton packages/backend/dist/bundle \
     && tar xzf packages/backend/dist/bundle.tar.gz -C packages/backend/dist/bundle
 
 # Stage 3 - Node builder layer
-FROM alpine:3.23.3 as node-builder
+FROM alpine:3.23.4 as node-builder
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
@@ -84,7 +84,7 @@ RUN --mount=type=cache,target=/home/nonroot/.yarn/berry/cache,sharing=locked,uid
     yarn workspaces focus --all --production && yarn cache clean --all
 
 # Stage 4 - Final layer
-FROM alpine:3.23.3
+FROM alpine:3.23.4
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 

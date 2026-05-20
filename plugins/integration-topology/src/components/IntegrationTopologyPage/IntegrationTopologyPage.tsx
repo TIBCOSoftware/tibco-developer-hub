@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import {
@@ -40,7 +40,7 @@ import {
   useRef,
   useLayoutEffect,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   ALL_RELATION_PAIRS,
   Direction,
@@ -59,7 +59,6 @@ import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { catalogGraphTranslationRef } from '../../translation';
 import { useFetchAllEntities } from '../../hooks/useFetchAllEntities';
 import { SearchContextProvider } from '@backstage/plugin-search-react';
-import { SearchableDropDown } from './SearchableDropDown';
 import { SearchByEntityName } from './SearchByEntityName';
 import { TopologyGraph } from '../TopologyGraph/TopologyGraph';
 import { EntityNodeDetails } from '../EntityNodeDetails/EntityNodeDetails';
@@ -69,7 +68,9 @@ import {
   TopologyProvider,
 } from '../../context/TopologyContext';
 import { CustomViewToggle } from '../common/CustomViewToggle';
-import { SelectedKindDropDown } from './SelectedKindDropDown';
+import { CustomUrlFavoriteToggle } from '../common/CustomUrlFavoriteToggle';
+import { EntityKindAndNameSelector } from './EntityKindAndNameSelector';
+import { FavoriteSelector } from './FavoriteSelector';
 
 /** @public */
 export type CatalogGraphPageClassKey =
@@ -241,6 +242,7 @@ export const TopologyPage = (
   const title = config.getOptionalString('app.title');
   document.title = ` Topology | ${title}`;
   const { t } = useTranslationRef(catalogGraphTranslationRef);
+  const location = useLocation();
   const navigate = useNavigate();
   const classes = useStyles();
   const catalogEntityRoute = useRouteRef(entityRouteRef);
@@ -503,7 +505,21 @@ export const TopologyPage = (
                   <FilterListIcon />
                   {t('catalogGraphPage.filterToggleButtonTitle')}
                 </ToggleButton>
+                {location?.search?.split('rootEntityRefs').length > 1 && (
+                  <CustomUrlFavoriteToggle
+                    entityName={
+                      location.search.includes('rootEntityRefs')
+                        ? location?.search
+                            ?.split('rootEntityRefs')[1]
+                            ?.split('&')[0]
+                            ?.split('%2F')[1]
+                        : 'url'
+                    }
+                    url={location.pathname + location.search}
+                  />
+                )}
               </div>
+
               <CustomViewToggle
                 view={view}
                 setView={setView}
@@ -519,94 +535,96 @@ export const TopologyPage = (
         <Grid container alignItems="stretch" className={classes.container}>
           {showFilters && (
             <Grid item xs={12} lg={2} className={classes.filters}>
-              <SelectedKindDropDown
-                label="Select Entity Kind"
-                selected={
-                  rootEntityNames && rootEntityNames.length > 0
-                    ? rootEntityNames
-                        .filter(e => e && e.kind)
-                        .map(e =>
-                          e.kind === 'api'
-                            ? e.kind.toLocaleUpperCase()
-                            : e.kind[0].toLocaleUpperCase() + e.kind.slice(1),
-                        )
-                        .join(', ')
-                    : ''
-                }
-                items={
-                  kinds && kinds.length > 0
-                    ? kinds.map(v => ({
-                        label: v,
-                        value: v,
-                      }))
-                    : []
-                }
-                onChange={currentKind => {
-                  if (!currentKind || !entities) {
-                    return;
-                  }
-
-                  try {
-                    const newRootEntities = entities.filter(
-                      e => e && e.kind === currentKind,
-                    );
-                    if (newRootEntities.length > 0) {
-                      const validEntities = newRootEntities.filter(
-                        e => e && e.metadata && e.metadata.name,
-                      );
-                      if (validEntities.length === 0) {
+              <SearchContextProvider>
+                <EntityKindAndNameSelector
+                  label="Select Entity Kind and Name"
+                  kindDropdownProps={{
+                    selected:
+                      rootEntityNames && rootEntityNames.length > 0
+                        ? rootEntityNames
+                            .filter(e => e && e.kind)
+                            .map(e =>
+                              e.kind === 'api'
+                                ? e.kind.toLocaleUpperCase()
+                                : e.kind[0].toLocaleUpperCase() +
+                                  e.kind.slice(1),
+                            )
+                            .join(', ')
+                        : '',
+                    items:
+                      kinds && kinds.length > 0
+                        ? kinds.map(v => ({
+                            label: v,
+                            value: v,
+                          }))
+                        : [],
+                    onChange: currentKind => {
+                      if (!currentKind || !entities) {
                         return;
                       }
 
-                      validEntities.sort((a, b) =>
-                        a.metadata.name.localeCompare(b.metadata.name),
-                      );
-                      const newRootEntity = validEntities[0];
-                      const newRootEntityName =
-                        humanizeEntityRef(newRootEntity);
-                      setRootEntityNames([parseEntityRef(newRootEntityName)]);
-                      setEntityListForCurrentKind(
-                        entities.filter(
-                          e => e && e.kind === newRootEntity.kind,
-                        ),
-                      );
-                    }
-                  } catch (error) {
-                    // Handle error silently
-                  }
-                }}
-              />
-              <SearchContextProvider>
-                <SearchableDropDown
-                  name="entityName"
-                  label="Select Entity Name"
-                  multiple={false}
-                  rootEntityNames={rootEntityNames}
-                  defaultValue={rootEntityNames && rootEntityNames[0]?.name}
-                  givenValues={
-                    entityListForCurrentKind
+                      try {
+                        const newRootEntities = entities.filter(
+                          e => e && e.kind === currentKind,
+                        );
+                        if (newRootEntities.length > 0) {
+                          const validEntities = newRootEntities.filter(
+                            e => e && e.metadata && e.metadata.name,
+                          );
+                          if (validEntities.length === 0) {
+                            return;
+                          }
+
+                          validEntities.sort((a, b) =>
+                            a.metadata.name.localeCompare(b.metadata.name),
+                          );
+                          const newRootEntity = validEntities[0];
+                          const newRootEntityName =
+                            humanizeEntityRef(newRootEntity);
+                          setRootEntityNames([
+                            parseEntityRef(newRootEntityName),
+                          ]);
+                          setEntityListForCurrentKind(
+                            entities.filter(
+                              e => e && e.kind === newRootEntity.kind,
+                            ),
+                          );
+                        }
+                      } catch (error) {
+                        // Handle error silently
+                      }
+                    },
+                  }}
+                  nameDropdownProps={{
+                    name: 'entityName',
+                    multiple: false,
+                    rootEntityNames: rootEntityNames,
+                    defaultValue: rootEntityNames && rootEntityNames[0]?.name,
+                    givenValues: entityListForCurrentKind
                       ? entityListForCurrentKind
                           .filter(v => v && v.metadata && v.metadata.name)
                           .map(v => v.metadata.name)
-                      : []
-                  }
-                  onSelected={(name: string) => {
-                    if (!name || !entityListForCurrentKind) {
-                      return;
-                    }
-
-                    try {
-                      const newRootEntity = entityListForCurrentKind.find(
-                        e => e && e.metadata && e.metadata.name === name,
-                      );
-                      if (newRootEntity) {
-                        const newRootEntityName =
-                          humanizeEntityRef(newRootEntity);
-                        setRootEntityNames([parseEntityRef(newRootEntityName)]);
+                      : [],
+                    onSelected: (name: string) => {
+                      if (!name || !entityListForCurrentKind) {
+                        return;
                       }
-                    } catch (error) {
-                      // Handle error silently
-                    }
+
+                      try {
+                        const newRootEntity = entityListForCurrentKind.find(
+                          e => e && e.metadata && e.metadata.name === name,
+                        );
+                        if (newRootEntity) {
+                          const newRootEntityName =
+                            humanizeEntityRef(newRootEntity);
+                          setRootEntityNames([
+                            parseEntityRef(newRootEntityName),
+                          ]);
+                        }
+                      } catch (error) {
+                        // Handle error silently
+                      }
+                    },
                   }}
                 />
               </SearchContextProvider>
@@ -637,6 +655,101 @@ export const TopologyPage = (
                     // Handle error silently
                   }
                   callback?.();
+                }}
+              />
+              <FavoriteSelector
+                currentUrl={location.pathname + location.search}
+                onFavoriteSelected={(url: string) => {
+                  if (!url) return;
+
+                  try {
+                    const urlObj = new URL(url, window.location.origin);
+                    const searchParams = new URLSearchParams(urlObj.search);
+                    const rootEntityRefsParam =
+                      searchParams.get('rootEntityRefs');
+                    if (rootEntityRefsParam) {
+                      try {
+                        const refs = rootEntityRefsParam
+                          .split(',')
+                          .map(ref => parseEntityRef(ref));
+                        setRootEntityNames(refs);
+                        if (entities && refs[0]) {
+                          const rootEntity = entities.find(
+                            e =>
+                              e &&
+                              stringifyEntityRef(e) ===
+                                stringifyEntityRef(refs[0]),
+                          );
+                          if (rootEntity) {
+                            setEntityListForCurrentKind(
+                              entities.filter(
+                                e => e && e.kind === rootEntity.kind,
+                              ),
+                            );
+                            setRootEntity(rootEntity);
+                            setDetailsEntity(rootEntity);
+                          }
+                        }
+                      } catch (error) {
+                        // Handle error silently
+                      }
+                    }
+
+                    const maxDepthParam = searchParams.get('maxDepth');
+                    if (maxDepthParam) {
+                      if (
+                        maxDepthParam === '∞' ||
+                        maxDepthParam === 'Infinity' ||
+                        maxDepthParam === 'infinity'
+                      ) {
+                        setMaxDepth(Number.POSITIVE_INFINITY);
+                      } else {
+                        const depth = parseInt(maxDepthParam, 10);
+                        if (!isNaN(depth)) {
+                          setMaxDepth(depth);
+                        }
+                      }
+                    }
+
+                    const selectedKindsParam =
+                      searchParams.get('selectedKinds');
+                    if (selectedKindsParam) {
+                      setSelectedKinds(selectedKindsParam.split(','));
+                    }
+
+                    const selectedRelationsParam =
+                      searchParams.get('selectedRelations');
+                    if (selectedRelationsParam) {
+                      setSelectedRelations(selectedRelationsParam.split(','));
+                    }
+
+                    const unidirectionalParam =
+                      searchParams.get('unidirectional');
+                    if (unidirectionalParam !== null) {
+                      setUnidirectional(unidirectionalParam === 'true');
+                    }
+
+                    const mergeRelationsParam =
+                      searchParams.get('mergeRelations');
+                    if (mergeRelationsParam !== null) {
+                      setMergeRelations(mergeRelationsParam === 'true');
+                    }
+
+                    const directionParam = searchParams.get('direction');
+                    if (directionParam) {
+                      setDirection(directionParam as Direction);
+                    }
+
+                    const curveParam = searchParams.get('curve');
+                    if (curveParam) {
+                      setCurve(
+                        curveParam as 'curveStepBefore' | 'curveMonotoneX',
+                      );
+                    }
+                    navigate(urlObj.pathname + urlObj.search);
+                  } catch (error) {
+                    // Handle error silently
+                  }
                 }}
               />
               <MaxDepthFilter value={maxDepth} onChange={setMaxDepth} />

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import { Route } from 'react-router';
@@ -58,8 +58,13 @@ import { CatalogImportPage } from './components/catalog-import/CatalogImportPage
 import { catalogImportPlugin } from '@backstage/plugin-catalog-import';
 import { Button } from '@material-ui/core';
 import { UnifiedThemeProvider } from '@backstage/theme';
-import { TemplateListPage } from '@internal/backstage-plugin-import-flow';
+import { CustomTemplatePage } from '@internal/backstage-plugin-custom-template-flow';
+import {
+  DataplaneSelectorExtension,
+  CapabilitySelectorExtension,
+} from '@internal/plugin-tibco-platform-custom-form-fields';
 import { catalogMessages } from './translations/catalogIndex';
+import { coreComponentsMessages } from './translations/coreComponentsMessages';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import {
   TemplateGroups,
@@ -68,6 +73,7 @@ import {
 import { CustomScaffolderPage } from './components/scaffolder/plugin.ts';
 import { MarketplacePage } from '@internal/plugin-marketplace';
 import { IntegrationTopologyPage } from '@internal/plugin-integration-topology';
+import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
 
 export const generateProviders = (providerConfig: string[]): any[] => {
   const providers: any[] = [];
@@ -145,7 +151,7 @@ const app = createApp({
   },
   __experimentalTranslations: {
     availableLanguages: ['en'],
-    resources: [catalogMessages],
+    resources: [catalogMessages, coreComponentsMessages],
   },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
@@ -182,33 +188,27 @@ const CustomImportFlowPage = () => {
   const importFlowGroups: undefined | TemplateGroups[] = templateGroupsValue(
     config.getOptional('importFlowGroups'),
   );
-  let groups: any[] = [
-    {
-      title: 'Import Flows',
-      filter: () => true,
-    },
-  ];
-  if (importFlowGroups) {
-    groups = [];
-    for (const importFlowGroup of importFlowGroups) {
-      groups.push({
+
+  const groups = importFlowGroups
+    ? importFlowGroups.map(importFlowGroup => ({
         title: importFlowGroup.name,
-        filter: (entity: TemplateEntityV1beta3) => {
-          for (const tag of importFlowGroup.tagFilters) {
-            if (entity.metadata?.tags?.includes(tag)) {
-              return true;
-            }
-          }
-          return false;
+        filter: (entity: TemplateEntityV1beta3) =>
+          importFlowGroup.tagFilters.some(tag =>
+            entity.metadata?.tags?.includes(tag),
+          ),
+      }))
+    : [
+        {
+          title: 'Import Flows',
+          filter: () => true,
         },
-      });
-    }
-  }
+      ];
+
   return (
     <ScaffolderPage
       components={{
         EXPERIMENTAL_TemplateListPageComponent: () => (
-          <TemplateListPage
+          <CustomTemplatePage
             templateFilter={entity => {
               const tags = entity.metadata.tags?.map(v => v.toLowerCase());
               return !!(
@@ -223,6 +223,55 @@ const CustomImportFlowPage = () => {
               pageTitleOverride: 'Import Flow',
               title: 'Import Flow',
               subtitle: 'Import new software components using import flows',
+            }}
+          />
+        ),
+      }}
+    />
+  );
+};
+
+const CustomSelfServicePage = () => {
+  const config = useApi(configApiRef);
+  const selfServiceGroups: undefined | TemplateGroups[] = templateGroupsValue(
+    config.getOptional('selfServiceGroups'),
+  );
+
+  const groups = selfServiceGroups
+    ? selfServiceGroups.map(selfServiceGroup => ({
+        title: selfServiceGroup.name,
+        filter: (entity: TemplateEntityV1beta3) =>
+          selfServiceGroup.tagFilters.some(tag =>
+            entity.metadata?.tags?.includes(tag),
+          ),
+      }))
+    : [
+        {
+          title: 'Self Service Flows',
+          filter: () => true,
+        },
+      ];
+
+  return (
+    <ScaffolderPage
+      components={{
+        EXPERIMENTAL_TemplateListPageComponent: () => (
+          <CustomTemplatePage
+            templateFilter={entity => {
+              const tags = entity.metadata.tags?.map(v => v.toLowerCase());
+              return !!(
+                tags?.includes('self-service') &&
+                !tags?.includes('devhub-marketplace')
+              );
+            }}
+            requiredTags={['self-service']}
+            excludedTags={['devhub-marketplace']}
+            groups={groups}
+            headerOptions={{
+              pageTitleOverride: 'Self Service',
+              title: 'Self Service',
+              subtitle:
+                'Setup new software components using self service flows',
             }}
           />
         ),
@@ -301,7 +350,13 @@ export const routes = (
       </TechDocsAddons>
     </Route>
     <Route path="/import-flow" element={<CustomImportFlowPage />} />
-    <Route path="/create" element={<CustomScaffolderPage />} />
+    <Route path="/self-service-flow" element={<CustomSelfServicePage />} />
+    <Route path="/create" element={<CustomScaffolderPage />}>
+      <ScaffolderFieldExtensions>
+        <DataplaneSelectorExtension />
+        <CapabilitySelectorExtension />
+      </ScaffolderFieldExtensions>
+    </Route>
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
       path="/catalog-import"

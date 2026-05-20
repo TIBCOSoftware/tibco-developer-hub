@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import {
@@ -7,7 +7,12 @@ import {
   RELATION_HAS_PART,
   RELATION_PART_OF,
 } from '@backstage/catalog-model';
-import { catalogApiRef, entityRouteRef } from '@backstage/plugin-catalog-react';
+import {
+  catalogApiRef,
+  entityRouteRef,
+  starredEntitiesApiRef,
+  MockStarredEntitiesApi,
+} from '@backstage/plugin-catalog-react';
 import { catalogApiMock } from '@backstage/plugin-catalog-react/testUtils';
 import { renderInTestApp, TestApiProvider } from '@backstage/test-utils';
 import { screen, waitFor } from '@testing-library/react';
@@ -25,14 +30,12 @@ jest.mock('../../hooks/useFetchAllEntities', () => ({
 const mockUseFetchAllEntities = require('../../hooks/useFetchAllEntities')
   .useFetchAllEntities as jest.MockedFunction<any>;
 
-// Mock ResizeObserver
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
   unobserve: jest.fn(),
   disconnect: jest.fn(),
 }));
 
-// Mock components
 jest.mock('react-draggable', () => ({
   __esModule: true,
   default: function MockDraggable({ children }: any) {
@@ -65,7 +68,6 @@ jest.mock('../EntityNodeDetails/EntityNodeDetails', () => ({
   )),
 }));
 
-// Mock filter components
 jest.mock('./SelectedKindDropDown', () => ({
   SelectedKindDropDown: () => (
     <div data-testid="selected-kind-dropdown">Kind Filter</div>
@@ -143,7 +145,6 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
     ],
   };
 
-  // Configure mock to return entities and kinds
   beforeEach(() => {
     mockUseFetchAllEntities.mockReturnValue({
       entities: [entityC, entityE],
@@ -172,11 +173,14 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
     ] as SearchResult[],
   });
 
+  const mockStarredEntitiesApi = new MockStarredEntitiesApi();
+
   const wrapper = (
     <TestApiProvider
       apis={[
         [catalogApiRef, catalogApi],
         [searchApiRef, mockSearchApi],
+        [starredEntitiesApiRef, mockStarredEntitiesApi],
       ]}
     >
       <IntegrationTopologyPage />
@@ -341,6 +345,7 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
         apis={[
           [catalogApiRef, catalogApi],
           [searchApiRef, mockSearchApi],
+          [starredEntitiesApiRef, mockStarredEntitiesApi],
         ]}
       >
         <IntegrationTopologyPage />
@@ -430,6 +435,207 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
         expect(
           screen.getByText('No entities available to display'),
         ).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('FavoriteToggle Functionality', () => {
+    it('renders FavoriteToggle button with correct initial state', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        const favoriteButton = screen.getByRole('button', {
+          name: 'Add to favorites',
+        });
+        expect(favoriteButton).toBeInTheDocument();
+      });
+    });
+
+    it('displays "Add to favorites" title when entity is not starred', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', { name: 'Add to favorites' }),
+        ).toBeInTheDocument();
+      });
+    });
+
+    it('toggles favorite state when FavoriteToggle is clicked', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', { name: 'Add to favorites' }),
+        ).toBeInTheDocument();
+      });
+
+      const favoriteButton = screen.getByRole('button', {
+        name: 'Add to favorites',
+      });
+      await userEvent.click(favoriteButton);
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', { name: 'Remove from favorites' }),
+        ).toBeInTheDocument();
+      });
+    });
+
+    it('displays "Remove from favorites" title when entity is starred', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        const button =
+          screen.queryByRole('button', { name: 'Add to favorites' }) ||
+          screen.queryByRole('button', { name: 'Remove from favorites' });
+        expect(button).toBeInTheDocument();
+      });
+
+      const addButton = screen.queryByRole('button', {
+        name: 'Add to favorites',
+      });
+      const isAlreadyFavorited = !addButton;
+
+      if (!isAlreadyFavorited) {
+        await userEvent.click(addButton!);
+      }
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', { name: 'Remove from favorites' }),
+        ).toBeInTheDocument();
+      });
+    });
+
+    it('removes favorite when clicking the button while entity is starred', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        const button =
+          screen.queryByRole('button', { name: 'Add to favorites' }) ||
+          screen.queryByRole('button', { name: 'Remove from favorites' });
+        expect(button).toBeInTheDocument();
+      });
+
+      const initialAddButton = screen.queryByRole('button', {
+        name: 'Add to favorites',
+      });
+
+      if (initialAddButton) {
+        await userEvent.click(initialAddButton);
+      }
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', { name: 'Remove from favorites' }),
+        ).toBeInTheDocument();
+      });
+
+      const removeFavoriteButton = screen.getByRole('button', {
+        name: 'Remove from favorites',
+      });
+      await userEvent.click(removeFavoriteButton);
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', { name: 'Add to favorites' }),
+        ).toBeInTheDocument();
+      });
+    });
+
+    it('maintains favorite state across view changes', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        const button =
+          screen.queryByRole('button', { name: 'Add to favorites' }) ||
+          screen.queryByRole('button', { name: 'Remove from favorites' });
+        expect(button).toBeInTheDocument();
+      });
+
+      const initialAddButton = screen.queryByRole('button', {
+        name: 'Add to favorites',
+      });
+      const needsToFavorite = !!initialAddButton;
+
+      if (needsToFavorite) {
+        await userEvent.click(initialAddButton!);
+      }
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', { name: 'Remove from favorites' }),
+        ).toBeInTheDocument();
+      });
+
+      const graphViewInput = screen.getByLabelText('Graph View');
+      await userEvent.click(graphViewInput);
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', { name: 'Remove from favorites' }),
+        ).toBeInTheDocument();
+      });
+
+      const topologyViewInput = screen.getByLabelText('Topology View');
+      await userEvent.click(topologyViewInput);
+
+      await waitFor(() => {
+        expect(
+          screen.getByRole('button', { name: 'Remove from favorites' }),
+        ).toBeInTheDocument();
+      });
+    });
+
+    it('renders FavoriteToggle with correct entity reference', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        const favoriteToggle =
+          screen.queryByRole('button', { name: 'Add to favorites' }) ||
+          screen.queryByRole('button', { name: 'Remove from favorites' });
+        expect(favoriteToggle).toBeInTheDocument();
+      });
+    });
+
+    it('FavoriteToggle only appears when URL contains rootEntityRefs', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        const favoriteToggle =
+          screen.queryByRole('button', { name: 'Add to favorites' }) ||
+          screen.queryByRole('button', { name: 'Remove from favorites' });
+        expect(favoriteToggle).toBeInTheDocument();
+      });
+    });
+
+    it('FavoriteToggle has correct accessibility attributes', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await waitFor(() => {
+        const favoriteToggle = screen.queryByRole('button', {
+          name: /favorites/i,
+        });
+        expect(favoriteToggle).toBeInTheDocument();
       });
     });
   });

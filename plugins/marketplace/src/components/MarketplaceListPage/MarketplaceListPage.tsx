@@ -40,6 +40,7 @@ import { MarketplaceCategoryPicker } from '../MarketplaceCategoryPicker';
 import { MarketplaceGroups } from '../MarketplaceGroups';
 import { MarketplaceDetailPage } from '../MarketplaceDetailPage';
 import { MarketplaceTagsPicker } from '../MarketplaceTagsPicker';
+import { MarketplaceUserListPicker } from '../Filtering/MarketplaceUserListPicker.tsx';
 
 export class EntityTypeFilterCopy implements EntityFilter {
   constructor(readonly values: string[]) {}
@@ -386,6 +387,7 @@ export const MarketplaceListPage = (props: MarketplaceListPageProps) => {
                       <MarketPlaceKindPicker />
                       <MarketplaceCategoryPicker />
                       <MarketplaceTagsPicker />
+                      <MarketplaceUserListPicker />
                     </CatalogFilterLayout.Filters>
                     <CatalogFilterLayout.Content>
                       <div

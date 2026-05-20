@@ -16,9 +16,12 @@ export default rootHttpRouterServiceFactory({
     if (process.env.NODE_ENV === 'development') {
       app.use(middleware.cors());
     }
+
+    // Applying body parsers before because middleware now reads req.body for scaffolder tasks
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+
     const router = Router();
-    router.use(express.json());
-    router.use(express.urlencoded({ extended: true }));
     const cpUrl = getCPUrl();
     if (cpUrl.host && cpUrl.proxy) {
       router.get(
