@@ -30,11 +30,11 @@ Import the action that you'd like to register to your backstage instance.
 // packages/backend/src/index.ts
 //import after
 backend.add(
-    import('@internal/backstage-plugin-scaffolder-backend-module-import-flow'),
+  import('@internal/backstage-plugin-scaffolder-backend-module-import-flow'),
 );
 //here
 backend.add(
-    import('@internal/plugin-scaffolder-backend-module-trigger-jenkins-job'),
+  import('@internal/plugin-scaffolder-backend-module-trigger-jenkins-job'),
 );
 ```
 

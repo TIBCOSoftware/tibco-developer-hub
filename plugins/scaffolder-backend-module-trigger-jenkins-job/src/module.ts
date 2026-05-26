@@ -6,12 +6,8 @@ import {
   coreServices,
   createBackendModule,
 } from '@backstage/backend-plugin-api';
-import {
-  scaffolderActionsExtensionPoint,
-} from '@backstage/plugin-scaffolder-node/alpha';
-import {
-  triggerJenkinsJobAction
-} from './actions/jenkins';
+import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
+import { triggerJenkinsJobAction } from './actions/jenkins';
 
 /**
  * A backend module that registers the action into the scaffolder
@@ -26,9 +22,7 @@ export const scaffolderModule = createBackendModule({
         config: coreServices.rootConfig,
       },
       async init({ scaffolderActions, config }) {
-        scaffolderActions.addActions(
-          triggerJenkinsJobAction(config),
-        );
+        scaffolderActions.addActions(triggerJenkinsJobAction(config));
       },
     });
   },

@@ -11,6 +11,7 @@ import {
 import { existsSync, mkdirSync } from 'fs';
 import {
   DefaultGithubCredentialsProvider,
+  DefaultGitlabCredentialsProvider,
   ScmIntegrations,
 } from '@backstage/integration';
 import { examples } from './git-clone.examples.ts';
@@ -55,11 +56,21 @@ export const gitCloneAction = (config: RootConfigService) => {
         ctx.logger.info(`repoUrl: ${ctx.input.repoUrl}`);
 
         const { repoUrl, token, branch } = ctx.input;
+        const repoUrlObj = new URL(repoUrl);
+        if (repoUrlObj.protocol !== 'https:') {
+          throw new Error('Not a valid HTTPS repository web URL');
+        }
         let authToken: string | undefined = token;
         if (!token) {
           const integrations = ScmIntegrations.fromConfig(config);
-          const provider =
-            DefaultGithubCredentialsProvider.fromIntegrations(integrations);
+          let provider;
+          if (repoUrlObj.host === 'gitlab.com') {
+            provider =
+              DefaultGitlabCredentialsProvider.fromIntegrations(integrations);
+          } else {
+            provider =
+              DefaultGithubCredentialsProvider.fromIntegrations(integrations);
+          }
           const credentials = await provider.getCredentials({ url: repoUrl });
           if (credentials?.token) {
             authToken = credentials.token;
@@ -70,10 +81,7 @@ export const gitCloneAction = (config: RootConfigService) => {
             `No token credentials provided for git repository ${repoUrl}`,
           );
         }
-        const repoUrlObj = new URL(repoUrl);
-        if (repoUrlObj.protocol !== 'https:') {
-          throw new Error('Not a valid HTTPS repository web URL');
-        }
+
         const relativeWorkspacePath = resolveSafeChildPath(
           ctx.workspacePath,
           ctx.input.sourcePath || '',
@@ -83,7 +91,11 @@ export const gitCloneAction = (config: RootConfigService) => {
         }
         ctx.logger.info(`Final workspace path: ${relativeWorkspacePath}`);
         const git = simpleGit();
-        repoUrlObj.username = authToken;
+        if (repoUrlObj.host === 'gitlab.com') {
+          repoUrlObj.username = 'test:' + authToken;
+        } else {
+          repoUrlObj.username = authToken;
+        }
         const cloneUrl = repoUrlObj.toString();
         const options = ['--single-branch'];
         if (branch) {
