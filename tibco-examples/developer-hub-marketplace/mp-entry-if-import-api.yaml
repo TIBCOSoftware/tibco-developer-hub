@@ -1,0 +1,94 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-if-import-api
+  title: Import API
+  description: An Import Flow that imports an existing API definition from a
+    GitHub repository and registers it as an API entity in TIBCO Developer Hub.
+    Supports OpenAPI, AsyncAPI, GraphQL, gRPC and MCP, with an auto-detect mode
+    that infers the type from the definition file and falls back to "unknown"
+    when it cannot be determined.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: OpenAPI
+        url: https://www.openapis.org/
+        icon: star
+      - text: AsyncAPI
+        url: https://www.asyncapi.com/
+        icon: star
+      - text: GraphQL
+        url: https://graphql.org/
+        icon: star
+      - text: gRPC
+        url: https://grpc.io/
+        icon: star
+      - text: Model Context Protocol
+        url: https://modelcontextprotocol.io/
+        icon: star
+  tags:
+    - devhub-marketplace
+    - api
+    - openapi
+    - asyncapi
+    - graphql
+    - grpc
+    - mcp
+spec:
+  owner: group:default/marketplace-entries-group
+  type: import-flow
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Import API added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-if-import-api
+
+            **Description:** An Import Flow that imports an existing API definition from a GitHub repository and registers it as an API entity in TIBCO Developer Hub. Supports OpenAPI, AsyncAPI, GraphQL, gRPC and MCP, with an auto-detect mode that infers the type from the definition file and falls back to "unknown" when it cannot be determined. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/import-flows/import-api/import-api.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Import Flows
+        url: /import-flow?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
+        icon: kind:template
+      - icon: kind:template
+        title: Run import flow for API
+        url: /create/templates/default/import-api
+        type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

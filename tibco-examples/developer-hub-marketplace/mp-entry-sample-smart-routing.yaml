@@ -10,7 +10,7 @@ metadata:
     settings.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: true
+    isNew: false
     popularity: 0
     isMultiInstall: false
     imageURL: ""
@@ -26,8 +26,7 @@ metadata:
         icon: star
   tags:
     - devhub-marketplace
-    - smart-routing
-    - document-routing
+    - routing
     - integration
     - jolt
     - sql-server

@@ -1,0 +1,27 @@
+{%- set apiType = values.api_type %}
+{%- if apiType == "auto-detect" or not apiType %}
+  {%- if values.detect_openapi and values.detect_openapi.length %}{%- set apiType = "openapi" %}
+  {%- elif values.detect_asyncapi and values.detect_asyncapi.length %}{%- set apiType = "asyncapi" %}
+  {%- elif values.detect_graphql and values.detect_graphql.length %}{%- set apiType = "graphql" %}
+  {%- elif values.detect_grpc and values.detect_grpc.length %}{%- set apiType = "grpc" %}
+  {%- elif values.detect_mcp and values.detect_mcp.length %}{%- set apiType = "mcp" %}
+  {%- else %}{%- set apiType = "unknown" %}{%- endif %}
+{%- endif %}
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: ${{ values.api_name }}
+{%- if values.api_description %}
+  description: ${{ values.api_description }}
+{%- endif %}
+  tags:
+    - api
+    - ${{ apiType }}
+  annotations:
+    github.com/project-slug: ${{ values.project_slug }}
+spec:
+  type: ${{ apiType }}
+  lifecycle: production
+  owner: ${{ values.owner }}
+  definition:
+    $text: ./${{ values.spec_file }}

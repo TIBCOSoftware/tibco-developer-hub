@@ -23,13 +23,10 @@ metadata:
   tags:
     - devhub-marketplace
     - ecommerce
-    - platform
+    - tibco-platform
     - microservices
-    - apis
+    - api
     - retail
-    - enterprise
-    - system
-    - complete-solution
 spec:
   owner: group:default/marketplace-entries-group
   type: sample

@@ -12,7 +12,7 @@ metadata:
     template to scaffold a new project pre-seeded with the skills.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: true
+    isNew: false
     popularity: 0
     isMultiInstall: false
     imageURL: ""
@@ -26,9 +26,9 @@ metadata:
       - icon: github
         text: Flogo Skills
         url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/skills-library
-      - icon: star
-        text: Claude Code
-        url: https://www.anthropic.com/claude-code
+      - icon: docs
+        text: Skills
+        url: https://agentskills.io/home
   tags:
     - devhub-marketplace
     - artificial-intelligence

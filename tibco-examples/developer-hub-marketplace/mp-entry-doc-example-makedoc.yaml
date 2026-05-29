@@ -25,7 +25,7 @@ metadata:
   tags:
     - devhub-marketplace
     - makedoc
-    - business-works-5
+    - bw5
     - documentation
 spec:
   owner: group:default/mp-behaim-its

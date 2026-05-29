@@ -20,8 +20,8 @@ metadata:
         icon: star
   tags:
     - devhub-marketplace
-    - business-works-6
-    - business-works-container-edition
+    - bw6
+    - bwce
 spec:
   owner: group:default/marketplace-entries-group
   type: import-flow

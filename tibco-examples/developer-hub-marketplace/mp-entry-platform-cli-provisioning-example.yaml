@@ -20,7 +20,7 @@ metadata:
         url: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/platform-cli/platform-cli-provisioning-example/platform-cli-scripts
   tags:
     - devhub-marketplace
-    - platform
+    - tibco-platform
     - platform-cli
     - scripting
     - ci-cd
