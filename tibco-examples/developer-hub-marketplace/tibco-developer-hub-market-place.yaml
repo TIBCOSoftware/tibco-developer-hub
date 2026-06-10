@@ -5,13 +5,16 @@ metadata:
 spec:
   targets:
     - ./marketplace-group.yaml
+    - ./mp-entry-doc-dh-create-import-flow.yaml
     - ./mp-entry-doc-dh-create-marketplace-entry.yaml
+    - ./mp-entry-doc-dh-create-template.yaml
     - ./mp-entry-doc-bw-community.yaml
     - ./mp-entry-template-to-create-template.yaml
     - ./mp-entry-if-advanced-bw5.yaml
     - ./mp-entry-if-advanced-bwce6.yaml
     - ./mp-entry-if-advanced-ems.yaml
     - ./mp-entry-if-advanced-flogo-ems.yaml
+    - ./mp-entry-if-import-api.yaml
     - ./mp-entry-doc-platform-apis-117.yaml
     - ./mp-entry-sample-flogo-mcp-customer360.yaml
     - ./mp-entry-platform-cli-provisioning-example.yaml
@@ -30,6 +33,7 @@ spec:
     - ./mp-entry-template-flogo-ai-mobile-customer-care.yaml
     - ./mp-entry-template-flogo-ai-supply-chain.yaml
     - ./mp-entry-flogo-skill-library-coding-agents.yaml
+    - ./mp-entry-developer-hub-skill-library.yaml
     - ./mp-entry-sample-flogo-custom-log-palette.yaml
     - ./mp-entry-sample-smart-routing.yaml
     - ./mp-entry-sample-prowess-tp-cicd-pipelines.yaml

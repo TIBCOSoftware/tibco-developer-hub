@@ -1,0 +1,191 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: import-api
+  title: Import API
+  description: Import an existing API definition from a GitHub repository and register it as an API entity in TIBCO Developer Hub. Supports OpenAPI, AsyncAPI, GraphQL, gRPC and MCP, with an auto-detect mode that infers the type from the definition file and falls back to "unknown".
+  tags:
+    - import-flow
+    - tibco
+    - api
+    - openapi
+    - asyncapi
+    - graphql
+    - grpc
+    - mcp
+spec:
+  owner: group:default/tibco-imported
+  type: import-flow
+
+  parameters:
+    - title: Repository Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: GitHub repository containing the API definition
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+    - title: API Details
+      required:
+        - specFile
+        - owner
+      properties:
+        apiType:
+          title: API Type
+          type: string
+          description: Pick the API type, or leave on Auto-detect to infer it from the definition file (falls back to "unknown" when it cannot be determined).
+          default: auto-detect
+          enum:
+            - auto-detect
+            - openapi
+            - asyncapi
+            - graphql
+            - grpc
+            - mcp
+          enumNames:
+            - Auto-detect
+            - OpenAPI
+            - AsyncAPI
+            - GraphQL
+            - gRPC
+            - MCP
+        apiName:
+          title: API Name
+          type: string
+          description: Catalog entity name (kebab-case). If left blank, taken from the spec (OpenAPI/AsyncAPI info.title) or the repository name.
+        apiDescription:
+          title: API Description
+          type: string
+          description: Short description of the API. If left blank, taken from the spec (OpenAPI/AsyncAPI info.description).
+        specFile:
+          title: Path to API Definition File
+          type: string
+          description: Relative path to the API definition within the repository (e.g. openapi.yaml, asyncapi.yaml, schema.graphql, service.proto, mcp.json).
+          default: openapi.yaml
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the API entity in the catalog
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+        debug:
+          title: Debug mode
+          type: boolean
+          description: Enable to skip side-effect steps (push, register) during testing
+          default: false
+
+  steps:
+    - id: clone
+      name: Clone the Repository
+      action: tibco:git:clone
+      input:
+        failOnError: true
+        repoUrl: ${{ "https://" + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" + (parameters.repoUrl | parseRepoUrl).repo }}
+
+    - id: extract
+      name: Extract API Metadata
+      action: tibco:extract-parameters
+      input:
+        failOnError: false
+        extractParameters:
+          api_title:
+            type: json
+            filePath: ${{ parameters.specFile }}
+            jsonPath: $.info.title
+          api_description:
+            type: json
+            filePath: ${{ parameters.specFile }}
+            jsonPath: $.info.description
+          api_version:
+            type: json
+            filePath: ${{ parameters.specFile }}
+            jsonPath: $.info.version
+          # Type detectors (format-agnostic: run on the raw file text). Empty array when no match.
+          detect_openapi:
+            type: file
+            filePath: ${{ parameters.specFile }}
+            regex:
+              regexPattern: '(openapi|swagger)"?\s*:'
+              regexFlags: 'im'
+          detect_asyncapi:
+            type: file
+            filePath: ${{ parameters.specFile }}
+            regex:
+              regexPattern: 'asyncapi"?\s*:'
+              regexFlags: 'im'
+          detect_graphql:
+            type: file
+            filePath: ${{ parameters.specFile }}
+            regex:
+              regexPattern: 'type\s+(Query|Mutation)|schema\s*\{'
+              regexFlags: 'im'
+          detect_grpc:
+            type: file
+            filePath: ${{ parameters.specFile }}
+            regex:
+              regexPattern: 'syntax\s*=\s*"proto|service\s+\w+\s*\{'
+              regexFlags: 'im'
+          detect_mcp:
+            type: file
+            filePath: ${{ parameters.specFile }}
+            regex:
+              regexPattern: 'mcpServers|modelcontextprotocol|protocolVersion"?\s*:'
+              regexFlags: 'im'
+
+    - id: createYaml
+      name: Create Catalog Info
+      action: fetch:template
+      input:
+        url: ./entity-skeletons-api/
+        targetPath: ./
+        templateFileExtension: true
+        values:
+          api_name: ${{ parameters.apiName or steps.extract.output.api_title[0] or (parameters.repoUrl | parseRepoUrl).repo }}
+          api_description: ${{ parameters.apiDescription or steps.extract.output.api_description[0] }}
+          project_slug: ${{ (parameters.repoUrl | parseRepoUrl).owner + "/" + (parameters.repoUrl | parseRepoUrl).repo }}
+          owner: ${{ parameters.owner }}
+          spec_file: ${{ parameters.specFile }}
+          api_type: ${{ parameters.apiType }}
+          detect_openapi: ${{ steps.extract.output.detect_openapi }}
+          detect_asyncapi: ${{ steps.extract.output.detect_asyncapi }}
+          detect_graphql: ${{ steps.extract.output.detect_graphql }}
+          detect_grpc: ${{ steps.extract.output.detect_grpc }}
+          detect_mcp: ${{ steps.extract.output.detect_mcp }}
+
+    - id: rename
+      name: Rename Catalog Info
+      action: fs:rename
+      input:
+        files:
+          - from: api.yaml
+            to: ${{ (parameters.apiName or steps.extract.output.api_title[0] or (parameters.repoUrl | parseRepoUrl).repo) + "-catalog-info.yaml" }}
+            overwrite: true
+
+    - id: push
+      name: Push Catalog Info
+      if: ${{ not parameters.debug }}
+      action: tibco:git:push
+      input:
+        failOnError: true
+
+    - id: register
+      name: Register
+      if: ${{ not parameters.debug }}
+      action: catalog:register
+      input:
+        catalogInfoUrl: ${{ "https://" + (parameters.repoUrl | parseRepoUrl).host + "/" + (parameters.repoUrl | parseRepoUrl).owner + "/" + (parameters.repoUrl | parseRepoUrl).repo + "/blob/main/" + (parameters.apiName or steps.extract.output.api_title[0] or (parameters.repoUrl | parseRepoUrl).repo) + "-catalog-info.yaml" }}
+
+  output:
+    links:
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
+      - title: Repository
+        url: ${{ steps.push.output.remoteUrl }}

@@ -28,8 +28,6 @@ metadata:
   tags:
     - devhub-marketplace
     - bwce
-    - starting-guide
-    - learning
     - tutorial
 spec:
   owner: group:default/marketplace-entries-group

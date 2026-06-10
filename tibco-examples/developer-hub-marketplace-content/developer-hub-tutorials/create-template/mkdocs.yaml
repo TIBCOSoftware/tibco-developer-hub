@@ -1,0 +1,8 @@
+site_name: 'Create a Developer Hub Template'
+site_description: 'How to create a TIBCO Developer Hub template'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

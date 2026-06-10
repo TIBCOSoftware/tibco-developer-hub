@@ -22,7 +22,7 @@ metadata:
   tags:
     - devhub-marketplace
     - tibco-developer-hub
-    - business-works
+    - businessworks
     - community
 spec:
   owner: group:default/marketplace-entries-group

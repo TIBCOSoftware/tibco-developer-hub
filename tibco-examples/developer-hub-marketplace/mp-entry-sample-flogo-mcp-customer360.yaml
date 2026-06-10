@@ -24,10 +24,10 @@ metadata:
         url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/Model_Context_Protocol(MCP)/Customer360
   tags:
     - devhub-marketplace
-    - platform
+    - tibco-platform
     - developer-preview
     - artificial-intelligence
-    - model-context-protocol
+    - mcp
     - flogo
 spec:
   owner: group:default/marketplace-entries-group
