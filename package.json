@@ -75,6 +75,8 @@
     "fast-uri": "^3.1.2",
     "fast-xml-builder": "^1.1.7",
     "@protobufjs/utf8": "1.1.1",
+    "ws": "^8.20.21",
+    "qs": "^6.15.2",
     "@material-table/core@npm:^3.1.0": "patch:@material-table/core@npm%3A3.2.5#~/.yarn/patches/@material-table-core-npm-3.2.5-5a76f950c0.patch"
   },
   "prettier": "@spotify/prettier-config",
