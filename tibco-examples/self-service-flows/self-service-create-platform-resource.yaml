@@ -1,0 +1,276 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-platform-resource
+  title: Create TIBCO Platform Resource
+  description: |
+    Create platform resources (Ingress Controller, Storage Class, or Database Configuration)
+    on a TIBCO data plane. Form fields are dynamically shown based on the selected resource type.
+  tags:
+    - self-service
+    - tibco
+    - resources
+    - platform
+spec:
+  owner: group:default/tibco-self-service
+  type: self-service
+
+  parameters:
+    # ─── Page 1: Control Plane connection details ───────────────────────────────
+    - title: Platform Configuration
+      required:
+        - dataplane
+      properties:
+        dataplane:
+          title: Select Dataplane to Create Resource On
+          type: object
+          description: The TIBCO data-plane to deploy the resource instance to
+          ui:field: SelectDataplane
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+
+    # ─── Page 2: Resource type selector + conditional fields ────────────────────
+    - title: Resource Details
+      required:
+        - resourceType
+        - name
+      properties:
+        resourceType:
+          title: Resource Type
+          type: string
+          description: Select the type of resource to create — the form will update accordingly
+          enum:
+            - INGRESS_CONTROLLER
+            - STORAGE_CLASS
+            - DB_CONFIG
+          enumNames:
+            - Ingress Controller
+            - Storage Class
+            - Database Configuration
+          ui:autofocus: true
+        name:
+          title: Resource Name
+          type: string
+          description: A unique name for this resource
+          ui:placeholder: 'my-resource'
+        description:
+          title: Description
+          type: string
+          description: An optional human-readable description for this resource
+
+      # ── Dynamic fields rendered based on resourceType ──────────────────────
+      dependencies:
+        resourceType:
+          oneOf:
+            # ── INGRESS_CONTROLLER fields ──────────────────────────────────────
+            - properties:
+                resourceType:
+                  enum:
+                    - INGRESS_CONTROLLER
+                ingressController:
+                  title: Ingress Controller Type
+                  type: string
+                  description: The ingress controller implementation to use
+                  enum:
+                    - nginx
+                    - kong
+                    - traefik
+                    - openshiftRouter
+                    - HAProxy
+                  enumNames:
+                    - NGINX
+                    - Kong
+                    - Traefik
+                    - OpenShift Router
+                    - HAProxy
+                fqdn:
+                  title: FQDN
+                  type: string
+                  description: Fully Qualified Domain Name for this ingress endpoint (e.g. my-app.example.com)
+                  ui:placeholder: 'my-app.example.com'
+              required:
+                - ingressController
+                - fqdn
+              # ingressClassName is required for all controllers except OpenShift Router
+              dependencies:
+                ingressController:
+                  oneOf:
+                    # OpenShift Router — ingressClassName is optional
+                    - properties:
+                        ingressController:
+                          enum:
+                            - openshiftRouter
+                        ingressClassName:
+                          title: Ingress Class Name
+                          type: string
+                          description: Ingress class name (optional for OpenShift Router)
+                    # All other controllers — ingressClassName is required
+                    - properties:
+                        ingressController:
+                          enum:
+                            - nginx
+                            - kong
+                            - traefik
+                            - HAProxy
+                        ingressClassName:
+                          title: Ingress Class Name
+                          type: string
+                          description: Ingress class name matching the controller (e.g. nginx, traefik)
+                      required:
+                        - ingressClassName
+
+            # ── STORAGE_CLASS fields ───────────────────────────────────────────
+            - properties:
+                resourceType:
+                  enum:
+                    - STORAGE_CLASS
+                storageClassName:
+                  title: Storage Class Name
+                  type: string
+                  description: The Kubernetes storage class name to reference (e.g. hostpath, standard, gp2)
+                  ui:placeholder: 'hostpath'
+              required:
+                - storageClassName
+
+            # ── DB_CONFIG fields ───────────────────────────────────────────────
+            - properties:
+                resourceType:
+                  enum:
+                    - DB_CONFIG
+                databaseType:
+                  title: Database Type
+                  type: string
+                  description: The relational database engine
+                  enum:
+                    - postgres
+                    - mysql
+                  enumNames:
+                    - PostgreSQL
+                    - MySQL
+                host:
+                  title: Database Host
+                  type: string
+                  description: Hostname or IP address of the database server
+                  ui:placeholder: 'my-db-host.example.com'
+                port:
+                  title: Database Port
+                  type: string
+                  description: Port the database listens on
+                  default: '5432'
+                  ui:placeholder: '5432'
+                databaseName:
+                  title: Database Name
+                  type: string
+                  description: Name of the target database
+                  ui:placeholder: 'my-database'
+                databaseUser:
+                  title: Database UserName
+                  type: string
+                  description: Username for database authentication
+                  ui:placeholder: 'db-user'
+                password:
+                  title: Password
+                  type: string
+                  description: Password for database authentication
+                  ui:field: Secret
+              required:
+                - databaseType
+                - host
+                - port
+                - databaseName
+                - databaseUser
+                - password
+
+  steps:
+    # ── Conditionally build the request body for INGRESS_CONTROLLER ────────────
+    - id: write-ingress-body
+      name: Prepare Ingress Controller Request Body
+      if: ${{ parameters.resourceType == 'INGRESS_CONTROLLER' }}
+      action: tibco:file:write
+      input:
+        filePath: request-body.json
+        overwrite: true
+        content: |
+          {
+            "name": "${{ parameters.name }}",
+            "description": "${{ parameters.description }}",
+            "ingress-controller": "${{ parameters.ingressController }}",
+            "ingress-class-name": "${{ parameters.ingressClassName }}",
+            "fqdn": "${{ parameters.fqdn }}"
+          }
+
+    # ── Conditionally build the request body for STORAGE_CLASS ────────────────
+    - id: write-storage-body
+      name: Prepare Storage Class Request Body
+      if: ${{ parameters.resourceType == 'STORAGE_CLASS' }}
+      action: tibco:file:write
+      input:
+        filePath: request-body.json
+        overwrite: true
+        content: |
+          {
+            "name": "${{ parameters.name }}",
+            "description": "${{ parameters.description }}",
+            "storage-class-name": "${{ parameters.storageClassName }}"
+          }
+
+    # ── Conditionally build the request body for DB_CONFIG ────────────────────
+    - id: write-db-body
+      name: Prepare Database Config Request Body
+      if: ${{ parameters.resourceType == 'DB_CONFIG' }}
+      action: tibco:file:write
+      input:
+        filePath: request-body.json
+        overwrite: true
+        content: |
+          {
+            "name": "${{ parameters.name }}",
+            "database-type": "${{ parameters.databaseType }}",
+            "host": "${{ parameters.host }}",
+            "port": "${{ parameters.port }}",
+            "database-name": "${{ parameters.databaseName }}",
+            "database-user": "${{ parameters.databaseUser }}",
+            "password": "${{ parameters.password }}"
+          }
+
+    # ── POST the request body to the resource instances API ───────────────────
+    - id: create-resource
+      name: Create Platform Resource
+      action: tibco:call-platform-api
+      input:
+        endpoint: /cp/api/v1/data-planes/${{ parameters.dataplane.id }}/resources/instances/${{ parameters.resourceType }}
+        method: POST
+        filePath: request-body.json
+        contentType: json
+        requireAuth: true
+        headers:
+          content-type: application/json
+          accept: application/json
+
+    # ── Log the full API response ──────────────────────────────────────────────
+    - id: log-response
+      name: Log API Response
+      action: debug:log
+      input:
+        message: >-
+          [${{ parameters.resourceType }}] "${{ parameters.name }}" created on
+          data-plane ${{ parameters.dataplane.id }} —
+          HTTP ${{ steps['create-resource'].output.status }},
+          resource_instance_id=${{ steps['create-resource'].output.data.response.resource_instance_id }}
+
+  output:
+    text:
+      - title: Resource Created Successfully
+        content: |
+          **Type:** ${{ parameters.resourceType }}
+          **Name:** ${{ parameters.name }}
+          **Data Plane:** ${{ parameters.dataplane.name }} (`${{ parameters.dataplane.id }}`)
+          **Resource Instance ID:** `${{ steps['create-resource'].output.data.response.resource_instance_id }}`
+          **API Status:** ${{ steps['create-resource'].output.status }}
+    links:
+      - title: Check Dataplane Configuration on Control Plane 
+        icon: catalog
+        url: ${{ steps['create-resource'].output.cpBrowserUrl + "/cp/app/configuration/resources/data-plane/" + parameters.dataplane.id }}
