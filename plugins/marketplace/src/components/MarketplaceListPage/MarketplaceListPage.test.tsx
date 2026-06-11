@@ -2,7 +2,11 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import { catalogApiRef, entityRouteRef } from '@backstage/plugin-catalog-react';
+import {
+  catalogApiRef,
+  entityRouteRef,
+  starredEntitiesApiRef,
+} from '@backstage/plugin-catalog-react';
 import { permissionApiRef } from '@backstage/plugin-permission-react';
 import {
   mockApis,
@@ -28,6 +32,21 @@ const mountedRoutes = {
 };
 
 describe('MarketplaceListPage', () => {
+  const mockStarredApi = {
+    toggleStarred: jest.fn(),
+    starredEntitie$: jest.fn(() => {
+      const observable = {
+        subscribe: jest.fn(() => ({
+          unsubscribe: jest.fn(),
+          closed: false,
+        })),
+        [Symbol.observable]() {
+          return this;
+        },
+      };
+      return observable;
+    }),
+  };
   const mockCatalogApi = {
     getEntities: async () => ({
       items: [
@@ -284,6 +303,7 @@ describe('MarketplaceListPage', () => {
               token: 'test',
             }),
           ],
+          [starredEntitiesApiRef, mockStarredApi],
         ]}
       >
         <MarketplaceListPage />
@@ -321,6 +341,7 @@ describe('MarketplaceListPage', () => {
               token: 'test',
             }),
           ],
+          [starredEntitiesApiRef, mockStarredApi],
         ]}
       >
         <MarketplaceListPage />
@@ -358,6 +379,7 @@ describe('MarketplaceListPage', () => {
               token: 'test',
             }),
           ],
+          [starredEntitiesApiRef, mockStarredApi],
         ]}
       >
         <MarketplaceListPage />
@@ -395,6 +417,7 @@ describe('MarketplaceListPage', () => {
               token: 'test',
             }),
           ],
+          [starredEntitiesApiRef, mockStarredApi],
         ]}
       >
         <MarketplaceListPage />

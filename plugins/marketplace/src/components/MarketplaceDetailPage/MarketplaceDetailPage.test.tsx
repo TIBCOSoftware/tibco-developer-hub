@@ -11,10 +11,29 @@ import {
   TestApiProvider,
 } from '@backstage/test-utils';
 import { permissionApiRef } from '@backstage/plugin-permission-react';
-import { catalogApiRef } from '@backstage/plugin-catalog-react';
+import {
+  catalogApiRef,
+  starredEntitiesApiRef,
+} from '@backstage/plugin-catalog-react';
 import { catalogApiMock } from '@backstage/plugin-catalog-react/testUtils';
 
 describe('MarketplaceDetailPage Component', () => {
+  const mockStarredApi = {
+    toggleStarred: jest.fn(),
+    starredEntitie$: jest.fn(() => {
+      const observable = {
+        subscribe: jest.fn(() => ({
+          unsubscribe: jest.fn(),
+          closed: false,
+        })),
+        [Symbol.observable]() {
+          return this;
+        },
+      };
+      return observable;
+    }),
+  };
+
   const mockTemplate: MarketplaceEntity = {
     apiVersion: 'scaffolder.backstage.io/v1beta3',
     kind: 'Template',
@@ -46,6 +65,7 @@ describe('MarketplaceDetailPage Component', () => {
       <TestApiProvider
         apis={[
           [permissionApiRef, mockApis.permission()],
+          [starredEntitiesApiRef, mockStarredApi],
           [catalogApiRef, mockCatalogApi],
         ]}
       >
@@ -64,6 +84,7 @@ describe('MarketplaceDetailPage Component', () => {
       <TestApiProvider
         apis={[
           [permissionApiRef, mockApis.permission()],
+          [starredEntitiesApiRef, mockStarredApi],
           [catalogApiRef, mockCatalogApi],
         ]}
       >
@@ -89,6 +110,7 @@ describe('MarketplaceDetailPage Component', () => {
       <TestApiProvider
         apis={[
           [permissionApiRef, mockApis.permission()],
+          [starredEntitiesApiRef, mockStarredApi],
           [catalogApiRef, mockCatalogApi],
         ]}
       >
@@ -107,6 +129,7 @@ describe('MarketplaceDetailPage Component', () => {
       <TestApiProvider
         apis={[
           [permissionApiRef, mockApis.permission()],
+          [starredEntitiesApiRef, mockStarredApi],
           [catalogApiRef, mockCatalogApi],
         ]}
       >
@@ -128,6 +151,7 @@ describe('MarketplaceDetailPage Component', () => {
       <TestApiProvider
         apis={[
           [permissionApiRef, mockApis.permission()],
+          [starredEntitiesApiRef, mockStarredApi],
           [catalogApiRef, mockCatalogApi],
         ]}
       >
@@ -153,6 +177,7 @@ describe('MarketplaceDetailPage Component', () => {
       <TestApiProvider
         apis={[
           [permissionApiRef, mockApis.permission()],
+          [starredEntitiesApiRef, mockStarredApi],
           [catalogApiRef, mockCatalogApi],
         ]}
       >
@@ -174,6 +199,7 @@ describe('MarketplaceDetailPage Component', () => {
       <TestApiProvider
         apis={[
           [permissionApiRef, mockApis.permission()],
+          [starredEntitiesApiRef, mockStarredApi],
           [catalogApiRef, mockCatalogApi],
         ]}
       >
@@ -193,6 +219,7 @@ describe('MarketplaceDetailPage Component', () => {
       <TestApiProvider
         apis={[
           [permissionApiRef, mockApis.permission()],
+          [starredEntitiesApiRef, mockStarredApi],
           [catalogApiRef, mockCatalogApi],
         ]}
       >
@@ -218,6 +245,7 @@ describe('MarketplaceDetailPage Component', () => {
       <TestApiProvider
         apis={[
           [permissionApiRef, mockApis.permission()],
+          [starredEntitiesApiRef, mockStarredApi],
           [catalogApiRef, mockCatalogApi],
         ]}
       >

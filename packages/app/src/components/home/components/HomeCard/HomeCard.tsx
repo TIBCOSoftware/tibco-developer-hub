@@ -15,6 +15,9 @@ import ApisIcon from '../../images/apis-icon.svg';
 import DocumentsIcon from '../../images/documents-icon.svg';
 import WalkthroughsIcon from '../../images/walkthroughs-icon.svg';
 import ImportflowsIcon from '../../images/importflow-icon.svg';
+import TopologyIcon from '../../images/topology-icon.svg';
+import MarketPlaceIcon from '../../images/marketplace-icon.svg';
+import SelfServiceIcon from '../../images/selfservice-icon.svg';
 import { Link } from 'react-router-dom';
 
 const addExtraInfo = (type: HomeCardType): ExtraInfo => {
@@ -23,6 +26,14 @@ const addExtraInfo = (type: HomeCardType): ExtraInfo => {
     icon: '',
   };
   switch (type) {
+    case HomeCardType.Topology:
+      extraInfo.subTitle = 'Explore entity relationships';
+      extraInfo.icon = TopologyIcon;
+      break;
+    case HomeCardType.MarketPlace:
+      extraInfo.subTitle = 'Explore marketplace items';
+      extraInfo.icon = MarketPlaceIcon;
+      break;
     case HomeCardType.System:
       extraInfo.subTitle = 'Start with a system of applications';
       extraInfo.icon = SystemsIcon;
@@ -47,6 +58,10 @@ const addExtraInfo = (type: HomeCardType): ExtraInfo => {
       extraInfo.subTitle = 'Development & functionality demos';
       extraInfo.icon = WalkthroughsIcon;
       break;
+    case HomeCardType.SelfService:
+      extraInfo.subTitle = 'Access self service flow capabilities';
+      extraInfo.icon = SelfServiceIcon;
+      break;
     case HomeCardType.ImportFlow:
       extraInfo.subTitle = 'Import existing applications';
       extraInfo.icon = ImportflowsIcon;
@@ -58,6 +73,20 @@ const addExtraInfo = (type: HomeCardType): ExtraInfo => {
 export const HomeCard = (props: { cardData: HomeCardProps }) => {
   let data = props.cardData;
   data = { ...data, ...addExtraInfo(data.type) };
+
+  const getCardTitle = () => {
+    if (data.type === HomeCardType.SelfService) {
+      return `${data.type} Flows`;
+    }
+    if (
+      data.type !== HomeCardType.Topology &&
+      data.type !== HomeCardType.MarketPlace
+    ) {
+      return `${data.type}s`;
+    }
+    return data.type;
+  };
+
   return (
     <div className="tpdh-card-container">
       <Grid
@@ -67,7 +96,7 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
         spacing={0}
       >
         <Grid item>
-          <div className="tpdh-card-title">{`${data.type}s`}</div>
+          <div className="tpdh-card-title">{getCardTitle()}</div>
           {(data.type !== HomeCardType.WalkThrough ||
             (data.type === HomeCardType.WalkThrough && data.viewAllLink)) && (
             <Link
@@ -80,6 +109,10 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                 /* eslint-disable */
                 data.type === HomeCardType.WalkThrough
                   ? data.viewAllLink || ''
+                  : data.type === HomeCardType.Topology
+                  ? '/integration-topology'
+                  : data.type === HomeCardType.MarketPlace
+                  ? '/marketplace'
                   : data.type === HomeCardType.Document
                   ? '/docs'
                   : data.type === HomeCardType.API
@@ -88,6 +121,8 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                   ? '/create'
                   : data.type === HomeCardType.ImportFlow
                   ? '/import-flow'
+                  : data.type === HomeCardType.SelfService
+                  ? '/self-service-flow'
                   : '/catalog?filters[kind]=' + data.type.toLowerCase()
               }
             >
@@ -127,6 +162,11 @@ export const HomeCard = (props: { cardData: HomeCardProps }) => {
                       /* eslint-disable */
                       data.type === HomeCardType.WalkThrough
                         ? element.link || '#'
+                        : data.type === HomeCardType.Topology
+                        ? element?.url ||
+                          `/integration-topology?rootEntityRefs%5B%5D=component%3Adefault%2F${element.name}&maxDepth=1&unidirectional=true&mergeRelations=true&direction=LR&showFilters=true&curve=curveMonotoneX`
+                        : data.type === HomeCardType.MarketPlace
+                        ? `/marketplace?filters%5Bkind%5D=template&filters%5Btags%5D=devhub-marketplace&filters%5Btext%5D=${element.name}`
                         : data.type === HomeCardType.Template
                         ? '/create/templates/' +
                           element.namespace +

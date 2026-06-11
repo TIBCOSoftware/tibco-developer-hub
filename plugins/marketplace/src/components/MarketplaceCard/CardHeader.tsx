@@ -18,7 +18,8 @@ import BlankBgIcon from '../../images/blank-bg.svg';
 import BlankIcon from '../../images/blank-icon.svg';
 import AIBgIcon from '../../images/ai-bg.svg';
 import AIIcon from '../../images/ai-icon.svg';
-
+import SelfServiceBgIcon from '../../images/self-service-bg.svg';
+import SelfServiceIcon from '../../images/self-service-icon.svg';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 import Highlighter from 'react-highlight-words';
 import { HighlightContext } from '../Filtering/HighlightContext.tsx';
@@ -30,6 +31,8 @@ import {
 import { RELATION_OWNED_BY } from '@backstage/catalog-model';
 import NewIcon from '../../images/new.svg';
 import { capitalize } from 'lodash';
+import { FavoriteToggle } from '@backstage/core-components';
+import { useStarredEntities } from '@backstage/plugin-catalog-react';
 
 const useStyles = makeStyles({
   installedText: {
@@ -84,6 +87,12 @@ const useStyles = makeStyles({
     marginLeft: '8px',
     height: '16px',
   },
+  favoriteIcon: {
+    '& button': {
+      margin: '0 12px',
+      padding: '2px',
+    },
+  },
 });
 
 /**
@@ -128,6 +137,10 @@ function HeaderImage({ template }: CardHeaderProps) {
     case 'artificial-intelligence':
       bg = AIBgIcon;
       icon = AIIcon;
+      break;
+    case 'self-service':
+      bg = SelfServiceBgIcon;
+      icon = SelfServiceIcon;
       break;
     default:
       bg = BlankBgIcon;
@@ -185,9 +198,18 @@ export const CardHeader = (props: CardHeaderProps) => {
   // template.metadata['tibco.developer.hub/marketplace']?.popularity || 0 > 5;
   const isNew =
     props.template.metadata['tibco.developer.hub/marketplace']?.isNew;
+  const { isStarredEntity, toggleStarredEntity } = useStarredEntities();
+  const entityRef = `${props.template.kind.toLowerCase()}:${
+    props.template.metadata.namespace ?? 'default'
+  }/${props.template.metadata.name}`;
   return (
     <>
-      <Grid container spacing={0} justifyContent="space-between">
+      <Grid
+        container
+        spacing={0}
+        alignItems="center"
+        justifyContent="space-between"
+      >
         <div>
           <Grid container spacing={0} alignItems="center">
             <div className="th-font-small">
@@ -201,6 +223,26 @@ export const CardHeader = (props: CardHeaderProps) => {
                 alt="logo"
               />
             )}
+            <div
+              onClick={e => e.stopPropagation()}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.stopPropagation();
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              className={styles.favoriteIcon}
+            >
+              <FavoriteToggle
+                id={entityRef}
+                title=""
+                isFavorite={isStarredEntity(entityRef)}
+                onToggle={() => {
+                  toggleStarredEntity(entityRef);
+                }}
+              />
+            </div>
           </Grid>
         </div>
         {props.template.installed && (

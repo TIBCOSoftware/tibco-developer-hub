@@ -15,6 +15,8 @@ import {
   createApiFactory,
   createApiRef,
   discoveryApiRef,
+  fetchApiRef,
+  identityApiRef,
   oauthRequestApiRef,
   OpenIdConnectApi,
   ProfileInfoApi,
@@ -29,6 +31,27 @@ export const platformOIDCAuthApiRef: ApiRef<
 });
 
 export const apis: AnyApiFactory[] = [
+  createApiFactory({
+    api: fetchApiRef,
+    deps: { identityApi: identityApiRef },
+    factory: ({ identityApi }) => ({
+      fetch: async (
+        input: Parameters<typeof fetch>[0],
+        init?: Parameters<typeof fetch>[1],
+      ): Promise<Response> => {
+        const { token } = await identityApi.getCredentials();
+        const headers = new Headers(init?.headers);
+        if (token && !headers.has('Authorization')) {
+          headers.set('Authorization', `Bearer ${token}`);
+        }
+        const response = await fetch(input, { ...init, headers });
+        if (response.status === 401) {
+          await identityApi.signOut();
+        }
+        return response;
+      },
+    }),
+  }),
   createApiFactory({
     api: scmIntegrationsApiRef,
     deps: { configApi: configApiRef },

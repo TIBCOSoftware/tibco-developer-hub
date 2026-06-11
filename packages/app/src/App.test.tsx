@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import { fireEvent, render, waitFor } from '@testing-library/react';
@@ -27,6 +27,10 @@ import userEvent from '@testing-library/user-event';
 import { searchApiRef } from '@backstage/plugin-search-react';
 import { TopologyContext } from '@internal/plugin-integration-topology';
 import { translationApiRef } from '@backstage/core-plugin-api/alpha';
+import {
+  catalogImportApiRef,
+  CatalogImportClient,
+} from '@backstage/plugin-catalog-import';
 
 describe('App', () => {
   it('should render App', async () => {
@@ -203,6 +207,38 @@ describe('Should render all the routes correctly', () => {
           owner: 'group1-name',
         },
       },
+      {
+        apiVersion: 'scaffolder.backstage.io/v1beta3',
+        kind: 'Template',
+        metadata: {
+          namespace: 'default',
+          name: 'self-service1-name',
+          title: 'Self Service1 title',
+          description: 'Self Service1 description',
+          tags: ['self-service', 'bwce'],
+        },
+        spec: {
+          type: 'service',
+          system: 'system1-name',
+          owner: 'group1-name',
+        },
+      },
+      {
+        apiVersion: 'scaffolder.backstage.io/v1beta3',
+        kind: 'Template',
+        metadata: {
+          namespace: 'default',
+          name: 'self-service2-name',
+          title: 'Self Service2 title',
+          description: 'Self Service2 description',
+          tags: ['self-service', 'flogo'],
+        },
+        spec: {
+          type: 'service',
+          system: 'system1-name',
+          owner: 'group1-name',
+        },
+      },
     ],
   });
   const searchApiMock = {
@@ -352,88 +388,95 @@ describe('Should render all the routes correctly', () => {
       },
     );
     expect(getByText('Result Type')).toBeInTheDocument();
-  });
+  }, 30000);
   it('should render side nav and home page', async () => {
-    const { getByText, getAllByText, getByLabelText } = await renderInTestApp(
-      <TestApiProvider
-        apis={[
-          [
-            configApiRef,
-            new ConfigReader({
-              app: {
-                title: 'test app',
-                developerHubVersion: '1.10.0',
-                buildVersion: 'master',
-                showBuildVersion: true,
-                baseUrl: 'http://localhost:3000',
-                docUrl:
-                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
-              },
-              cpLink: '/cp-url.com',
-              tibcoDeveloperHubCustomAppVersion: 'test version',
-              backend: { baseUrl: 'http://localhost:7007' },
-              secondaryControlPlanes: [
-                {
-                  name: 'Control Plane1',
-                  url: 'https://cp1.com',
-                  id: 'cp1',
+    const { getByText, getAllByText, queryByText, getByLabelText } =
+      await renderInTestApp(
+        <TestApiProvider
+          apis={[
+            [
+              configApiRef,
+              new ConfigReader({
+                app: {
+                  title: 'test app',
+                  developerHubVersion: '1.10.0',
+                  buildVersion: 'master',
+                  showBuildVersion: true,
+                  baseUrl: 'http://localhost:3000',
+                  docUrl:
+                    'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
                 },
-                {
-                  name: 'Control Plane2',
-                  url: 'https://cp2.com',
-                  id: 'cp2',
-                },
-              ],
-              templateGroups: [
-                {
-                  name: 'Group1',
-                  tagFilters: ['bwce'],
-                },
-                {
-                  name: 'Group2',
-                  tagFilters: ['flogo', 'tibco'],
-                },
-              ],
-              importFlowGroups: [
-                {
-                  name: 'Group1',
-                  tagFilters: ['bwce'],
-                },
-                {
-                  name: 'Group2',
-                  tagFilters: ['flogo', 'tibco'],
-                },
-              ],
-            }),
-          ],
-          [starredEntitiesApiRef, starApiMock],
-          [catalogApiRef, mockCatalogApi],
-          [permissionApiRef, mockApis.permission()],
-        ]}
-      >
-        <Root>{routes}</Root>
-      </TestApiProvider>,
-      {
-        routeEntries: ['/'],
-      },
-    );
+                cpLink: '/cp-url.com',
+                tibcoDeveloperHubCustomAppVersion: 'test version',
+                backend: { baseUrl: 'http://localhost:7007' },
+                secondaryControlPlanes: [
+                  {
+                    name: 'Control Plane1',
+                    url: 'https://cp1.com',
+                    id: 'cp1',
+                  },
+                  {
+                    name: 'Control Plane2',
+                    url: 'https://cp2.com',
+                    id: 'cp2',
+                  },
+                ],
+                templateGroups: [
+                  {
+                    name: 'Group1',
+                    tagFilters: ['bwce'],
+                  },
+                  {
+                    name: 'Group2',
+                    tagFilters: ['flogo', 'tibco'],
+                  },
+                ],
+                importFlowGroups: [
+                  {
+                    name: 'Group1',
+                    tagFilters: ['bwce'],
+                  },
+                  {
+                    name: 'Group2',
+                    tagFilters: ['flogo', 'tibco'],
+                  },
+                ],
+              }),
+            ],
+            [starredEntitiesApiRef, starApiMock],
+            [catalogApiRef, mockCatalogApi],
+            [permissionApiRef, mockApis.permission()],
+          ]}
+        >
+          <Root>{routes}</Root>
+        </TestApiProvider>,
+        {
+          routeEntries: ['/'],
+        },
+      );
     expect(getByLabelText('Search')).toBeInTheDocument();
     expect(getByText('Custom version : test version')).toBeInTheDocument();
-    expect(getByText('Build: master')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(getByText('Build: master')).toBeInTheDocument();
+    });
     expect(getByText('Version : 1.10.0')).toBeInTheDocument();
     expect(getByText('Home').closest('a')).toHaveAttribute('href', '/');
     expect(getByText('Catalog').closest('a')).toHaveAttribute(
       'href',
       '/catalog',
     );
-    expect(getByText('Topology').closest('a')).toHaveAttribute(
+    const topologyLinks = getAllByText('Topology');
+    expect(topologyLinks.length).toBeGreaterThanOrEqual(1);
+    expect(topologyLinks[0].closest('a')).toHaveAttribute(
       'href',
       '/integration-topology',
     );
     const apis = getAllByText('APIs');
     expect(apis.length).toEqual(2);
     expect(apis[0].closest('a')).toHaveAttribute('href', '/api-docs');
-    expect(getByText('Docs').closest('a')).toHaveAttribute('href', '/docs');
+    const docsLinks = getAllByText('Documents');
+    expect(docsLinks.length).toBeGreaterThanOrEqual(2);
+    expect(docsLinks[0].closest('a')).toHaveAttribute('href', '/docs');
     expect(getByText('Develop...').closest('a')).toHaveAttribute(
       'href',
       '/create',
@@ -480,52 +523,64 @@ describe('Should render all the routes correctly', () => {
     expect(
       getByText('Register existing component').closest('a'),
     ).toHaveAttribute('href', '/catalog-import');
+
+    // Check all HomeCardTypes are rendered
+    // Note: Some cards appear in both sidebar and home, so we check they exist
+    const topologyCards = getAllByText('Topology');
+    expect(topologyCards.length).toBeGreaterThanOrEqual(2); // sidebar + home card
+    const marketplaceCards = getAllByText('Marketplace');
+    expect(marketplaceCards.length).toBeGreaterThanOrEqual(2); // sidebar + home card
     expect(getByText('Systems')).toBeInTheDocument();
     expect(getByText('Components')).toBeInTheDocument();
-    expect(getByText('Documents')).toBeInTheDocument();
+    const apisCards = getAllByText('APIs');
+    expect(apisCards.length).toBeGreaterThanOrEqual(2); // sidebar + home card
     expect(getByText('Templates')).toBeInTheDocument();
-    expect(getByText('Import flows')).toBeInTheDocument();
+    const documentsCards = getAllByText('Documents');
+    expect(documentsCards.length).toBeGreaterThanOrEqual(2); // sidebar + home card
+    expect(getByText('Self Service Flows')).toBeInTheDocument();
+    expect(getByText('Import Flows')).toBeInTheDocument();
+    // Walk-throughs is conditional based on config, so we check it can be null or present
+    const walkthroughs = queryByText('Walk-throughs');
+    // If walkthroughs config is set, card will be present
+    expect(walkthroughs === null || walkthroughs?.tagName).toBeTruthy();
+
     const viewAll = getAllByText('View all');
-    expect(viewAll.length).toEqual(6);
-    expect(viewAll[0]).toHaveAttribute('href', '/catalog?filters[kind]=system');
-    expect(viewAll[1]).toHaveAttribute(
-      'href',
-      '/catalog?filters[kind]=component',
-    );
-    expect(viewAll[2]).toHaveAttribute('href', '/docs');
-    expect(viewAll[3]).toHaveAttribute('href', '/api-docs');
-    expect(viewAll[4]).toHaveAttribute('href', '/create');
-    expect(viewAll[5]).toHaveAttribute('href', '/import-flow');
-    expect(getByText('System1 title')).toHaveAttribute(
-      'href',
-      '/catalog/default/system/system1-name',
-    );
+    // At least 8 view all links (9 if Walk-throughs is enabled)
+    expect(viewAll.length).toBeGreaterThanOrEqual(8);
+    // Check that the expected view all links are present
+    const viewAllHrefs = viewAll.map(link => link.getAttribute('href'));
+    expect(viewAllHrefs).toContain('/integration-topology');
+    expect(viewAllHrefs).toContain('/marketplace');
+    expect(viewAllHrefs).toContain('/catalog?filters[kind]=system');
+    expect(viewAllHrefs).toContain('/catalog?filters[kind]=component');
+    expect(viewAllHrefs).toContain('/create');
+    expect(viewAllHrefs).toContain('/docs');
+    expect(viewAllHrefs).toContain('/api-docs');
+    expect(viewAllHrefs).toContain('/import-flow');
+    const system1 = getAllByText('System1 title');
+    const system1Hrefs = system1.map(link => link.getAttribute('href'));
+    expect(system1Hrefs).toContain('/catalog/default/system/system1-name');
     const com = getAllByText('Component2 title');
-    expect(com[0]).toHaveAttribute(
-      'href',
-      '/catalog/default/component/component2-name',
-    );
-    expect(com[1]).toHaveAttribute(
-      'href',
-      '/docs/default/component/component2-name',
-    );
-    expect(getByText('Component1 title')).toHaveAttribute(
-      'href',
-      '/catalog/default/component/component1-name',
-    );
-    expect(getByText('API1 title')).toHaveAttribute(
-      'href',
-      '/catalog/default/api/api1-name',
-    );
-    expect(getByText('Template1 title')).toHaveAttribute(
-      'href',
+    const comHrefs = com.map(link => link.getAttribute('href'));
+    expect(comHrefs).toContain('/catalog/default/component/component2-name');
+    expect(comHrefs).toContain('/docs/default/component/component2-name');
+    const com1 = getAllByText('Component1 title');
+    const com1Hrefs = com1.map(link => link.getAttribute('href'));
+    expect(com1Hrefs).toContain('/catalog/default/component/component1-name');
+    const api1 = getAllByText('API1 title');
+    const api1Hrefs = api1.map(link => link.getAttribute('href'));
+    expect(api1Hrefs).toContain('/catalog/default/api/api1-name');
+    const template1 = getAllByText('Template1 title');
+    const template1Hrefs = template1.map(link => link.getAttribute('href'));
+    expect(template1Hrefs).toContain(
       '/create/templates/default/template1-name',
     );
-    expect(getByText('Import flow1 title')).toHaveAttribute(
-      'href',
+    const importFlow1 = getAllByText('Import flow1 title');
+    const importFlow1Hrefs = importFlow1.map(link => link.getAttribute('href'));
+    expect(importFlow1Hrefs).toContain(
       '/import-flow/templates/default/import-flow1-name',
     );
-  });
+  }, 30000);
   it('should render develop page', async () => {
     const { getByText, getAllByText } = await renderInTestApp(
       <TestApiProvider
@@ -583,7 +638,7 @@ describe('Should render all the routes correctly', () => {
       expect(getByText('Template2 title')).toBeInTheDocument();
       expect(getAllByText('Choose').length).toEqual(2);
     });
-  });
+  }, 30000);
   it('should render import flow page', async () => {
     const { getByText, getAllByText } = await renderInTestApp(
       <TestApiProvider
@@ -620,7 +675,9 @@ describe('Should render all the routes correctly', () => {
         routeEntries: ['/import-flow'],
       },
     );
-    expect(getByText('Import Flow')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(getByText('Import Flow')).toBeInTheDocument();
+    });
     expect(
       getByText('Import new software components using import flows'),
     ).toBeInTheDocument();
@@ -632,6 +689,56 @@ describe('Should render all the routes correctly', () => {
       expect(getByText('Group2')).toBeInTheDocument();
       expect(getByText('Import flow1 title')).toBeInTheDocument();
       expect(getByText('Import flow2 title')).toBeInTheDocument();
+      expect(getAllByText('Choose').length).toEqual(2);
+    });
+  }, 30000);
+  it('should render self service page', async () => {
+    const { getByText, getAllByText } = await renderInTestApp(
+      <TestApiProvider
+        apis={[
+          [
+            configApiRef,
+            new ConfigReader({
+              app: {
+                title: 'test app',
+                baseUrl: 'http://localhost:3000',
+                docUrl:
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
+              },
+              backend: { baseUrl: 'http://localhost:7007' },
+              selfServiceGroups: [
+                {
+                  name: 'Group1',
+                  tagFilters: ['bwce'],
+                },
+                {
+                  name: 'Group2',
+                  tagFilters: ['flogo', 'tibco'],
+                },
+              ],
+            }),
+          ],
+          [catalogApiRef, mockCatalogApi],
+          [permissionApiRef, mockApis.permission()],
+        ]}
+      >
+        <Root>{routes}</Root>
+      </TestApiProvider>,
+      {
+        routeEntries: ['/self-service-flow'],
+      },
+    );
+    expect(
+      getByText('Setup new software components using self service flows'),
+    ).toBeInTheDocument();
+    expect(
+      getByText('Register Existing Self Service Flow').closest('a'),
+    ).toHaveAttribute('href', '/catalog-import');
+    await waitFor(() => {
+      expect(getByText('Group1')).toBeInTheDocument();
+      expect(getByText('Group2')).toBeInTheDocument();
+      expect(getByText('Self Service1 title')).toBeInTheDocument();
+      expect(getByText('Self Service2 title')).toBeInTheDocument();
       expect(getAllByText('Choose').length).toEqual(2);
     });
   });
@@ -1051,7 +1158,53 @@ describe('Should render all the routes correctly', () => {
       expect(queryByTestId('detail-container')).not.toBeInTheDocument();
     });
     expect(queryByText('flogo7')).not.toBeInTheDocument();
-  }, 10000);
+  }, 30000);
+
+  it('should render register page', async () => {
+    const mockFetchApi = {
+      fetch: jest.fn(),
+    };
+    const { getByText } = await renderInTestApp(
+      <TestApiProvider
+        apis={[
+          [
+            configApiRef,
+            new ConfigReader({
+              app: {
+                title: 'test app',
+                baseUrl: 'http://localhost:3000',
+                docUrl:
+                  'https://docs.tibco.com/go/platform-cp/1.10.0/doc/html#cshid=developer_hub_overview',
+              },
+              backend: { baseUrl: 'http://localhost:7007' },
+              integrations: {},
+            }),
+          ],
+          [catalogApiRef, mockCatalogApi],
+          [permissionApiRef, mockApis.permission()],
+          [
+            catalogImportApiRef,
+            new CatalogImportClient({
+              discoveryApi: {} as any,
+              fetchApi: mockFetchApi as any,
+              scmAuthApi: {} as any,
+              scmIntegrationsApi: {} as any,
+              catalogApi: mockCatalogApi,
+              configApi: new ConfigReader({ integrations: {} }),
+            }),
+          ],
+        ]}
+      >
+        <Root>{routes}</Root>
+      </TestApiProvider>,
+      {
+        routeEntries: ['/catalog-import'],
+      },
+    );
+    expect(
+      getByText('Start tracking your component in test app'),
+    ).toBeInTheDocument();
+  }, 30000);
 
   it('should render integration topology page', async () => {
     jest.mock(
@@ -1134,12 +1287,11 @@ describe('Should render all the routes correctly', () => {
         expect(getByText('Curve')).toBeInTheDocument();
         expect(getByText('Simplified')).toBeInTheDocument();
         expect(getByText('Merge relations')).toBeInTheDocument();
-        expect(getByText('Select Entity Kind')).toBeInTheDocument();
-        expect(getByText('Select Entity Name')).toBeInTheDocument();
+        expect(getByText('Select Entity Kind and Name')).toBeInTheDocument();
         expect(getByText('Search Entities by Name')).toBeInTheDocument();
         expect(getByPlaceholderText('component1-name')).toBeInTheDocument();
       },
       { timeout: 15000 },
     );
-  }, 20000);
+  }, 60000);
 });

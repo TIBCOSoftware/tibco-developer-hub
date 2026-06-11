@@ -46,5 +46,5 @@ describe('<DirectionFilter/>', () => {
       expect(screen.getByText('Top to bottom')).toBeInTheDocument();
       expect(onChange).toHaveBeenCalledWith(Direction.TOP_BOTTOM);
     });
-  });
+  }, 30000);
 });

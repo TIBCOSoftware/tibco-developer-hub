@@ -18,6 +18,8 @@ import BlankBgIcon from '../../images/blank-bg.svg';
 import BlankIcon from '../../images/blank-icon.svg';
 import AIBgIcon from '../../images/ai-bg.svg';
 import AIIcon from '../../images/ai-icon.svg';
+import SelfServiceBgIcon from '../../images/self-service-bg.svg';
+import SelfServiceIcon from '../../images/self-service-icon.svg';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 import Highlighter from 'react-highlight-words';
 import { HighlightContext } from '../Filtering/HighlightContext.tsx';
@@ -38,6 +40,8 @@ import {
 } from '@material-ui/core';
 import { TibcoIcon } from '../../Icons/TibcoIcon.tsx';
 import { formatTypeDisplay } from '../MarketplaceCard/CardHeader.tsx';
+import { FavoriteToggle } from '@backstage/core-components';
+import { useStarredEntities } from '@backstage/plugin-catalog-react';
 
 const useStyles = makeStyles({
   categoryText: {
@@ -97,6 +101,12 @@ const useStyles = makeStyles({
     marginLeft: '8px',
     height: '16px',
   },
+  favoriteIcon: {
+    '& button': {
+      margin: '0 12px',
+      padding: '2px',
+    },
+  },
   uninstallButton: {
     marginLeft: '16px',
   },
@@ -146,6 +156,10 @@ const HeaderImage = ({ template }: CardHeaderProps) => {
     case 'artificial-intelligence':
       bg = AIBgIcon;
       icon = AIIcon;
+      break;
+    case 'self-service':
+      bg = SelfServiceBgIcon;
+      icon = SelfServiceIcon;
       break;
     default:
       bg = BlankBgIcon;
@@ -251,6 +265,10 @@ export const CardHeaderDetail = (props: CardHeaderProps) => {
   const catalogApi = useApi(catalogApiRef);
   const alertApi = useApi(alertApiRef);
   const [open, setOpen] = useState(false);
+  const { isStarredEntity, toggleStarredEntity } = useStarredEntities();
+  const entityRef = `${props.template.kind.toLowerCase()}:${
+    props.template.metadata.namespace ?? 'default'
+  }/${props.template.metadata.name}`;
 
   const uninstall = async () => {
     const locs = getRegLocsByTemplate(props.template);
@@ -319,6 +337,26 @@ export const CardHeaderDetail = (props: CardHeaderProps) => {
             {isNew && (
               <img className={styles.newIcon} src={NewIcon} alt="new-logo" />
             )}
+            <div
+              onClick={e => e.stopPropagation()}
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.stopPropagation();
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              className={styles.favoriteIcon}
+            >
+              <FavoriteToggle
+                id={entityRef}
+                title=""
+                isFavorite={isStarredEntity(entityRef)}
+                onToggle={() => {
+                  toggleStarredEntity(entityRef);
+                }}
+              />
+            </div>
           </Grid>
         </div>
         {props.template.installed && (

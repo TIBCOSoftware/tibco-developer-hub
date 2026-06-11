@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import { createBackend } from '@backstage/backend-defaults';
@@ -21,6 +21,9 @@ backend.add(
 );
 backend.add(
   import('@internal/plugin-scaffolder-backend-module-tibco-git-repositories'),
+);
+backend.add(
+  import('@internal/plugin-scaffolder-backend-module-tibco-platform-actions'),
 );
 backend.add(import('@backstage/plugin-scaffolder-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
@@ -59,6 +62,7 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
 backend.add(import('@internal/plugin-scaffolder-backend-module-metrics-api'));
+backend.add(import('@internal/plugin-scaffolder-backend-module-platform-api'));
 backend.add(import('./addEssentialLocation'));
 backend.add(import('./cachePlugin.ts'));
 

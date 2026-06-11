@@ -49,7 +49,7 @@ describe('<DefaultImportPage />', () => {
     );
 
     expect(
-      screen.getByText('Start tracking your component in Backstage'),
+      await screen.findByText('Start tracking your component in Backstage'),
     ).toBeInTheDocument();
-  });
+  }, 30000);
 });

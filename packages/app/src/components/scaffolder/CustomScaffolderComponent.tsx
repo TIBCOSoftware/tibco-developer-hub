@@ -5,7 +5,7 @@
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import { ScaffolderPage } from '@backstage/plugin-scaffolder';
-import { TemplateListPage } from '@internal/backstage-plugin-import-flow';
+import { CustomTemplatePage } from '@internal/backstage-plugin-custom-template-flow';
 
 export interface TemplateGroups {
   name: string;
@@ -68,19 +68,21 @@ export const CustomScaffolderComponent = () => {
     <ScaffolderPage
       components={{
         EXPERIMENTAL_TemplateListPageComponent: () => (
-          <TemplateListPage
+          <CustomTemplatePage
             templateFilter={entity => {
               const tags = entity.metadata.tags?.map(v => v.toLowerCase());
               return !(
                 tags?.includes('import-flow') ||
                 tags?.includes('devhub-marketplace') ||
-                tags?.includes('devhub-internal')
+                tags?.includes('devhub-internal') ||
+                tags?.includes('self-service')
               );
             }}
             excludedTags={[
               'import-flow',
               'devhub-marketplace',
               'devhub-internal',
+              'self-service',
             ]}
             groups={groups}
             headerOptions={{

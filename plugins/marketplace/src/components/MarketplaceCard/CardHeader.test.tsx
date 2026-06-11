@@ -5,7 +5,24 @@
 import { screen } from '@testing-library/react';
 import { CardHeader, formatTypeDisplay } from './CardHeader';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage';
-import { renderInTestApp } from '@backstage/test-utils';
+import { renderInTestApp, TestApiProvider } from '@backstage/test-utils';
+import { starredEntitiesApiRef } from '@backstage/plugin-catalog-react';
+
+const mockStarredEntitiesApi = {
+  toggleStarred: jest.fn(),
+  starredEntitie$: jest.fn(() => {
+    const observable = {
+      subscribe: jest.fn(() => ({
+        unsubscribe: jest.fn(),
+        closed: false,
+      })),
+      [Symbol.observable]() {
+        return this;
+      },
+    };
+    return observable;
+  }),
+};
 
 describe('CardHeader Component', () => {
   const mockTemplate: MarketplaceEntity = {
@@ -26,13 +43,21 @@ describe('CardHeader Component', () => {
   };
 
   it('renders the template type and "Installed" status', async () => {
-    await renderInTestApp(<CardHeader template={mockTemplate} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={mockTemplate} />
+      </TestApiProvider>,
+    );
     expect(screen.getByText('Template')).toBeInTheDocument();
     expect(screen.getByText('Added')).toBeInTheDocument();
   });
 
   it('displays the "New" icon when the template is marked as new', async () => {
-    await renderInTestApp(<CardHeader template={mockTemplate} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={mockTemplate} />
+      </TestApiProvider>,
+    );
     expect(screen.getByTestId('new-image')).toBeInTheDocument();
   });
 
@@ -46,7 +71,11 @@ describe('CardHeader Component', () => {
         },
       },
     };
-    await renderInTestApp(<CardHeader template={templateWithoutNew} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={templateWithoutNew} />
+      </TestApiProvider>,
+    );
     expect(screen.queryByTestId('new-image')).not.toBeInTheDocument();
   });
 
@@ -55,7 +84,11 @@ describe('CardHeader Component', () => {
       ...mockTemplate,
       relations: [],
     };
-    await renderInTestApp(<CardHeader template={templateWithoutRelations} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={templateWithoutRelations} />
+      </TestApiProvider>,
+    );
     expect(
       screen.queryByTestId('marketplace-card-actions--ownedby'),
     ).not.toBeInTheDocument();
@@ -69,7 +102,11 @@ describe('CardHeader Component', () => {
         steps: [],
       },
     };
-    await renderInTestApp(<CardHeader template={documentTemplate} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={documentTemplate} />
+      </TestApiProvider>,
+    );
     expect(screen.getByAltText('document')).toBeInTheDocument();
   });
 
@@ -81,7 +118,11 @@ describe('CardHeader Component', () => {
         steps: [],
       },
     };
-    await renderInTestApp(<CardHeader template={aiAgentTemplate} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={aiAgentTemplate} />
+      </TestApiProvider>,
+    );
     expect(screen.getByText('Artificial Intelligence')).toBeInTheDocument();
     expect(screen.getByAltText('artificial-intelligence')).toBeInTheDocument();
   });
@@ -94,7 +135,11 @@ describe('CardHeader Component', () => {
         steps: [],
       },
     };
-    await renderInTestApp(<CardHeader template={importFlowTemplate} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={importFlowTemplate} />
+      </TestApiProvider>,
+    );
     expect(screen.getByText('Import Flow')).toBeInTheDocument();
     expect(screen.getByAltText('import-flow')).toBeInTheDocument();
   });
@@ -107,9 +152,30 @@ describe('CardHeader Component', () => {
         steps: [],
       },
     };
-    await renderInTestApp(<CardHeader template={sampleTemplate} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={sampleTemplate} />
+      </TestApiProvider>,
+    );
     expect(screen.getByText('Sample')).toBeInTheDocument();
     expect(screen.getByAltText('sample')).toBeInTheDocument();
+  });
+
+  it('renders Self Service type correctly with proper formatting', async () => {
+    const selfServiceTemplate = {
+      ...mockTemplate,
+      spec: {
+        type: 'self-service',
+        steps: [],
+      },
+    };
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={selfServiceTemplate} />
+      </TestApiProvider>,
+    );
+    expect(screen.getByText('Self Service')).toBeInTheDocument();
+    expect(screen.getByAltText('self-service')).toBeInTheDocument();
   });
 
   it('renders Document type correctly with proper formatting', async () => {
@@ -120,7 +186,11 @@ describe('CardHeader Component', () => {
         steps: [],
       },
     };
-    await renderInTestApp(<CardHeader template={documentTemplate} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={documentTemplate} />
+      </TestApiProvider>,
+    );
     expect(screen.getByText('Document')).toBeInTheDocument();
     expect(screen.getByAltText('document')).toBeInTheDocument();
   });
@@ -133,7 +203,11 @@ describe('CardHeader Component', () => {
         steps: [],
       },
     };
-    await renderInTestApp(<CardHeader template={unknownTemplate} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={unknownTemplate} />
+      </TestApiProvider>,
+    );
     expect(screen.getByText('Unknown Type')).toBeInTheDocument();
     expect(screen.getByAltText('unknown-type')).toBeInTheDocument();
   });
@@ -146,7 +220,11 @@ describe('CardHeader Component', () => {
         steps: [],
       },
     };
-    await renderInTestApp(<CardHeader template={multiWordTemplate} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={multiWordTemplate} />
+      </TestApiProvider>,
+    );
     expect(screen.getByText('Custom Integration Flow')).toBeInTheDocument();
   });
 
@@ -158,7 +236,11 @@ describe('CardHeader Component', () => {
         steps: [],
       },
     };
-    await renderInTestApp(<CardHeader template={noTypeTemplate} />);
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={noTypeTemplate} />
+      </TestApiProvider>,
+    );
     // Should render empty string for type display when type is undefined
     const typeElements = screen.queryAllByText('');
     expect(typeElements.length).toBeGreaterThan(0);
@@ -209,5 +291,100 @@ describe('formatTypeDisplay function', () => {
   it('handles numeric input', () => {
     expect(formatTypeDisplay('type-1')).toBe('Type 1');
     expect(formatTypeDisplay('version-2-template')).toBe('Version 2 Template');
+  });
+});
+
+describe('CardHeader FavoriteToggle', () => {
+  const mockTemplate: MarketplaceEntity = {
+    apiVersion: 'scaffolder.backstage.io/v1beta3',
+    kind: 'Template',
+    metadata: {
+      name: 'test-template',
+      namespace: 'default',
+      title: 'Test Template Title',
+      'tibco.developer.hub/marketplace': {
+        isNew: false,
+      },
+    },
+    spec: {
+      type: 'template',
+      steps: [],
+    },
+    installed: false,
+  };
+
+  const mockFavoriteToggleApi = {
+    toggleStarred: jest.fn(),
+    starredEntitie$: jest.fn(() => {
+      const observable = {
+        subscribe: jest.fn(() => ({
+          unsubscribe: jest.fn(),
+          closed: false,
+        })),
+        [Symbol.observable]() {
+          return this;
+        },
+      };
+      return observable;
+    }),
+  };
+
+  it('renders FavoriteToggle component', async () => {
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockFavoriteToggleApi]]}>
+        <CardHeader template={mockTemplate} />
+      </TestApiProvider>,
+    );
+
+    // Find button by its class or within the favorite icon container
+    const favoriteButtons = screen.getAllByRole('button');
+    // The FavoriteToggle button should be present
+    expect(favoriteButtons.length).toBeGreaterThan(0);
+  });
+
+  it('FavoriteToggle container has onClick handler', async () => {
+    const { container } = await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockFavoriteToggleApi]]}>
+        <CardHeader template={mockTemplate} />
+      </TestApiProvider>,
+    );
+
+    const favoriteContainer = container.querySelector(
+      '[role="button"][tabindex="0"]',
+    );
+
+    expect(favoriteContainer).toBeInTheDocument();
+    expect(favoriteContainer).toHaveProperty('onclick');
+  });
+
+  it('FavoriteToggle container has proper accessibility attributes', async () => {
+    const { container } = await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockFavoriteToggleApi]]}>
+        <CardHeader template={mockTemplate} />
+      </TestApiProvider>,
+    );
+
+    const favoriteContainer = container.querySelector(
+      '[role="button"][tabindex="0"]',
+    );
+
+    expect(favoriteContainer).toBeInTheDocument();
+    expect(favoriteContainer).toHaveAttribute('role', 'button');
+    expect(favoriteContainer).toHaveAttribute('tabIndex', '0');
+  });
+
+  it('FavoriteToggle container has keyboard event handler', async () => {
+    const { container } = await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockFavoriteToggleApi]]}>
+        <CardHeader template={mockTemplate} />
+      </TestApiProvider>,
+    );
+
+    const favoriteContainer = container.querySelector(
+      '[role="button"][tabindex="0"]',
+    );
+
+    expect(favoriteContainer).toBeInTheDocument();
+    expect(favoriteContainer).toHaveProperty('onkeydown');
   });
 });

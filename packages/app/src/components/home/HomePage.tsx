@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+ * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
 import { Box, Grid } from '@material-ui/core';
@@ -7,6 +7,7 @@ import {
   configApiRef,
   identityApiRef,
   useApi,
+  storageApiRef,
 } from '@backstage/core-plugin-api';
 import {
   CATALOG_FILTER_EXISTS,
@@ -51,6 +52,7 @@ export const HomePage = () => {
   const catalogApi = useApi(catalogApiRef);
   const identityApi = useApi(identityApiRef);
   const starredApi = useApi(starredEntitiesApiRef);
+  const storageApi = useApi(storageApiRef).forBucket('url-favorites');
   const { value, loading, error } = useAsync(async () => {
     const data = await identityApi.getProfileInfo();
     return data.displayName;
@@ -77,6 +79,23 @@ export const HomePage = () => {
                   'metadata.description',
                   'metadata.namespace',
                 ];
+                if (type === HomeCardType.Topology) {
+                  filter = {
+                    kind: [],
+                  };
+                }
+                if (type === HomeCardType.MarketPlace) {
+                  filter = {
+                    kind: [HomeCardType.Template],
+                    'metadata.tags': ['devhub-marketplace'],
+                  };
+                }
+                if (type === HomeCardType.SelfService) {
+                  filter = {
+                    kind: [HomeCardType.Template],
+                    'metadata.tags': 'self-service',
+                  };
+                }
                 if (type === HomeCardType.ImportFlow) {
                   filter = {
                     kind: [HomeCardType.Template],
@@ -136,7 +155,63 @@ export const HomePage = () => {
                   }
 
                   let itemsInfo = [];
-                  if (stars && stars.length > 0) {
+                  // Get Topology favorites from Local Storage
+                  if (card.type === HomeCardType.Topology) {
+                    const topologyFavoritesSnapshot =
+                      storageApi.snapshot('topology-favorites');
+                    const topologyFavorites =
+                      (topologyFavoritesSnapshot.value as any[]) ?? [];
+
+                    if (topologyFavorites.length > 0) {
+                      const last3Favorites = topologyFavorites.slice(-3);
+
+                      const favoriteEntityNames = last3Favorites.map(
+                        (fav: any) => Object.keys(fav)[0],
+                      );
+
+                      const favoritedItems = items.filter((item: any) => {
+                        const entityName = item.metadata?.name;
+                        return favoriteEntityNames.includes(entityName);
+                      });
+
+                      favoritedItems.sort((a: any, b: any) => {
+                        const aIndex = favoriteEntityNames.indexOf(
+                          a.metadata?.name,
+                        );
+                        const bIndex = favoriteEntityNames.indexOf(
+                          b.metadata?.name,
+                        );
+                        return aIndex - bIndex;
+                      });
+
+                      itemsInfo = favoritedItems.map((item: any) => ({
+                        ...item,
+                        star: true,
+                        url: last3Favorites.find(
+                          (fav: any) =>
+                            Object.keys(fav)[0] === item.metadata?.name,
+                        )[item.metadata?.name],
+                      }));
+                    }
+
+                    if (itemsInfo.length < ITEMS_PER_CARD) {
+                      const existingNames = itemsInfo.map(
+                        (item: any) => item.metadata?.name,
+                      );
+
+                      const additionalItems = items.filter(
+                        (item: any) =>
+                          item.kind === HomeCardType.Component &&
+                          !existingNames.includes(item.metadata?.name),
+                      );
+
+                      const neededCount = ITEMS_PER_CARD - itemsInfo.length;
+                      itemsInfo = [
+                        ...itemsInfo,
+                        ...additionalItems.slice(0, neededCount),
+                      ];
+                    }
+                  } else if (stars && stars.length > 0) {
                     for (const item of items) {
                       const inx = getIndex(item, stars);
                       if (inx > -1) {
@@ -169,6 +244,7 @@ export const HomePage = () => {
                       namespace: item.metadata?.namespace,
                       tags: item.metadata?.tags?.slice(0, 3),
                       text: `${item.metadata?.description}`,
+                      url: item?.url,
                     };
                   });
                 }
