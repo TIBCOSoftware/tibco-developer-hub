@@ -1,0 +1,87 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-ssf-build-deploy-bw5ce-app
+  title: Build & Deploy BW5CE App
+  description: A Self Service Flow that builds and deploys a BW5CE application to
+    a dynamically selected TIBCO Data Plane. Fetches a BW5CE EAR file from a
+    GitHub repository, auto-provisions the BW5CE capability version if missing,
+    builds and deploys the app, scales it up, makes the endpoint public and
+    registers the app in the TIBCO Developer Hub catalog via a pull request or a
+    new repository.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: TIBCO Platform
+        url: https://www.tibco.com/platform
+        icon: star
+      - text: TIBCO Developer Hub
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub
+        icon: github
+      - text: Sample BW5CE App (EAR)
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/self-service-flows/build-deploy-bw5ce-app/sample-app/sample-app-bw5ce-dynamicHeaders.ear
+        icon: github
+  tags:
+    - devhub-marketplace
+    - self-service
+    - tibco-platform
+    - bw5ce
+    - businessworks
+spec:
+  owner: group:default/marketplace-entries-group
+  type: self-service
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Build & Deploy BW5CE App added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-ssf-build-deploy-bw5ce-app
+
+            **Description:** A Self Service Flow that builds and deploys a BW5CE application to a dynamically selected TIBCO Data Plane. Fetches a BW5CE EAR file from a GitHub repository, auto-provisions the BW5CE capability version if missing, builds and deploys the app, scales it up, makes the endpoint public and registers the app in the TIBCO Developer Hub catalog via a pull request or a new repository. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/self-service-flows/build-deploy-bw5ce-app/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Self Service Flows
+        url: /self-service-flow?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
+        icon: kind:template
+      - icon: kind:template
+        title: Run Build & Deploy BW5CE App
+        url: /create/templates/default/self-service-build-deploy-bw5ce-app
+        type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

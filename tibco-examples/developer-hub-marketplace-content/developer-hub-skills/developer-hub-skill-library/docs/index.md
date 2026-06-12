@@ -7,7 +7,7 @@ your Developer Hub checkout and your coding agent follows the same proven playbo
 
 The library bundles three things:
 
-- **Six skills** (`SKILL.md` runbooks) covering the full Developer Hub lifecycle.
+- **Seven skills** (`SKILL.md` runbooks) covering the full Developer Hub lifecycle.
 - **`AGENTS.md`** — project documentation in the open AGENTS.md standard, auto-discovered by all
   major coding agents.
 - **`CLAUDE.md`** — a thin Claude Code entry point that imports `AGENTS.md` and lists the skills.
@@ -57,10 +57,11 @@ description: <when the agent should use this skill>
 4. **Agent executes** all file creation, YAML generation, config wiring, and browser verification.
 5. **Developer gets** a fully wired, tested artefact in minutes — not hours.
 
-## The six skills
+## The seven skills
 
 The library covers the full Developer Hub lifecycle — from a clean checkout, through authoring
-and testing templates and import flows, to rebranding the portal.
+and testing templates and import flows, to rebranding the portal, to assessing the blast radius of a
+change before you make it.
 
 | Skill | When to use | What it produces |
 |-------|-------------|------------------|
@@ -70,6 +71,17 @@ and testing templates and import flows, to rebranding the portal.
 | **`create-theme`** | Adding a brand theme, rebranding for a customer, or changing the sidebar logo. | `packages/app/src/themes/<slug>ThemeLight.ts` (and a dark variant if requested), registered in `App.tsx`, with the logo swap wired in `Root.tsx` and type-checked. |
 | **`test-template`** | Testing a template, previewing output, or debugging `${{ values.* }}` substitutions. | A full rendered file tree under `template-workspace/dry-run-<N>/` via the scaffolder dry-run API — no GitHub repo created. |
 | **`test-import-flow`** | End-to-end validation of an import flow: structure check plus real catalog registration. | Phase 1 dry-run validation, then a real scaffolder task run and a catalog-API check confirming the imported entities were registered. |
+| **`impact-analysis`** | Assessing the blast radius before changing a catalog entity — "what breaks if I change this API/Component/Resource?". | A report plus color-coded integration-topology diagrams under `impact_analysis/`, grounded in the live catalog graph read via the catalog REST API. |
+
+## Impact analysis — see it in action
+
+The `impact-analysis` skill reads the **live** catalog dependency graph and classifies every
+neighbour as 🔴 breaks · 🟠 review · 🟢 safe. Two companion docs show it end-to-end:
+
+- [**Walkthrough**](./impact-analysis-questions.md) — the questions to ask and what a conversation
+  looks like.
+- [**Worked example**](./car-information-api-impact-analysis.md) — the full generated report for
+  changing `car-information-api`, with the topology diagrams and notify list.
 
 ## Business value
 

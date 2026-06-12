@@ -149,3 +149,14 @@ Two-phase end-to-end test for an import flow template.
 2. POST to `http://127.0.0.1:7007/api/scaffolder/v2/tasks` with real parameter values
 3. Poll `GET /api/scaffolder/v2/tasks/{id}` until status is `completed` or `failed`
 4. Query `GET /api/catalog/entities?filter=kind=Component,metadata.name=<name>` to confirm the imported entities were registered in the catalog
+
+### impact-analysis
+
+Produce a change-impact ("blast radius") analysis for a catalog entity — answer *"what breaks if I change `<entity>`?"* from the **live** catalog graph, not guesswork.
+
+This Developer Hub is Backstage **1.41.1**, which has **no MCP server** — read the catalog through the **catalog REST API** at `http://localhost:7007/api/catalog` (spec: `marketplace-content/tibco-platform-apis/version-118/backstage-api-1.41.1.yaml`). Endpoints allow anonymous access in local guest mode (no token needed; pass `Authorization: Bearer <Backstage identity token>` only if auth is enforced).
+
+1. Resolve the subject entity: `GET /entities/by-name/{kind}/default/{name}` — record kind, `spec.type`, `spec.lifecycle`, `spec.owner`, `spec.system`, and the full `relations` array
+2. Traverse the graph breadth-first: collect neighbour refs from `relations`, dedupe, and batch-fetch with `POST /entities/by-refs` (`{"entityRefs":[…]}`); stop at ~2–3 hops or the system boundary
+3. Classify each neighbour into impact tiers (🔴 direct/breaks · 🟠 conditional/review · 🟢 not impacted) based on relation direction and contract semantics; flag cross-team ripples via `ownedBy`
+4. Write a report plus three color-coded integration-topology Mermaid diagrams under `impact_analysis/`, with a per-entity action list and a notify-by-team list

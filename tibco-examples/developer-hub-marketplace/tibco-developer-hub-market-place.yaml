@@ -8,6 +8,7 @@ spec:
     - ./mp-entry-doc-dh-create-import-flow.yaml
     - ./mp-entry-doc-dh-create-marketplace-entry.yaml
     - ./mp-entry-doc-dh-create-template.yaml
+    - ./mp-entry-doc-dh-create-self-service-flow.yaml
     - ./mp-entry-doc-bw-community.yaml
     - ./mp-entry-template-to-create-template.yaml
     - ./mp-entry-if-advanced-bw5.yaml
@@ -15,7 +16,9 @@ spec:
     - ./mp-entry-if-advanced-ems.yaml
     - ./mp-entry-if-advanced-flogo-ems.yaml
     - ./mp-entry-if-import-api.yaml
-    - ./mp-entry-doc-platform-apis-117.yaml
+    - ./mp-entry-ssf-build-deploy-flogo-app.yaml
+    - ./mp-entry-ssf-build-deploy-bw5ce-app.yaml
+    - ./mp-entry-doc-platform-apis-118.yaml
     - ./mp-entry-sample-flogo-mcp-customer360.yaml
     - ./mp-entry-platform-cli-provisioning-example.yaml
     - ./mp-entry-doc-platform-provisioner.yaml
@@ -34,6 +37,7 @@ spec:
     - ./mp-entry-template-flogo-ai-supply-chain.yaml
     - ./mp-entry-flogo-skill-library-coding-agents.yaml
     - ./mp-entry-developer-hub-skill-library.yaml
+    - ./mp-entry-bw6-design-assistant-prompt-library.yaml
     - ./mp-entry-sample-flogo-custom-log-palette.yaml
     - ./mp-entry-sample-smart-routing.yaml
     - ./mp-entry-sample-prowess-tp-cicd-pipelines.yaml

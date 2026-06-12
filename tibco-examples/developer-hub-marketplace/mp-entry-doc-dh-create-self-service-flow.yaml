@@ -1,14 +1,17 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-dh-create-import-flow
-  title: Import Flow Tutorial
-  description: Documentation on how to create Import Flows in TIBCO Developer Hub.
-    This documentation provides a step-by-step guide on how to create Import
-    Flows for TIBCO products.
+  name: mp-entry-doc-dh-create-self-service-flow
+  title: Self Service Flow Tutorial
+  description: Documentation on how to create Self Service Flows in TIBCO
+    Developer Hub. Self Service Flows perform a series of actions on the TIBCO
+    Platform through platform APIs, as an alternative to traditional pipeline
+    workflows. This documentation provides a step-by-step guide covering the
+    custom platform actions and form fields, and how to build, register and run
+    your own Self Service Flow.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
@@ -19,7 +22,7 @@ metadata:
   tags:
     - devhub-marketplace
     - tibco-developer-hub
-    - create-import-flow
+    - create-self-service-flow
 spec:
   owner: group:default/marketplace-entries-group
   type: document
@@ -35,11 +38,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  Import Flow Tutorial added to your TIBCO Developer Hub
+            ## Get  Self Service Flow Tutorial added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-dh-create-import-flow
+            **ID:** mp-entry-doc-dh-create-self-service-flow
 
-            **Description:** Documentation on how to create Import Flows in TIBCO Developer Hub. This documentation provides a step-by-step guide on how to create Import Flows for TIBCO products. 
+            **Description:** Documentation on how to create Self Service Flows in TIBCO Developer Hub. Self Service Flows perform a series of actions on the TIBCO Platform through platform APIs, as an alternative to traditional pipeline workflows. This documentation provides a step-by-step guide covering the custom platform actions and form fields, and how to build, register and run your own Self Service Flow. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
@@ -57,7 +60,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/developer-hub-tutorials/create-import-flow/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/developer-hub-tutorials/create-self-service-flow/catalog-info.yaml
   output:
     links:
       - title: Open in catalog
@@ -68,8 +71,8 @@ spec:
         url: /docs?filters%5Buser%5D=all&limit=20
         icon: techdocs
       - icon: docs
-        title: Open Import Flow Tutorial Docs
-        url: /docs/default/System/create-import-flows
+        title: Open Self Service Flow Tutorial Docs
+        url: /docs/default/System/create-self-service-flows
         type: openButton
       - title: Back to Marketplace
         url: /marketplace

@@ -1,0 +1,45 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{values.name | dump}}
+  description: ${{ "Flogo App - " + values.name }}
+  annotations:
+    github.com/project-slug: ${{ values.destination.owner + "/" + values.destination.repo }}
+    backstage.io/techdocs-ref: dir:.
+    backstage.io/kubernetes-id: ${{ values.destination.owner + "/" + values.destination.repo }}
+  tibco.developer.hub/topology:
+    theme:
+      colors:
+        background: '#0e4f9e'
+        iconColor: '#0e4f9e'
+    entityIcon:
+      icon: ""
+      iconTooltip: "Flogo App"
+    statusIcons:
+      - icon: 'VerifiedUser'
+        iconColor: 'white'
+        iconTooltip: 'Scan Passed...'
+      - icon: 'CloudDone'
+        iconColor: 'white'
+        iconTooltip: 'Deployed successfully...'
+  tibcoPlatformApps:
+    - appType: flogo
+      appName: ${{values.name }}
+      dataPlaneName: DP-dev
+      dpId: ${{values.dataplane_id }}
+      appId: ${{values.appId }}
+  links:
+    - url: "https://www.tibco.com/"
+      title: TIBCO Platform
+      icon: dashboard
+    - url: "vscode://vscode.git/clone?url=https://github.com/${{ values.destination.owner }}/${{ values.destination.repo }}"
+      title: Open in VSCode
+      icon: scaffolder
+  tags:
+    - platform
+    - flogo
+
+spec:
+  type: service
+  lifecycle: development
+  owner: group:default/tibco-templates

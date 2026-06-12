@@ -9,7 +9,7 @@ Project documentation shared with all AI agents lives in `AGENTS.md` and is impo
 
 ### Skills
 
-Six custom skills are available under `.claude/skills/` — invoke them with `/skill-name` in Claude Code:
+Seven custom skills are available under `.claude/skills/` — invoke them with `/skill-name` in Claude Code:
 
 | Skill | Purpose |
 |-------|---------|
@@ -19,4 +19,5 @@ Six custom skills are available under `.claude/skills/` — invoke them with `/s
 | `create-theme` | Create or replace a Backstage theme with optional custom logo |
 | `test-template` | Dry-run a scaffolder template and inspect rendered output |
 | `test-import-flow` | Validate an import flow (dry-run + live catalog verification) |
+| `impact-analysis` | Assess the change blast radius of a catalog entity via the catalog REST API |
 

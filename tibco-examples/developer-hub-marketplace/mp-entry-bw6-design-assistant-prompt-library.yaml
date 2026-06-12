@@ -1,14 +1,17 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-dh-create-import-flow
-  title: Import Flow Tutorial
-  description: Documentation on how to create Import Flows in TIBCO Developer Hub.
-    This documentation provides a step-by-step guide on how to create Import
-    Flows for TIBCO products.
+  name: mp-entry-bw6-design-assistant-prompt-library
+  title: BW Design Assistant Prompts
+  description: Onboard the TIBCO BusinessWorks Design Assistant with a curated
+    collection of expertly crafted prompts for common integration development
+    scenarios on TIBCO ActiveMatrix BusinessWorks 6. Covers REST and SOAP
+    services, JMS messaging, JDBC database processing, file processing, and
+    subprocess orchestration. Open a prompt, paste it into the Design Assistant
+    in BW Studio, and review the generated guidance.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
@@ -16,13 +19,20 @@ metadata:
       - text: TIBCO Developer Hub
         url: https://github.com/TIBCOSoftware/tibco-developer-hub
         icon: github
+      - icon: docs
+        text: BusinessWorks 6
+        url: https://docs.tibco.com/products/tibco-activematrix-businessworks
   tags:
     - devhub-marketplace
-    - tibco-developer-hub
-    - create-import-flow
+    - artificial-intelligence
+    - business-works
+    - bw6
+    - design-assistant
+    - prompts
+    - integration
 spec:
   owner: group:default/marketplace-entries-group
-  type: document
+  type: artificial-intelligence
   presentation:
     buttonLabels:
       createButtonText: Get
@@ -35,11 +45,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  Import Flow Tutorial added to your TIBCO Developer Hub
+            ## Get  BW Design Assistant Prompts added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-dh-create-import-flow
+            **ID:** mp-entry-bw6-design-assistant-prompt-library
 
-            **Description:** Documentation on how to create Import Flows in TIBCO Developer Hub. This documentation provides a step-by-step guide on how to create Import Flows for TIBCO products. 
+            **Description:** Onboard the TIBCO BusinessWorks Design Assistant with a curated collection of expertly crafted prompts for common integration development scenarios on TIBCO ActiveMatrix BusinessWorks 6. Covers REST and SOAP services, JMS messaging, JDBC database processing, file processing, and subprocess orchestration. Open a prompt, paste it into the Design Assistant in BW Studio, and review the generated guidance. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
@@ -57,7 +67,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/developer-hub-tutorials/create-import-flow/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/business-works-ai/bw6-design-assistant-prompt-library/catalog-info.yaml
   output:
     links:
       - title: Open in catalog
@@ -68,8 +78,8 @@ spec:
         url: /docs?filters%5Buser%5D=all&limit=20
         icon: techdocs
       - icon: docs
-        title: Open Import Flow Tutorial Docs
-        url: /docs/default/System/create-import-flows
+        title: Open BW Design Assistant Prompts Docs
+        url: /docs/default/system/bw6-design-assistant-prompt-library
         type: openButton
       - title: Back to Marketplace
         url: /marketplace

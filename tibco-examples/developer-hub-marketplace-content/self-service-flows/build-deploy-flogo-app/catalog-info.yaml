@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: self-service-build-deploy-flogo-app-location
+  description: Build & Deploy Flogo App self service flow
+spec:
+  targets:
+    - ./self-service-build-deploy-flogo-app.yaml
+    - ../tibco-self-service-group.yaml

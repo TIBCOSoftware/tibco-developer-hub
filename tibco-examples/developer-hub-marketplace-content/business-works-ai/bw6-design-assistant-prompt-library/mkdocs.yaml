@@ -1,0 +1,17 @@
+site_name: 'TIBCO BW6 Design Assistant Prompt Library'
+site_description: 'Prompt library for TIBCO BusinessWorks 6 examples'
+
+nav:
+  - Introduction: index.md
+  - Setup Guide: BW_Design_Assistant_Setup_Guide.md
+  - Basic Retail Order Logger: basic_retail_order_logger.md
+  - JDBC - Retail Inventory DB: jdbc_retail_inventory_db.md
+  - JMS - Retail Order Queue: jms_retail_order_queue.md
+  - REST - Retail Product Service: rest_retail_product_service.md
+  - File - Retail Sales File: file_retail_sales_file.md
+  - SubProcess - Retail Returns: subprocess_retail_returns.md
+  - SOAP - Retail Loyalty Service: soap_retail_loyalty_service.md
+  - Reference Table: reference_table.md
+
+plugins:
+  - techdocs-core

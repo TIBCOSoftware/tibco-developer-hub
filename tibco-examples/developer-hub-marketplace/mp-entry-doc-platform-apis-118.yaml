@@ -1,25 +1,23 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-dh-create-import-flow
-  title: Import Flow Tutorial
-  description: Documentation on how to create Import Flows in TIBCO Developer Hub.
-    This documentation provides a step-by-step guide on how to create Import
-    Flows for TIBCO products.
+  name: mp-entry-doc-platform-apis-118
+  title: Platform APIs 1.18 (Most Recent)
+  description: Definitions of all the APIs in the TIBCO Platform - version 1.18
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
     moreInfo:
-      - text: TIBCO Developer Hub
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub
-        icon: github
+      - text: TIBCO Platform
+        url: https://www.tibco.com/platform
+        icon: star
   tags:
     - devhub-marketplace
-    - tibco-developer-hub
-    - create-import-flow
+    - platform-apis
+    - api
 spec:
   owner: group:default/marketplace-entries-group
   type: document
@@ -35,11 +33,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  Import Flow Tutorial added to your TIBCO Developer Hub
+            ## Get  Platform APIs 1.18 (Most Recent) added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-dh-create-import-flow
+            **ID:** mp-entry-doc-platform-apis-118
 
-            **Description:** Documentation on how to create Import Flows in TIBCO Developer Hub. This documentation provides a step-by-step guide on how to create Import Flows for TIBCO products. 
+            **Description:** Definitions of all the APIs in the TIBCO Platform - version 1.18 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
@@ -57,20 +55,32 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/developer-hub-tutorials/create-import-flow/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-118/catalog-info-apis-118.yaml
   output:
     links:
       - title: Open in catalog
         type: catalog
         icon: catalog
         entityRef: ${{ steps.registerItem.output.entityRef }}
-      - title: Documents
-        url: /docs?filters%5Buser%5D=all&limit=20
-        icon: techdocs
-      - icon: docs
-        title: Open Import Flow Tutorial Docs
-        url: /docs/default/System/create-import-flows
+      - title: APIs
+        url: /api-docs?filters%5Bkind%5D=api&filters%5Buser%5D=all&limit=20
+        icon: kind:api
+      - icon: kind:api
+        title: Open TIBCO Platform API
+        url: /catalog/default/api/tibco-platform-api-118/definition
         type: openButton
+      - icon: kind:api
+        title: Open BW5 CE Capability API
+        url: /catalog/default/api/bw5ce-capability-api-118/definition
+      - icon: kind:api
+        title: Open BWCE Capability API
+        url: /catalog/default/api/bwce-capability-api-118/definition
+      - icon: kind:api
+        title: Open Flogo Capability API
+        url: /catalog/default/api/flogo-capability-api-118/definition
+      - icon: kind:api
+        title: Open TIBCO Developer Hub API
+        url: /catalog/default/api/developer-hub-api-118/definition
       - title: Back to Marketplace
         url: /marketplace
         icon: dashboard
