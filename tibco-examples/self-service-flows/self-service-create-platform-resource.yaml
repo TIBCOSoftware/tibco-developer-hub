@@ -25,7 +25,7 @@ spec:
           title: Select Dataplane to Create Resource On
           type: object
           description: The TIBCO data-plane to deploy the resource instance to
-          ui:field: SelectDataplane
+          ui:field: DataplaneSelector
           properties:
             id:
               type: string
