@@ -1,0 +1,2 @@
+# Build output — bundles, embedded Node runtimes, and zips are large and regenerated.
+/dist/

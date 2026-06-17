@@ -22913,7 +22913,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.24.0":
+"esbuild@npm:^0.24.0, esbuild@npm:^0.24.2":
   version: 0.24.2
   resolution: "esbuild@npm:0.24.2"
   dependencies:
@@ -34617,6 +34617,7 @@ __metadata:
     "@playwright/test": "npm:^1.32.3"
     "@spotify/prettier-config": "npm:^12.0.0"
     "@types/lodash": "npm:^4.17.16"
+    esbuild: "npm:^0.24.2"
     jest-sonar-reporter: "npm:^2.0.0"
     node-gyp: "npm:^10.0.0"
     prettier: "npm:^2.3.2"

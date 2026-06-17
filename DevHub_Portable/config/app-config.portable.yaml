@@ -1,0 +1,127 @@
+# DevHub Portable — self-contained runtime config.
+#
+# This file is passed to the backend as the base `--config`. It is intentionally
+# standalone (does not rely on app-config.yaml). The `devhub` launcher exports the
+# env vars referenced below (DEVHUB_PORT, DEVHUB_DATA_DIR, GITHUB_TOKEN, DOC_URL, ...)
+# so substitution never fails. Any user-supplied `--config <file>` is layered on
+# top of this one, so callers can add `catalog.locations`, integrations, etc.
+define: &docUrl ${DOC_URL}
+app:
+  title: TIBCO® Developer Hub
+  # Single-process portable build serves the app, static assets and API all at the
+  # root path (no /tibco/hub prefix — that prefix is a production-ingress concept).
+  # The frontend is built with this same root base path (see build-bundled.sh).
+  # Host/port are injected into the frontend at runtime by the app-backend plugin.
+  baseUrl: http://localhost:${DEVHUB_PORT}
+  packages: all
+  support:
+    url: https://support.tibco.com/s/
+    items:
+      - title: 'TIBCO Support Page'
+        icon: email
+        links:
+          - url: 'https://support.tibco.com/s/'
+            title: 'TIBCO Support'
+      - title: 'TIBCO Documentation Page'
+        icon: docs
+        links:
+          - url: *docUrl
+            title: 'TIBCO® Developer Hub Documentation'
+      - title: 'TIBCO® Developer Hub Open Source Repository'
+        icon: github
+        links:
+          - url: 'https://github.com/TIBCOSoftware/tibco-developer-hub'
+            title: 'TIBCO® Developer Hub Open Source Repository'
+  docUrl: *docUrl
+
+organization:
+  name: TIBCO Software's
+
+backend:
+  # No external service-to-service access in portable mode.
+  auth:
+    externalAccess: []
+  baseUrl: http://localhost:${DEVHUB_PORT}
+  listen:
+    port: ${DEVHUB_PORT}
+    host: 127.0.0.1
+  csp:
+    connect-src: ["'self'", 'http:', 'https:']
+  cors:
+    origin: http://localhost:${DEVHUB_PORT}
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+  # Persistent, zero-setup SQLite. The connector writes one <pluginId>.sqlite file
+  # per plugin into this directory (no Postgres / Docker required).
+  database:
+    client: better-sqlite3
+    connection:
+      directory: ${DEVHUB_DATA_DIR}
+  actions:
+    pluginSources:
+      - auth
+      - catalog
+      - scaffolder
+
+integrations:
+  github:
+    # Anonymous (no token) GitHub reader — needed so the example Location below and
+    # its relative sub-targets can be read from github.com. Anonymous requests are
+    # rate-limited (60/hour); for heavier use pass a token via your own --config:
+    #   integrations: { github: [ { host: github.com, token: <your-token> } ] }
+    - host: github.com
+
+techdocs:
+  builder: 'local'
+  generator:
+    # 'local' avoids the Docker dependency. NOTE: rendering a docs page additionally
+    # needs Python 3 + mkdocs-techdocs-core on PATH; this is NOT bundled. The backend
+    # still starts fine without it — only opening a TechDocs page would fail.
+    runIn: 'local'
+  publisher:
+    type: 'local'
+
+enableExperimentalRedirectFlow: true
+
+auth:
+  environment: development
+  providers:
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
+  experimentalClientIdMetadataDocuments:
+    enabled: false
+  enableAuthProviders: [guest]
+
+scaffolder:
+  # Keep scaffolder work inside the portable data dir (isolated-vm sandboxing applies).
+  defaultAuthor:
+    name: TIBCO® Developer Hub
+    email: test@test.com
+  defaultCommitMessage: 'Initial commit'
+
+catalog:
+  rules:
+    - allow:
+        [User, Group, Template, System, Domain, Location, Component, API, Resource]
+  # Loaded on first start so the catalog isn't empty. Add more (or override) via your
+  # own --config file. Uses the anonymous GitHub reader configured above.
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-examples.yaml
+
+
+kubernetes:
+
+mcpActions:
+  enabled: false
+  name: 'TIBCO® Developer Hub'
+  description: 'Tools for managing your software catalog, creating new services from templates, and exploring your developer portal'
+
+# Disabled by default so a fresh start needs no network. Re-enable (or add your own
+# locations) via a user --config file if you want the bundled examples.
+essentialLocations:
+  runScheduler: false
+  frequencyInMinutes: 120
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml
