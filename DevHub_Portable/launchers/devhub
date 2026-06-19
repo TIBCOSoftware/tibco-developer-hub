@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+#
+# DevHub Portable launcher (macOS / Linux).
+# Starts the self-contained TIBCO Developer Hub (frontend + backend in one process).
+#
+#   ./devhub                         # start on http://localhost:7007
+#   ./devhub --port 8088             # start on a custom port
+#   ./devhub --config ./my.yaml      # layer an extra app-config (repeatable)
+#   ./devhub --port 8088 --config ./catalog.yaml --config ./extra.yaml
+#
+set -euo pipefail
+
+# Resolve the bundle directory (this script lives at the bundle root), following symlinks.
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+HERE="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+
+PORT="${DEVHUB_PORT:-7007}"
+# Track whether the port was chosen deliberately (env or --port). If so we won't
+# silently move it; if it's the default we fall back to a free port when busy.
+PORT_EXPLICIT=0
+[[ -n "${DEVHUB_PORT:-}" ]] && PORT_EXPLICIT=1
+EXTRA_CONFIGS=()
+
+show_help() {
+  sed -n '3,12p' "$SOURCE" | sed 's/^# \{0,1\}//'
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --port)     PORT="${2:?--port needs a value}"; PORT_EXPLICIT=1; shift 2 ;;
+    --port=*)   PORT="${1#*=}"; PORT_EXPLICIT=1; shift ;;
+    --config)   EXTRA_CONFIGS+=("--config" "${2:?--config needs a path}"); shift 2 ;;
+    --config=*) EXTRA_CONFIGS+=("--config" "${1#*=}"); shift ;;
+    -h|--help)  show_help; exit 0 ;;
+    *) echo "devhub: unknown argument '$1' (try --help)" >&2; exit 1 ;;
+  esac
+done
+
+# --- runtime environment -----------------------------------------------------
+export DEVHUB_DATA_DIR="${DEVHUB_DATA_DIR:-$HERE/data}"
+# Required for the Scaffolder's isolated-vm to work.
+export NODE_OPTIONS="${NODE_OPTIONS:---no-node-snapshot}"
+export NODE_ENV="${NODE_ENV:-production}"
+export GIT_PYTHON_REFRESH="${GIT_PYTHON_REFRESH:-quiet}"
+
+# Safe defaults for every env var the config may reference, so substitution never fails.
+export GITHUB_TOKEN="${GITHUB_TOKEN:-}"
+export DOC_URL="${DOC_URL:-https://docs.tibco.com/go/platform-cp/latest/doc/html#cshid=developer_hub_overview}"
+
+# If a GitHub token is provided, feed it into the github integration (config defines
+# it anonymously) so the example catalog loads without anonymous rate limits.
+if [[ -n "${GITHUB_TOKEN}" ]]; then
+  export APP_CONFIG_integrations_github_0_token="${GITHUB_TOKEN}"
+fi
+
+mkdir -p "$DEVHUB_DATA_DIR"
+
+NODE_BIN="$HERE/node/bin/node"
+if [[ ! -x "$NODE_BIN" ]]; then
+  echo "devhub: bundled Node runtime not found at $NODE_BIN" >&2
+  exit 1
+fi
+
+# Resolve a usable port. If the chosen port is busy: when it's the default, fall
+# back to the next free one; when the user picked it (env/--port), fail clearly.
+if [[ -f "$HERE/find-free-port.cjs" ]]; then
+  if CHOSEN="$("$NODE_BIN" "$HERE/find-free-port.cjs" "$PORT" "$PORT_EXPLICIT")"; then
+    if [[ -n "$CHOSEN" && "$CHOSEN" != "$PORT" ]]; then
+      echo "Port $PORT is in use — starting on $CHOSEN instead." >&2
+      PORT="$CHOSEN"
+    fi
+  else
+    if [[ "$PORT_EXPLICIT" -eq 1 ]]; then
+      echo "devhub: port $PORT is already in use. Free it (lsof -iTCP:$PORT) or pick another with --port." >&2
+    else
+      echo "devhub: no free port found near $PORT." >&2
+    fi
+    exit 1
+  fi
+fi
+export DEVHUB_PORT="$PORT"
+
+RELEASE="$(cat "$HERE/.devhub-release" 2>/dev/null || echo 'local build')"
+echo "Starting TIBCO Developer Hub (portable)"
+echo "  Version: ${RELEASE}"
+echo "  URL:     http://localhost:${PORT}"
+echo "  Data:    ${DEVHUB_DATA_DIR}"
+echo
+
+# Entry point: the single-file esbuild bundle (index.js) if present, otherwise the
+# folder bundle (packages/backend). Both layouts ship the same launcher.
+if [[ -f "$HERE/index.js" ]]; then
+  ENTRY="$HERE/index.js"
+else
+  ENTRY="$HERE/packages/backend"
+fi
+
+exec "$NODE_BIN" "$ENTRY" \
+  --config "$HERE/app-config.portable.yaml" \
+  ${EXTRA_CONFIGS[@]+"${EXTRA_CONFIGS[@]}"}
