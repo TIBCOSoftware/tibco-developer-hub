@@ -85,9 +85,11 @@ if [[ -f "$HERE/find-free-port.cjs" ]]; then
 fi
 export DEVHUB_PORT="$PORT"
 
+RELEASE="$(cat "$HERE/.devhub-release" 2>/dev/null || echo 'local build')"
 echo "Starting TIBCO Developer Hub (portable)"
-echo "  URL:  http://localhost:${PORT}"
-echo "  Data: ${DEVHUB_DATA_DIR}"
+echo "  Version: ${RELEASE}"
+echo "  URL:     http://localhost:${PORT}"
+echo "  Data:    ${DEVHUB_DATA_DIR}"
 echo
 
 # Entry point: the single-file esbuild bundle (index.js) if present, otherwise the

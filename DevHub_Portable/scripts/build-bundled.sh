@@ -7,8 +7,9 @@
 # assets). Result: ~3k files, so the zip extracts in seconds.
 #
 # Output: DevHub_Portable/dist/devhub-bundled-<os>-<arch>/ and a matching .zip.
-# Native modules are compiled for the host, so this builds only the host platform;
-# the other targets come from the GitHub Actions matrix.
+# Native modules are compiled for the host, so this builds only the host platform.
+# To build all targets locally, use build-all.sh (host + Linux via Docker); the
+# Windows zip is built by running build-bundled.ps1 on a Windows machine.
 #
 # Usage:
 #   DevHub_Portable/scripts/build-bundled.sh [--skip-install] [--no-zip] [--keep-node]
@@ -123,6 +124,9 @@ cp "$PORTABLE_DIR/launchers/devhub" "$BUNDLE/devhub"
 cp "$PORTABLE_DIR/launchers/find-free-port.cjs" "$BUNDLE/find-free-port.cjs"
 chmod +x "$BUNDLE/devhub"
 mkdir -p "$BUNDLE/data"
+# Version stamp shown on launch. For release downloads the installer overwrites this
+# with the release tag; a directly-run local build keeps this build marker.
+printf 'local build %s\n' "$(date -u +%Y-%m-%dT%H:%MZ)" > "$BUNDLE/.devhub-release"
 
 cat > "$BUNDLE/README.txt" <<EOF
 TIBCO Developer Hub — Portable, bundled ($TARGET)

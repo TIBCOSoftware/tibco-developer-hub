@@ -22,6 +22,10 @@ param(
   [switch]$KeepNode
 )
 $ErrorActionPreference = 'Stop'
+# Invoke-WebRequest is 10-50x slower while its progress bar is on (Windows PowerShell
+# re-renders it constantly and buffers the whole response in memory), which makes the
+# Node download crawl. Disable it for the whole script.
+$ProgressPreference = 'SilentlyContinue'
 
 $ScriptDir   = Split-Path -Parent $MyInvocation.MyCommand.Path
 $PortableDir = Split-Path -Parent $ScriptDir
@@ -71,8 +75,15 @@ $env:DEVHUB_PORT = '7071'
 $env:DEVHUB_DATA_DIR = $DataDir
 $env:DOC_URL = 'https://example.com'
 $env:NODE_OPTIONS = '--no-node-snapshot'
-# Self-exits after DEVHUB_TRACE_EXIT_MS; tolerate a non-zero exit.
+# Self-exits after DEVHUB_TRACE_EXIT_MS. Booting the bundle writes warnings to stderr
+# (e.g. the punycode DeprecationWarning); with $ErrorActionPreference='Stop' PowerShell
+# turns native-command stderr into a terminating NativeCommandError, so relax it just for
+# this call. The *> redirect captures all output to the log, and success is judged by
+# whether the package list was written (checked below), not by the exit/stderr.
+$prevEAP = $ErrorActionPreference
+$ErrorActionPreference = 'Continue'
 & node (Join-Path $ScriptDir 'trace-requires.cjs') --config (Join-Path $PortableDir 'config\app-config.portable.yaml') *> (Join-Path $DataDir 'trace.log')
+$ErrorActionPreference = $prevEAP
 if (-not (Test-Path $PkgList) -or (Get-Item $PkgList).Length -eq 0) {
   Write-Host (Get-Content (Join-Path $DataDir 'trace.log') -Tail 30 -ErrorAction SilentlyContinue)
   throw 'trace produced no package list'
@@ -94,7 +105,15 @@ $NodePkg = "node-$NodeVersion-win-$Arch"   # nodejs.org uses the "win" token
 $TmpNode = Join-Path ([System.IO.Path]::GetTempPath()) ("devhub-node-" + [System.Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $TmpNode | Out-Null
 $NodeZip = Join-Path $TmpNode 'node.zip'
-Invoke-WebRequest -Uri "https://nodejs.org/dist/$NodeVersion/$NodePkg.zip" -OutFile $NodeZip
+$NodeUrl = "https://nodejs.org/dist/$NodeVersion/$NodePkg.zip"
+# Prefer curl.exe (ships with Windows 10 1803+) for full-speed streaming; fall back to IWR.
+$curl = Get-Command curl.exe -ErrorAction SilentlyContinue
+if ($curl) {
+  & $curl.Source -fSL --retry 3 $NodeUrl -o $NodeZip
+  if ($LASTEXITCODE -ne 0) { throw "Node download failed (curl exit $LASTEXITCODE)" }
+} else {
+  Invoke-WebRequest -Uri $NodeUrl -OutFile $NodeZip
+}
 Expand-Archive -Path $NodeZip -DestinationPath $TmpNode
 if (Test-Path (Join-Path $Bundle 'node')) { Remove-Item -Recurse -Force (Join-Path $Bundle 'node') }
 Move-Item (Join-Path $TmpNode $NodePkg) (Join-Path $Bundle 'node')
@@ -114,6 +133,10 @@ Copy-Item (Join-Path $PortableDir 'config\app-config.portable.yaml') $Bundle
 Copy-Item (Join-Path $PortableDir 'launchers\devhub.cmd') $Bundle
 Copy-Item (Join-Path $PortableDir 'launchers\find-free-port.cjs') $Bundle
 New-Item -ItemType Directory -Path (Join-Path $Bundle 'data') | Out-Null
+# Version stamp shown on launch. For release downloads the installer overwrites this
+# with the release tag; a directly-run local build keeps this build marker.
+Set-Content -Path (Join-Path $Bundle '.devhub-release') `
+  -Value ("local build " + (Get-Date -Format 'yyyy-MM-ddTHH:mmZ')) -NoNewline
 
 @"
 TIBCO Developer Hub - Portable, bundled ($Target)

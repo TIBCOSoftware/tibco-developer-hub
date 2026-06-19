@@ -75,9 +75,12 @@ if exist "%HERE%\find-free-port.cjs" (
   set "DEVHUB_PORT=!CHOSENPORT!"
 )
 
+set "DEVHUB_RELEASE=local build"
+if exist "%HERE%\.devhub-release" set /p DEVHUB_RELEASE=<"%HERE%\.devhub-release"
 echo Starting TIBCO Developer Hub (portable)
-echo   URL:  http://localhost:%DEVHUB_PORT%
-echo   Data: %DEVHUB_DATA_DIR%
+echo   Version: %DEVHUB_RELEASE%
+echo   URL:     http://localhost:%DEVHUB_PORT%
+echo   Data:    %DEVHUB_DATA_DIR%
 echo.
 
 REM Entry point: single-file esbuild bundle (index.js) if present, else folder bundle.

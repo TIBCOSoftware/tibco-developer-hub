@@ -51,6 +51,7 @@ if (-not $Url) {
 $Dest = $InstallRoot
 $Bundle = Join-Path $Dest $Name
 $Launcher = Join-Path $Bundle 'devhub.cmd'
+if ($Version -ne 'latest') { Write-Host "devhub-install: release: $Version" }
 
 if (($env:DEVHUB_FORCE -eq '1') -and (Test-Path $Bundle)) { Remove-Item -Recurse -Force $Bundle }
 
@@ -77,9 +78,22 @@ if (-not (Test-Path $Launcher)) {
   try { Add-Type -AssemblyName System.IO.Compression.FileSystem -ErrorAction Stop } catch {}
   [System.IO.Compression.ZipFile]::ExtractToDirectory($tmpZip, $Dest)
   Remove-Item -Force $tmpZip
+  # Record which release this bundle came from (the launcher prints it on start).
+  Set-Content -Path (Join-Path $Bundle '.devhub-release') -Value $Version -NoNewline
 }
 
 if (-not (Test-Path $Launcher)) { throw "bundle launcher not found at $Launcher after extraction." }
+
+# If an existing bundle was reused (no download) and the latest release is newer, hint at
+# upgrading — the extracted folder name has no version, so it isn't auto-updated.
+$installed = if (Test-Path (Join-Path $Bundle '.devhub-release')) { (Get-Content (Join-Path $Bundle '.devhub-release') -Raw).Trim() } else { 'unknown' }
+if ($Version -ne 'latest' -and $installed -ne $Version) {
+  if ($installed -eq 'unknown') {
+    Write-Host "devhub-install: installed version unknown (older bundle); latest is $Version - set `$env:DEVHUB_FORCE=1 to refresh."
+  } else {
+    Write-Host "devhub-install: installed $installed; latest is $Version - set `$env:DEVHUB_FORCE=1 to upgrade."
+  }
+}
 
 # Build pass-through args.
 $devhubArgs = @()

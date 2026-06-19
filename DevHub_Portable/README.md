@@ -1,81 +1,78 @@
-# DevHub Portable
+# Getting started with DevHub Portable
 
-A self-contained build of the TIBCO® Developer Hub that runs the **frontend and
-backend in a single process**, with **no Docker and no Postgres** required. Point it
-at your own catalog YAMLs and pick a port from the command line.
+Run the **TIBCO® Developer Hub** on your own machine with a single command — no Docker,
+no Postgres, no install wizard. It's a self-contained download that starts the full hub
+(UI + API) on `http://localhost:7007`.
 
-This works because in production TIBCO Developer Hub already serves the UI and the API
-from one backend process (the `@backstage/plugin-app-backend` plugin) on a single port.
-The portable build bundles that backend into a single `index.js` (via esbuild) plus a
-minimal `node_modules` (just the native modules and on-disk assets it loads at runtime),
-an embedded Node runtime, and a launcher. The result is ~3,000 files, so the zip
-extracts in seconds.
+---
 
-## Quick start — one command
+## 1. Install & run (one command)
 
-The bootstrap script auto-detects your OS/arch, downloads the matching bundle from the
-GitHub release, extracts it into the **current folder** (`./devhub-bundled-<os>-<arch>/`),
-and starts the hub. Re-running just relaunches the extracted bundle, so it doubles as the
-"run" command. (Override the location with `DEVHUB_DIR`.)
+Open a terminal in the folder where you want it to live, then run the line for your OS.
+It downloads the right build for your machine, unpacks it, and starts the hub.
+
+### macOS / Linux
 
 ```bash
-# macOS / Linux — starts on http://localhost:7007
 curl -fsSL https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/main/DevHub_Portable/install.sh | bash
-
-# pass args through after `--` (port, extra config, …)
-curl -fsSL https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/main/DevHub_Portable/install.sh | bash -s -- --port 8088 --config ./my.yaml
 ```
+
+### Windows (PowerShell)
 
 ```powershell
-# Windows (PowerShell) — download, then run with the execution policy bypassed
-# (downloaded .ps1 files are blocked by default). Run the two lines as-is; quote the
-# path and DO NOT join them with `&` (that's the call operator, not a separator).
 irm https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/main/DevHub_Portable/install.ps1 -OutFile "$env:TEMP\devhub-install.ps1"
-powershell -ExecutionPolicy Bypass -File "$env:TEMP\devhub-install.ps1" -Port 8088
+powershell -ExecutionPolicy Bypass -File "$env:TEMP\devhub-install.ps1"
 ```
 
-Add `-Config .\my.yaml` to the second line only if that file exists.
+When it finishes you'll see `Listening on 127.0.0.1:7007`. Open **http://localhost:7007**
+in your browser and sign in as **Guest**. 🎉
 
-Pin a specific release or point at a custom asset with env vars (see the top of
-`install.sh`): `DEVHUB_VERSION=portable-v1.0.0`, `DEVHUB_REPO=owner/repo`,
-`DEVHUB_URL=<zip url>`, `DEVHUB_DIR=<cache dir>`. Requires `curl` and `unzip`.
+> First launch loads a small example catalog from GitHub, so give it a few seconds.
 
-> Releases are published by the CI workflow when you push a `portable-v*` tag. Until a
-> release exists, use the manual download below or set `DEVHUB_URL`.
+To stop the hub, press **Ctrl-C** in the terminal. To start it again later, just re-run
+the same command — it relaunches the already-downloaded copy (no re-download).
 
-## Running a bundle (manual download)
+---
 
-Download/extract a `devhub-bundled-<os>-<arch>.zip` and run the launcher from inside it:
+## 2. Choosing a port
+
+The hub uses port **7007** by default. If that port is busy it automatically picks the
+next free one and tells you which. To set it yourself:
 
 ```bash
 # macOS / Linux
-./devhub                       # http://localhost:7007
-./devhub --port 8088           # custom port
-./devhub --config ./my.yaml    # load extra app-config (repeatable)
+curl -fsSL https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/main/DevHub_Portable/install.sh | bash -s -- --port 8088
 ```
 
+```powershell
+# Windows
+powershell -ExecutionPolicy Bypass -File "$env:TEMP\devhub-install.ps1" -Port 8088
+```
+
+Already downloaded? Run the launcher inside the extracted folder directly:
+
+```bash
+# macOS / Linux  (folder: ./devhub-bundled-<os>-<arch>/)
+./devhub --port 8088
+```
 ```bat
-:: Windows
-devhub.cmd
+:: Windows  (folder: .\devhub-bundled-win32-x64\)
 devhub.cmd --port 8088
-devhub.cmd --config .\my.yaml
 ```
 
-| Flag | Default | Purpose |
-|------|---------|---------|
-| `--port <n>` | `7007` | Port the hub listens on (UI + API). URL is `http://localhost:<n>`. If the default `7007` is busy, the launcher automatically picks the next free port and prints it. |
-| `--config <path>` | — | Extra app-config layered on top of the built-in portable config. Repeatable. Use it to add `catalog.locations`, integrations, auth, etc. |
+---
 
-### Loading your own catalog YAMLs
+## 3. Load your own catalog
 
-Create a small config file and pass it with `--config`:
+Create a small YAML file pointing at your entities, then pass it with `--config`. You can
+pass `--config` more than once.
 
 ```yaml
 # my.yaml
 catalog:
   locations:
     - type: file
-      target: /absolute/path/to/my-component.yaml
+      target: /absolute/path/to/catalog-info.yaml
     - type: url
       target: https://github.com/acme/repo/blob/main/catalog-info.yaml
 ```
@@ -84,57 +81,61 @@ catalog:
 ./devhub --config ./my.yaml
 ```
 
-### Data & persistence
+The same `--config` flag also lets you add integrations, auth providers, etc. — anything
+that's valid Backstage `app-config`. It's layered on top of the built-in portable config.
 
-State (a SQLite database per plugin, plus the scaffolder workspace) is stored under
-`./data` next to the launcher and **persists across restarts**. Delete `./data` to
-reset. Override the location with the `DEVHUB_DATA_DIR` environment variable.
+---
 
-### Notes / limitations
+## 4. Data & resetting
 
-- Served at the **root path** (`http://localhost:<port>/`), unlike the production
-  deployment which sits behind an ingress at `/tibco/hub`. Only host/port are dynamic
-  at runtime (the base path is baked at build time). Auth defaults to **guest** sign-in.
-- **TechDocs** page rendering needs Python 3 + `mkdocs-techdocs-core` on `PATH` (not
-  bundled). The hub starts fine without it; only opening a docs page would fail.
-- Set `GITHUB_TOKEN` in your environment before launching to enable GitHub-backed
-  features (catalog imports, scaffolder publish, etc.).
+Everything you create (catalog database, scaffolder workspace) is stored in a **`data/`**
+folder next to the launcher and **survives restarts**. To start completely fresh, delete
+that `data/` folder.
 
-## Building
+---
 
-Native modules (`isolated-vm`, `better-sqlite3`) are compiled C++ and **cannot be
-cross-compiled**, so each OS/arch must be built on its own platform.
+## 5. Optional: a GitHub token
 
-### Locally (current platform only)
-
-Requires Node 22/24, Yarn (`corepack enable`), and a C++ toolchain + Python 3.
+Without a token, GitHub features work anonymously and are rate-limited (60 requests/hour).
+Set a token before launching to lift that and enable catalog imports / scaffolder publish:
 
 ```bash
-DevHub_Portable/scripts/build-bundled.sh           # macOS / Linux
-DevHub_Portable/scripts/build-bundled.ps1          # Windows (PowerShell)
+# macOS / Linux
+export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxx
+./devhub
+```
+```powershell
+# Windows
+$env:GITHUB_TOKEN = "ghp_xxxxxxxxxxxxxxxx"
+.\devhub.cmd
 ```
 
-Output: `DevHub_Portable/dist/devhub-bundled-<os>-<arch>/` plus a matching `.zip`. The
-embedded Node runtime matches your host's Node version (so the compiled native modules'
-ABI matches).
+---
 
-### All platforms (CI)
+## Troubleshooting
 
-`.github/workflows/devhub-portable.yml` builds all four targets on a runner matrix
-(macOS arm64 + x64, Linux x64, Windows x64). Trigger it manually ("Run workflow") or
-push a tag like `portable-v1.0.0` to also attach the zips to a GitHub release. Artifacts
-are named `devhub-bundled-<target>`.
+| Symptom | Fix |
+|---|---|
+| **macOS: "devhub" cannot be opened / developer cannot be verified** | The download was quarantined. The install script clears this automatically; if you extracted manually, run `xattr -cr .` inside the folder, then `./devhub`. |
+| **Windows: running a `.ps1` is blocked** | Use the `powershell -ExecutionPolicy Bypass -File …` form shown above (it's already in the one-liner). |
+| **"Port 7007 is in use"** | The launcher auto-picks the next free port and prints it — just open the URL it shows. Or pass `--port <n>` yourself. |
+| **A TechDocs page won't render** | Rendering needs Python 3 + `mkdocs-techdocs-core` on your `PATH` (not bundled). The hub still runs fine; only the docs page is affected. |
+| **The page won't load at `localhost`** | Make sure you opened the exact port from the startup log (`Listening on 127.0.0.1:<port>`), and that the terminal is still running. |
+| **`curl` or `unzip` not found (Linux)** | Install them, e.g. `sudo apt-get install -y curl unzip`. |
 
-## How it's assembled
+---
 
-1. `yarn workspace app build` → builds the frontend static assets with a root base path.
-2. **esbuild** bundles `packages/backend/src/index.ts` into a single `index.js`, marking
-   native modules and a few packages that load their own on-disk assets as external.
-3. A trace boot (`trace-requires.cjs`) records exactly which packages the bundle loads at
-   runtime; `build-sidecar.cjs` copies just those into a minimal `node_modules` (native
-   modules whole, the `@backstage/*` backend plugins reduced to `package.json` +
-   `migrations/`), and prunes foreign-platform prebuilds.
-4. Download the matching Node runtime from `nodejs.org` into `node/`, stripped to just the
-   binary.
-5. Add `app-config.portable.yaml`, the launcher (+ `find-free-port.cjs`), and `data/`.
-6. Zip it.
+## Manual download (no script)
+
+Prefer to grab the file yourself? Go to the project's **Releases**, download
+`devhub-bundled-<your-os>-<arch>.zip`, unzip it, and run the launcher inside:
+
+- macOS / Linux: `./devhub`
+- Windows: double-click `devhub.cmd` (or run it from a terminal)
+
+On macOS, if it's blocked, run `xattr -cr .` in the folder first.
+
+---
+
+That's it — one download, one command, and you've got a local TIBCO Developer Hub. For
+build details and configuration internals, see [`README.md`](./README.md).

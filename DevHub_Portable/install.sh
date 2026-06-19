@@ -62,6 +62,7 @@ fi
 
 DEST="$INSTALL_ROOT"
 BUNDLE="$DEST/$NAME"
+[ "$VERSION" != "latest" ] && err "release: $VERSION"
 
 # --- download + extract (once) -----------------------------------------------
 if [ "${DEVHUB_FORCE:-0}" = "1" ]; then rm -rf "$BUNDLE"; fi
@@ -81,10 +82,22 @@ if [ ! -x "$BUNDLE/devhub" ]; then
   if [ "$OS" = "darwin" ] && have xattr; then
     xattr -dr com.apple.quarantine "$BUNDLE" 2>/dev/null || true
   fi
+  # Record which release this bundle came from (the launcher prints it on start).
+  printf '%s\n' "$VERSION" > "$BUNDLE/.devhub-release"
 fi
 
 [ -x "$BUNDLE/devhub" ] || die "bundle launcher not found at $BUNDLE/devhub after extraction."
 
 # --- run ---------------------------------------------------------------------
+# If an existing bundle was reused (no download) and the latest release is newer,
+# hint at upgrading — the extracted folder name has no version, so it isn't auto-updated.
+INSTALLED="$(cat "$BUNDLE/.devhub-release" 2>/dev/null || echo unknown)"
+if [ "$VERSION" != "latest" ] && [ "$INSTALLED" != "$VERSION" ]; then
+  if [ "$INSTALLED" = "unknown" ]; then
+    err "installed version unknown (older bundle); latest is $VERSION — run with DEVHUB_FORCE=1 to refresh."
+  else
+    err "installed $INSTALLED; latest is $VERSION — run with DEVHUB_FORCE=1 to upgrade."
+  fi
+fi
 err "starting hub from $BUNDLE"
 exec "$BUNDLE/devhub" "$@"
