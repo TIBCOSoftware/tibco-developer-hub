@@ -52,10 +52,13 @@ have unzip  || die "unzip is required (install it, e.g. 'apt-get install unzip')
 # --- resolve the download URL ------------------------------------------------
 if [ -z "${DEVHUB_URL:-}" ]; then
   if [ "$VERSION" = "latest" ]; then
-    err "resolving latest release of $REPO ..."
-    VERSION="$(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest" \
-      | grep '"tag_name"' | head -1 | sed -E 's/.*"tag_name": *"([^"]+)".*/\1/')"
-    [ -n "$VERSION" ] || die "could not resolve latest release. Set DEVHUB_VERSION=portable-vX.Y.Z."
+    err "resolving latest portable release of $REPO ..."
+    # The repo may also host non-portable (product) releases, so don't trust
+    # /releases/latest — list releases and pick the highest portable-v* tag.
+    VERSION="$(curl -fsSL "https://api.github.com/repos/$REPO/releases?per_page=100" \
+      | grep '"tag_name"' | sed -E 's/.*"tag_name": *"([^"]+)".*/\1/' \
+      | grep '^portable-v' | sort -V | tail -1)"
+    [ -n "$VERSION" ] || die "could not resolve a portable-v* release. Set DEVHUB_VERSION=portable-vX.Y.Z."
   fi
   DEVHUB_URL="https://github.com/$REPO/releases/download/$VERSION/$NAME.zip"
 fi

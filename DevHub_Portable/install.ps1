@@ -40,10 +40,15 @@ $InstallRoot = if ($env:DEVHUB_DIR) { $env:DEVHUB_DIR } else { (Get-Location).Pa
 
 if (-not $Url) {
   if ($Version -eq 'latest') {
-    Write-Host "devhub-install: resolving latest release of $Repo ..."
-    $rel = Invoke-RestMethod "https://api.github.com/repos/$Repo/releases/latest"
-    $Version = $rel.tag_name
-    if (-not $Version) { throw "could not resolve latest release; pass -Version portable-vX.Y.Z" }
+    Write-Host "devhub-install: resolving latest portable release of $Repo ..."
+    # The repo may also host non-portable (product) releases, so don't trust
+    # /releases/latest — list releases and pick the highest portable-v* tag.
+    $rels = Invoke-RestMethod "https://api.github.com/repos/$Repo/releases?per_page=100"
+    $Version = $rels |
+      Where-Object { $_.tag_name -match '^portable-v[\d.]+$' } |
+      Sort-Object { [version]($_.tag_name -replace '^portable-v','') } |
+      Select-Object -Last 1 -ExpandProperty tag_name
+    if (-not $Version) { throw "could not resolve a portable-v* release; pass -Version portable-vX.Y.Z" }
   }
   $Url = "https://github.com/$Repo/releases/download/$Version/$Name.zip"
 }
