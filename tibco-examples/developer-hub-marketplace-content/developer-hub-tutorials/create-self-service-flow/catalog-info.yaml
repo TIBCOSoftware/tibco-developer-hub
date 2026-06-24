@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: create-self-service-flows-doc
+  description: Create Self Service Flows Documentation
+spec:
+  type: organization
+  profile:
+    displayName: Create Self Service Flows Documentation
+#    email: info@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: create-self-service-flows-doc
+  description: A group of documents
+spec:
+  owner: create-self-service-flows-doc
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: create-self-service-flows
+  description: 'Create Self Service Flows'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - documentation
+    - tibco-hub-documentation
+spec:
+  owner: create-self-service-flows-doc
+  domain: create-self-service-flows-doc
