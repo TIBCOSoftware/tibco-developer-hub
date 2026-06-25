@@ -13,9 +13,20 @@
 | **Application Module** | `Retail_Order_Queue` |
 | **Application Project** | `Retail_Order_Queue.application` |
 
+### Prompt 1:
+```
+Can you create an application called Retail_Order_Queue ?
+```
+
+
 ---
 
 ## 2. Module Properties Configuration
+
+### Prompt 2:
+```
+Can you add the following module properties (both String): QUEUE_NAME = retail.orders.queue, OUTPUT_FILE = C:\tmp\RetailOrders\orders.log ?
+```
 
 Create and Configure the following module properties:
 
@@ -27,6 +38,13 @@ Create and Configure the following module properties:
 ---
 
 ## 3. Shared Resources
+
+### Prompt 3:
+```
+Can you create the following shared resources:
+- A JNDI configuration called EMSConfig (retail.jms.EMSConfig) with Provider = TIBCO EMS, Initial Context Factory = com.tibco.tibjms.naming.TibjmsInitialContextFactory, Provider URL = tibjmsnaming://localhost:7222
+- A JMS connection called RetailJMSConnection (Retail_Order_Queue.RetailJMSConnection) with Messaging Style = Queue and JNDI Configuration = retail.jms.EMSConfig
+```
 
 ### JNDI Configuration
 
@@ -48,6 +66,15 @@ Create and Configure the following module properties:
 ---
 
 ## 4. Process Logic
+
+### Prompt 4:
+```
+In the process ReceiveRetailOrder.bwp, can you add the activities JMS Receive Message → Log → Write File → Reply to JMS Message and link them in sequence, then configure:
+- JMS Receive Message: JMS Connection = Retail_Order_Queue.RetailJMSConnection, Messaging Style = Queue, Destination = module property QUEUE_NAME
+- Log: message = concat("Retail order received: ", $JMSReceiveMessage/Body)
+- Write File: FileName = module property OUTPUT_FILE, Append = true, Create Non Existing Directories = true
+- Reply to JMS Message: Body = "Retail order processed successfully"
+```
 
 **Process Name: ReceiveRetailOrder.bwp**
 

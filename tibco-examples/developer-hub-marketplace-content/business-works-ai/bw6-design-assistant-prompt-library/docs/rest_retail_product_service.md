@@ -13,9 +13,20 @@
 | **Application Module** | `Retail_Product_Service` |
 | **Application Project** | `Retail_Product_Service.application` |
 
+### Prompt 1:
+```
+Can you create an application called Retail_Product_Service ?
+```
+
+
 ---
 
 ## 2. Schemas and Resources
+
+### Prompt 2:
+```
+Can you add a schema called Product.xsd with the elements productId (xs:integer), productName (xs:string), productPrice (xs:decimal) and category (xs:string), using the XML below ?
+```
 
 Create the following schema file and add it to the project:
 
@@ -52,6 +63,13 @@ Create the following schema file and add it to the project:
 ---
 
 ## 3. REST Service Configuration
+
+### Prompt 3:
+```
+Can you create a REST service called ProductService with Swagger documentation enabled and the following two operations:
+- GET Product: HTTP Method GET, Path /products/{productId}, Response Schema Product.xsd, mapping productId = $ReceiveHTTPRequest/Parameters/productId, productName = "Sample Product", productPrice = xsd:decimal("99.99"), category = "General"
+- POST Product: HTTP Method POST, Path /products, Request Schema and Response Schema Product.xsd, mapping productId, productName, productPrice and category from $ReceiveHTTPRequest/Body/tns:Product/...
+```
 
 **Name:** ProductService
 
@@ -93,6 +111,15 @@ Create the following schema file and add it to the project:
 ---
 
 ## 4. Process Logic
+
+### Prompt 4:
+```
+In the process ProductAPIProcess.bwp, can you add the activities Receive HTTP Request → Mapper → Log → Send HTTP Response and link them in sequence, then configure:
+- Receive HTTP Request: REST Service = Retail_Product_Service.ProductService, Operation = the respective GET or POST operation
+- Mapper: use schema Product.xsd and map the fields per the GET or POST operation (see below)
+- Log: message = concat("Retail product request: ", $ReceiveHTTPRequest/Body/tns:Product/tns:productName)
+- Send HTTP Response: Response Code = 200, Body = $Mapper/tns:Product
+```
 
 **Process Name: ProductAPIProcess.bwp**
 

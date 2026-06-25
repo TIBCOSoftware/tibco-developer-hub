@@ -13,9 +13,20 @@
 | **Application Module** | `retail.bw.sample.palette.subprocess.RetailReturnProcess` |
 | **Application Project** | `retail.bw.sample.palette.subprocess.RetailReturnProcess.application` |
 
+### Prompt 1:
+```
+Can you create an application called retail.bw.sample.palette.subprocess.RetailReturnProcess ?
+```
+
+
 ---
 
 ## 2. Process Architecture
+
+### Prompt 2:
+```
+Can you create two processes, ReturnMainProcess.bwp and ValidateReturn.bwp, in the package retailreturnprocess ?
+```
 
 ### Process Inventory
 
@@ -29,6 +40,15 @@
 ## 3. Process Logic
 
 ### 1. ReturnMainProcess.bwp
+
+### Prompt 3:
+```
+In ReturnMainProcess.bwp, can you add the activities Timer → Log → CallProcess → Log1 and link them in sequence, then configure:
+- Timer: Interval = 60 seconds
+- Log: message = "Retail return initiated"
+- CallProcess: Process Name = ValidateReturn.bwp
+- Log1: message = "Retail return completed"
+```
 
 #### Create below activities in sequence & link them
 
@@ -59,6 +79,13 @@
 ---
 
 ### 2. ValidateReturn.bwp
+
+### Prompt 4:
+```
+In ValidateReturn.bwp, can you add the activities Start → Mapper → Log → End and link them in sequence, then configure:
+- Mapper: customerId = "CUST1001", returnStatus = "Approved"
+- Log: message = $Mapper/returnStatus
+```
 
 #### Create below activities in sequence & link them
 

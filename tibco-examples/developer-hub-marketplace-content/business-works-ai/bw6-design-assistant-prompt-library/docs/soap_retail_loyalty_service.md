@@ -13,9 +13,22 @@
 | **Application Module** | `retailLoyaltyService` |
 | **Application Project** | `retailLoyaltyService.application` |
 
+### Prompt 1:
+```
+Can you create an application called retailLoyaltyService ?
+```
+
+
 ---
 
 ## 2. Schemas and Resources
+
+### Prompt 2:
+```
+Can you add a WSDL called LoyaltyService.wsdl to the project using the definition below ? It defines a GetLoyaltyPoints operation with a LoyaltyRequest input (customerId, requestDate) and a LoyaltyResponse output (customerId, loyaltyPoints, customerTier).
+```
+
+> If you prefer to add the WSDL manually instead, follow the WSDL Setup steps below.
 
 ### WSDL Setup
 
@@ -95,6 +108,16 @@
 ---
 
 ## 3. Process Logic
+
+### Prompt 3:
+```
+Can you generate a process called LoyaltyProcess.bwp from the WSDL LoyaltyService.wsdl using the GetLoyaltyPoints operation (this auto-generates the SOAP Receive and SOAP Reply activities), then between them add a Mapper → Log and configure:
+- Mapper: customerId = $SOAPReceive/Body/tns:LoyaltyRequest/tns:customerId, loyaltyPoints = xsd:integer("250"), customerTier = "Gold"
+- Log: message = concat("Retail loyalty request received for customer: ", $SOAPReceive/Body/tns:LoyaltyRequest/tns:customerId)
+- SOAP Reply: customerId = $Mapper/customerId, loyaltyPoints = $Mapper/loyaltyPoints, customerTier = $Mapper/customerTier
+```
+
+> **Note:** Do NOT manually add or configure the SOAP Receive activity — it must be generated from the WSDL.
 
 **Process Name: LoyaltyProcess.bwp**
 

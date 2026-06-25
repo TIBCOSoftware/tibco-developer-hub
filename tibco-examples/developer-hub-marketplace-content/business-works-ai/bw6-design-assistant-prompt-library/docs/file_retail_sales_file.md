@@ -13,9 +13,20 @@
 | **Application Module** | `retail.bw.sample.palette.file.RetailDailySales` |
 | **Application Project** | `retail.bw.sample.palette.file.RetailDailySales.application` |
 
+### Prompt 1:
+```
+Can you create an application called retail.bw.sample.palette.file.RetailDailySales ?
+```
+
+
 ---
 
 ## 2. Module Properties Configuration
+
+### Prompt 2:
+```
+Can you add the following module properties (all String): OUTPUT_FILE = C:/Retail/Output/sales_summary.txt, DEFAULT_STORE_NAME = RetailMart, DEFAULT_TOTAL_SALES = 15000.00, DEFAULT_SALES_DATE = 2025-01-01 ?
+```
 
 Create and Configure the following module properties:
 
@@ -30,6 +41,11 @@ Create and Configure the following module properties:
 
 ## 3. Process Properties Configuration
 
+### Prompt 3:
+```
+For the process SalesFileProcessor.bwp, can you add the following process properties (all String), each defaulting to the module property of the matching name: storeName = DEFAULT_STORE_NAME, totalSales = DEFAULT_TOTAL_SALES, salesDate = DEFAULT_SALES_DATE, OUTPUT_FILE = OUTPUT_FILE ?
+```
+
 Create and Configure the following process properties for `SalesFileProcessor.bwp`:
 
 | Property Name | Data Type | Value |
@@ -42,6 +58,11 @@ Create and Configure the following process properties for `SalesFileProcessor.bw
 ---
 
 ## 4. Schemas and Resources
+
+### Prompt 4:
+```
+Can you add a schema called RetailSalesSchema.xsd with the elements storeName (xs:string), totalSales (xs:decimal) and salesDate (xs:date), using the XML below ?
+```
 
 Create the following schema file and add it to the project:
 
@@ -76,6 +97,15 @@ Create the following schema file and add it to the project:
 ---
 
 ## 5. Process Logic
+
+### Prompt 5:
+```
+In the process SalesFileProcessor.bwp, can you add the activities Timer → Mapper → Write File → Log and link them in sequence, then configure:
+- Timer: Interval = 60 seconds
+- Mapper: use schema RetailSalesSchema.xsd, set storeName = $storeName, totalSales = xsd:decimal($totalSales), salesDate = xsd:date($salesDate)
+- Write File: FileName = module property OUTPUT_FILE, Append = true, Create Non Existing Directories = true, textContent = concat("Store: ", $Mapper/tns:storeName, " | Date: ", $Mapper/tns:salesDate, " | Total Sales: ", string($Mapper/tns:totalSales))
+- Log: message = concat("Retail sales record processed for store: ", $Mapper/tns:storeName, " on ", $Mapper/tns:salesDate)
+```
 
 **Process Name: SalesFileProcessor.bwp**
 

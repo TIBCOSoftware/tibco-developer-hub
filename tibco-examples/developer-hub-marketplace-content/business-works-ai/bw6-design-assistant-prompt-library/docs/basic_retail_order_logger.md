@@ -7,9 +7,20 @@
 | **Application Module Name** | `Retail_Order_Logger` |
 | **Application Name** | `Retail_Order_Logger.application` |
 
+### Prompt 1:
+```
+Can you create an application called Retail_Order_Logger ?
+```
+
+
 ---
 
 ## A. Module Properties Configuration
+
+### Prompt 2:
+```
+Can you add the following module properties: orderStoreId (Long) = 10001, defaultOrderId (Integer) = 501, enableOrderValidation (Boolean) = true, orderApiPassword (Password) = Retail@123 ? Also create a group called retailGroup with a property storeName (String) = RetailMart.
+```
 
 Create and Configure the following module properties:
 
@@ -29,6 +40,11 @@ Create a new group **retailGroup** with the following property:
 ---
 
 ## B. Schemas and Resources
+
+### Prompt 3:
+```
+Can you add a schema called RetailOrderSchema.xsd to the project using the XML below ?
+```
 
 Copy the following schema into the project:
 
@@ -88,6 +104,11 @@ Copy the following schema into the project:
 
 ## C. Process Architecture
 
+### Prompt 4:
+```
+Can you create two processes, OrderProcess.bwp and ValidateOrder.bwp, in the package retail_order_logger ?
+```
+
 ### Process Inventory
 
 | Package Name | Process Name |
@@ -100,6 +121,16 @@ Copy the following schema into the project:
 ## D. Process Implementation
 
 ### 1. OrderProcess.bwp
+
+### Prompt 5:
+```
+In OrderProcess.bwp, can you add the activities Timer → Log → Mapper → Log1 → CallProcess → Log2 and link them in sequence, then configure:
+- Log: Input message = $Timer/Time
+- Mapper: use schema RetailOrderSchema.xsd, set orderName = $_processContext/ApplicationName and orderId = xsd:integer(bw:getModuleProperty("defaultOrderId"))
+- Log1: Input message = $Mapper/tns:orderName
+- CallProcess: call ValidateOrder.bwp
+- Log2: Input message = bw:getModuleProperty("orderApiPassword")
+```
 
 **Activities:** `Timer` → `Log` → `Mapper` → `Log1` → `CallProcess` → `Log2`
 
@@ -132,6 +163,13 @@ Link all activities in sequence.
 ---
 
 ### 2. ValidateOrder.bwp
+
+### Prompt 6:
+```
+In ValidateOrder.bwp, can you add the activities Start → Log → Log1 → End and link them in sequence, then configure:
+- Log: Input message = bw:getModuleProperty("BW.PROCESS.NAME")
+- Log1: Input message = bw:getModuleProperty("/retailGroup/storeName")
+```
 
 **Activities:** `Start` → `Log` → `Log1` → `End`
 
