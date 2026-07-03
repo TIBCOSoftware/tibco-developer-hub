@@ -4,7 +4,7 @@ metadata:
   name: document-generation-system
   description: 'TIBCO® Developer Hub Document generation system'
   annotations:
-    # github.com/project-slug: TIBCO-Hub-Backstage/tibco-next-demo
+    github.com/project-slug: TIBCOSoftware/tibco-developer-hub
     backstage.io/techdocs-ref: dir:.
   tags:
     - documentation

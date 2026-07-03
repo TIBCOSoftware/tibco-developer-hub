@@ -4,7 +4,7 @@ metadata:
   name: tibco-flogo-generators
   description: 'TIBCO® Flogo Extension Generators'
   annotations:
-    # github.com/project-slug: TIBCO-Hub-Backstage/tibco-next-demo
+    github.com/project-slug: TIBCOSoftware/flogo-enterprise-hub
     backstage.io/techdocs-ref: dir:.
   tags:
     - documentation

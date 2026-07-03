@@ -10,7 +10,7 @@ metadata:
     - title: Angular Home
       url: https://angular.io/
   annotations:
-    github.com/project-slug: TIBCO-Hub-Backstage/tibco-examples
+    github.com/project-slug: TIBCOSoftware/tibco-developer-hub
     backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/topology: #optional
     theme:
