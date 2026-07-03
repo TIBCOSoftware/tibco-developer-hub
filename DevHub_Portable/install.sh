@@ -21,6 +21,9 @@
 #                   REPO/VERSION; may be a file:// URL for local testing)
 #   DEVHUB_DIR      parent folder to extract into (default: current directory)
 #   DEVHUB_FORCE    set to 1 to re-download/re-extract even if already present
+#   DEVHUB_TECHDOCS set to 1 to install the self-contained "techdocs" bundle, which
+#                   embeds Python + mkdocs so TechDocs works with no host Python /
+#                   network (larger download)
 #
 set -euo pipefail
 
@@ -44,7 +47,12 @@ case "$(uname -m)" in
   *) die "unsupported architecture '$(uname -m)'." ;;
 esac
 TARGET="$OS-$ARCH"
-NAME="devhub-bundled-$TARGET"
+# The self-contained variant (embedded Python + mkdocs) is a separate release asset.
+if [ "${DEVHUB_TECHDOCS:-0}" = "1" ]; then
+  NAME="devhub-bundled-techdocs-$TARGET"
+else
+  NAME="devhub-bundled-$TARGET"
+fi
 
 have curl   || die "curl is required."
 have unzip  || die "unzip is required (install it, e.g. 'apt-get install unzip')."

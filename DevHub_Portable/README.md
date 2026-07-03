@@ -32,6 +32,32 @@ in your browser and sign in as **Guest**. 🎉
 To stop the hub, press **Ctrl-C** in the terminal. To start it again later, just re-run
 the same command — it relaunches the already-downloaded copy (no re-download).
 
+### Two builds: standard vs. self-contained TechDocs
+
+There are two downloads. Pick based on whether you need **documentation (TechDocs) pages**
+to render:
+
+| Build | When to use it | TechDocs requirements | Download size |
+|---|---|---|---|
+| **Standard** (`devhub-bundled-<os>-<arch>.zip`) | The default. Everything works except that rendering a TechDocs page needs Python. | The first time you open a docs page, the launcher builds a small Python environment for `mkdocs` — this needs **Python 3 already installed** and **one-time internet access**. | Smaller |
+| **Self-contained TechDocs** (`devhub-bundled-techdocs-<os>-<arch>.zip`) | You want docs to "just work", including on a machine with **no Python** or **no internet**. | None — a private Python + `mkdocs` runtime is bundled inside. | ~60 MB larger |
+
+Both builds are otherwise identical. The standard build still starts and runs fine without
+Python; only the TechDocs pages are affected.
+
+To install the **self-contained TechDocs** build, add `DEVHUB_TECHDOCS=1`:
+
+```bash
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/TIBCOSoftware/tibco-developer-hub/main/DevHub_Portable/install.sh | DEVHUB_TECHDOCS=1 bash
+```
+
+```powershell
+# Windows
+$env:DEVHUB_TECHDOCS = "1"
+powershell -ExecutionPolicy Bypass -File "$env:TEMP\devhub-install.ps1"
+```
+
 ---
 
 ## 2. Choosing a port
@@ -119,7 +145,7 @@ $env:GITHUB_TOKEN = "ghp_xxxxxxxxxxxxxxxx"
 | **macOS: "devhub" cannot be opened / developer cannot be verified** | The download was quarantined. The install script clears this automatically; if you extracted manually, run `xattr -cr .` inside the folder, then `./devhub`. |
 | **Windows: running a `.ps1` is blocked** | Use the `powershell -ExecutionPolicy Bypass -File …` form shown above (it's already in the one-liner). |
 | **"Port 7007 is in use"** | The launcher auto-picks the next free port and prints it — just open the URL it shows. Or pass `--port <n>` yourself. |
-| **A TechDocs page won't render** | Rendering needs Python 3 + `mkdocs-techdocs-core` on your `PATH` (not bundled). The hub still runs fine; only the docs page is affected. |
+| **A TechDocs page won't render** (`spawn mkdocs ENOENT`) | The **standard** build renders docs via `mkdocs`, which needs **Python 3** installed and internet access the first time (the launcher sets it up automatically into a local `.venv`). If you don't have Python — or want zero setup — use the **self-contained TechDocs** build instead (`DEVHUB_TECHDOCS=1`, see section 1). To skip TechDocs setup entirely, set `DEVHUB_SKIP_TECHDOCS=1`. The hub always runs fine regardless; only the docs page is affected. |
 | **The page won't load at `localhost`** | Make sure you opened the exact port from the startup log (`Listening on 127.0.0.1:<port>`), and that the terminal is still running. |
 | **`curl` or `unzip` not found (Linux)** | Install them, e.g. `sudo apt-get install -y curl unzip`. |
 
@@ -127,8 +153,10 @@ $env:GITHUB_TOKEN = "ghp_xxxxxxxxxxxxxxxx"
 
 ## Manual download (no script)
 
-Prefer to grab the file yourself? Go to the project's **Releases**, download
-`devhub-bundled-<your-os>-<arch>.zip`, unzip it, and run the launcher inside:
+Prefer to grab the file yourself? Go to the project's **Releases** and download the zip
+for your machine — either `devhub-bundled-<your-os>-<arch>.zip` (standard) or
+`devhub-bundled-techdocs-<your-os>-<arch>.zip` (self-contained TechDocs; see section 1).
+Unzip it, and run the launcher inside:
 
 - macOS / Linux: `./devhub`
 - Windows: double-click `devhub.cmd` (or run it from a terminal)
@@ -137,5 +165,4 @@ On macOS, if it's blocked, run `xattr -cr .` in the folder first.
 
 ---
 
-That's it — one download, one command, and you've got a local TIBCO Developer Hub. For
-build details and configuration internals, see [`README.md`](./README.md).
+That's it — one download, one command, and you've got a local TIBCO Developer Hub.

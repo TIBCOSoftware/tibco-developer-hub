@@ -20,13 +20,17 @@
   Release tag or "latest" (default latest). Or set $env:DEVHUB_VERSION.
 .PARAMETER Url
   Full URL to devhub-bundled-win32-x64.zip (overrides Repo/Version). Or set $env:DEVHUB_URL.
+.PARAMETER TechDocs
+  Install the self-contained "techdocs" bundle, which embeds Python + mkdocs so TechDocs
+  works with no host Python / network (larger download). Or set $env:DEVHUB_TECHDOCS=1.
 #>
 param(
   [int]$Port = 0,
   [string[]]$Config = @(),
   [string]$Repo = $(if ($env:DEVHUB_REPO) { $env:DEVHUB_REPO } else { 'TIBCOSoftware/tibco-developer-hub' }),
   [string]$Version = $(if ($env:DEVHUB_VERSION) { $env:DEVHUB_VERSION } else { 'latest' }),
-  [string]$Url = $env:DEVHUB_URL
+  [string]$Url = $env:DEVHUB_URL,
+  [switch]$TechDocs = ($env:DEVHUB_TECHDOCS -eq '1')
 )
 $ErrorActionPreference = 'Stop'
 # Invoke-WebRequest is 10-50x slower for large downloads while its progress bar is on
@@ -35,7 +39,8 @@ $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 
 $Target = 'win32-x64'
-$Name = "devhub-bundled-$Target"
+# The self-contained variant (embedded Python + mkdocs) is a separate release asset.
+$Name = if ($TechDocs) { "devhub-bundled-techdocs-$Target" } else { "devhub-bundled-$Target" }
 $InstallRoot = if ($env:DEVHUB_DIR) { $env:DEVHUB_DIR } else { (Get-Location).Path }
 
 if (-not $Url) {
