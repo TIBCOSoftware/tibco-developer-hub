@@ -18,10 +18,10 @@ metadata:
     moreInfo:
       - icon: docs
         text: Documentation
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-prompt-engineering-activity/docs/index.md
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/flogo/samples/flogo-prompt-engineering-activity/docs/index.md
       - icon: github
         text: GitHub Repository
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-prompt-engineering-activity/
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/flogo/samples/flogo-prompt-engineering-activity/
   tags:
     - devhub-marketplace
     - flogo
@@ -65,7 +65,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-samples/flogo-prompt-engineering-activity/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/flogo/samples/flogo-prompt-engineering-activity/catalog-info.yaml
   output:
     links:
       - title: Open in catalog

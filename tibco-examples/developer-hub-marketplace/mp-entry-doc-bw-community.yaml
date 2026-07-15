@@ -61,7 +61,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/business-works-articles/bw-community/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/businessworks/articles/bw-community/catalog-info.yaml
   output:
     links:
       - title: Open in catalog

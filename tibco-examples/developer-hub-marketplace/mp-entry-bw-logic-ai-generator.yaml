@@ -16,7 +16,7 @@ metadata:
     moreInfo:
       - icon: github
         text: Marketplace Source
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/bw-ai-generator/
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/businessworks/bw-ai-generator/
       - icon: star
         text: Streamlit
         url: https://streamlit.io
@@ -71,7 +71,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/bw-ai-generator/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/businessworks/bw-ai-generator/catalog-info.yaml
   output:
     links:
       - title: Open in catalog

@@ -25,7 +25,7 @@ metadata:
         url: https://agentskills.io/home
       - icon: github
         text: Developer Hub Skills
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/developer-hub-skills/developer-hub-skill-library/skill-library
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/skills/skill-library
   tags:
     - devhub-marketplace
     - artificial-intelligence
@@ -70,7 +70,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/developer-hub-skills/developer-hub-skill-library/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/skills/catalog-info.yaml
   output:
     links:
       - title: Open in catalog

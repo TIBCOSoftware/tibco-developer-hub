@@ -23,11 +23,10 @@ metadata:
         url: https://github.com/TIBCOSoftware/tibco-developer-hub
         icon: github
       - text: Sample BW5CE App (EAR)
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/self-service-flows/build-deploy-bw5ce-app/sample-app/sample-app-bw5ce-dynamicHeaders.ear
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/self-service-flows/build-deploy-bw5ce-app/sample-app/sample-app-bw5ce-dynamicHeaders.ear
         icon: github
   tags:
     - devhub-marketplace
-    - self-service
     - tibco-platform
     - bw5ce
     - businessworks
@@ -68,7 +67,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/self-service-flows/build-deploy-bw5ce-app/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/self-service-flows/build-deploy-bw5ce-app/catalog-info.yaml
   output:
     links:
       - title: Open in catalog

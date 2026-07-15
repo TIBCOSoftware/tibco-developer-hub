@@ -15,11 +15,11 @@ metadata:
     imageURL: ""
     moreInfo:
       - text: Documentation
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/e-commerce-platform/docs/index.md
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/e-commerce-platform/docs/index.md
         icon: docs
       - text: GitHub Repository
         icon: github
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/e-commerce-platform
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/e-commerce-platform
   tags:
     - devhub-marketplace
     - ecommerce
@@ -64,7 +64,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/e-commerce-platform/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/e-commerce-platform/catalog-info.yaml
   output:
     links:
       - title: Open in catalog

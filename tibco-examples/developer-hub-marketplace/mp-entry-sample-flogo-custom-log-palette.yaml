@@ -20,7 +20,7 @@ metadata:
         url: https://www.tibco.com/content/dam/tibco/documents/data-sheet/tibco-flogo-enterprise.pdf
       - icon: github
         text: Source
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-extensions/custom-log-palette/
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/flogo/extensions/custom-log-palette/
       - icon: chat
         text: p4future
         url: https://p4future.com
@@ -69,7 +69,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-extensions/custom-log-palette/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/flogo/extensions/custom-log-palette/catalog-info.yaml
   output:
     links:
       - title: Open in catalog

@@ -24,7 +24,7 @@ metadata:
         url: https://community.tibco.com/
       - text: GitHub Repository
         icon: github
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/business-works-articles/basics-of-bwce
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/businessworks/articles/basics-of-bwce
   tags:
     - devhub-marketplace
     - bwce
@@ -66,7 +66,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/business-works-articles/basics-of-bwce/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/businessworks/articles/basics-of-bwce/catalog-info.yaml
   output:
     links:
       - title: Open in catalog

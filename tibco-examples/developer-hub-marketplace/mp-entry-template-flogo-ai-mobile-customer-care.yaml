@@ -67,7 +67,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/flogo-ai-agents/template-flogo-ai-mobile-customer-care.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/flogo/ai-agents/template-flogo-ai-mobile-customer-care.yaml
   output:
     links:
       - title: Open in catalog

@@ -26,11 +26,10 @@ metadata:
         url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/
         icon: github
       - text: Sample Flogo App
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/self-service-flows/build-deploy-flogo-app/sample-app/sample-app-flogo-restApp.txt
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/self-service-flows/build-deploy-flogo-app/sample-app/sample-app-flogo-restApp.txt
         icon: github
   tags:
     - devhub-marketplace
-    - self-service
     - tibco-platform
     - flogo
 spec:
@@ -70,7 +69,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/self-service-flows/build-deploy-flogo-app/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/self-service-flows/build-deploy-flogo-app/catalog-info.yaml
   output:
     links:
       - title: Open in catalog

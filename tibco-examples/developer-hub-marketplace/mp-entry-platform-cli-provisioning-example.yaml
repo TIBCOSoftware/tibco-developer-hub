@@ -13,11 +13,11 @@ metadata:
     imageURL: ""
     moreInfo:
       - text: TIBCO Platform CLI
-        url: https://docs.tibco.com/pub/platform-cp/1.10.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm
+        url: https://docs.tibco.com/pub/platform-cp/1.18.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm
         icon: docs
       - text: GitHub Repository
         icon: github
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/developer-hub-marketplace-content/platform-cli/platform-cli-provisioning-example/platform-cli-scripts
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/platform/cli/platform-cli-provisioning-example/platform-cli-scripts
   tags:
     - devhub-marketplace
     - tibco-platform
@@ -61,7 +61,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/platform-cli/platform-cli-provisioning-example/platform-cli-provisioning-example.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/platform/cli/platform-cli-provisioning-example/platform-cli-provisioning-example.yaml
   output:
     links:
       - title: Open in catalog
