@@ -9,6 +9,7 @@ spec:
     - ./mp-entry-doc-dh-create-marketplace-entry.yaml
     - ./mp-entry-doc-dh-create-template.yaml
     - ./mp-entry-doc-dh-create-self-service-flow.yaml
+    - ./mp-entry-doc-dh-developer-hub-portable.yaml
     - ./mp-entry-doc-bw-community.yaml
     - ./mp-entry-template-to-create-template.yaml
     - ./mp-entry-if-advanced-bw5.yaml
