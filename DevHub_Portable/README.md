@@ -1,5 +1,7 @@
 # Getting started with DevHub Portable
 
+![TIBCO Developer Hub Portable — no Docker, no install, runs in seconds](./images/devhub-portable-hero.webp)
+
 Run the **TIBCO® Developer Hub** on your own machine with a single command — no Docker,
 no Postgres, no install wizard. It's a self-contained download that starts the full hub
 (UI + API) on `http://localhost:7007`.
