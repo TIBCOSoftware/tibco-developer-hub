@@ -4,9 +4,9 @@ metadata:
   name: mp-entry-sample-prowess-tp-cicd-pipelines
   title: TIBCO Platform CI/CD Pipelines
   description: Three reusable Azure DevOps pipelines (Build, Deploy, Supplements)
-    contributed by Prowess that automate the lifecycle of TIBCO BWCE
-    applications across multi-cloud Kubernetes environments (AKS, EKS, GKE) via
-    the TIBCO Platform Build & Deploy APIs.
+    contributed by Prowess that automate the lifecycle of TIBCO BusinessWorks 6
+    (BW6) applications across multi-cloud Kubernetes environments (AKS, EKS,
+    GKE) via the TIBCO Platform Build & Deploy APIs.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: false
@@ -49,7 +49,7 @@ spec:
 
             **ID:** mp-entry-sample-prowess-tp-cicd-pipelines
 
-            **Description:** Three reusable Azure DevOps pipelines (Build, Deploy, Supplements) contributed by Prowess that automate the lifecycle of TIBCO BWCE applications across multi-cloud Kubernetes environments (AKS, EKS, GKE) via the TIBCO Platform Build & Deploy APIs. 
+            **Description:** Three reusable Azure DevOps pipelines (Build, Deploy, Supplements) contributed by Prowess that automate the lifecycle of TIBCO BusinessWorks 6 (BW6) applications across multi-cloud Kubernetes environments (AKS, EKS, GKE) via the TIBCO Platform Build & Deploy APIs. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).

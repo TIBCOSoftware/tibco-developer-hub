@@ -14,7 +14,7 @@ metadata:
     imageURL: ""
     moreInfo:
       - text: BW5 Documentation
-        url: https://docs.tibco.com/products/tibco-activematrix-businessworks-5-14-0
+        url: https://docs.tibco.com/products/tibco-activematrix-businessworks-5-16-1
         icon: star
   tags:
     - devhub-marketplace

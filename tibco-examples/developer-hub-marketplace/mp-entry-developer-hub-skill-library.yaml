@@ -4,12 +4,13 @@ metadata:
   name: mp-entry-developer-hub-skill-library
   title: Developer Hub Skills Library
   description: Skills for AI coding agents (Claude Code, Codex, Cursor, and more)
-    to set up, extend, and customize the TIBCO Developer Hub. Bundles six
+    to set up, extend, and customize the TIBCO Developer Hub. Bundles nine
     executable SKILL.md runbooks covering the full lifecycle — bootstrap a local
-    environment, author Software Templates and Import Flows, build a custom
-    theme, and test them end-to-end — plus an AGENTS.md for cross-agent
-    compatibility. Install the documentation, then drop the skills into your
-    Developer Hub checkout.
+    environment, author Software Templates, Import Flows, and Self Service Flows
+    that drive the TIBCO Platform APIs, build a custom theme, test them all
+    end-to-end, and analyze the impact of a change across the catalog — plus an
+    AGENTS.md for cross-agent compatibility. Install the documentation, then
+    drop the skills into your Developer Hub checkout.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: true
@@ -52,7 +53,7 @@ spec:
 
             **ID:** mp-entry-developer-hub-skill-library
 
-            **Description:** Skills for AI coding agents (Claude Code, Codex, Cursor, and more) to set up, extend, and customize the TIBCO Developer Hub. Bundles six executable SKILL.md runbooks covering the full lifecycle — bootstrap a local environment, author Software Templates and Import Flows, build a custom theme, and test them end-to-end — plus an AGENTS.md for cross-agent compatibility. Install the documentation, then drop the skills into your Developer Hub checkout. 
+            **Description:** Skills for AI coding agents (Claude Code, Codex, Cursor, and more) to set up, extend, and customize the TIBCO Developer Hub. Bundles nine executable SKILL.md runbooks covering the full lifecycle — bootstrap a local environment, author Software Templates, Import Flows, and Self Service Flows that drive the TIBCO Platform APIs, build a custom theme, test them all end-to-end, and analyze the impact of a change across the catalog — plus an AGENTS.md for cross-agent compatibility. Install the documentation, then drop the skills into your Developer Hub checkout. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).

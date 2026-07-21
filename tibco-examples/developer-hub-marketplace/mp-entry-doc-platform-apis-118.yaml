@@ -73,7 +73,7 @@ spec:
         title: Open BW5 CE Capability API
         url: /catalog/default/api/bw5ce-capability-api-118/definition
       - icon: kind:api
-        title: Open BWCE Capability API
+        title: Open BW6 Capability API
         url: /catalog/default/api/bwce-capability-api-118/definition
       - icon: kind:api
         title: Open Flogo Capability API

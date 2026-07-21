@@ -13,7 +13,7 @@ metadata:
     imageURL: ""
     moreInfo:
       - text: TIBCO Platform CLI
-        url: https://docs.tibco.com/pub/platform-cp/1.18.0/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm
+        url: https://docs.tibco.com/pub/platform-cp/latest/doc/html/Default.htm#UserGuide/tibco-platform-cli-overview.htm
         icon: docs
       - text: GitHub Repository
         icon: github

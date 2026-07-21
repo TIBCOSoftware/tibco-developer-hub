@@ -2,10 +2,10 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: mp-entry-bwce-basics-guide
-  title: BWCE Basics Learning Guide
-  description: Comprehensive learning guide for TIBCO BusinessWorks Container
-    Edition fundamentals, featuring hands-on tutorials, sample applications, and
-    practical exercises for developers new to BWCE.
+  title: BW6 Basics Learning Guide
+  description: Comprehensive learning guide for TIBCO BusinessWorks 6 (BW6)
+    fundamentals, featuring hands-on tutorials, sample applications, and
+    practical exercises for developers new to BW6.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: false
@@ -44,11 +44,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  BWCE Basics Learning Guide added to your TIBCO Developer Hub
+            ## Get  BW6 Basics Learning Guide added to your TIBCO Developer Hub
 
             **ID:** mp-entry-bwce-basics-guide
 
-            **Description:** Comprehensive learning guide for TIBCO BusinessWorks Container Edition fundamentals, featuring hands-on tutorials, sample applications, and practical exercises for developers new to BWCE. 
+            **Description:** Comprehensive learning guide for TIBCO BusinessWorks 6 (BW6) fundamentals, featuring hands-on tutorials, sample applications, and practical exercises for developers new to BW6. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
@@ -80,7 +80,7 @@ spec:
         url: /create?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
         icon: kind:template
       - icon: docs
-        title: Open BWCE Basics Guide Docs
+        title: Open BW6 Basics Guide Docs
         url: /docs/default/component/bwce-basics-learning-guide
         type: openButton
       - title: Back to Marketplace

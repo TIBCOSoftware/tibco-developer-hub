@@ -2,9 +2,9 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: mp-entry-if-advanced-bwce6
-  title: BWCE/6 Import
-  description: An advanced Import Flow for TIBCO BusinessWorks Container Edition /
-    6. This example imports projects and dependencies on shared modules.
+  title: BW6 Import
+  description: An advanced Import Flow for TIBCO BusinessWorks 6 (BW6). This
+    example imports projects and dependencies on shared modules.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: false
@@ -12,12 +12,9 @@ metadata:
     isMultiInstall: false
     imageURL: ""
     moreInfo:
-      - text: BWCE Documentation
-        url: https://docs.tibco.com/products/tibco-businessworks-container-edition-2-10-0
-        icon: star
-      - text: BW6 Documentation
-        url: https://docs.tibco.com/products/tibco-activematrix-businessworks-6-11-0
-        icon: star
+      - icon: docs
+        text: BusinessWorks 6
+        url: https://docs.tibco.com/products/tibco-activematrix-businessworks
   tags:
     - devhub-marketplace
     - bw6
@@ -37,11 +34,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  BWCE/6 Import added to your TIBCO Developer Hub
+            ## Get  BW6 Import added to your TIBCO Developer Hub
 
             **ID:** mp-entry-if-advanced-bwce6
 
-            **Description:** An advanced Import Flow for TIBCO BusinessWorks Container Edition / 6. This example imports projects and dependencies on shared modules. 
+            **Description:** An advanced Import Flow for TIBCO BusinessWorks 6 (BW6). This example imports projects and dependencies on shared modules. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
