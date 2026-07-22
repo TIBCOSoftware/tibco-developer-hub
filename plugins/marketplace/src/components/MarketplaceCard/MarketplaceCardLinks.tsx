@@ -10,7 +10,7 @@ import LanguageIcon from '@material-ui/icons/Language';
 import { CardLink } from './CardLink';
 import { AdditionalLinks } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 
-const useStyles = makeStyles<Theme>({
+const useStyles = makeStyles<Theme>(theme => ({
   linkContainer: {
     marginTop: '8px',
   },
@@ -18,12 +18,12 @@ const useStyles = makeStyles<Theme>({
     marginTop: '8px',
     marginRight: '24px',
     '& svg': {
-      color: '#1774E5',
+      color: theme.palette.primary.main,
       height: '16px',
       width: '16px',
     },
     '& a': {
-      color: '#1774E5',
+      color: theme.palette.primary.main,
       textDecoration: 'underline',
       fontSize: '12px',
       fontWeight: 400,
@@ -36,7 +36,7 @@ const useStyles = makeStyles<Theme>({
       border: 'none',
       background: 'none',
       padding: 0,
-      color: '#1774E5',
+      color: theme.palette.primary.main,
       textDecoration: 'underline',
       fontSize: '12px',
       fontWeight: 400,
@@ -44,7 +44,7 @@ const useStyles = makeStyles<Theme>({
       cursor: 'pointer',
     },
   },
-});
+}));
 
 /**
  * The Props for the {@link MarketplaceCardLinks} component

@@ -18,7 +18,7 @@ import consumedBy from '../../assets/icons/icon-edge-consumed-by.svg';
 import childOf from '../../assets/icons/icon-edge-child-of.svg';
 import memberOf from '../../assets/icons/icon-edge-member-of.svg';
 import partOf from '../../assets/icons/icon-edge-part-of.svg';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, useTheme } from '@material-ui/core';
 
 declare type IconStyleClass =
   | 'detailsTitleIcon'
@@ -38,51 +38,52 @@ declare type CustomIconProps = {
   onClick?: () => void;
 };
 
-export const useIconStyles = makeStyles({
+export const useIconStyles = makeStyles(theme => ({
   linkBarIcon: {
     padding: '20px',
-    color: 'hsla(0, 0%, 45%, 1.00)',
+    color: theme.palette.text.secondary,
     fill: 'none',
     cursor: 'pointer',
 
     '&:hover': {
-      color: 'hsla(213, 82%, 49%, 1.00)',
-      fill: 'hsla(213, 82%, 49%, 1.00)',
+      color: theme.palette.primary.main,
+      fill: theme.palette.primary.main,
       strokeWidth: '0.5',
     },
 
     '&:active': {
       opacity: 0.8,
-      fill: 'hsla(219, 76%, 23%, 1.00)',
+      fill: theme.palette.primary.dark,
       strokeWidth: '0.5',
     },
 
     '&:focus': {
-      fill: 'hsla(0, 0%, 100%, 1.00)',
+      fill: theme.palette.common.white,
     },
   },
   detailsTitleIcon: {
     cursor: 'pointer',
-    color: 'white',
+    color: theme.palette.common.white,
   },
   detailsLinkIcon: {
     cursor: 'pointer',
-    color: 'hsla(213, 82%, 49%, 1.00)',
+    color: theme.palette.primary.main,
     '&:hover': {
-      color: 'blue',
-      fill: 'blue',
+      color: theme.palette.primary.dark,
+      fill: theme.palette.primary.dark,
       strokeWidth: '0.5',
     },
   },
   edgeLabelIcon: {
-    fill: 'hsla(0, 0%, 98%, 1.00)',
-    color: 'hsla(0, 0%, 45%, 1.00)',
+    fill: theme.palette.background.paper,
+    color: theme.palette.text.secondary,
   },
-});
+}));
 
 export const CustomIcon = (props: CustomIconProps) => {
   const id = `${props?.id}`;
   const classes = useIconStyles();
+  const { palette } = useTheme();
 
   function getIcon(iconName: string) {
     switch (iconName) {
@@ -156,7 +157,7 @@ export const CustomIcon = (props: CustomIconProps) => {
         y={0}
         fill={
           props.iconStyle === 'edgeLabelIcon'
-            ? 'hsla(0, 0%, 98%, 1.00)'
+            ? palette.background.paper
             : 'transparent'
         }
         pointerEvents="fill"

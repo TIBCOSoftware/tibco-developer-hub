@@ -24,7 +24,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: 'rgba(0, 0, 0, .11)',
+    backgroundColor:
+      theme.palette.type === 'light'
+        ? 'rgba(0, 0, 0, .11)'
+        : theme.palette.background.paper,
     boxShadow: 'none',
     margin: theme.spacing(1, 0, 1, 0),
   },

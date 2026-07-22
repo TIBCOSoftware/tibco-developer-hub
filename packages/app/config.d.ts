@@ -36,39 +36,6 @@ export interface Config {
      */
     enableAuthProviders: string[];
   };
-  walkThrough?: {
-    /**
-     * Hyperlink of the external website to view all the Walk-through
-     * @visibility frontend
-     */
-    viewAllLink: string;
-    /**
-     * Array of Walk-through which will be visible on the home page
-     * @visibility frontend
-     */
-    items: {
-      /**
-       * Title for the Walk-through
-       * @visibility frontend
-       */
-      title: string;
-      /**
-       * Array of tags for the Walk-through
-       * @visibility frontend
-       */
-      tags: string[];
-      /**
-       * Description text for the Walk-through
-       * @visibility frontend
-       */
-      text: string;
-      /**
-       * Hyperlink of external website for the Walk-through
-       * @visibility frontend
-       */
-      link: string;
-    }[];
-  };
   /**
    * Secondary control planes configuration
    * @visibility frontend
@@ -167,5 +134,16 @@ export interface Config {
      * Frequency of the scheduler job in minutes
      */
     frequencyInMinutes?: number;
+  };
+  /**
+   * Custom configurations
+   */
+  tibco?: {
+    /**
+     * Enable or disable MCP actions
+     */
+    mcpActions?: {
+      enabled?: boolean;
+    };
   };
 }

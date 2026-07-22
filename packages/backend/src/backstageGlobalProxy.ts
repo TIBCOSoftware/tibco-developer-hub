@@ -7,6 +7,24 @@ import https from 'https';
 import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
 import { isV4Format, isV6Format, cidrSubnet } from 'ip';
 
+/*
+ * Disable HTTP keep-alive on Node's global agents.
+ *
+ * Node 19+ flipped the global agents to `keepAlive: true` (with a 5s idle
+ * timeout). Backstage's GitHub UrlReader fetches through node-fetch v2 without
+ * passing an explicit agent, so it uses these global agents and reuses pooled
+ * sockets. GitHub closes idle keep-alive sockets, and reusing one mid-response
+ * surfaces as intermittent "FetchError: Invalid response body ... Premature
+ * close" errors while reading gzip'd responses — e.g. the fetch:template
+ * skeleton download (getRepoDetails -> commits/<ref>/status).
+ *
+ * Forcing a fresh connection per request removes the socket-reuse race.
+ * Callers that supply their own agent (the proxy path below, Octokit, and
+ * undici-based clients) are unaffected.
+ */
+http.globalAgent = new http.Agent({ keepAlive: false });
+https.globalAgent = new https.Agent({ keepAlive: false });
+
 function isNoProxy(host: string, noProxy: string) {
   if (!host || !noProxy) return false;
 

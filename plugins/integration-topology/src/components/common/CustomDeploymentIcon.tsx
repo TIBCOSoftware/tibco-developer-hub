@@ -24,20 +24,20 @@ declare type CustomIconProps = {
   onClick?: () => void;
 };
 
-export const useIconStyles = makeStyles({
+export const useIconStyles = makeStyles(theme => ({
   linkBarIcon: {
-    color: 'hsla(219, 76%, 23%, 1.00)',
+    color: theme.palette.primary.dark,
     cursor: 'pointer',
 
     '&:hover': {
-      color: 'hsla(213, 82%, 49%, 1.00)',
+      color: theme.palette.primary.main,
     },
 
     '&:active': {
       opacity: 0.8,
     },
   },
-});
+}));
 
 export const CustomDeploymentIcon = (props: CustomIconProps) => {
   const id = `${props?.id}`;

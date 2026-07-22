@@ -20,31 +20,36 @@ import {
   MarketplaceEntity,
 } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 
-const useStyles = makeStyles({
-  actionContainer: {
-    padding: 0,
-    marginTop: '8px',
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  container: {
-    cursor: 'pointer',
-    padding: '16px',
-    borderRadius: '8px',
-    border: '2px solid #B6B6B6',
-    background: '#FFF',
-    '&:hover': {
-      border: '2px solid #727272',
-      '& .pl-button--secondary': {
-        backgroundColor: '#1774E5',
-        borderColor: '#1774E5',
-        color: '#ffffff',
+const useStyles = makeStyles(theme => {
+  const isLight = theme.palette.type === 'light';
+  return {
+    actionContainer: {
+      padding: 0,
+      marginTop: '8px',
+      flex: 1,
+      alignItems: 'flex-end',
+    },
+    container: {
+      cursor: 'pointer',
+      padding: '16px',
+      borderRadius: '8px',
+      border: isLight
+        ? '2px solid #B6B6B6'
+        : `2px solid ${theme.palette.divider}`,
+      background: isLight ? '#ffffff' : theme.palette.background.paper,
+      '&:hover': {
+        border: `2px solid ${theme.palette.text.secondary}`,
+        '& .pl-button--secondary': {
+          backgroundColor: theme.palette.primary.main,
+          borderColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
+        },
       },
     },
-  },
-  containerInstalled: {
-    backgroundColor: '#F4F4F4',
-  },
+    containerInstalled: {
+      backgroundColor: isLight ? '#f4f4f4' : theme.palette.background.default,
+    },
+  };
 });
 
 export function filterTags(tags: string[]) {

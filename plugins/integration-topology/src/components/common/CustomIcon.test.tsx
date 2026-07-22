@@ -178,10 +178,11 @@ describe('CustomIcon Functionality Tests', () => {
       expect(rect).toHaveAttribute('fill', 'transparent');
     });
 
-    it('should render white background for edgeLabelIcon style', () => {
+    it('should render paper background for edgeLabelIcon style', () => {
       render(<CustomIcon iconName="details" iconStyle="edgeLabelIcon" />);
       const rect = screen.getByTestId('icon-details').querySelector('rect');
-      expect(rect).toHaveAttribute('fill', 'hsla(0, 0%, 98%, 1.00)');
+      // fill comes from theme.palette.background.paper (default MUI theme = '#fff')
+      expect(rect).toHaveAttribute('fill', '#fff');
     });
 
     it('should set correct dimensions for background rectangle', () => {
@@ -440,9 +441,9 @@ describe('CustomIcon Integration Tests', () => {
       expect(icon).toHaveAttribute('x', '100');
       expect(icon).toHaveAttribute('y', '50');
 
-      // Edge label should have white background
+      // Edge label background comes from theme.palette.background.paper
       const rect = icon.querySelector('rect');
-      expect(rect).toHaveAttribute('fill', 'hsla(0, 0%, 98%, 1.00)');
+      expect(rect).toHaveAttribute('fill', '#fff');
     });
 
     it('should work as a link icon in details view', () => {

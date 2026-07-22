@@ -149,7 +149,7 @@ const convertedOptionsModule = convertLegacyAppOptions({
   themes: [
     {
       id: 'tibco-theme',
-      title: 'TIBCO Theme',
+      title: 'TIBCO Light',
       variant: 'light',
       icon: <LightIcon />,
       Provider: ({ children }) => (

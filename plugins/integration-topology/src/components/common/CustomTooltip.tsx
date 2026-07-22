@@ -2,6 +2,8 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
+import { useTheme } from '@material-ui/core/styles';
+
 export const CustomTooltip = ({
   title,
   xPos,
@@ -11,6 +13,11 @@ export const CustomTooltip = ({
   xPos: number;
   yPos: number;
 }) => {
+  const theme = useTheme();
+  const tooltipBg =
+    (theme.palette as any).navigation?.navItem?.hoverBackground ??
+    theme.palette.primary.dark;
+  const tooltipText = theme.palette.common.white;
   function calculateWidth(data: string) {
     const length = data.length;
     if (length < 5) {
@@ -48,7 +55,7 @@ export const CustomTooltip = ({
           width={width}
           height="30"
           rx="4"
-          fill="hsla(219, 76%, 23%, 1.00)"
+          fill={tooltipBg}
         />
         <svg
           data-testid="tooltip-triangle"
@@ -64,13 +71,13 @@ export const CustomTooltip = ({
             fillRule="evenodd"
             clipRule="evenodd"
             d="M47.3231 8.01758L31.3231 8.01758C32.4441 8.01758 33.3571 6.49091 33.6091 6.17319C33.8611 5.85547 37.7961 0.815881 37.7961 0.815881C38.1831 0.29134 38.7071 0.0175794 39.3221 0.0175795L39.3221 0.0245734L39.3241 0.0245734L39.3241 0.0175795C39.9391 0.0175796 40.4631 0.29134 40.8501 0.815881C40.8501 0.815881 44.7851 5.85547 45.0371 6.17319C45.2891 6.49092 46.2021 8.01758 47.3231 8.01758Z"
-            fill="hsla(219, 76%, 23%, 1.00)"
+            fill={tooltipBg}
           />
         </svg>
         <text
           x={title.length < 5 ? '20' : '10'} // center text if < 5 chars
           y="25"
-          fill="hsla(0, 0%, 100%, 1.00)"
+          fill={tooltipText}
           fontSize="10"
           fontWeight="bold"
         >

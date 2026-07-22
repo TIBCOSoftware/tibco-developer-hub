@@ -68,6 +68,8 @@
     "form-data": "^4.0.5",
     "qs": "^6.15.1",
     "underscore": "^1.13.8",
+    "uuid": "^11.1.1",
+    "@material-table/core@npm:^3.1.0": "patch:@material-table/core@npm%3A3.2.5#~/.yarn/patches/@material-table-core-npm-3.2.5-5a76f950c0.patch",
     "@backstage/frontend-test-utils@npm:^0.4.5": "patch:@backstage/frontend-test-utils@npm%3A0.4.5#~/.yarn/patches/@backstage-frontend-test-utils-npm-0.4.5-a8928a36b8.patch"
   },
   "prettier": "@backstage/cli/config/prettier",

@@ -70,26 +70,6 @@ essentialLocations:
       target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml
 ```
 
-## Walk Through
-
-Show the Walk-through card on home page if the config is present.
-
-Example config:
-
-```yaml
-walkThrough:
-  viewAllLink: 'http://www.some-external-link.com'
-  items:
-    - title: 'Walk Through 1'
-      tags: ['Tag1', 'Tag2']
-      text: 'Some description'
-      link: 'http://www.some-external-link.com/walk-through1'
-    - title: 'Walk Through 2'
-      tags: ['Tag1', 'Tag2']
-      text: 'Some description'
-      link: 'http://www.some-external-link.com/walk-through2'
-```
-
 ## Template Groups
 
 Configuration for the template groups in template page when click on the Develop button
@@ -148,6 +128,18 @@ Example config:
 
 ```yaml
 cpLink: 'https://control-plane.domain.com'
+```
+
+## MCP Actions
+
+Enable or disable MCP actions
+
+Example config:
+
+```yaml
+tibco:
+  mcpActions:
+    enabled: false
 ```
 
 No need to provide this in configuration.

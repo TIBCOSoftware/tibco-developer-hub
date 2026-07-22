@@ -8,7 +8,7 @@ import MarketplaceHeaderImage from '../../images/mp-header.svg';
 import { Link } from 'react-router-dom';
 import { configApiRef, useApi } from '@backstage/core-plugin-api';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   container: {
     padding: '48px 24px 32px 24px',
     position: 'relative',
@@ -31,13 +31,13 @@ const useStyles = makeStyles({
     marginTop: '42px',
   },
   introDesc: {
-    color: '#212121',
+    color: theme.palette.text.primary,
     marginTop: '11px',
   },
   learnMore: {
     marginTop: '56px',
   },
-});
+}));
 
 export const MarketplaceHeader = () => {
   const classes = useStyles();

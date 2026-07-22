@@ -34,9 +34,9 @@ import { capitalize } from 'lodash';
 import { FavoriteToggle } from '@backstage/core-components';
 import { useStarredEntities } from '@backstage/plugin-catalog-react';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   installedText: {
-    color: '#212121',
+    color: theme.palette.text.primary,
     fontSize: '12px',
     fontWeight: 400,
     marginLeft: '6px',
@@ -78,7 +78,7 @@ const useStyles = makeStyles({
   ownedByLink: {
     marginLeft: '4px',
     textDecoration: 'underline',
-    color: '#fff',
+    color: '#fff', // always white — text sits on coloured SVG background image
     fontSize: '14px',
     fontWeight: 400,
     lineHeight: '14px',
@@ -93,7 +93,7 @@ const useStyles = makeStyles({
       padding: '2px',
     },
   },
-});
+}));
 
 /**
  * Formats the type string for display, handling special cases and formatting to title case.

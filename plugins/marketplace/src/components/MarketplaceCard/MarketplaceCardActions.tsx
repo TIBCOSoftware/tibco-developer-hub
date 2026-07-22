@@ -6,19 +6,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 import { Link } from '@backstage/core-components';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   footer: {
     marginTop: '8px',
   },
   actionButton: {
     '&:hover': {
-      backgroundColor: '#1774E5',
-      borderColor: '#1774E5',
-      color: '#ffffff',
+      backgroundColor: theme.palette.primary.main,
+      borderColor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
     },
   },
   actionContainer: { padding: '16px', flex: 1, alignItems: 'flex-end' },
-});
+}));
 
 /**
  * The Props for the {@link MarketplaceCardActions} component

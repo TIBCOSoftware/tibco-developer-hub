@@ -143,7 +143,6 @@ scaffolder:
 kubernetes:
 
 mcpActions:
-  enabled: false
   name: 'TIBCO® Developer Hub'
   description: 'Tools for managing your software catalog, creating new services from templates, and exploring your developer portal' # optional
 
@@ -153,3 +152,7 @@ essentialLocations:
   locations:
     - type: url
       target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml
+
+tibco:
+  mcpActions:
+    enabled: false

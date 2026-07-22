@@ -93,7 +93,7 @@ export class EntityTagFilter implements EntityFilter {
   }
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   pageContainer: {
     overflowX: 'hidden',
   },
@@ -102,7 +102,7 @@ const useStyles = makeStyles({
   },
   groupsContainer: {
     '& [data-testid="header-title"]': {
-      color: '#212121',
+      color: theme.palette.text.primary,
       fontSize: '20px',
       fontWeight: '600',
       lineHeight: '30px',
@@ -116,7 +116,7 @@ const useStyles = makeStyles({
       display: 'none',
     },
   },
-});
+}));
 
 export type MarketplaceMetadata = {
   isNew?: boolean;

@@ -7,11 +7,11 @@ import { useTranslationRef } from '@backstage/frontend-plugin-api';
 import { catalogGraphTranslationRef } from '../../translation';
 import { useState } from 'react';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   toggleViewWrapper: {
     position: 'relative',
     display: 'flex',
-    border: '1px solid #0E4F9E',
+    border: `1px solid ${theme.palette.primary.dark}`,
     borderRadius: '21px',
 
     '& input[type="radio"]': {
@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     },
 
     '& input[type="radio"]:checked + label': {
-      color: '#FFFFFF',
+      color: theme.palette.primary.contrastText,
     },
 
     '& input[id="topology-view-radio"]:checked ~ .tabActiveSlider': {
@@ -33,10 +33,10 @@ const useStyles = makeStyles({
     display: 'flex',
     position: 'relative',
     flexDirection: 'row',
-    color: '#0E4F9E',
+    color: theme.palette.primary.dark,
     backgroundColor: 'transparent',
     borderRadius: '21px',
-    border: '1px solid #0E4F9E',
+    border: `1px solid ${theme.palette.primary.dark}`,
 
     '&:hover': {
       cursor: 'pointer',
@@ -60,13 +60,13 @@ const useStyles = makeStyles({
     position: 'absolute',
     zIndex: 1,
     display: 'flex',
-    color: '#FFFFFF',
-    backgroundColor: '#0E4F9E',
-    border: '1px solid #0E4F9E',
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.dark,
+    border: `1px solid ${theme.palette.primary.dark}`,
     borderRadius: '21px',
     transition: '250ms ease-out',
   },
-});
+}));
 
 export const CustomViewToggle = ({
   view,

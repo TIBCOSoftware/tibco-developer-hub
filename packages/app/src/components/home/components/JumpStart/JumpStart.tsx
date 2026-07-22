@@ -9,17 +9,22 @@ import OpenIcon from '../../images/open.svg';
 import { Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-const HtmlTooltip = withStyles(() => ({
+const HtmlTooltip = withStyles(theme => ({
   tooltip: {
-    backgroundColor: '#0E2D65',
-    color: '#FFF',
+    backgroundColor:
+      (theme.palette as any).navigation?.navItem?.hoverBackground ??
+      theme.palette.primary.dark,
+    color:
+      (theme.palette as any).navigation?.color ?? theme.palette.common.white,
     maxWidth: 220,
     fontSize: 14,
     fontWeight: 400,
     padding: 16,
   },
   arrow: {
-    color: '#0E2D65',
+    color:
+      (theme.palette as any).navigation?.navItem?.hoverBackground ??
+      theme.palette.primary.dark,
   },
 }))(Tooltip);
 

@@ -18,8 +18,7 @@ export default rootHttpRouterServiceFactory({
     }
 
     const router = Router();
-
-    if (config.getOptionalBoolean('mcpActions.enabled') === false) {
+    if (config.getOptionalBoolean('tibco.mcpActions.enabled') === false) {
       router.use(
         '/api/mcp-actions',
         (_request: Request, response: Response) => {

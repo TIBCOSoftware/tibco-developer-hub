@@ -33,116 +33,123 @@ import { usePermission } from '@backstage/plugin-permission-react';
 import { taskCreatePermission } from '@backstage/plugin-scaffolder-common/alpha';
 import { Link } from '@backstage/core-components';
 
-const useStyles = makeStyles({
-  detailContainer: {
-    position: 'fixed',
-    top: 0,
-    right: 0,
-    height: '100vh',
-    width: '544px',
-    borderRadius: '8px',
-    border: '2px solid #B6B6B6',
-    background: '#FFF',
-    boxShadow: '-6px 4px 7px 0px rgba(0, 0, 0, 0.20)',
-    zIndex: 1000,
-  },
-  wrapper: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  content: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    overflowY: 'auto',
-    overflowX: 'hidden',
-    padding: '0px 24px',
-  },
-  contentDetail: {
-    flex: 1,
-  },
-  header: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '24px 24px 0px 24px',
-  },
-  footer: {
-    padding: '0px 24px 24px 24px',
-  },
-  closeIcon: {
-    cursor: 'pointer',
-    marginLeft: 'auto',
-    color: '#727272',
-    marginBottom: '18px',
-    border: 'none',
-    background: 'none',
-    padding: 0,
-  },
-  defaultImage: {
-    width: '100%',
-    height: '112px',
-  },
-  userImage: {
-    //  width: '496px',
-    // height: '248px',
-    borderRadius: '6px',
-    maxWidth: '100%',
-    maxHeight: '248px',
-    // maxHeight: '100%',
-    // maxHeight:'95px',
-    width: 'auto',
-    margin: 'auto',
-    height: 'auto',
-  },
-  markdown: {
-    '& p': {
-      wordBreak: 'break-word',
-      marginTop: '12px',
-      marginBottom: '12px',
-      fontSize: '14px',
-      fontWeight: 400,
+const useStyles = makeStyles(theme => {
+  const isLight = theme.palette.type === 'light';
+  return {
+    detailContainer: {
+      position: 'fixed',
+      top: 0,
+      right: 0,
+      height: '100vh',
+      width: '544px',
+      borderRadius: '8px',
+      border: isLight
+        ? '2px solid #B6B6B6'
+        : `2px solid ${theme.palette.divider}`,
+      background: isLight ? '#ffffff' : theme.palette.background.paper,
+      boxShadow: '-6px 4px 7px 0px rgba(0, 0, 0, 0.20)',
+      zIndex: 1000,
+    },
+    wrapper: {
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    content: {
+      flex: 1,
+      display: 'flex',
+      flexDirection: 'column',
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      padding: '0px 24px',
+    },
+    contentDetail: {
+      flex: 1,
+    },
+    header: {
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '24px 24px 0px 24px',
+    },
+    footer: {
+      padding: '0px 24px 24px 24px',
+    },
+    closeIcon: {
+      cursor: 'pointer',
+      marginLeft: 'auto',
+      color: theme.palette.text.secondary,
+      marginBottom: '18px',
+      border: 'none',
+      background: 'none',
+      padding: 0,
+    },
+    defaultImage: {
+      width: '100%',
+      height: '112px',
+    },
+    userImage: {
+      //  width: '496px',
+      // height: '248px',
+      borderRadius: '6px',
+      maxWidth: '100%',
+      maxHeight: '248px',
+      // maxHeight: '100%',
+      // maxHeight:'95px',
+      width: 'auto',
+      margin: 'auto',
+      height: 'auto',
+    },
+    markdown: {
+      '& p': {
+        wordBreak: 'break-word',
+        marginTop: '12px',
+        marginBottom: '12px',
+        fontSize: '14px',
+        fontWeight: 400,
+        lineHeight: 'normal',
+      },
+    },
+    externalLink: {
+      fontSize: '12px',
+      fontWeight: 600,
       lineHeight: 'normal',
     },
-  },
-  externalLink: {
-    fontSize: '12px',
-    fontWeight: 600,
-    lineHeight: 'normal',
-  },
-  linkTextShort: {
-    marginTop: '12px',
-    marginBottom: '12px',
-    marginRight: '56px',
-    '& svg': {
-      color: '#1774E5',
-      height: '24px',
-      width: '24px',
+    linkTextShort: {
+      marginTop: '12px',
+      marginBottom: '12px',
+      marginRight: '56px',
+      '& svg': {
+        color: theme.palette.primary.main,
+        height: '24px',
+        width: '24px',
+      },
+      '& a': {
+        color: theme.palette.primary.main,
+        textDecoration: 'underline',
+        fontSize: '14px',
+        fontWeight: 400,
+        lineHeight: '16px',
+      },
     },
-    '& a': {
-      color: '#1774E5',
-      textDecoration: 'underline',
-      fontSize: '14px',
+    tag: {
+      paddingLeft: '5px',
+      marginTop: '12px',
+      marginBottom: '12px',
+      marginRight: '24px',
+      paddingRight: '5px',
+      borderRadius: '3px',
+      border: isLight
+        ? '1px solid #dedede'
+        : `1px solid ${theme.palette.divider}`,
+      color: isLight ? '#000' : theme.palette.text.primary,
+      fontSize: '10px',
       fontWeight: 400,
-      lineHeight: '16px',
+      backgroundColor: isLight ? '#ffffff' : theme.palette.background.paper,
     },
-  },
-  tag: {
-    paddingLeft: '5px',
-    marginTop: '12px',
-    marginBottom: '12px',
-    marginRight: '24px',
-    paddingRight: '5px',
-    borderRadius: '3px',
-    border: '1px solid #dedede',
-    color: '#000',
-    fontSize: '10px',
-    fontWeight: 400,
-    backgroundColor: '#FFF',
-  },
-  actionButton: {
-    width: '100%',
-  },
+    actionButton: {
+      width: '100%',
+    },
+  };
 });
 
 /**

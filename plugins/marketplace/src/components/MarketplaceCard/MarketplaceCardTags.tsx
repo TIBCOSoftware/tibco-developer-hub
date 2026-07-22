@@ -7,35 +7,40 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { filterTags } from './MarketplaceCard.tsx';
 
-const useStyles = makeStyles<Theme>({
-  tagContainer: {
-    marginTop: '8px',
-  },
-  tag: {
-    paddingLeft: '5px',
-    marginTop: '8px',
-    marginRight: '16px',
-    paddingRight: '5px',
-    borderRadius: '3px',
-    border: '1px solid #dedede',
-    color: '#000',
-    fontSize: '10px',
-    fontWeight: 400,
-    backgroundColor: '#FFF',
-  },
-  linkTextMore: {
-    '& button': {
-      border: 'none',
-      background: 'none',
-      padding: 0,
-      color: '#1774E5',
-      textDecoration: 'underline',
-      fontSize: '12px',
-      fontWeight: 400,
-      lineHeight: '14px',
-      cursor: 'pointer',
+const useStyles = makeStyles<Theme>(theme => {
+  const isLight = theme.palette.type === 'light';
+  return {
+    tagContainer: {
+      marginTop: '8px',
     },
-  },
+    tag: {
+      paddingLeft: '5px',
+      marginTop: '8px',
+      marginRight: '16px',
+      paddingRight: '5px',
+      borderRadius: '3px',
+      border: isLight
+        ? '1px solid #dedede'
+        : `1px solid ${theme.palette.divider}`,
+      color: isLight ? '#000' : theme.palette.text.primary,
+      fontSize: '10px',
+      fontWeight: 400,
+      backgroundColor: isLight ? '#ffffff' : theme.palette.background.paper,
+    },
+    linkTextMore: {
+      '& button': {
+        border: 'none',
+        background: 'none',
+        padding: 0,
+        color: theme.palette.primary.main,
+        textDecoration: 'underline',
+        fontSize: '12px',
+        fontWeight: 400,
+        lineHeight: '14px',
+        cursor: 'pointer',
+      },
+    },
+  };
 });
 
 /**
