@@ -18,9 +18,9 @@ RESOURCE_INSTANCE_NAME_INGRESS="${6:-IngressResourceBWCE_$version}"
 # Storage Class for the Resource Instance
 RESOURCE_INSTANCE_STORAGE_CLASS="${7:-gp2}"
 # Ingress Class for the Resource Instance
-RESOURCE_INSTANCE_INGRESS_CLASS="${8:-nginx}"
+RESOURCE_INSTANCE_INGRESS_CLASS="${8:-Nginx}"
 # Ingress Controller for the Resource Instance
-RESOURCE_INSTANCE_INGRESS_CONTROLLER="${9:-nginx}"
+RESOURCE_INSTANCE_INGRESS_CONTROLLER="${9:-Nginx}"
 
 
 echo "---------- Installing a The BWCE capability  -----------------------";

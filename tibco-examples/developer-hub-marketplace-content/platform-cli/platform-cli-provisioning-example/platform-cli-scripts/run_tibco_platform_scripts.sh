@@ -88,9 +88,9 @@ dev_hub_ri_name_ingress="IngressResourceDevHub_$version"
 # Developer Hub Storage Class Name
 dev_hub_storage_class_name="gp2"
 # Developer Hub Ingress Class Name
-dev_hub_ingress_class_name="nginx"
+dev_hub_ingress_class_name="Nginx"
 # Developer Hub Ingress Controller
-dev_hub_ingress_controller="nginx"
+dev_hub_ingress_controller="Nginx"
 
 #################################
 # Flogo Configuration
@@ -102,9 +102,9 @@ flogo_ri_name_ingress="IngressResourceFlogo_$version"
 # Flogo Storage Class Name
 flogo_storage_class_name="efs-sc"
 # Flogo Ingress Class Name
-flogo_ingress_class_name="nginx"
+flogo_ingress_class_name="Nginx"
 # Flogo Ingress Controller
-flogo_ingress_controller="nginx"
+flogo_ingress_controller="Nginx"
 # Flogo FQDN
 flogo_fqdn="$version-$use_case_lower-flogo.$fqdn_base"
 # Flogo Path Prefix
@@ -122,9 +122,9 @@ bwce_ri_name_ingress="IngressResourceBWCE_$version"
 # bwce Storage Class Name
 bwce_storage_class_name="efs-sc"
 # bwce Ingress Class Name
-bwce_ingress_class_name="nginx"
+bwce_ingress_class_name="Nginx"
 # bwce Ingress Controller
-bwce_ingress_controller="nginx"
+bwce_ingress_controller="Nginx"
 # bwce FQDN
 bwce_fqdn="$version-$use_case_lower-bwce.$fqdn_base"
 # bwce Path Prefix
@@ -142,9 +142,9 @@ bw5ce_ri_name_ingress="IngressResourceBW5CE_$version"
 # bw5ce Storage Class Name
 bw5ce_storage_class_name="efs-sc"
 # bw5ce Ingress Class Name
-bw5ce_ingress_class_name="nginx"
+bw5ce_ingress_class_name="Nginx"
 # bw5ce Ingress Controller
-bw5ce_ingress_controller="nginx"
+bw5ce_ingress_controller="Nginx"
 # bw5ce FQDN
 bw5ce_fqdn="$version-$use_case_lower-bw5ce.$fqdn_base"
 # bw5ce Path Prefix

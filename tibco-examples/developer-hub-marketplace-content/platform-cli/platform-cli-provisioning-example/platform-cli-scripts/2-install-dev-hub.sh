@@ -19,9 +19,9 @@ DEV_HUB_RESOURCE_INSTANCE_NAME_INGRESS="${7:-IngressResourceDevHub_$version}"
 # Storage Class for the Resource Instance
 DEV_HUB_RESOURCE_INSTANCE_STORAGE_CLASS="${8:-gp2}"
 # Ingress Class for the Resource Instance
-DEV_HUB_RESOURCE_INSTANCE_INGRESS_CLASS="${9:-nginx}"
+DEV_HUB_RESOURCE_INSTANCE_INGRESS_CLASS="${9:-Nginx}"
 # Ingress Controller for the Resource Instance
-DEV_HUB_RESOURCE_INSTANCE_INGRESS_CONTROLLER="${10:-nginx}"
+DEV_HUB_RESOURCE_INSTANCE_INGRESS_CONTROLLER="${10:-Nginx}"
 
 
 echo "---------- Installing a The TIBCO Developer Hub  --------------------";
