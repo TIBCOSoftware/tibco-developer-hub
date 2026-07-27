@@ -7,3 +7,5 @@ spec:
     - ./developer-hub-marketplace/tibco-developer-hub-market-place.yaml
     - ./developer-hub-api/developer-hub-api.yaml
     - ./welcome-to-tibco-developer-hub/catalog-info.yaml
+    - ./import-flow-v2/import-mcp-definition.yaml
+    - ./developer-hub-api/import-mcp-definition.yaml
