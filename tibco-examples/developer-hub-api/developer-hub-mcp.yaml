@@ -12,6 +12,6 @@ spec:
   owner: TIBCO
   remotes:
     - type: streamable-http
-      url: /tibco/hub/api/mcp-actions/v1
+      url: /api/mcp-actions/v1
   definition:
     $text: ./backstage-mcp-definition.yaml
