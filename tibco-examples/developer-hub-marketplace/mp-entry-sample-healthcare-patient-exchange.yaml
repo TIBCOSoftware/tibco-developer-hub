@@ -1,0 +1,92 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-sample-healthcare-patient-exchange
+  title: Healthcare Patient Exchange
+  description: "A healthcare integration landscape modelled as a rich TIBCO
+    Developer Hub catalog: EHR, laboratory, billing, consent and
+    master-patient-index backends bridged to TIBCO EMS and a FHIR API gateway by
+    BW6/Flogo apps, with HL7 v2 and FHIR message contracts exposed as
+    first-class APIs. Purpose-built to showcase the Developer Hub Integration
+    Topology view and change-impact analysis of what breaks if a FHIR resource
+    schema changes, including cross-team coordination between clinical, lab and
+    billing teams."
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: Documentation
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/healthcare-patient-exchange/docs/index.md
+        icon: docs
+      - text: GitHub Repository
+        icon: github
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/healthcare-patient-exchange
+  tags:
+    - devhub-marketplace
+    - healthcare
+    - life-sciences
+    - fhir
+    - hl7
+    - ems
+    - impact-analysis
+    - topology
+spec:
+  owner: group:default/marketplace-entries-group
+  type: sample
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Healthcare Patient Exchange added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-sample-healthcare-patient-exchange
+
+            **Description:** A healthcare integration landscape modelled as a rich TIBCO Developer Hub catalog: EHR, laboratory, billing, consent and master-patient-index backends bridged to TIBCO EMS and a FHIR API gateway by BW6/Flogo apps, with HL7 v2 and FHIR message contracts exposed as first-class APIs. Purpose-built to showcase the Developer Hub Integration Topology view and change-impact analysis of what breaks if a FHIR resource schema changes, including cross-team coordination between clinical, lab and billing teams. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/healthcare-patient-exchange/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - icon: catalog
+        title: Open Integration Topology
+        url: /catalog/default/system/patient-data-exchange/diagram
+        type: openButton
+      - icon: docs
+        title: Documentation
+        url: /docs/default/system/patient-data-exchange
+      - icon: domain
+        title: Healthcare Domain
+        url: /catalog/default/domain/healthcare
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

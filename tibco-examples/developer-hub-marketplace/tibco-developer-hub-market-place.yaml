@@ -38,6 +38,12 @@ spec:
     - ./mp-entry-ai-powered-visual-prompt-engine-flogo.yaml
     - ./mp-entry-flogo-extension-generators.yaml
     - ./mp-entry-sample-ecommerce-platform.yaml
+    - ./mp-entry-sample-manufacturing-integration-network.yaml
+    - ./mp-entry-sample-banking-payments-hub.yaml
+    - ./mp-entry-sample-healthcare-patient-exchange.yaml
+    - ./mp-entry-sample-smart-grid-telemetry.yaml
+    - ./mp-entry-sample-insurance-claims-processing.yaml
+    - ./mp-entry-sample-telecom-order-to-activate.yaml
     - ./mp-entry-bwce-basics-guide.yaml
     - ./mp-entry-template-flogo-ai-healthcare-compliance.yaml
     - ./mp-entry-template-flogo-ai-mobile-customer-care.yaml

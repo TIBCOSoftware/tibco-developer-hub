@@ -1,0 +1,89 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-sample-manufacturing-integration-network
+  title: Manufacturing Integration
+  description: "A manufacturer SAP-to-TIBCO EMS integration landscape modelled as
+    a rich TIBCO Developer Hub catalog: SAP backends bridged to EMS topics and
+    queues by BW6/Flogo apps, with every message contract exposed as a
+    first-class API. Purpose-built to showcase the Developer Hub Integration
+    Topology view and change-impact analysis of what breaks if a message schema
+    changes, including cross-team coordination ripple points."
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: Documentation
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/manufacturing-integration-network/docs/index.md
+        icon: docs
+      - text: GitHub Repository
+        icon: github
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/manufacturing-integration-network
+  tags:
+    - devhub-marketplace
+    - manufacturing
+    - integration
+    - sap
+    - ems
+    - impact-analysis
+    - topology
+spec:
+  owner: group:default/marketplace-entries-group
+  type: sample
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Manufacturing Integration added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-sample-manufacturing-integration-network
+
+            **Description:** A manufacturer SAP-to-TIBCO EMS integration landscape modelled as a rich TIBCO Developer Hub catalog: SAP backends bridged to EMS topics and queues by BW6/Flogo apps, with every message contract exposed as a first-class API. Purpose-built to showcase the Developer Hub Integration Topology view and change-impact analysis of what breaks if a message schema changes, including cross-team coordination ripple points. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/manufacturing-integration-network/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - icon: catalog
+        title: Open Integration Topology
+        url: /catalog/default/system/sap-integration-hub/diagram
+        type: openButton
+      - icon: docs
+        title: Documentation
+        url: /docs/default/system/sap-integration-hub
+      - icon: domain
+        title: Manufacturing Domain
+        url: /catalog/default/domain/manufacturing
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard
