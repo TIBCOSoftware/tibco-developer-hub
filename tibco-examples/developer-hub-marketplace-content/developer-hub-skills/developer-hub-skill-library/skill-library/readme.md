@@ -7,7 +7,7 @@ your Developer Hub checkout and your coding agent follows the same proven playbo
 
 The library bundles three things:
 
-- **Seven skills** (`SKILL.md` runbooks) covering the full Developer Hub lifecycle.
+- **Nine skills** (`SKILL.md` runbooks) covering the full Developer Hub lifecycle.
 - **`AGENTS.md`** — project documentation in the open AGENTS.md standard, auto-discovered by all
   major coding agents.
 - **`CLAUDE.md`** — a thin Claude Code entry point that imports `AGENTS.md` and lists the skills.
@@ -57,11 +57,12 @@ description: <when the agent should use this skill>
 4. **Agent executes** all file creation, YAML generation, config wiring, and browser verification.
 5. **Developer gets** a fully wired, tested artefact in minutes — not hours.
 
-## The seven skills
+## The nine skills
 
 The library covers the full Developer Hub lifecycle — from a clean checkout, through authoring
-and testing templates and import flows, to rebranding the portal, to assessing the blast radius of a
-change before you make it.
+and testing templates and import flows, to rebranding the portal, to deciding whether to reuse or
+build a service, to assessing the blast radius of a change before you make it, and tracing where a
+data field comes from and where it ends up.
 
 | Skill | When to use | What it produces |
 |-------|-------------|------------------|
@@ -71,7 +72,9 @@ change before you make it.
 | **`create-theme`** | Adding a brand theme, rebranding for a customer, or changing the sidebar logo. | `packages/app/src/themes/<slug>ThemeLight.ts` (and a dark variant if requested), registered in `App.tsx`, with the logo swap wired in `Root.tsx` and type-checked. |
 | **`test-template`** | Testing a template, previewing output, or debugging `${{ values.* }}` substitutions. | A full rendered file tree under `template-workspace/dry-run-<N>/` via the scaffolder dry-run API — no GitHub repo created. |
 | **`test-import-flow`** | End-to-end validation of an import flow: structure check plus real catalog registration. | Phase 1 dry-run validation, then a real scaffolder task run and a catalog-API check confirming the imported entities were registered. |
+| **`reuse-or-build`** | Deciding whether an existing service already carries the data you need, or a new one must be built — "where can I get X from?", before scaffolding a new component. | A decision report (✅ Reuse / 🟡 Extend / 🔴 Build) with a field-level coverage matrix and color-coded topology diagrams under `reports/`, grounded in the live catalog read via the catalog REST API. |
 | **`impact-analysis`** | Assessing the blast radius before changing a catalog entity — "what breaks if I change this API/Component/Resource?". | A report plus color-coded integration-topology diagrams under `impact_analysis/`, grounded in the live catalog graph read via the catalog REST API. |
+| **`data-lineage`** | Tracing where a data field or message comes from and where it ends up — provenance, audit, and governance questions across the whole integration landscape. | A lineage report with a per-hop field table (🟢 carried · 🔵 renamed · 🟡 derived · ⚪ dropped), flow and field-propagation SVG diagrams under `reports/`, and the governance findings — team hand-offs, convention flips, and transformations the catalog cannot verify. |
 
 ## Business value
 

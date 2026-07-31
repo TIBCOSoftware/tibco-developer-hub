@@ -1,3 +1,16 @@
+> ## ⚠️ This content has moved
+>
+> The TIBCO Developer Hub marketplace content now lives in its own repository:
+> **[TIBCOSoftware/tibco-developer-hub-marketplace](https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace)**
+>
+> **New location of this content:** [`flogo/samples/flogo-machine-learning-anomaly-detection/`](https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/tree/main/flogo/samples/flogo-machine-learning-anomaly-detection)
+>
+> The files in this folder are kept **unchanged** so that installs made before the
+> migration keep working. Do not use this folder for new work — all updates, fixes and
+> new entries happen in the repository above.
+
+---
+
 # Flogo Machine Learning Isolation Forest Anomaly Detection
 
 This sample uses TIBCO Flogo in tandem with Python Scikit-learn open-source machine learning library to demonstrate Artificial Intelligence Machine Learning (AI-ML) in a real-time eventing scenario deployable into the TIBCO Platform. 

@@ -1,3 +1,16 @@
+> ## ⚠️ This content has moved
+>
+> The TIBCO Developer Hub marketplace content now lives in its own repository:
+> **[TIBCOSoftware/tibco-developer-hub-marketplace](https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace)**
+>
+> **New location of this content:** [`businessworks/design-assistant-prompt-library/`](https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/tree/main/businessworks/design-assistant-prompt-library)
+>
+> The files in this folder are kept **unchanged** so that installs made before the
+> migration keep working. Do not use this folder for new work — all updates, fixes and
+> new entries happen in the repository above.
+
+---
+
 # TIBCO BW6 Prompt Library
 
 A curated collection of reusable prompts, implementation templates, and integration examples for **TIBCO ActiveMatrix BusinessWorks 6 (BW6)**.

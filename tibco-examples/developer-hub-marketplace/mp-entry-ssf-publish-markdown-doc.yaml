@@ -1,0 +1,78 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-ssf-publish-markdown-doc
+  title: Publish a Markdown Document
+  description: A Self Service Flow that turns pasted Markdown into a
+    TechDocs-enabled document. It commits the Markdown, a generated mkdocs.yml
+    and a catalog-info.yaml into a folder of an existing GitHub repository, then
+    registers the document in the TIBCO Developer Hub catalog so it renders as
+    browsable TechDocs.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: TIBCO Developer Hub
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub
+        icon: github
+  tags:
+    - devhub-marketplace
+    - documentation
+    - techdocs
+spec:
+  owner: group:default/marketplace-entries-group
+  type: self-service
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Publish a Markdown Document added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-ssf-publish-markdown-doc
+
+            **Description:** A Self Service Flow that turns pasted Markdown into a TechDocs-enabled document. It commits the Markdown, a generated mkdocs.yml and a catalog-info.yaml into a folder of an existing GitHub repository, then registers the document in the TIBCO Developer Hub catalog so it renders as browsable TechDocs. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/self-service-flows/publish-markdown-doc/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Self Service Flows
+        url: /self-service-flow?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
+        icon: kind:template
+      - icon: kind:template
+        title: Run Publish a Markdown Document
+        url: /create/templates/default/self-service-publish-markdown-doc
+        type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

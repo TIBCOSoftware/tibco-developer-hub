@@ -150,6 +150,18 @@ Two-phase end-to-end test for an import flow template.
 3. Poll `GET /api/scaffolder/v2/tasks/{id}` until status is `completed` or `failed`
 4. Query `GET /api/catalog/entities?filter=kind=Component,metadata.name=<name>` to confirm the imported entities were registered in the catalog
 
+### reuse-or-build
+
+Answer *"do I need to build a new service, or can I re-use an existing one, to get `<information>`?"* from the **live** catalog — real contracts and definitions, not guesswork.
+
+Like `impact-analysis`, this Developer Hub is Backstage **1.41.1** with **no MCP server** — read the catalog through the **catalog REST API** at `http://localhost:7007/api/catalog` (spec: `marketplace-content/tibco-platform-apis/version-118/backstage-api-1.41.1.yaml`). Endpoints allow anonymous access in local guest mode.
+
+1. Pin down the information need: the concrete **fields** required, the **shape** (event-driven vs request/response), and the **consumer** team/component (ask via `AskUserQuestion` if ambiguous)
+2. Search for candidates: keyword search (`GET /entities/by-query?fullTextFilter[term]=…`), a full scan of `kind=api` (`GET /entities?filter=kind=api`), plus `kind=component` and `kind=resource`
+3. Field-level match: batch-fetch candidates with `spec.definition` (`POST /entities/by-refs` with a `fields` projection), parse each XSD / JSON Schema / OpenAPI, and build a candidate × field coverage matrix — a match requires the fields to be present in the definition, not just the name
+4. Classify into the cheapest tier that satisfies the need — ✅ **Reuse as-is** · 🟡 **Extend existing** (name the entity and recommend `/impact-analysis` on it) · 🔴 **Build new** — accounting for transport (topic vs queue), contract openness, and cross-team consumers
+5. Write a decision report under `reports/` (verdict box, coverage matrix, two color-coded topology diagrams, cost/risk comparison, next steps, and a provenance snapshot)
+
 ### impact-analysis
 
 Produce a change-impact ("blast radius") analysis for a catalog entity — answer *"what breaks if I change `<entity>`?"* from the **live** catalog graph, not guesswork.
@@ -160,3 +172,17 @@ This Developer Hub is Backstage **1.41.1**, which has **no MCP server** — read
 2. Traverse the graph breadth-first: collect neighbour refs from `relations`, dedupe, and batch-fetch with `POST /entities/by-refs` (`{"entityRefs":[…]}`); stop at ~2–3 hops or the system boundary
 3. Classify each neighbour into impact tiers (🔴 direct/breaks · 🟠 conditional/review · 🟢 not impacted) based on relation direction and contract semantics; flag cross-team ripples via `ownedBy`
 4. Write a report plus three color-coded integration-topology Mermaid diagrams under `impact_analysis/`, with a per-entity action list and a notify-by-team list
+
+### data-lineage
+
+Answer *"where does this data come from, and where does it end up?"* for a message contract or a single field — provenance, audit, and governance, from the **live** catalog rather than tribal knowledge. Same catalog as `reuse-or-build` (where can I *get* it?) and `impact-analysis` (what *breaks*?), different question.
+
+Same access rules: Backstage **1.41.1**, **no MCP server** — the **catalog REST API** at `http://localhost:7007/api/catalog`, anonymous in local guest mode. The skill ships a helper, `.claude/skills/data-lineage/lineage.py`, which does the directed traversal and the dual-format (JSON Schema + XSD) field extraction over a one-off entity dump.
+
+1. Pin down the **subject** (a contract `api:default/<name>`, or one field), the **direction** (upstream provenance / downstream reach / both) and the **boundary** (usually `spec.system`)
+2. Build the **directed** flow graph — the direction is already in the relations: `providesApi` = the component writes, `consumesApi` = it reads, so every hop is `API --consumed by--> Component --provides--> API`. Split `dependsOn` into transport (`topic`/`queue`/`message-broker` — an edge label, never a node) and systems of record (where lineage genuinely starts and ends)
+3. Walk the hops and classify each field crossing: 🟢 **carried** · 🔵 **renamed** (a convention flip, i.e. a mapping risk) · 🟡 **derived** (inferred, unverifiable from the catalog) · 🔵 **originates** · ⚪ **dropped**. Read the definitions rather than trusting name matches — a field can survive by name and change meaning
+4. Record the governance findings: team hand-offs, JSON↔XSD convention flips, transformation blind spots, which systems of record ultimately see the field, and where a topic widens exposure beyond the registered consumers
+5. Write the report under `reports/` (summary box, confidence legend, rendered SVG flow + field-propagation diagrams, hop table, origins & sinks, findings, open questions per 🟡 hop, and a provenance snapshot)
+
+The honest limit, stated in every report: the catalog proves *that* a component consumes A and provides B, never *how* a field in B was computed — that mapping lives inside the BW6/Flogo process.
