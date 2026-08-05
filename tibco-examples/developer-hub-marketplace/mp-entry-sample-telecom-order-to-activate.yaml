@@ -1,0 +1,92 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-sample-telecom-order-to-activate
+  title: Telecom Order-to-Activate
+  description: "A telecommunications OSS/BSS Order-to-Activate landscape modelled
+    as a rich TIBCO Developer Hub catalog: CRM/BSS, product catalog, OSS
+    inventory, network provisioning and billing backends bridged to TIBCO EMS
+    and a TMF API gateway by BW6/Flogo apps that decompose a product order into
+    service, resource and activation orders, with TMF Open API message contracts
+    exposed as first-class APIs. Purpose-built to showcase the Developer Hub
+    Integration Topology view and deep, multi-hop change-impact analysis down
+    the order-to-activate chain."
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: Documentation
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/telecom-order-to-activate/docs/index.md
+        icon: docs
+      - text: GitHub Repository
+        icon: github
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/telecom-order-to-activate
+  tags:
+    - devhub-marketplace
+    - telecommunications
+    - oss-bss
+    - tmf
+    - order-to-activate
+    - ems
+    - impact-analysis
+    - topology
+spec:
+  owner: group:default/marketplace-entries-group
+  type: sample
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Telecom Order-to-Activate added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-sample-telecom-order-to-activate
+
+            **Description:** A telecommunications OSS/BSS Order-to-Activate landscape modelled as a rich TIBCO Developer Hub catalog: CRM/BSS, product catalog, OSS inventory, network provisioning and billing backends bridged to TIBCO EMS and a TMF API gateway by BW6/Flogo apps that decompose a product order into service, resource and activation orders, with TMF Open API message contracts exposed as first-class APIs. Purpose-built to showcase the Developer Hub Integration Topology view and deep, multi-hop change-impact analysis down the order-to-activate chain. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/telecom-order-to-activate/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - icon: catalog
+        title: Open Integration Topology
+        url: /catalog/default/system/order-to-activate-hub/diagram
+        type: openButton
+      - icon: docs
+        title: Documentation
+        url: /docs/default/system/order-to-activate-hub
+      - icon: domain
+        title: Telecommunications Domain
+        url: /catalog/default/domain/telecommunications
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

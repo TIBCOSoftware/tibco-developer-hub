@@ -1,0 +1,8 @@
+site_name: 'Create Self Service Flows'
+site_description: 'create-self-service-flows-doc'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

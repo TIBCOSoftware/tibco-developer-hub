@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: create-import-flows-doc
+  description: Create Import Flows Documentation
+spec:
+  type: organization
+  profile:
+    displayName: Create Import Flows Documentation
+#    email: info@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: create-import-flows-doc
+  description: A group of documents
+spec:
+  owner: create-import-flows-doc
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: create-import-flows
+  description: 'Create Import Flows'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - documentation
+    - tibco-hub-documentation
+spec:
+  owner: create-import-flows-doc
+  domain: create-import-flows-doc

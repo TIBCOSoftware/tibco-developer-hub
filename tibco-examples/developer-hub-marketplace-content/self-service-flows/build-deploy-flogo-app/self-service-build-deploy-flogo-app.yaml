@@ -1,0 +1,347 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: self-service-build-deploy-flogo-app
+  title: Build & Deploy Flogo App
+  description: 'Builds and deploys a Flogo application to a dynamically selected TIBCO Data Plane.'
+  tags:
+    - self-service
+    - tibco
+    - flogo
+
+spec:
+  owner: group:default/tibco-self-service
+  type: self-service
+
+  parameters:
+    # ── Step 1: Flogo App Details ───────────────────────────────
+    - title: Provide Flogo App Details
+      required:
+        - flogo_app_name
+      properties:
+        flogo_app_name:
+          title: The name of the Flogo App
+          type: string
+          description: Give your Flogo App a unique name
+          default: 'my-flogo-app'
+        filename:
+          title: Filename
+          type: string
+          default: "app.json"
+          pattern: "^[a-zA-Z0-9._-]+$"
+          ui:help: 'Filename for the Flogo app configuration (no path separators allowed)'
+        content:
+          title: Flogo App Configuration
+          type: string
+          ui:widget: textarea
+          ui:options:
+            rows: 20
+          ui:help: 'To build a Flogo app on your Data Plane, add the app configuration as a file here'
+
+    # ── Step 2: Flogo App Deployment Details ────────────────────
+    - title: Flogo App Deployment Details
+      required:
+        - deploymentTarget
+      properties:
+        deploymentTarget:
+          title: Select Deployment Target
+          type: object
+          ui:field: CapabilitySelector
+          ui:options:
+            requiredCapabilities:
+              - FLOGO
+
+    # ── Step 3: Repository Location ─────────────────────────────
+    - title: Repository Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          description: GitHub repository to create for this Flogo App
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
+  # ── Steps ─────────────────────────────────────────────────────
+  steps:
+    # Check DP flogo versions
+    - id: test_connection
+      name: Check DP Flogo Versions
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/flogoversions'
+
+    # Provision flogo version if none on DP
+    - id: get-cp-flogo-versions
+      name: Get CP Flogo Versions
+      if: ${{ steps.test_connection.output.data.totalBuildtypes == 0 }}
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/cp/flogoversions'
+
+    - id: save-cp-flogo-versions
+      name: Save CP Flogo Versions
+      if: ${{ steps.test_connection.output.data.totalBuildtypes == 0 }}
+      action: tibco:file:write
+      input:
+        filePath: flogo-versions.json
+        content: ${{ steps['get-cp-flogo-versions'].output.data | dump }}
+        overwrite: true
+
+    - id: extract-latest-flogo-version
+      name: Extract Latest Flogo Version
+      if: ${{ steps.test_connection.output.data.totalBuildtypes == 0 }}
+      action: tibco:extract-parameters
+      input:
+        extractParameters:
+          latest_flogo_version:
+            type: json
+            filePath: flogo-versions.json
+            jsonPath: "$[-1:].version"
+
+    - id: provision-flogo-version
+      name: Provision Flogo Version
+      if: ${{ steps.test_connection.output.data.totalBuildtypes == 0 }}
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/flogoversions/${{ steps["extract-latest-flogo-version"].output.latest_flogo_version[0] }}'
+        method: POST
+
+    # Check if General connector is installed on DP (DP-first check)
+    - id: get-dp-connectors
+      name: Get DP Connectors
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/connectors'
+
+    # Save DP connector data for JSONPath check
+    - id: save-dp-connectors
+      name: Save DP Connectors
+      action: tibco:file:write
+      input:
+        filePath: dp-connectors.json
+        content: ${{ steps['get-dp-connectors'].output.data | dump }}
+        overwrite: true
+
+    # Check if General connector is installed on DP
+    - id: check-general-on-dp
+      name: Check General on DP
+      action: tibco:extract-parameters
+      input:
+        extractParameters:
+          dp_general_id:
+            type: json
+            filePath: dp-connectors.json
+            jsonPath: "$.connectorCatalog[?(@.id=='General')].id"
+
+    # Install General connector if not on DP — fetch CP connectors first
+    - id: get-connector-details
+      name: Get Connector Details
+      if: ${{ steps['check-general-on-dp'].output.dp_general_id.length == 0 }}
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/cp/connectors'
+
+    # Save connector data to file for JSONPath extraction
+    - id: save-connector-data
+      name: Save Connector Data
+      if: ${{ steps['check-general-on-dp'].output.dp_general_id.length == 0 }}
+      action: tibco:file:write
+      input:
+        filePath: connectors.json
+        content: ${{ steps['get-connector-details'].output.data | dump }}
+        overwrite: true
+
+    # Extract General connector tag from CP connector list (latest version)
+    - id: extract-general-connector
+      name: Extract General Connector
+      if: ${{ steps['check-general-on-dp'].output.dp_general_id.length == 0 }}
+      action: tibco:extract-parameters
+      input:
+        extractParameters:
+          general_connector_tag:
+            type: json
+            filePath: connectors.json
+            jsonPath: "$[?(@.id=='General')].tag"
+
+    # Install General connector
+    - id: install-general-connector
+      name: Install General Connector
+      if: ${{ steps['check-general-on-dp'].output.dp_general_id.length == 0 }}
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/connectors/General/${{ steps["extract-general-connector"].output.general_connector_tag[0] }}'
+        method: POST
+
+    # ── Save uploaded app configuration file ────────────────────
+    - id: write-custom-file
+      name: Flogo App Data File
+      action: tibco:file:write
+      input:
+        filePath: ${{ parameters.filename }}
+        content: ${{ parameters.content }}
+        overwrite: true
+
+    # ── Build the Flogo App ─────────────────────────────────────
+    - id: build_flogo_app
+      name: Building Flogo App
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/builds'
+        method: POST
+        filePath: ${{ steps['write-custom-file'].output.filePath }}
+        contentType: 'formData'
+        formFieldName: ${{ parameters.filename }}
+        body:
+          request:
+            buildName: ${{ parameters.flogo_app_name + "-build" }}
+            tags:
+              - flogo
+        headers:
+          'accept': 'application/json'
+
+    - id: log-build-id
+      name: Log Build ID
+      action: debug:log
+      input:
+        message: 'Build ID: ${{ steps.build_flogo_app.output.data.buildId }}'
+        listWorkspace: false
+
+    # Wait for the build to complete
+    - id: wait_for_build
+      name: Wait for Flogo App Build
+      action: debug:wait
+      input:
+        seconds: 30
+
+    # ── Deploy the Flogo App ────────────────────────────────────
+    - id: deploy_flogo_app
+      name: Deploying Flogo App
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/builds/${{ steps.build_flogo_app.output.data.buildId }}/deploy'
+        method: POST
+        body:
+          appId: ''
+          buildId: ${{ steps.build_flogo_app.output.data.buildId }}
+          eula: true
+          appName: ${{ parameters.flogo_app_name }}
+          tags:
+            - flogo
+          replicas: 1
+          resourceLimits:
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          enableServiceMesh: false
+          enableAutoscaling: false
+
+    - id: log-app-id
+      name: Log APP ID
+      action: debug:log
+      input:
+        message: 'APP ID: ${{ steps.deploy_flogo_app.output.data.appId }}'
+        listWorkspace: false
+
+    # ── Make Flogo App Endpoint Public ──────────────────────────
+    - id: endpoint-public
+      name: Make Endpoint Visible
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/apps/${{ steps.deploy_flogo_app.output.data.appId }}/endpoints/public'
+        method: POST
+        body:
+          ingressClassName: traefik
+          ingressControllerName: traefik
+          ingressHostName: ${{ parameters.deploymentTarget.dataplaneHost }}
+          portServicePathMappings:
+            - port: 9999
+              servicePath: '/tibco/apps/${{ steps.deploy_flogo_app.output.data.appId }}'
+              isPublic: true
+              isServiceDiscoveryEnabled: true
+          ingressTLSConfigs: []
+          customAnnotations: []
+
+    # ── Link the deployed application to the developer hub ──────
+    - id: link-deployed-app
+      name: Link App
+      action: tibco:call-platform-api
+      input:
+        endpoint: "/tp-cp-ws/v1/data-planes/${{ parameters.deploymentTarget.dataplaneId }}/capabilities/${{ parameters.deploymentTarget.capabilityId }}/apps"
+        method: PUT
+        body:
+          appId: ${{ steps.deploy_flogo_app.output.data.appId }}
+          appName: ${{ parameters.flogo_app_name }}
+          appLinks:
+            - linkName: ${{ parameters.flogo_app_name }}
+              linkType: "developer_hub"
+              href: ${{ steps.test_connection.output.appBaseUrl + "/catalog/default/component/" + parameters.flogo_app_name }}
+          eula: true
+          appVersion: [1, 0, 0]
+          state: "Scaling"
+
+    # ── Create catalog entries from skeleton template ───────────
+    - id: fetch
+      name: Flogo App Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton-flogo-app
+        values:
+          name: ${{ parameters.flogo_app_name }}
+          dataplane_id: ${{ parameters.deploymentTarget.dataplaneId }}
+          dataplane_host: ${{ parameters.deploymentTarget.dataplaneHost }}
+          appId: ${{ steps.deploy_flogo_app.output.data.appId }}
+          destination: ${{ parameters.repoUrl | parseRepoUrl }}
+
+    # Publish to a new GitHub repository
+    - id: publish
+      name: Publish to GitHub
+      action: publish:github
+      input:
+        description: ${{ "Flogo App - " + parameters.flogo_app_name }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+    # Register the Flogo App in catalog
+    - id: registerItem
+      name: Register Item
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    text:
+      - title: Your Flogo App has been built and deployed successfully!
+        content: |
+            **AppName:** ${{ parameters.flogo_app_name }} 
+            **DataPlane:** ${{ parameters.deploymentTarget.dataplaneName }} 
+            **AppId:** ${{ steps.deploy_flogo_app.output.data.appId }} 
+            You can view the app in the TIBCO Platform, and explore it in the Backstage catalog.
+    links:
+      - title: Repository
+        icon: github
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Dataplane Details
+        icon: catalog
+        url: ${{ steps.test_connection.output.cpBrowserUrl + "/cp/app/data-plane?dp_id=" + parameters.deploymentTarget.dataplaneId }}
+      - title: Open in VSCode
+        icon: scaffolder
+        url: ${{ "vscode://vscode.git/clone?url=" + steps.publish.output.remoteUrl }}

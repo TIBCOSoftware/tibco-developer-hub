@@ -102,6 +102,12 @@ The compiled binary will include the three Custom Log activities and the shared 
 
 ---
 
+## Sources
+
+[Flogo Enterprise Hub - Custom Log Palette](https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/extensions/custom-log-palette)
+
+---
+
 ## Dependencies
 
 - Go 1.25+

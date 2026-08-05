@@ -1,0 +1,35 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: bw6-design-assistant-prompt-library
+  description: BW6 Prompt Library
+spec:
+  type: organization
+  profile:
+    displayName: BW6 Design Assistant Prompt Library
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: bw6-design-assistant-prompt-library
+  description: Prompts for designing TIBCO BusinessWorks 6 integration applications with AI assistants
+spec:
+  owner: bw6-design-assistant-prompt-library
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: bw6-design-assistant-prompt-library
+  description: 'A curated prompt library for designing TIBCO BusinessWorks 6 (BW6) integration applications with AI assistants — covering REST, SOAP, JMS, JDBC, File, and subprocess patterns with worked retail examples.'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - business-works
+    - bw6
+    - artificial-intelligence
+    - prompts
+    - integration
+spec:
+  owner: bw6-design-assistant-prompt-library
+  domain: bw6-design-assistant-prompt-library

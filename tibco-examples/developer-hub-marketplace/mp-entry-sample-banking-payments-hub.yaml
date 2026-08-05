@@ -1,0 +1,92 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-sample-banking-payments-hub
+  title: Banking Payments Hub
+  description: "An event-driven banking payments landscape modelled as a rich
+    TIBCO Developer Hub catalog: core banking, card network, fraud and ledger
+    backends bridged to TIBCO EMS and a public API gateway by BW6/Flogo apps,
+    with ISO 20022 payment contracts (pain.001, pacs.008) and JSON message
+    schemas exposed as first-class APIs. Purpose-built to showcase the Developer
+    Hub Integration Topology view and change-impact analysis across payment
+    clearing, fraud scoring and ledger posting, including cross-team
+    coordination ripple points."
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: Documentation
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/banking-payments-hub/docs/index.md
+        icon: docs
+      - text: GitHub Repository
+        icon: github
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/banking-payments-hub
+  tags:
+    - devhub-marketplace
+    - financial-services
+    - banking
+    - payments
+    - iso20022
+    - ems
+    - impact-analysis
+    - topology
+spec:
+  owner: group:default/marketplace-entries-group
+  type: sample
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Banking Payments Hub added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-sample-banking-payments-hub
+
+            **Description:** An event-driven banking payments landscape modelled as a rich TIBCO Developer Hub catalog: core banking, card network, fraud and ledger backends bridged to TIBCO EMS and a public API gateway by BW6/Flogo apps, with ISO 20022 payment contracts (pain.001, pacs.008) and JSON message schemas exposed as first-class APIs. Purpose-built to showcase the Developer Hub Integration Topology view and change-impact analysis across payment clearing, fraud scoring and ledger posting, including cross-team coordination ripple points. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/sample-systems/banking-payments-hub/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - icon: catalog
+        title: Open Integration Topology
+        url: /catalog/default/system/payments-integration-hub/diagram
+        type: openButton
+      - icon: docs
+        title: Documentation
+        url: /docs/default/system/payments-integration-hub
+      - icon: domain
+        title: Financial Services Domain
+        url: /catalog/default/domain/financial-services
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

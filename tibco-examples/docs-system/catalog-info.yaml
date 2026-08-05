@@ -10,20 +10,6 @@ spec:
     email: info@acme.com
   children: []
 ---
-# apiVersion: backstage.io/v1alpha1
-# kind: Group
-# metadata:
-#   name: tibco-developer-hub
-#   description: TIBCO® Developer Hub
-# spec:
-#   type: department
-#   profile:
-#     displayName: TIBCO® Developer Hub
-#     email: info@acme.com
-#     picture: https://en.wikipedia.org/wiki/Finance#/media/File:Philippine-stock-market-board.jpg
-#   parent: DocGeneration
-#   children: []
-# ---
 apiVersion: backstage.io/v1alpha1
 kind: Domain
 metadata:

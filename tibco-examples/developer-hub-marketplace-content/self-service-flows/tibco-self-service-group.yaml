@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tibco-self-service
+  description: TIBCO self service group
+spec:
+  type: organization
+  profile:
+    displayName: TIBCO imported
+    email: info@acme.com
+  children: []

@@ -1,3 +1,16 @@
+> ## ⚠️ This content has moved
+>
+> The TIBCO Developer Hub marketplace content now lives in its own repository:
+> **[TIBCOSoftware/tibco-developer-hub-marketplace](https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace)**
+>
+> **New location of this content:** [`flogo/extensions/custom-log-palette/`](https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/tree/main/flogo/extensions/custom-log-palette)
+>
+> The files in this folder are kept **unchanged** so that installs made before the
+> migration keep working. Do not use this folder for new work — all updates, fixes and
+> new entries happen in the repository above.
+
+---
+
 # Custom Log Palette
 
 A Flogo extension that provides custom logging activities with a structured log format. The palette includes three activities for structured logging in flows, supporting configurable headers, context parameters, and text or JSON output.

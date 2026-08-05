@@ -1,0 +1,307 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: self-service-build-deploy-bw5ce-app
+  title: Build & Deploy BW5CE App
+  description: 'Builds and deploys a BW5CE application to a dynamically selected TIBCO Data Plane.'
+  tags:
+    - self-service
+    - tibco
+    - bw5ce
+
+spec:
+  owner: group:default/tibco-self-service
+  type: self-service
+
+  parameters:
+    # ── Step 1: BW5CE App & EAR File Details ────────────────────
+    - title: Provide BW5CE App & EAR File Details
+      required:
+        - bw5ce_app_name
+        - sourceRepoUrl
+        - earFilePath
+      properties:
+        bw5ce_app_name:
+          title: The name of the BW5CE App
+          type: string
+          description: Give your BW5CE App a unique name
+          default: 'my-bw5ce-app'
+        sourceRepoUrl:
+          title: Source Repository
+          type: string
+          description: GitHub repository containing the BW5CE EAR file
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        earFilePath:
+          title: EAR File Path
+          type: string
+          description: Path to the .ear file within the source repository (e.g. build/myapp.ear)
+          default: 'app.ear'
+        branch:
+          title: Branch
+          type: string
+          description: Branch of the source repository to fetch the EAR file from
+          default: 'main'
+        publishToSameRepo:
+          title: Publish catalog info to the same repository?
+          type: boolean
+          default: true
+          ui:widget: radio
+          description: >-
+            If yes, a pull request will be created in the source repository.
+            If no, a new repository named after the app will be created.
+
+    # ── Step 2: BW5CE App Deployment Details ────────────────────
+    - title: BW5CE App Deployment Details
+      required:
+        - deploymentTarget
+      properties:
+        deploymentTarget:
+          title: Select Deployment Target
+          type: object
+          description: >-
+            Select a data-plane that has the required BW5CE capabilities
+            provisioned and running. Deployment details are auto-populated.
+          ui:field: CapabilitySelector
+          ui:options:
+            requiredCapabilities:
+              - BW5CE
+
+  # ── Steps ─────────────────────────────────────────────────────
+  steps:
+    # Check if BW5CE is installed on the Data Plane
+    - id: check-dp-bw5ce-versions
+      name: Check DP BW5CE Versions
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/bw5ceversions'
+
+    # Get available BW5CE versions from CP if none installed
+    - id: get-cp-bw5ce-versions
+      name: Get CP BW5CE Versions
+      if: ${{ steps['check-dp-bw5ce-versions'].output.data.totalBuildtypes == 0 }}
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/cp/bw5ceversions'
+
+    - id: provision-bw5ce-version
+      name: Provision BW5CE Version
+      if: ${{ steps['check-dp-bw5ce-versions'].output.data.totalBuildtypes == 0 }}
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/bw5ceversions/${{ steps["get-cp-bw5ce-versions"].output.data[0].version }}'
+        method: POST
+
+    - id: wait-for-bw5ce-provision
+      name: Wait for BW5CE Provision
+      if: ${{ steps['check-dp-bw5ce-versions'].output.data.totalBuildtypes == 0 }}
+      action: debug:wait
+      input:
+        seconds: 5
+
+    # Re-fetch DP versions to get buildtypeTag and imageTag
+    - id: get-dp-bw5ce-versions
+      name: Get DP BW5CE Build Info
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/bw5ceversions'
+
+    # Fetch only the EAR file from the source GitHub repository
+    - id: fetch-ear-file
+      name: Fetch EAR File from GitHub
+      action: fetch:plain:file
+      input:
+        url: ${{ "https://" + (parameters.sourceRepoUrl | parseRepoUrl).host + "/" + (parameters.sourceRepoUrl | parseRepoUrl).owner + "/" + (parameters.sourceRepoUrl | parseRepoUrl).repo + "/tree/" + parameters.branch + "/" + parameters.earFilePath }}
+        targetPath: ${{ parameters.earFilePath }}
+
+    # Build the BW5CE app with autoProvision for connectors
+    - id: build-bw5ce-app
+      name: Building BW5CE App
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/builds?baseversion=${{ steps["get-dp-bw5ce-versions"].output.data.buildtypeCatalog[0].buildtypeTag }}&baseimagetag=${{ steps["get-dp-bw5ce-versions"].output.data.buildtypeCatalog[0].baseImages[0].imageTag }}&autoProvision=true'
+        method: POST
+        filePath: ${{ parameters.earFilePath }}
+        contentType: 'formData'
+        formFieldName: 'earFile'
+        body:
+          request:
+            buildName: ${{ parameters.bw5ce_app_name + "-build" }}
+            tags:
+              - bw5ce
+        headers:
+          'accept': 'application/json'
+
+    - id: log-build-id
+      name: Log Build ID
+      action: debug:log
+      input:
+        message: 'Build ID: ${{ steps["build-bw5ce-app"].output.data.buildId }}'
+        listWorkspace: false
+
+    - id: wait-for-build
+      name: Wait for BW5CE App Build
+      action: debug:wait
+      input:
+        seconds: 15
+
+    - id: deploy-bw5ce-app
+      name: Deploying BW5CE App
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/deploy'
+        method: POST
+        body:
+          appId: ''
+          buildId: ${{ steps["build-bw5ce-app"].output.data.buildId }}
+          eula: true
+          appName: ${{ parameters.bw5ce_app_name }}
+          tags:
+            - bw5ce
+          profile: 'default.substvar'
+          replicas: 0
+          enableExecutionHistory: false
+          enableServiceMesh: false
+          enableAutoscaling: false
+          resourceLimits:
+            limits:
+              cpu: '1'
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 384Mi
+
+    - id: log-app-id
+      name: Log APP ID
+      action: debug:log
+      input:
+        message: 'APP ID: ${{ steps["deploy-bw5ce-app"].output.data.appId }}'
+        listWorkspace: false
+
+    - id: wait-before-scale
+      name: Wait for before app Scale
+      action: debug:wait
+      input:
+        seconds: 5
+
+    # Scale app to 1 replica after deployment
+    - id: scale-app
+      name: Scale BW5CE App
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/apps/${{ steps["deploy-bw5ce-app"].output.data.appId }}/scale?count=1'
+        method: PUT
+
+    # Make BW5CE App Endpoint Public
+    - id: endpoint-public
+      name: Make Endpoint Public
+      action: tibco:call-platform-api
+      input:
+        baseUrl: ${{ parameters.deploymentTarget.dataplaneUrl }}
+        endpoint: 'public/v1/dp/apps/${{ steps["deploy-bw5ce-app"].output.data.appId }}/endpoints/public'
+        method: POST
+        body:
+          ingressClassName: traefik
+          ingressControllerName: traefik
+          ingressHostName: ${{ parameters.deploymentTarget.dataplaneHost }}
+          portServicePathMappings:
+            - port: 9090
+              servicePath: '/tibco/apps/${{ steps["deploy-bw5ce-app"].output.data.appId }}'
+              isPublic: true
+              isServiceDiscoveryEnabled: true
+          ingressTLSConfigs: []
+          customAnnotations: []
+
+    # Link the deployed application to the developer hub
+    - id: link-deployed-app
+      name: Link App
+      action: tibco:call-platform-api
+      input:
+        endpoint: "/tp-cp-ws/v1/data-planes/${{ parameters.deploymentTarget.dataplaneId }}/capabilities/${{ parameters.deploymentTarget.capabilityId }}/apps"
+        method: PUT
+        body:
+          appId: ${{ steps["deploy-bw5ce-app"].output.data.appId }}
+          appName: ${{ parameters.bw5ce_app_name }}
+          appLinks:
+            - linkName: ${{ parameters.bw5ce_app_name }}
+              linkType: "developer_hub"
+              href: ${{ steps["check-dp-bw5ce-versions"].output.appBaseUrl + "/catalog/default/component/" + parameters.bw5ce_app_name }}
+          eula: true
+          appVersion: [1, 0, 0]
+          state: "Scaling"
+
+    # Create catalog entries from skeleton template
+    - id: fetch
+      name: BW5CE App Skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton-bw5ce-app
+        values:
+          name: ${{ parameters.bw5ce_app_name }}
+          dataplane_id: ${{ parameters.deploymentTarget.dataplaneId }}
+          dataplane_host: ${{ parameters.deploymentTarget.dataplaneHost }}
+          appId: ${{ steps["deploy-bw5ce-app"].output.data.appId }}
+          destination: ${{ parameters.sourceRepoUrl | parseRepoUrl }}
+
+    # ── Conditional Publish ──────────────────────────────────────
+    # Option A: Push to same repo via pull request
+    - id: publish-pr
+      name: Create Pull Request
+      if: ${{ parameters.publishToSameRepo == true }}
+      action: publish:github:pull-request
+      input:
+        repoUrl: ${{ parameters.sourceRepoUrl }}
+        branchName: ${{ "bw5ce-" + parameters.bw5ce_app_name }}
+        title: ${{ "Add BW5CE App - " + parameters.bw5ce_app_name }}
+        description: Adds catalog-info.yaml for deployed BW5CE application.
+        update: true
+
+    # Option B: Create new repo named after the app
+    - id: publish-new
+      name: Publish to New GitHub Repo
+      if: ${{ parameters.publishToSameRepo != true }}
+      action: publish:github
+      input:
+        description: ${{ "BW5CE App - " + parameters.bw5ce_app_name }}
+        repoUrl: ${{ "github.com?owner=" + (parameters.sourceRepoUrl | parseRepoUrl).owner + "&repo=" + parameters.bw5ce_app_name }}
+
+    # Register the BW5CE App in catalog
+    - id: registerItem
+      name: Register Item
+      action: catalog:register
+      input:
+        catalogInfoUrl: ${{ "https://" + (parameters.sourceRepoUrl | parseRepoUrl).host + "/" + (parameters.sourceRepoUrl | parseRepoUrl).owner + "/" + ((parameters.sourceRepoUrl | parseRepoUrl).repo if parameters.publishToSameRepo == true else parameters.bw5ce_app_name) + "/blob/" + ("bw5ce-" + parameters.bw5ce_app_name if parameters.publishToSameRepo == true else "main") + "/catalog-info.yaml" }}
+
+  output:
+    text:
+      - title: Your BW5CE App has been built and deployed successfully!
+        content: |
+            **AppName:** ${{ parameters.bw5ce_app_name }} 
+            **DataPlane:** ${{ parameters.deploymentTarget.dataplaneName }} 
+            **AppId:** ${{ steps["deploy-bw5ce-app"].output.data.appId }} 
+            **BuildId:** ${{ steps["build-bw5ce-app"].output.data.buildId }} 
+            You can view the app in the TIBCO Platform, and explore it in the TIBCO Developer Hub catalog.
+    links:
+      - title: Repository
+        icon: github
+        # Points to source repo for PR path; new repo (named after app) for new-repo path
+        url: ${{ "https://" + (parameters.sourceRepoUrl | parseRepoUrl).host + "/" + (parameters.sourceRepoUrl | parseRepoUrl).owner + "/" + ((parameters.sourceRepoUrl | parseRepoUrl).repo if parameters.publishToSameRepo == true else parameters.bw5ce_app_name) }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Dataplane Details
+        icon: catalog
+        url: ${{ steps["check-dp-bw5ce-versions"].output.cpBrowserUrl + "/cp/app/data-plane?dp_id=" + parameters.deploymentTarget.dataplaneId }}
+      - title: Open in VSCode
+        icon: scaffolder
+        # Clones from the repo where catalog-info.yaml was published
+        url: ${{ "vscode://vscode.git/clone?url=https://" + (parameters.sourceRepoUrl | parseRepoUrl).host + "/" + (parameters.sourceRepoUrl | parseRepoUrl).owner + "/" + ((parameters.sourceRepoUrl | parseRepoUrl).repo if parameters.publishToSameRepo == true else parameters.bw5ce_app_name) }}

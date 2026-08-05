@@ -18,7 +18,6 @@ metadata:
         icon: star
   tags:
     - devhub-marketplace
-    - enterprise-message-service
     - ems
 spec:
   owner: group:default/marketplace-entries-group

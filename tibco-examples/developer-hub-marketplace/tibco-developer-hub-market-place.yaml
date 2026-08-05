@@ -5,19 +5,32 @@ metadata:
 spec:
   targets:
     - ./marketplace-group.yaml
+    - ./mp-entry-doc-dh-create-import-flow.yaml
     - ./mp-entry-doc-dh-create-marketplace-entry.yaml
+    - ./mp-entry-doc-dh-create-template.yaml
+    - ./mp-entry-doc-dh-create-self-service-flow.yaml
+    - ./mp-entry-doc-dh-developer-hub-portable.yaml
     - ./mp-entry-doc-bw-community.yaml
     - ./mp-entry-template-to-create-template.yaml
     - ./mp-entry-if-advanced-bw5.yaml
     - ./mp-entry-if-advanced-bwce6.yaml
     - ./mp-entry-if-advanced-ems.yaml
     - ./mp-entry-if-advanced-flogo-ems.yaml
-    - ./mp-entry-doc-platform-apis-117.yaml
+    - ./mp-entry-if-import-api.yaml
+    - ./mp-entry-ssf-build-deploy-flogo-app.yaml
+    - ./mp-entry-ssf-build-deploy-bw5ce-app.yaml
+    - ./mp-entry-ssf-publish-markdown-doc.yaml
+    - ./mp-entry-doc-platform-apis-118.yaml
     - ./mp-entry-sample-flogo-mcp-customer360.yaml
     - ./mp-entry-platform-cli-provisioning-example.yaml
     - ./mp-entry-doc-platform-provisioner.yaml
     - ./mp-entry-doc-helm-charts.yaml
     - ./mp-entry-template-flogo-rest-basic.yaml
+    - ./mp-entry-template-flogo-grpc-all-tls.yaml
+    - ./mp-entry-template-flogo-graphql-basic.yaml
+    - ./mp-entry-template-flogo-oracle-db-cluster.yaml
+    - ./mp-entry-template-flogo-oracle-database.yaml
+    - ./mp-entry-template-flogo-postgresql-crud.yaml
     - ./mp-entry-template-flogo-unit-testing.yaml
     - ./mp-entry-template-flogo-unit-testing-debug.yaml
     - ./mp-entry-doc-example-makedoc.yaml
@@ -25,11 +38,21 @@ spec:
     - ./mp-entry-ai-powered-visual-prompt-engine-flogo.yaml
     - ./mp-entry-flogo-extension-generators.yaml
     - ./mp-entry-sample-ecommerce-platform.yaml
+    - ./mp-entry-sample-manufacturing-integration-network.yaml
+    - ./mp-entry-sample-banking-payments-hub.yaml
+    - ./mp-entry-sample-healthcare-patient-exchange.yaml
+    - ./mp-entry-sample-smart-grid-telemetry.yaml
+    - ./mp-entry-sample-insurance-claims-processing.yaml
+    - ./mp-entry-sample-telecom-order-to-activate.yaml
     - ./mp-entry-bwce-basics-guide.yaml
     - ./mp-entry-template-flogo-ai-healthcare-compliance.yaml
     - ./mp-entry-template-flogo-ai-mobile-customer-care.yaml
     - ./mp-entry-template-flogo-ai-supply-chain.yaml
     - ./mp-entry-flogo-skill-library-coding-agents.yaml
+    - ./mp-entry-developer-hub-skill-library.yaml
+    - ./mp-entry-bw6-skill-library.yaml
+    - ./mp-entry-bw6-design-assistant-prompt-library.yaml
+    - ./mp-entry-tessa-prompt-library.yaml
     - ./mp-entry-sample-flogo-custom-log-palette.yaml
     - ./mp-entry-sample-smart-routing.yaml
     - ./mp-entry-sample-prowess-tp-cicd-pipelines.yaml

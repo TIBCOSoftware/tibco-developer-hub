@@ -19,7 +19,6 @@ metadata:
   tags:
     - devhub-marketplace
     - flogo-import
-    - enterprise-message-service
     - ems
 spec:
   owner: group:default/marketplace-entries-group

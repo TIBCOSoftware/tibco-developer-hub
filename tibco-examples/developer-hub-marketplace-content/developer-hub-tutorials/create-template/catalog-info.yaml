@@ -1,0 +1,33 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: create-template-doc
+  description: Create Template Documentation
+spec:
+  type: organization
+  profile:
+    displayName: Create Template Documentation
+#    email: info@acme.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: create-template-doc
+  description: A group of documents
+spec:
+  owner: create-template-doc
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: create-template
+  description: 'Create a Developer Hub Template'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - documentation
+    - tibco-hub-documentation
+spec:
+  owner: create-template-doc
+  domain: create-template-doc

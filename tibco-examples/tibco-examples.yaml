@@ -11,3 +11,5 @@ spec:
     - ./flogo-sample-template/flogo-sample-template.yaml
     - ./car-order-system-and-components/car-order-locations.yaml
     - ./import-flow-v2/catalog-info.yaml
+    - ./self-service-flows/self-service-group.yaml
+    - ./self-service-flows/self-service-create-platform-resource.yaml

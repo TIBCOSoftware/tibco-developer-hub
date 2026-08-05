@@ -1,9 +1,10 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-platform-apis-117
-  title: Platform APIs 1.17 (Most Recent)
-  description: Definitions of all the APIs in the TIBCO Platform - version 1.17
+  name: mp-entry-template-flogo-oracle-database
+  title: Flogo Oracle DB CRUD
+  description: This example demonstrates how we can create and use Oracle Database
+    Call stored procedure and CRUD activities.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: true
@@ -11,16 +12,22 @@ metadata:
     isMultiInstall: false
     imageURL: ""
     moreInfo:
-      - text: TIBCO Platform
-        url: https://www.tibco.com/platform
-        icon: star
+      - text: Flogo
+        url: https://www.tibco.com/content/dam/tibco/documents/data-sheet/tibco-flogo-enterprise.pdf
+        icon: docs
+      - text: Samples
+        url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/
+        icon: github
   tags:
     - devhub-marketplace
-    - platform-apis
-    - api
+    - flogo-templates
+    - integration
+    - database
+    - oracle
+    - flogo
 spec:
   owner: group:default/marketplace-entries-group
-  type: document
+  type: template
   presentation:
     buttonLabels:
       createButtonText: Get
@@ -33,14 +40,14 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  Platform APIs 1.17 (Most Recent) added to your TIBCO Developer Hub
+            ## Get  Flogo Oracle DB CRUD added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-platform-apis-117
+            **ID:** mp-entry-template-flogo-oracle-database
 
-            **Description:** Definitions of all the APIs in the TIBCO Platform - version 1.17 
+            **Description:** This example demonstrates how we can create and use Oracle Database Call stored procedure and CRUD activities. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
-            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/flogo-enterprise-hub//blob/master/LICENSE).
 
             **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
         accept:
@@ -55,32 +62,20 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-117/catalog-info-apis-117.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/flogo/templates/template-flogo-oracle-database.yaml
   output:
     links:
       - title: Open in catalog
         type: catalog
         icon: catalog
         entityRef: ${{ steps.registerItem.output.entityRef }}
-      - title: APIs
-        url: /api-docs?filters%5Bkind%5D=api&filters%5Buser%5D=all&limit=20
-        icon: kind:api
-      - icon: kind:api
-        title: Open TIBCO Platform API
-        url: /catalog/default/api/tibco-platform-api-117/definition
+      - title: Templates
+        url: /create?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
+        icon: kind:template
+      - icon: kind:template
+        title: Run Flogo Oracle DB CRUD Template
+        url: /create/templates/default/template-flogo-oracle-database
         type: openButton
-      - icon: kind:api
-        title: Open BW5 CE Capability API
-        url: /catalog/default/api/bw5ce-capability-api-117/definition
-      - icon: kind:api
-        title: Open BWCE Capability API
-        url: /catalog/default/api/bwce-capability-api-117/definition
-      - icon: kind:api
-        title: Open Flogo Capability API
-        url: /catalog/default/api/flogo-capability-api-117/definition
-      - icon: kind:api
-        title: Open TIBCO Developer Hub API
-        url: /catalog/default/api/developer-hub-api-117/definition
       - title: Back to Marketplace
         url: /marketplace
         icon: dashboard

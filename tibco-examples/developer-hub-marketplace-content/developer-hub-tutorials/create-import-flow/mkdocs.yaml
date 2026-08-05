@@ -1,0 +1,8 @@
+site_name: 'Create Import Flows'
+site_description: 'create-import-flows-doc'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

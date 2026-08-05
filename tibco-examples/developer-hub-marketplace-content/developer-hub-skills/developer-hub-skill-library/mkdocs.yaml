@@ -1,0 +1,10 @@
+site_name: 'Developer Hub Skills Library'
+site_description: 'A library of skills for AI coding agents to set up, extend, and customize the TIBCO Developer Hub.'
+
+nav:
+  - Introduction: index.md
+  - Impact analysis walkthrough: impact-analysis-questions.md
+  - Impact analysis example: car-information-api-impact-analysis.md
+
+plugins:
+  - techdocs-core

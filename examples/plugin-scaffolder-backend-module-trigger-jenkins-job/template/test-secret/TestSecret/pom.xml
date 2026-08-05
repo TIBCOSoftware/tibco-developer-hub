@@ -21,7 +21,7 @@
     <skipTests>false</skipTests>
     <eula>true</eula>
     <failIfNoTests>false</failIfNoTests>
-    <tibco.Home>/Users/hpeters/tibco_home_bwce_290_ga</tibco.Home>
+    <tibco.Home>/Users/user/tibco_home_bwce</tibco.Home>
   </properties>
   <build>
     <plugins>

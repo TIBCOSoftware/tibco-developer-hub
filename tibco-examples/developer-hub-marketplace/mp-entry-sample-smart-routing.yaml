@@ -10,7 +10,7 @@ metadata:
     settings.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: true
+    isNew: false
     popularity: 0
     isMultiInstall: false
     imageURL: ""
@@ -20,14 +20,13 @@ metadata:
         url: https://github.com/FPreiato2024/TIBCO-SmartRouting
       - icon: github
         text: Marketplace Source
-        url: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/smart-routing/
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/businessworks/smart-routing/
       - text: TIBCO Platform
         url: https://www.tibco.com/platform
         icon: star
   tags:
     - devhub-marketplace
-    - smart-routing
-    - document-routing
+    - routing
     - integration
     - jolt
     - sql-server
@@ -69,7 +68,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/developer-hub-marketplace-content/smart-routing/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/businessworks/smart-routing/catalog-info.yaml
   output:
     links:
       - title: Open in catalog
