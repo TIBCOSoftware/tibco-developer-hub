@@ -180,6 +180,9 @@ Mermaid renders in the IDE preview and on GitHub. Offer to also render PNG/SVG v
 
 ## Reference implementation
 
-`impact_analysis/car-information-api-impact-analysis.md` + `catalog-data-snapshot.md` are a complete
-worked example (subject: `car-information-api` in `car-order-system`) — read them as the gold-standard
-output before generating a new one.
+The Skill Library ships a complete worked example (subject: `car-information-api` in
+`car-order-system`). With the Marketplace entry installed, read it as TechDocs in the Hub at
+`/docs/default/system/developer-hub-skill-library/car-information-api-impact-analysis`, together
+with `.../catalog-data-snapshot` — that is the gold-standard output to match before generating a new
+one. The sources are `docs/*.md` in the Skill Library Marketplace entry; `impact_analysis/` is this
+skill's **own output folder**, so those files do not exist in the checkout until you generate them.

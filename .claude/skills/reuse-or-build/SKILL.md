@@ -184,9 +184,8 @@ Mermaid renders in the IDE preview and on GitHub. Offer to also render standalon
 
 ## Reference implementation
 
-The sibling skill `../impact-analysis/SKILL.md` documents the same catalog REST access patterns in
-more depth, and its worked example (`impact_analysis/car-information-api-impact-analysis.md`, plus
-and, with the Marketplace entry installed, the Skill Library TechDocs page
-`/docs/default/system/developer-hub-skill-library/car-information-api-impact-analysis`) shows the
-expected report quality,
-provenance discipline, and diagram style — match it.
+The sibling skill `../impact-analysis/SKILL.md` documents the same catalog access patterns in more
+depth. Its worked example — the Skill Library TechDocs page
+`/docs/default/system/developer-hub-skill-library/car-information-api-impact-analysis`, available
+once the Marketplace entry is installed — shows the expected report quality, provenance discipline
+and diagram style. Match it.
