@@ -52,6 +52,7 @@ spec:
     - ./mp-entry-developer-hub-skill-library.yaml
     - ./mp-entry-bw6-skill-library.yaml
     - ./mp-entry-bw6-design-assistant-prompt-library.yaml
+    - ./mp-entry-tessa-prompt-library.yaml
     - ./mp-entry-sample-flogo-custom-log-palette.yaml
     - ./mp-entry-sample-smart-routing.yaml
     - ./mp-entry-sample-prowess-tp-cicd-pipelines.yaml
