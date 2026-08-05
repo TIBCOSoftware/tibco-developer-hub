@@ -19,7 +19,7 @@ FROM alpine:3.24.1 as build
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
-ENV NODE_VERSION="24.17.0-r0"
+ENV NODE_VERSION="24.18.1-r0"
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
     --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
@@ -58,7 +58,7 @@ FROM alpine:3.24.1 as node-builder
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
-ENV NODE_VERSION="24.17.0-r0"
+ENV NODE_VERSION="24.18.1-r0"
 ENV NODE_ENV=production
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
@@ -89,7 +89,7 @@ FROM alpine:3.24.1
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
 ENV PYTHON_VERSION="~3.14"
-ENV NODE_VERSION="24.17.0-r0"
+ENV NODE_VERSION="24.18.1-r0"
 ENV NODE_ENV=production
 ENV PYTHON=/usr/bin/python3
 
