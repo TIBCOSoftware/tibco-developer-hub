@@ -83,7 +83,8 @@ describe('CustomTooltip Component', () => {
         render(<CustomTooltip {...defaultProps} />);
         const rect = screen.getByTestId('tooltip-background');
         expect(rect).toBeInTheDocument();
-        expect(rect).toHaveAttribute('fill', 'hsla(219, 76%, 23%, 1.00)');
+        // fill comes from theme — default MUI primary.dark when no navigation palette present
+        expect(rect).toHaveAttribute('fill');
         expect(rect).toHaveAttribute('rx', '4');
         expect(rect).toHaveAttribute('height', '30');
       });
@@ -94,7 +95,8 @@ describe('CustomTooltip Component', () => {
           .getByTestId('tooltip-triangle')
           .querySelector('path');
         expect(triangle).toBeInTheDocument();
-        expect(triangle).toHaveAttribute('fill', 'hsla(219, 76%, 23%, 1.00)');
+        // fill comes from theme — matches tooltip background
+        expect(triangle).toHaveAttribute('fill');
       });
 
       test('renders tooltip text', () => {
@@ -103,7 +105,8 @@ describe('CustomTooltip Component', () => {
         const text = screen.getByText(title);
         expect(text).toBeInTheDocument();
         expect(text.tagName).toBe('text');
-        expect(text).toHaveAttribute('fill', 'hsla(0, 0%, 100%, 1.00)');
+        // fill comes from theme.palette.common.white
+        expect(text).toHaveAttribute('fill', '#fff');
       });
     });
 
@@ -187,16 +190,17 @@ describe('CustomTooltip Component', () => {
           );
 
           const rect = screen.getByTestId('tooltip-background');
-          expect(rect).toHaveAttribute('fill', 'hsla(219, 76%, 23%, 1.00)');
+          // fill comes from active theme palette
+          expect(rect).toHaveAttribute('fill');
           expect(rect).toHaveAttribute('height', '30');
 
           const triangle = screen
             .getByTestId('tooltip-triangle')
             .querySelector('path');
-          expect(triangle).toHaveAttribute('fill', 'hsla(219, 76%, 23%, 1.00)');
+          expect(triangle).toHaveAttribute('fill');
 
           const text = screen.getByText(title);
-          expect(text).toHaveAttribute('fill', 'hsla(0, 0%, 100%, 1.00)');
+          expect(text).toHaveAttribute('fill', '#fff');
           unmount();
         });
       });

@@ -25,7 +25,7 @@ import {
   identityApiRef,
   useApi,
 } from '@backstage/core-plugin-api';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import DevHubLogo from './images/devhub-logo.svg';
 import { Config } from '@backstage/config';
 import Typography from '@material-ui/core/Typography';
@@ -33,7 +33,10 @@ import TopologyIcon from '../../icons/topology.svg';
 import ImportFlowIcon from '../../icons/importflow.svg';
 import DocumentsIcon from '../../icons/documents.svg';
 import SelfServiceIcon from '../../icons/selfservice.svg';
+import TemplatesIcon from '../../icons/templates.svg';
 import RegisterIcon from '../../icons/register.svg';
+import { useAdvancedView } from '../settings/CustomAppearanceCard.tsx';
+import { ThemeCSSVars } from './ThemeCSSVars';
 
 const SIDE_NAV_WIDTH_OPEN = 264;
 const SIDE_NAV_WIDTH_CLOSE = 72;
@@ -74,7 +77,7 @@ const useSidebarLogoStyles = makeStyles({
   },
 });
 
-const useSecondarySidebarStyles = makeStyles({
+const useSecondarySidebarStyles = makeStyles(theme => ({
   popover: {
     pointerEvents: 'none',
   },
@@ -88,11 +91,14 @@ const useSecondarySidebarStyles = makeStyles({
     marginTop: '-14px',
     wordBreak: 'break-all',
     width: 'max-content',
-    backgroundColor: '#0e2d65',
+    backgroundColor:
+      (theme.palette as any).navigation?.navItem?.hoverBackground ??
+      theme.palette.primary.dark,
     boxShadow: 'unset',
     padding: '8px 24px',
     borderRadius: '4px',
-    color: 'white',
+    color:
+      (theme.palette as any).navigation?.color ?? theme.palette.common.white,
     textAlign: 'center',
   },
   paperContent: {
@@ -100,11 +106,11 @@ const useSecondarySidebarStyles = makeStyles({
     fontSize: '14px',
   },
   NavBarExtendedMenu: {
-    backgroundColor: '#ebf4ff',
+    backgroundColor: 'var(--tpdh-nav-secondary-bg)',
     cursor: 'default',
     position: 'absolute',
     top: 0,
-    color: '#000',
+    color: 'var(--tpdh-text-primary)',
     height: '100%',
     overflowY: 'auto',
     zIndex: 1000,
@@ -114,7 +120,7 @@ const useSecondarySidebarStyles = makeStyles({
     listStyle: 'none',
     WebkitBackgroundClip: 'padding-box',
     backgroundClip: 'padding-box',
-    border: '1px solid #ccc',
+    border: '1px solid var(--tpdh-border-light)',
     boxShadow: '0 6px 12px rgba(0,0,0,.175)',
   },
   NavBarExtendedMenuNavOpen: {
@@ -137,7 +143,9 @@ const useSecondarySidebarStyles = makeStyles({
     fontSize: '12px',
   },
   MenuSeparator: {
-    borderTop: '1px solid #fff',
+    borderTop: `1px solid ${
+      (theme.palette as any).navigation?.color ?? theme.palette.common.white
+    }`,
     margin: '16px',
   },
   NavBarExtendedMenuPointer: { cursor: 'pointer', padding: '10px' },
@@ -147,9 +155,9 @@ const useSecondarySidebarStyles = makeStyles({
     justifyContent: 'space-between',
   },
   NavBarExtendedMenuItemContent: { marginRight: '8px' },
-  NavBarExtendedMenuIcon: { color: '#0e4f9e' },
+  NavBarExtendedMenuIcon: { color: theme.palette.primary.dark },
   NavBarExtendedMenuItem: {
-    color: '#0e4f9e',
+    color: theme.palette.primary.dark,
     fontWeight: 'bold',
     display: 'inline-block',
     width: '150px',
@@ -158,10 +166,13 @@ const useSecondarySidebarStyles = makeStyles({
     textOverflow: 'ellipsis',
     textAlign: 'left',
   },
-  NavBarExtendedMenuSubText: { color: '#727272', fontSize: '14px' },
-});
+  NavBarExtendedMenuSubText: {
+    color: 'var(--tpdh-text-secondary)',
+    fontSize: '14px',
+  },
+}));
 
-const useSidebarStyles = makeStyles({
+const useSidebarStyles = makeStyles(theme => ({
   root: {
     width: '100%',
     padding: '16px 8px 16px 8px',
@@ -180,7 +191,8 @@ const useSidebarStyles = makeStyles({
     },
   },
   divider: {
-    background: '#FFF',
+    background:
+      (theme.palette as any).navigation?.color ?? theme.palette.common.white,
     marginTop: '16px',
     marginBottom: '16px',
     width: '100%',
@@ -198,22 +210,25 @@ const useSidebarStyles = makeStyles({
     bottom: '24px',
     left: '24px',
     width: '216px',
-    color: '#C2D2E6',
+    color: 'var(--tpdh-nav-version-text)',
     fontSize: '14px',
     fontWeight: 600,
     display: 'flex',
     flexDirection: 'column',
   },
   itemSelected: {
-    backgroundColor: '#1774E5 !important',
+    backgroundColor: `${theme.palette.primary.main} !important`,
   },
   itemNotSelected: {
     backgroundColor: 'unset !important',
     '&:hover': {
-      backgroundColor: '#0E2D65 !important',
+      backgroundColor: `${
+        (theme.palette as any).navigation?.navItem?.hoverBackground ??
+        theme.palette.primary.dark
+      } !important`,
     },
   },
-});
+}));
 
 const secondaryControlPlanesValue = (
   secondaryControlPlanes: SecondaryControlPlanes[] | undefined,
@@ -409,6 +424,9 @@ const SidebarCustom = ({
   const config = useApi(configApiRef);
   const errorApi = useApi(errorApiRef);
   const identityApi = useApi(identityApiRef);
+  const { isAdvancedView } = useAdvancedView();
+  const location = useLocation();
+  const isOnTasksRoute = location.pathname.includes('/create/tasks');
   const secondaryControlPlanes: undefined | SecondaryControlPlanes[] =
     secondaryControlPlanesValue(config.getOptional('secondaryControlPlanes'));
   const developerHubVersion = config.getOptional('app.developerHubVersion');
@@ -485,13 +503,6 @@ const SidebarCustom = ({
         )}
         <SidebarDivider className={classes.divider} />
         <SidebarItem
-          icon={CategoryIcon}
-          to="catalog"
-          text="Catalog"
-          className={cpClicked ? classes.itemNotSelected : ''}
-          onClick={() => setCpClicked(false)}
-        />
-        <SidebarItem
           icon={() => (
             <img src={TopologyIcon} height={24} width={24} alt="logo" />
           )}
@@ -500,6 +511,23 @@ const SidebarCustom = ({
           className={cpClicked ? classes.itemNotSelected : ''}
           onClick={() => setCpClicked(false)}
         />
+        <SidebarItem
+          className={cpClicked ? classes.itemNotSelected : ''}
+          icon={() => (
+            <img src={MarketplaceIcon} height={24} width={24} alt="logo" />
+          )}
+          onClick={() => setCpClicked(false)}
+          to="marketplace"
+          text="Marketplace"
+        />
+        <SidebarItem
+          icon={CategoryIcon}
+          to="catalog"
+          text="Catalog"
+          className={cpClicked ? classes.itemNotSelected : ''}
+          onClick={() => setCpClicked(false)}
+        />
+
         <SidebarItem
           className={cpClicked ? classes.itemNotSelected : ''}
           onClick={() => setCpClicked(false)}
@@ -516,49 +544,67 @@ const SidebarCustom = ({
           to="docs"
           text="Documents"
         />
-        <SidebarItem
-          className={cpClicked ? classes.itemNotSelected : ''}
-          icon={() => (
-            <img src={MarketplaceIcon} height={24} width={24} alt="logo" />
-          )}
-          onClick={() => setCpClicked(false)}
-          to="marketplace"
-          text="Marketplace"
-        />
-        <SidebarItem
-          className={cpClicked ? classes.itemNotSelected : ''}
-          onClick={() => setCpClicked(false)}
-          icon={() => <TibcoIcon iconName="pl-icon-add-circle" />}
-          to="create"
-          text="Develop..."
-        />
-        <SidebarItem
-          className={cpClicked ? classes.itemNotSelected : ''}
-          onClick={() => setCpClicked(false)}
-          icon={() => (
-            <img src={SelfServiceIcon} height={24} width={24} alt="logo" />
-          )}
-          to="self-service-flow"
-          text="Self Service"
-        />
-        <SidebarItem
-          className={cpClicked ? classes.itemNotSelected : ''}
-          onClick={() => setCpClicked(false)}
-          icon={() => (
-            <img src={ImportFlowIcon} height={24} width={24} alt="logo" />
-          )}
-          to="import-flow"
-          text="Import..."
-        />
-        <SidebarItem
-          className={cpClicked ? classes.itemNotSelected : ''}
-          onClick={() => setCpClicked(false)}
-          icon={() => (
-            <img src={RegisterIcon} height={24} width={24} alt="logo" />
-          )}
-          to="catalog-import"
-          text="Register..."
-        />
+        {!isAdvancedView ? (
+          <SidebarItem
+            className={cpClicked ? classes.itemNotSelected : ''}
+            onClick={() => setCpClicked(false)}
+            icon={() => <TibcoIcon iconName="pl-icon-add-circle" />}
+            to="create"
+            text="Develop..."
+          />
+        ) : (
+          <div>
+            <SidebarDivider className={classes.divider} />
+            <SidebarItem
+              className={
+                cpClicked || isOnTasksRoute ? classes.itemNotSelected : ''
+              }
+              onClick={() => setCpClicked(false)}
+              icon={() => (
+                <img src={TemplatesIcon} height={24} width={24} alt="logo" />
+              )}
+              to="create"
+              text="Templates"
+            />
+            <SidebarItem
+              className={cpClicked ? classes.itemNotSelected : ''}
+              onClick={() => setCpClicked(false)}
+              icon={() => (
+                <img src={SelfServiceIcon} height={24} width={24} alt="logo" />
+              )}
+              to="self-service-flow"
+              text="Self Service"
+            />
+            <SidebarItem
+              className={cpClicked ? classes.itemNotSelected : ''}
+              onClick={() => setCpClicked(false)}
+              icon={() => (
+                <img src={ImportFlowIcon} height={24} width={24} alt="logo" />
+              )}
+              to="import-flow"
+              text="Import..."
+            />
+            <SidebarDivider className={classes.divider} />
+            <SidebarItem
+              className={
+                cpClicked || !isOnTasksRoute ? classes.itemNotSelected : ''
+              }
+              onClick={() => setCpClicked(false)}
+              icon={() => <TibcoIcon iconName="pl-icon-document" />}
+              to="create/tasks"
+              text="Task list"
+            />
+            <SidebarItem
+              className={cpClicked ? classes.itemNotSelected : ''}
+              onClick={() => setCpClicked(false)}
+              icon={() => (
+                <img src={RegisterIcon} height={24} width={24} alt="logo" />
+              )}
+              to="catalog-import"
+              text="Register..."
+            />
+          </div>
+        )}
         {/* End global nav */}
       </SidebarGroup>
       <SidebarDivider className={classes.divider} />
@@ -600,6 +646,7 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
   };
   return (
     <div onMouseUp={onMouseUp} role="presentation">
+      <ThemeCSSVars />
       <SidebarPage>
         <Sidebar disableExpandOnHover>
           <SidebarCustom

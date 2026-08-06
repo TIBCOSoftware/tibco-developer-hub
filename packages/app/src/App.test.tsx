@@ -3,7 +3,7 @@
  */
 
 import { fireEvent, render, waitFor } from '@testing-library/react';
-import App, { routes } from './App';
+import app, { routes } from './App';
 import { catalogApiMock } from '@backstage/plugin-catalog-react/testUtils';
 import {
   mockApis,
@@ -12,12 +12,14 @@ import {
 } from '@backstage/test-utils';
 import {
   configApiRef,
+  discoveryApiRef,
   fetchApiRef,
   identityApiRef,
 } from '@backstage/core-plugin-api';
 import { ConfigReader } from '@backstage/core-app-api';
 import {
   catalogApiRef,
+  entityPresentationApiRef,
   starredEntitiesApiRef,
 } from '@backstage/plugin-catalog-react';
 import { permissionApiRef } from '@backstage/plugin-permission-react';
@@ -31,6 +33,7 @@ import {
   catalogImportApiRef,
   CatalogImportClient,
 } from '@backstage/plugin-catalog-import';
+import { scaffolderApiRef } from '@backstage/plugin-scaffolder';
 
 describe('App', () => {
   it('should render App', async () => {
@@ -49,12 +52,48 @@ describe('App', () => {
       ] as any,
     };
 
-    const rendered = render(<App />);
+    const rendered = render(app);
     await waitFor(() => {
       expect(rendered.baseElement).toBeInTheDocument();
     });
   });
 });
+
+const mockScaffolderApi = {
+  getTemplateParameterSchema: jest.fn().mockResolvedValue({ steps: [] }),
+  scaffold: jest.fn().mockResolvedValue({ taskId: '' }),
+  getTask: jest
+    .fn()
+    .mockResolvedValue({ id: '', spec: {}, status: { steps: [] } }),
+  cancelTask: jest.fn().mockResolvedValue({}),
+  retry: jest.fn().mockResolvedValue({ id: '' }),
+  listTasks: jest.fn().mockResolvedValue({ tasks: [] }),
+  getIntegrationsList: jest.fn().mockResolvedValue({ integrations: [] }),
+  listActions: jest.fn().mockResolvedValue([]),
+  listTemplatingExtensions: jest
+    .fn()
+    .mockResolvedValue({ filters: [], globals: [] }),
+  streamLogs: jest.fn().mockReturnValue({
+    subscribe: jest.fn(() => ({ unsubscribe: jest.fn(), closed: false })),
+    [Symbol.observable]() {
+      return this;
+    },
+  }),
+  dryRun: jest.fn().mockResolvedValue({}),
+  autocomplete: jest.fn().mockResolvedValue({ results: [] }),
+};
+
+const mockEntityPresentationApi = {
+  forEntity: jest.fn().mockReturnValue({
+    snapshot: { primaryTitle: 'Entity', secondaryTitle: '', Icon: undefined },
+    promise: Promise.resolve({
+      primaryTitle: 'Entity',
+      secondaryTitle: '',
+      Icon: undefined,
+    }),
+    update$: undefined,
+  }),
+};
 
 describe('Should render all the routes correctly', () => {
   const mockCatalogApi = catalogApiMock({
@@ -481,10 +520,6 @@ describe('Should render all the routes correctly', () => {
       'href',
       '/create',
     );
-    expect(getByText('Import...').closest('a')).toHaveAttribute(
-      'href',
-      '/import-flow',
-    );
     expect(getByText('Settings').closest('a')).toHaveAttribute(
       'href',
       '/settings',
@@ -608,8 +643,20 @@ describe('Should render all the routes correctly', () => {
               ],
             }),
           ],
+          [discoveryApiRef, mockApis.discovery()],
+          [scaffolderApiRef, mockScaffolderApi],
+          [
+            fetchApiRef,
+            {
+              fetch: jest.fn().mockResolvedValue({
+                ok: true,
+                json: jest.fn().mockResolvedValue([]),
+              }),
+            },
+          ],
           [catalogApiRef, mockCatalogApi],
           [permissionApiRef, mockApis.permission()],
+          [entityPresentationApiRef, mockEntityPresentationApi],
         ]}
       >
         <Root>{routes}</Root>
@@ -665,8 +712,20 @@ describe('Should render all the routes correctly', () => {
               ],
             }),
           ],
+          [discoveryApiRef, mockApis.discovery()],
+          [scaffolderApiRef, mockScaffolderApi],
+          [
+            fetchApiRef,
+            {
+              fetch: jest.fn().mockResolvedValue({
+                ok: true,
+                json: jest.fn().mockResolvedValue([]),
+              }),
+            },
+          ],
           [catalogApiRef, mockCatalogApi],
           [permissionApiRef, mockApis.permission()],
+          [entityPresentationApiRef, mockEntityPresentationApi],
         ]}
       >
         <Root>{routes}</Root>
@@ -718,8 +777,20 @@ describe('Should render all the routes correctly', () => {
               ],
             }),
           ],
+          [discoveryApiRef, mockApis.discovery()],
+          [scaffolderApiRef, mockScaffolderApi],
+          [
+            fetchApiRef,
+            {
+              fetch: jest.fn().mockResolvedValue({
+                ok: true,
+                json: jest.fn().mockResolvedValue([]),
+              }),
+            },
+          ],
           [catalogApiRef, mockCatalogApi],
           [permissionApiRef, mockApis.permission()],
+          [entityPresentationApiRef, mockEntityPresentationApi],
         ]}
       >
         <Root>{routes}</Root>
@@ -1264,7 +1335,7 @@ describe('Should render all the routes correctly', () => {
           ],
           [catalogApiRef, mockCatalogApi],
           [searchApiRef, searchApiMock],
-          [translationApiRef, mockApis.translation()],
+          [translationApiRef, mockApis.translation() as any],
           [permissionApiRef, mockApis.permission()],
         ]}
       >

@@ -1,6 +1,6 @@
 {
   "name": "@internal/plugin-scaffolder-backend-module-tibco-git-repositories",
-  "version": "1.18.0",
+  "version": "1.19.0",
   "license": "Apache-2.0",
   "private": true,
   "description": "The tibco-git-repositories module for @backstage/plugin-scaffolder-backend",
@@ -25,16 +25,16 @@
     "postpack": "backstage-cli package postpack"
   },
   "dependencies": {
-    "@backstage/backend-plugin-api": "^1.4.1",
-    "@backstage/integration": "^1.17.1",
-    "@backstage/plugin-scaffolder-node": "^0.11.2",
+    "@backstage/backend-plugin-api": "^1.9.1",
+    "@backstage/integration": "^2.0.2",
+    "@backstage/plugin-scaffolder-node": "^0.13.3",
     "simple-git": "^3.27.0",
     "yaml": "^2.8.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@backstage/cli": "^0.33.1",
-    "@backstage/plugin-scaffolder-node-test-utils": "^0.3.1",
+    "@backstage/cli": "^0.36.2",
+    "@backstage/plugin-scaffolder-node-test-utils": "^0.3.11",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0"

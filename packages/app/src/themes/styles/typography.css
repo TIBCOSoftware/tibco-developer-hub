@@ -3,19 +3,19 @@
  */
 
 .th-title {
-  color: #212121;
+  color: var(--tpdh-text-primary);
   font-size: 26px;
   font-weight: 600;
   line-height: 38px;
 }
 .th-subtitle {
-  color: #727272;
+  color: var(--tpdh-text-secondary);
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
 }
 .th-font-small {
-  color: #727272;
+  color: var(--tpdh-text-secondary);
   font-size: 12px;
   font-style: normal;
   font-weight: 600;

@@ -3,7 +3,10 @@
  */
 
 import { JsonValue } from '@backstage/types';
-import { createTemplateFilter } from '@backstage/plugin-scaffolder-node/alpha';
+import {
+  createTemplateFilter,
+  type CreatedTemplateFilter,
+} from '@backstage/plugin-scaffolder-node/alpha';
 import { decodeExamples, encodeExamples } from './custom-filters.examples.ts';
 
 function decodeBase64(...args: JsonValue[]): string {
@@ -14,7 +17,7 @@ function encodeBase64(...args: JsonValue[]): string {
   return Buffer.from(args.join('')).toString('base64');
 }
 
-export const createDecodeBase64 = () =>
+export const createDecodeBase64 = (): CreatedTemplateFilter<any, any> =>
   createTemplateFilter({
     id: 'decodeBase64',
     description:
@@ -28,7 +31,7 @@ export const createDecodeBase64 = () =>
     filter: decodeBase64,
   });
 
-export const createEncodeBase64 = () =>
+export const createEncodeBase64 = (): CreatedTemplateFilter<any, any> =>
   createTemplateFilter({
     id: 'encodeBase64',
     description:

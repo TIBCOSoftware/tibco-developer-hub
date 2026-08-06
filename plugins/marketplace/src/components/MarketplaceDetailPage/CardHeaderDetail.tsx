@@ -43,15 +43,15 @@ import { formatTypeDisplay } from '../MarketplaceCard/CardHeader.tsx';
 import { FavoriteToggle } from '@backstage/core-components';
 import { useStarredEntities } from '@backstage/plugin-catalog-react';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   categoryText: {
-    color: '#727272',
+    color: theme.palette.text.secondary,
     fontSize: '16px',
     fontWeight: 600,
     lineHeight: '20px',
   },
   installedText: {
-    color: '#212121',
+    color: theme.palette.text.primary,
     fontSize: '14px',
     fontWeight: 600,
     marginLeft: '6px',
@@ -65,7 +65,7 @@ const useStyles = makeStyles({
     marginTop: '12px',
     marginBottom: '12px',
     borderRadius: '6px',
-    color: '#fff',
+    color: '#fff', // always white — text sits on coloured SVG background image
     padding: '8px 16px',
     backgroundSize: 'cover',
   },
@@ -92,7 +92,7 @@ const useStyles = makeStyles({
   ownedByLink: {
     marginLeft: '4px',
     textDecoration: 'underline',
-    color: '#fff',
+    color: '#fff', // always white — text sits on coloured SVG background image
     fontSize: '16px',
     fontWeight: 400,
     lineHeight: '14px',
@@ -113,7 +113,7 @@ const useStyles = makeStyles({
   dialogActions: {
     display: 'inline-block',
   },
-});
+}));
 
 /**
  * Props for the CardHeader component

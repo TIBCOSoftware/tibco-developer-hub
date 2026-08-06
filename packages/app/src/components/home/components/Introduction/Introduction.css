@@ -6,13 +6,13 @@
   padding: 48px 24px 24px 24px;
 }
 .tpdh-intro-title {
-  color: #212121;
+  color: var(--tpdh-text-primary);
   font-size: 24px;
   font-weight: 600;
   line-height: 38px;
 }
 .tpdh-intro-desc {
-  color: #212121;
+  color: var(--tpdh-text-primary);
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;

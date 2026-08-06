@@ -16,9 +16,15 @@ export const tibcoThemeLight = createUnifiedTheme({
       ...palettes.light,
       primary: {
         main: '#1774e5', // Changes inactive, clickable links, buttons, icons
+        dark: '#0e4f9e',
+        light: '#4a93ea',
       },
       secondary: {
         main: '#565a6e',
+      },
+      text: {
+        primary: '#212121',
+        secondary: '#727272',
       },
       error: {
         main: '#db0000', // icon that apperars in banner
@@ -285,7 +291,7 @@ export const tibcoThemeLight = createUnifiedTheme({
             marginRight: 'unset',
             paddingRight: 'unset',
           },
-          backgroundColor: '#1774E5',
+          backgroundColor: '#1774e5', // = palette.primary.main
         },
       },
     },
@@ -316,7 +322,6 @@ export const tibcoThemeLight = createUnifiedTheme({
           fontSize: '1.875rem',
           fontWeight: 400,
           color: '#212121',
-          // paddingBottom: '8px',
           marginBottom: '0px',
         },
         // Maps to TIBCO UXPL H1
@@ -338,7 +343,6 @@ export const tibcoThemeLight = createUnifiedTheme({
         body1: {
           fontSize: '1rem',
           fontWeight: 400,
-          /*   color: '#212121',*/
         },
         body2: {
           fontSize: '1rem',
@@ -351,12 +355,10 @@ export const tibcoThemeLight = createUnifiedTheme({
         subtitle1: {
           fontSize: '1.125rem',
           fontWeight: 600,
-          fontColor: '#0E4F9E',
         },
         subtitle2: {
           fontSize: '0.875rem',
           fontWeight: 400,
-          //  lineHeight: 1,
         },
       },
     },

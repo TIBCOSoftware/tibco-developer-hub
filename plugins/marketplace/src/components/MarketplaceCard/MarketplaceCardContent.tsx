@@ -10,55 +10,57 @@ import Highlighter from 'react-highlight-words';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 import markdownToTxt from 'markdown-to-txt';
 
-const useStyles = makeStyles(() => ({
-  box: {
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    display: '-webkit-box',
-    '-webkit-line-clamp': 10,
-    '-webkit-box-orient': 'vertical',
-  },
-  highlight: {
-    color: '#212121',
-    wordBreak: 'break-word',
-    fontSize: '14px',
-    fontWeight: 400,
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    display: '-webkit-box',
-    WebkitBoxOrient: 'vertical',
-    WebkitLineClamp: 4,
-  },
-  /*  markdown: {
-    '& :first-child': {
-      margin: 0,
+const useStyles = makeStyles(theme => {
+  const isLight = theme.palette.type === 'light';
+  return {
+    box: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      '-webkit-line-clamp': 10,
+      '-webkit-box-orient': 'vertical',
     },
-    overflow: 'hidden',
-    color: '#212121',
-    display: '-webkit-box',
-    WebkitBoxOrient: 'vertical',
-    WebkitLineClamp: 3,
-    fontSize: '14px',
-    fontWeight: 400,
-  },*/
-  titleContainer: {
-    marginTop: '16px',
-  },
-  title: {
-    color: '#000',
-    fontSize: '18px',
-    fontWeight: 600,
-    lineHeight: '28px',
-  },
-  newIcon: {
-    marginLeft: '8px',
-    display: 'inline-block',
-    height: '16px',
-  },
-  newImg: {
-    display: 'block',
-  },
-}));
+    highlight: {
+      color: theme.palette.text.primary,
+      wordBreak: 'break-word',
+      fontSize: '14px',
+      fontWeight: 400,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: 4,
+    },
+    /*  markdown: {
+      '& :first-child': {
+        margin: 0,
+      },
+      overflow: 'hidden',
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: 3,
+      fontSize: '14px',
+      fontWeight: 400,
+    },*/
+    titleContainer: {
+      marginTop: '16px',
+    },
+    title: {
+      color: isLight ? '#000' : theme.palette.text.primary,
+      fontSize: '18px',
+      fontWeight: 600,
+      lineHeight: '28px',
+    },
+    newIcon: {
+      marginLeft: '8px',
+      display: 'inline-block',
+      height: '16px',
+    },
+    newImg: {
+      display: 'block',
+    },
+  };
+});
 
 /**
  * The Props for the {@link MarketplaceCardContent} component

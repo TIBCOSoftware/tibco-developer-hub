@@ -27,9 +27,13 @@ import {
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import ZoomOutMap from '@material-ui/icons/ZoomOutMap';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import {
   MouseEvent,
@@ -179,6 +183,18 @@ const useStyles = makeStyles(
       flex: 1,
       minHeight: 0,
       display: 'flex',
+      // When fullscreened via the Fullscreen API this element becomes the top
+      // layer; give it a solid surface so the graph (and the detail dialog it
+      // now contains) render on an opaque background instead of black.
+      '&:fullscreen': {
+        backgroundColor: theme.palette.background.paper,
+      },
+    },
+    fullscreenButton: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      zIndex: 10001,
     },
     graph: {
       flex: 1,
@@ -341,6 +357,41 @@ export const TopologyPage = (
   }>({ x: 10, y: 10 });
   const { isOpen: isSidebarOpen } = useSidebarOpenState();
   const [sidebarState, setSidebarState] = useState(isSidebarOpen);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Fullscreen the whole graph workspace (graph + draggable detail dialog)
+  // instead of the library's built-in fullscreen, which only promotes the SVG
+  // to the top layer and hides the sibling detail dialog. Toggling here keeps
+  // the detail dialog visible because it lives inside paperRef.
+  const toggleFullscreen = useCallback(() => {
+    const el = paperRef.current;
+    if (!el) {
+      return;
+    }
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    } else {
+      el.requestFullscreen().catch(() => {});
+    }
+  }, []);
+
+  useEffect(() => {
+    const onFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+      // Reposition the detail dialog for the new viewport size.
+      setTimeout(() => {
+        if (paperRef.current) {
+          const paperRect = paperRef.current.getBoundingClientRect();
+          const draggableRectWidth = 425;
+          const x = Math.max(paperRect.width - draggableRectWidth - 20, 10);
+          setDetailsDefaultPos({ x, y: 20 });
+        }
+      }, 100);
+    };
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    return () =>
+      document.removeEventListener('fullscreenchange', onFullscreenChange);
+  }, []);
 
   useLayoutEffect(() => {
     const calculatePosition = () => {
@@ -788,6 +839,15 @@ export const TopologyPage = (
                 <ZoomOutMap className="icon" />{' '}
                 {t('catalogGraphPage.zoomOutDescription')}
               </Typography>
+              <Tooltip title={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}>
+                <IconButton
+                  className={classes.fullscreenButton}
+                  onClick={toggleFullscreen}
+                  aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+                >
+                  {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                </IconButton>
+              </Tooltip>
               {view === 'topology' && (
                 <>
                   {entities &&
@@ -833,6 +893,7 @@ export const TopologyPage = (
                       zoom="enabled"
                       curve={curve}
                       showArrowHeads
+                      allowFullscreen={false}
                     />
                   ) : (
                     <div
@@ -879,6 +940,7 @@ export const TopologyPage = (
                     className={classes.graph}
                     zoom="enabled"
                     curve={curve}
+                    allowFullscreen={false}
                   />
                 )}
               {view !== 'topology' &&

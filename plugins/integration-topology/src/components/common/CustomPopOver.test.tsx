@@ -49,6 +49,12 @@ jest.mock('@material-ui/core', () => ({
     popover: 'mock-popover-class',
     paper: 'mock-paper-class',
   }),
+  useTheme: () => ({
+    palette: {
+      navigation: { navItem: { hoverBackground: '#0E2D65' } },
+      primary: { dark: '#0e4f9e' },
+    },
+  }),
 }));
 
 // Mock CustomIcon component

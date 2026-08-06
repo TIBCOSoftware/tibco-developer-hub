@@ -43,7 +43,7 @@ const catalogApi = catalogApiMock.mock({
 const apis = TestApiRegistry.from(
   [catalogApiRef, catalogApi],
   [alertApiRef, {} as AlertApi],
-  [translationApiRef, mockApis.translation()],
+  [translationApiRef, mockApis.translation() as any],
   [errorApiRef, { post: jest.fn() }],
 );
 

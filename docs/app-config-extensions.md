@@ -25,7 +25,7 @@ Example config:
 
 ```yaml
 app:
-  developerHubVersion: '1.18.0'
+  developerHubVersion: '1.19.0'
 ```
 
 ## Doc Url
@@ -34,7 +34,7 @@ Documentation url
 
 ```yaml
 app:
-  docUrl: 'https://docs.tibco.com/go/platform-cp/1.18.0/doc/html#cshid=developer_hub_overview'
+  docUrl: 'https://docs.tibco.com/go/platform-cp/1.19.0/doc/html#cshid=developer_hub_overview'
 ```
 
 The CI/CD pipeline automatically adds the build number to all docker images.
@@ -68,26 +68,6 @@ essentialLocations:
   locations:
     - type: url
       target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml
-```
-
-## Walk Through
-
-Show the Walk-through card on home page if the config is present.
-
-Example config:
-
-```yaml
-walkThrough:
-  viewAllLink: 'http://www.some-external-link.com'
-  items:
-    - title: 'Walk Through 1'
-      tags: ['Tag1', 'Tag2']
-      text: 'Some description'
-      link: 'http://www.some-external-link.com/walk-through1'
-    - title: 'Walk Through 2'
-      tags: ['Tag1', 'Tag2']
-      text: 'Some description'
-      link: 'http://www.some-external-link.com/walk-through2'
 ```
 
 ## Template Groups
@@ -148,6 +128,18 @@ Example config:
 
 ```yaml
 cpLink: 'https://control-plane.domain.com'
+```
+
+## MCP Actions
+
+Enable or disable MCP actions
+
+Example config:
+
+```yaml
+tibco:
+  mcpActions:
+    enabled: false
 ```
 
 No need to provide this in configuration.

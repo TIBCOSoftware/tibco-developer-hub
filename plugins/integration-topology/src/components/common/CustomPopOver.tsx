@@ -5,10 +5,10 @@
 import { useState, MouseEvent } from 'react';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import { Paper, makeStyles } from '@material-ui/core';
+import { Paper, makeStyles, useTheme } from '@material-ui/core';
 import { CustomIcon } from './CustomIcon';
 
-const useCustomPopOverStyles = makeStyles({
+const useCustomPopOverStyles = makeStyles(theme => ({
   popover: {
     cursor: 'pointer',
   },
@@ -17,11 +17,14 @@ const useCustomPopOverStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     gap: '4px',
-    backgroundColor: '#0E2D65',
-    color: '#FFFFFF',
+    backgroundColor:
+      (theme.palette as any).navigation?.navItem?.hoverBackground ??
+      theme.palette.primary.dark,
+    color:
+      (theme.palette as any).navigation?.color ?? theme.palette.common.white,
     cursor: 'pointer',
   },
-});
+}));
 
 export const CustomPopOver = ({
   label,
@@ -31,6 +34,10 @@ export const CustomPopOver = ({
   popOverContent: string;
 }) => {
   const classes = useCustomPopOverStyles();
+  const theme = useTheme();
+  const navHoverBg =
+    (theme.palette as any).navigation?.navItem?.hoverBackground ??
+    theme.palette.primary.dark;
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -83,7 +90,7 @@ export const CustomPopOver = ({
                 left: '50%',
                 width: 10,
                 height: 10,
-                backgroundColor: '#0E2D65',
+                backgroundColor: navHoverBg,
                 transform: 'translate(-50%, -50%) rotate(45deg)',
               },
               '&:after': {

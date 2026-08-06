@@ -15,7 +15,7 @@ import {
 } from '@backstage/plugin-catalog-react';
 import { catalogApiMock } from '@backstage/plugin-catalog-react/testUtils';
 import { renderInTestApp, TestApiProvider } from '@backstage/test-utils';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { IntegrationTopologyPage } from './IntegrationTopologyPage';
 import { GetEntitiesByRefsRequest } from '@backstage/catalog-client';
@@ -48,6 +48,7 @@ jest.mock('../TopologyGraph/TopologyGraph', () => ({
     <div
       data-testid="topology-graph"
       data-show-arrow-heads={props.showArrowHeads}
+      data-allow-fullscreen={String(props.allowFullscreen)}
     >
       TopologyGraph Mock
     </div>
@@ -55,8 +56,13 @@ jest.mock('../TopologyGraph/TopologyGraph', () => ({
 }));
 
 jest.mock('@backstage/plugin-catalog-graph', () => ({
-  EntityRelationsGraph: jest.fn(() => (
-    <div data-testid="entity-relations-graph">EntityRelationsGraph Mock</div>
+  EntityRelationsGraph: jest.fn(props => (
+    <div
+      data-testid="entity-relations-graph"
+      data-allow-fullscreen={String(props.allowFullscreen)}
+    >
+      EntityRelationsGraph Mock
+    </div>
   )),
   Direction: { LEFT_RIGHT: 'LR' },
   ALL_RELATION_PAIRS: [],
@@ -238,6 +244,9 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
         const topologyGraph = screen.getByTestId('topology-graph');
         expect(topologyGraph).toBeInTheDocument();
         expect(topologyGraph).toHaveAttribute('data-show-arrow-heads', 'true');
+        // The library's built-in (SVG-only) fullscreen control is disabled so
+        // our own workspace-level fullscreen keeps the detail dialog visible.
+        expect(topologyGraph).toHaveAttribute('data-allow-fullscreen', 'false');
         expect(
           screen.queryByTestId('entity-relations-graph'),
         ).not.toBeInTheDocument();
@@ -253,9 +262,13 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
       await userEvent.click(graphViewInput);
 
       await waitFor(() => {
-        expect(
-          screen.getByTestId('entity-relations-graph'),
-        ).toBeInTheDocument();
+        const relationsGraph = screen.getByTestId('entity-relations-graph');
+        expect(relationsGraph).toBeInTheDocument();
+        // Library fullscreen control disabled here too (see topology view).
+        expect(relationsGraph).toHaveAttribute(
+          'data-allow-fullscreen',
+          'false',
+        );
         expect(screen.queryByTestId('topology-graph')).not.toBeInTheDocument();
       });
     });
@@ -637,6 +650,73 @@ describe('IntegrationTopologyPage - Highlighted Code Block Tests', () => {
         });
         expect(favoriteToggle).toBeInTheDocument();
       });
+    });
+  });
+
+  describe('Fullscreen Functionality', () => {
+    let requestFullscreenMock: jest.Mock;
+    let exitFullscreenMock: jest.Mock;
+
+    beforeEach(() => {
+      // jsdom does not implement the Fullscreen API, so stub it.
+      requestFullscreenMock = jest.fn().mockResolvedValue(undefined);
+      exitFullscreenMock = jest.fn().mockResolvedValue(undefined);
+      (HTMLElement.prototype as any).requestFullscreen = requestFullscreenMock;
+      (document as any).exitFullscreen = exitFullscreenMock;
+      Object.defineProperty(document, 'fullscreenElement', {
+        configurable: true,
+        writable: true,
+        value: null,
+      });
+    });
+
+    afterEach(() => {
+      delete (HTMLElement.prototype as any).requestFullscreen;
+      delete (document as any).exitFullscreen;
+    });
+
+    it('renders the fullscreen toggle button in topology view', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      expect(
+        await screen.findByRole('button', { name: 'Fullscreen' }),
+      ).toBeInTheDocument();
+    });
+
+    it('requests fullscreen on the graph workspace when clicked', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      const fullscreenButton = await screen.findByRole('button', {
+        name: 'Fullscreen',
+      });
+      await userEvent.click(fullscreenButton);
+
+      expect(requestFullscreenMock).toHaveBeenCalledTimes(1);
+      expect(exitFullscreenMock).not.toHaveBeenCalled();
+    });
+
+    it('swaps to the exit control and exits fullscreen when already fullscreen', async () => {
+      await renderInTestApp(wrapper, {
+        mountedRoutes: { '/entity/:kind/:namespace/:name': entityRouteRef },
+      });
+
+      await screen.findByRole('button', { name: 'Fullscreen' });
+
+      // Simulate the browser entering fullscreen.
+      (document as any).fullscreenElement = document.body;
+      fireEvent(document, new Event('fullscreenchange'));
+
+      const exitButton = await screen.findByRole('button', {
+        name: 'Exit fullscreen',
+      });
+      await userEvent.click(exitButton);
+
+      expect(exitFullscreenMock).toHaveBeenCalledTimes(1);
+      expect(requestFullscreenMock).not.toHaveBeenCalled();
     });
   });
 });

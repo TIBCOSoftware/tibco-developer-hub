@@ -4,8 +4,8 @@
 
 import '@backstage/cli/asset-types';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import '@backstage/ui/css/styles.css';
+import './index.css';
+import app from './App';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
+ReactDOM.createRoot(document.getElementById('root')!).render(app);

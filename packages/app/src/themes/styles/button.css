@@ -84,9 +84,9 @@ a.pl-button--cta.is-disabled {
 
 .pl-button--primary,
 a.pl-button--primary {
-  color: #ffffff;
-  background-color: #1774e5;
-  border-color: #1774e5;
+  color: var(--tpdh-primary-contrast);
+  background-color: var(--tpdh-primary);
+  border-color: var(--tpdh-primary);
   font-weight: 600;
 }
 
@@ -94,8 +94,8 @@ a.pl-button--primary {
 .pl-button--primary.is-hovered,
 a.pl-button--primary:hover,
 a.pl-button--primary.is-hovered {
-  background-color: #0e4f9e;
-  border-color: #0e4f9e;
+  background-color: var(--tpdh-primary-dark);
+  border-color: var(--tpdh-primary-dark);
 }
 
 .pl-button--primary:focus,
@@ -110,8 +110,8 @@ a.pl-button--primary.is-focussed {
 .pl-button--primary.is-active,
 a.pl-button--primary:active,
 a.pl-button--primary.is-active {
-  border-color: #0e4f9e;
-  box-shadow: inset 0 0 0 2px #055dab;
+  border-color: var(--tpdh-primary-dark);
+  box-shadow: inset 0 0 0 2px var(--tpdh-primary-active-shadow);
 }
 
 .pl-button--primary:disabled,
@@ -124,10 +124,9 @@ a.pl-button--primary.is-disabled {
 
 .pl-button--secondary,
 a.pl-button--secondary {
-  color: #1774e5;
-  border-color: #1774e5;
+  color: var(--tpdh-primary);
+  border-color: var(--tpdh-primary);
   background-color: transparent;
-  border-color: #1774e5;
 }
 
 .pl-button--secondary:hover,
@@ -135,8 +134,8 @@ a.pl-button--secondary {
 a.pl-button--secondary:hover,
 a.pl-button--secondary.is-hovered {
   background-color: transparent;
-  border-color: #0e4f9e;
-  color: #0e4f9e;
+  border-color: var(--tpdh-primary-dark);
+  color: var(--tpdh-primary-dark);
 }
 
 .pl-button--secondary:focus,
@@ -151,9 +150,9 @@ a.pl-button--secondary.is-focussed {
 .pl-button--secondary.is-active,
 a.pl-button--secondary:active,
 a.pl-button--secondary.is-active {
-  border-color: #0e4f9e;
-  box-shadow: inset 0 0 0 2px #0e4f9e;
-  color: #0e4f9e;
+  border-color: var(--tpdh-primary-dark);
+  box-shadow: inset 0 0 0 2px var(--tpdh-primary-dark);
+  color: var(--tpdh-primary-dark);
 }
 
 .pl-button--secondary:disabled,
@@ -166,7 +165,7 @@ a.pl-button--secondary.is-disabled {
 
 .pl-button--no-border,
 a.pl-button--no-border {
-  color: #1774e5;
+  color: var(--tpdh-primary);
   background-color: transparent;
   border-color: transparent;
 }
@@ -177,7 +176,7 @@ a.pl-button--no-border:hover,
 a.pl-button--no-border.is-hovered {
   background-color: transparent;
   border-color: transparent;
-  color: #0e4f9e;
+  color: var(--tpdh-primary-dark);
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.35);
 }
 
@@ -194,7 +193,7 @@ a.pl-button--no-border.is-focussed {
 a.pl-button--no-border:active,
 a.pl-button--no-border.is-active {
   box-shadow: 0 0 1px 2px rgba(0, 0, 0, 0.2);
-  color: #0e4f9e;
+  color: var(--tpdh-primary-dark);
 }
 
 .pl-button--no-border:disabled,
@@ -208,8 +207,8 @@ a.pl-button--no-border.is-disabled {
 .pl-button--danger,
 a.pl-button--danger {
   color: #ffffff;
-  background-color: #db0000;
-  border-color: #db0000;
+  background-color: var(--tpdh-error);
+  border-color: var(--tpdh-error);
   font-weight: 600;
 }
 
@@ -217,8 +216,8 @@ a.pl-button--danger {
 .pl-button--danger.is-hovered,
 a.pl-button--danger:hover,
 a.pl-button--danger.is-hovered {
-  background-color: #8f0000;
-  border-color: #8f0000;
+  background-color: var(--tpdh-error-dark);
+  border-color: var(--tpdh-error-dark);
 }
 
 .pl-button--danger:focus,
@@ -233,8 +232,8 @@ a.pl-button--danger.is-focussed {
 .pl-button--danger.is-active,
 a.pl-button--danger:active,
 a.pl-button--danger.is-active {
-  border-color: #db0000;
-  box-shadow: inset 0 0 0 2px #8f0000;
+  border-color: var(--tpdh-error);
+  box-shadow: inset 0 0 0 2px var(--tpdh-error-dark);
 }
 
 .pl-button--danger:disabled,

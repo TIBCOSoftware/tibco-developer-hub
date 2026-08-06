@@ -66,10 +66,13 @@ const useCustomNodeStyles = makeStyles(
     text: {
       fill: theme.palette.getContrastText(theme.palette.grey[300]),
       '&.primary': {
-        fill: 'hsla(0, 0%, 0%, 1.00)', // theme.palette.primary.contrastText,
+        fill:
+          theme.palette.type === 'light'
+            ? 'hsla(0, 0%, 0%, 1.00)'
+            : theme.palette.text.primary,
       },
       '&.secondary': {
-        fill: 'hsla(213, 84%, 34%, 1.00)', // theme.palette.secondary.contrastText,
+        fill: theme.palette.primary.dark,
       },
       '&.focused': {
         fontWeight: 'bold',
@@ -81,7 +84,7 @@ const useCustomNodeStyles = makeStyles(
     },
 
     tMainCard: {
-      fill: 'hsla(0, 0%, 88%, 1.00)',
+      fill: theme.palette.grey[300],
 
       '& $tCardContainer:has(~ $g:hover)': {
         strokeWidth: '2px',
@@ -98,7 +101,7 @@ const useCustomNodeStyles = makeStyles(
 
     tCardContainer: (props: CustomThemeProps) => ({
       fill: 'none',
-      stroke: props?.iconColor || 'hsla(0,0%,45%,1.00)',
+      stroke: props?.iconColor || theme.palette.text.secondary,
       strokeWidth: '1px',
 
       '&:hover': {
@@ -108,37 +111,44 @@ const useCustomNodeStyles = makeStyles(
     }),
 
     tCardContainerOutlined: (props: CustomThemeProps) => ({
-      stroke: props?.iconColor || 'hsla(213, 82%, 49%, 1.00)',
+      stroke: props?.iconColor || theme.palette.primary.main,
       strokeWidth: '1px',
     }),
 
     tIconCard: (props: CustomThemeProps) => ({
-      fill: props?.background || 'hsla(0, 0%, 88%, 1.00)',
+      fill: props?.background || theme.palette.grey[300],
     }),
 
-    tCardRight: (props: CustomThemeProps) => ({
-      fill: props.background
-        ? 'hsla(0, 0%, 98%, 1.00)'
-        : 'hsla(260, 10%, 94%, 1.00)',
-    }),
+    tCardRight: (props: CustomThemeProps) => {
+      const defaultFill =
+        theme.palette.type === 'light'
+          ? 'hsla(260, 10%, 94%, 1.00)'
+          : theme.palette.grey[800];
+      return {
+        fill: props.background ? theme.palette.background.paper : defaultFill,
+      };
+    },
     tPrimary: (props: CustomThemeProps) => ({
-      fill: props?.iconColor || 'hsla(213, 80%, 59%, 1)',
+      fill: props?.iconColor || theme.palette.primary.light,
 
       '& ~ $tSpacer': {
-        fill: props?.iconColor || 'hsla(213, 80%, 59%, 1)',
+        fill: props?.iconColor || theme.palette.primary.light,
       },
     }),
     tSpacer: (props: CustomThemeProps) => ({
-      fill: props?.background || 'hsla(0, 0%, 88%, 1.00)',
+      fill: props?.background || theme.palette.grey[300],
     }),
     tIcon: (props: CustomThemeProps) => ({
-      fill: props?.iconColor || 'hsla(0, 0%, 45%, 1)',
+      fill: props?.iconColor || theme.palette.text.secondary,
     }),
     tIconFocus: {
-      fill: 'hsla(0, 0%, 100%, 1.00)',
+      fill: theme.palette.common.white,
     },
     tMainText: {
-      fill: 'hsla(0, 0%, 0%, 1.00)',
+      fill:
+        theme.palette.type === 'light'
+          ? 'hsla(0, 0%, 0%, 1.00)'
+          : theme.palette.text.primary,
       fontFamily: 'Source Sans Pro',
       fontWeight: 400,
       fontSize: '16px',
@@ -147,7 +157,7 @@ const useCustomNodeStyles = makeStyles(
       marginBottom: '2px',
     },
     tSubText: {
-      fill: 'hsla(0, 0%, 45%, 1.00)',
+      fill: theme.palette.text.secondary,
       textAlign: 'left',
       fontFamily: 'Source Sans Pro',
       fontWeight: 400,
@@ -165,11 +175,14 @@ const useCustomNodeStyles = makeStyles(
       margin: '0 5px',
     },
     tDivider: {
-      fill: 'hsla(0, 0%, 71%, 1.00)',
+      fill:
+        theme.palette.type === 'light'
+          ? 'hsla(0, 0%, 71%, 1.00)'
+          : theme.palette.grey[400],
     },
     tLinkText: {
-      color: 'hsla(0, 0%, 45%, 1.00)',
-      fill: 'hsla(0, 0%, 45%, 1.00)',
+      color: theme.palette.text.secondary,
+      fill: theme.palette.text.secondary,
       fontWeight: 600,
       fontSize: '8px',
     },

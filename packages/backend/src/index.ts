@@ -2,11 +2,8 @@
  * Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
+import './backstageGlobalProxy.ts';
 import { createBackend } from '@backstage/backend-defaults';
-import 'global-agent/bootstrap';
-import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
-
-setGlobalDispatcher(new EnvHttpProxyAgent());
 
 const backend = createBackend();
 
@@ -28,6 +25,9 @@ backend.add(
 backend.add(import('@backstage/plugin-scaffolder-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(import('@backstage/plugin-scaffolder-backend-module-gitlab'));
+backend.add(
+  import('@backstage/plugin-scaffolder-backend-module-notifications'),
+);
 backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // auth plugin
@@ -61,6 +61,12 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
+// notifications and signals plugins
+backend.add(import('@backstage/plugin-notifications-backend'));
+backend.add(import('@backstage/plugin-signals-backend'));
+
+// mcp actions plugin
+backend.add(import('@backstage/plugin-mcp-actions-backend'));
 backend.add(import('@internal/plugin-scaffolder-backend-module-metrics-api'));
 backend.add(import('@internal/plugin-scaffolder-backend-module-platform-api'));
 backend.add(import('./addEssentialLocation'));

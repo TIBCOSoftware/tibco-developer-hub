@@ -1,4 +1,4 @@
-define: &docUrl https://docs.tibco.com/go/platform-cp/1.12.0/doc/html#cshid=developer_hub_overview
+define: &docUrl https://docs.tibco.com/go/platform-cp/1.19.0/doc/html#cshid=developer_hub_overview
 app:
   title: TIBCO® Developer Hub
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
@@ -56,6 +56,11 @@ backend:
       # ssl:
       #   ca: # if you have a CA file and want to verify it you can uncomment this section
     #     $file: <file-path>/ca/server.crt
+  actions:
+    pluginSources:
+      - auth
+      - catalog
+      - scaffolder
 
 integrations:
   github:
@@ -124,9 +129,15 @@ scaffolder:
     name: TIBCO® Developer Hub # Defaults to `Scaffolder`
     email: test@test.com # Defaults to `scaffolder@backstage.io`
   defaultCommitMessage: 'Initial commit' # Defaults to 'Initial commit'
+mcpActions:
+  name: 'TIBCO® Developer Hub'
+  description: 'Tools for managing your software catalog, creating new services from templates, and exploring your developer portal' # optional
 essentialLocations:
   runScheduler: true # Set to false to disable periodic updates
   frequencyInMinutes: 120
   locations:
     - type: url
       target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml
+tibco:
+  mcpActions:
+    enabled: false

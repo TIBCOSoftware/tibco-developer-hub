@@ -4,11 +4,11 @@
 
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   error: {
-    color: '#db0000',
+    color: theme.palette.error.main,
   },
-});
+}));
 
 export function ErrorMessage(props: { text: string }) {
   const { text } = props;

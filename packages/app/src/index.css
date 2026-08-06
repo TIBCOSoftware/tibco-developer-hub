@@ -22,7 +22,7 @@ html {
   margin-left: -8px;
   border-width: 8px;
   border-style: solid;
-  border-color: #0e2d65 transparent transparent transparent;
+  border-color: var(--tpdh-nav-hover-bg) transparent transparent transparent;
 }
 *,
 *:before,
@@ -45,6 +45,33 @@ html {
   --bui-bg-solid-disabled: #a3c5f5;
   /* Focus ring matches primary */
   --bui-ring: #1774e5;
+
+  /*
+   * TPDH design tokens — default values match the light theme.
+   * ThemeCSSVars (packages/app/src/components/Root/ThemeCSSVars.tsx)
+   * overrides these at runtime so custom CSS responds to theme switches.
+   */
+  --tpdh-text-primary: #212121;
+  --tpdh-text-secondary: #727272;
+  --tpdh-bg-default: #fafafa;
+  --tpdh-bg-paper: #ffffff;
+  --tpdh-bg-subtle: #f1f1f1;
+  --tpdh-primary: #1774e5;
+  --tpdh-primary-dark: #0e4f9e;
+  --tpdh-primary-light: #4a93ea;
+  --tpdh-primary-contrast: #ffffff;
+  --tpdh-border: #c8c5c5;
+  --tpdh-error: #db0000;
+  --tpdh-error-dark: #8f0000;
+  --tpdh-nav-bg: #0e4f9e;
+  --tpdh-nav-hover-bg: #0e2d65;
+  --tpdh-nav-text: #fafafa;
+  --tpdh-nav-secondary-bg: #ebf4ff;
+  --tpdh-nav-version-text: #c2d2e6;
+  --tpdh-border-light: #ccc;
+  --tpdh-text-muted: #464646;
+  --tpdh-border-subtle: #dedede;
+  --tpdh-primary-active-shadow: #055dab;
 }
 
 /*
@@ -58,4 +85,49 @@ html {
   --bg-solid-danger-hover: #0e4f9e;
   --bg-solid-danger-pressed: #0e2d65;
   --bg-solid-danger-disabled: #a3c5f5;
+}
+
+/*
+ * 3. Override the element-scoped --bg variables on primary BUI buttons with
+ * TIBCO brand colors. These unlayered attribute-selector rules beat the
+ * @layer components rules that set --bg from --bui-bg-solid, so the color
+ * stays correct regardless of the global token value.
+ */
+.bui-Button[data-variant='primary'] {
+  --bg: #1774e5;
+  --bg-hover: #0e4f9e;
+  --bg-active: #0e2d65;
+  --fg: #ffffff;
+}
+
+.bui-Button[data-variant='primary'][data-disabled='true'],
+.bui-Button[data-variant='primary'][data-ispending='true'] {
+  --bg: #a3c5f5;
+  --bg-hover: #a3c5f5;
+  --bg-active: #a3c5f5;
+  --fg: #ffffff;
+}
+
+/*
+ * 4. Override BUI small button dimensions to match the previous MUI contained
+ * button height (~36px). Unlayered rules take precedence over @layer components.
+ */
+.bui-Button[data-size='small'] {
+  font-size: var(--bui-font-size-4);
+  padding: 0 var(--bui-space-3);
+  height: 2.25rem;
+}
+
+/*
+ * 5. Fix transparent @backstage/ui Dialog panels in dark mode.
+ * BUI's dark rule sets the Dialog *panel* background to a semi-transparent
+ * rgba(0, 0, 0, 0.5), so page content shows through and the modal looks
+ * see-through. Restore a solid surface (the same --bui-bg-app token the
+ * light-theme panel and Popover use). The [class*='bui-Dialog__'] selector
+ * matches only the panel — DialogOverlay/Header/Body/Content/Inner have text
+ * between "Dialog" and "__", so they are excluded. Unlayered, so it beats
+ * BUI's @layer components rule without !important.
+ */
+[data-theme-mode='dark'] [class*='bui-Dialog__'] {
+  background: var(--bui-bg-app);
 }

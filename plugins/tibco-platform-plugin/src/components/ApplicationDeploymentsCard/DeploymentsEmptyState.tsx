@@ -38,7 +38,9 @@ const useStyles = makeStyles(
       borderRadius: 6,
       margin: theme.spacing(2, 0),
       background:
-        theme.palette.type === 'dark' ? '#444' : theme.palette.common.white,
+        theme.palette.type === 'dark'
+          ? theme.palette.background.paper
+          : theme.palette.common.white,
     },
   }),
   { name: 'PlatformDeploymentsEmptyState' },
