@@ -22,20 +22,22 @@ field-match the need against each candidate's `spec.definition` → classify int
 
 ## Key facts
 
-- **Data source**: the Backstage **catalog REST API** of the running Developer Hub, base URL
-  `http://localhost:7007/api/catalog` (or `/tibco/hub/api/catalog` behind the platform). The
-  backend must be running (`yarn start`). This Developer Hub is Backstage **1.41.1** — there is
-  **no MCP server**; use the REST endpoints below. Full spec:
-  `tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-118/backstage-api-1.41.1.yaml`.
-- **Endpoints you need**:
-  - `GET /entities/by-query?fullTextFilter[term]=<term>` — keyword search across the catalog.
-  - `GET /entities?filter=kind=api` — list all entities of a kind for a full scan (catalogs are
-    small; a full scan beats a missed candidate). Combine filters, e.g.
-    `filter=kind=api,spec.system=<system>`.
-  - `POST /entities/by-refs` with `{"entityRefs":[…],"fields":[…]}` — batch-fetch candidates in one
-    call, projecting only the fields you need (`spec.definition`, `relations`, …).
-  - `GET /entities/by-name/{kind}/{namespace}/{name}` — fetch one entity in full
-    (e.g. `/entities/by-name/api/default/car-information-api`).
+- **Data source**: the **MCP server** of the running Developer Hub. This is Developer Hub **1.19**
+  (Backstage **1.51.0**), which exposes the catalog through `@backstage/plugin-mcp-actions-backend`
+  at `http://localhost:7007/api/mcp-actions/v1`. The backend must be running (`yarn start`) and
+  `tibco.mcpActions.enabled` must be `true` — see `MCP-TOOLS.md` in this skill set.
+- **Tools this skill uses**:
+  - `catalog.query-catalog-entities` with `fullTextFilter` — keyword search for candidates:
+    `{ "fullTextFilter": { "term": "<term>", "fields": ["metadata.name", "metadata.title"] } }`
+  - `catalog.query-catalog-entities` with a predicate — the full scan of a kind (catalogs are
+    small; a full scan beats a missed candidate):
+    `{ "query": { "kind": "API" }, "fields": ["kind", "metadata.name", "spec.type", "spec.system"] }`
+  - the same tool with `fields: ["spec.definition"]` — pull the contracts of the shortlist. **The
+    definition is not returned unless you name it**, and it is large, so shortlist first.
+  - `catalog.get-catalog-entity` with `{ kind, namespace, name }` — one candidate in full.
+- **If MCP is unavailable**, the REST equivalents are `GET /entities/by-query?fullTextFilter[term]=`,
+  `GET /entities?filter=kind=api`, `POST /entities/by-refs` with a `fields` projection, and
+  `GET /entities/by-name/{kind}/{namespace}/{name}` against `http://localhost:7007/api/catalog`.
 - **Auth**: these endpoints allow anonymous access (`security: - {}`), so in local guest-mode dev
   **no token is needed** — try a call first. Only if catalog auth is enforced, pass
   `Authorization: Bearer <Backstage identity token>` on a 401/403. All localhost curls need

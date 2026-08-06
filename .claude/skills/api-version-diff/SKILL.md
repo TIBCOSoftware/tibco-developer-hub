@@ -75,14 +75,18 @@ Establish what is being compared. Ask via `AskUserQuestion` if it is ambiguous. 
 - **Two files on disk** — the common case when versions are frozen per folder:
   `version-118/control-plane-api-118.json` vs `version-119/control-plane-api-119.json`.
 - **Two catalog entities** — read `spec.definition` from the running Developer Hub, which is the
-  ground truth for what the Hub actually serves:
-  ```sh
-  CATALOG="http://localhost:7007/api/catalog"
-  curl -s "$CATALOG/entities/by-name/api/default/<name>" \
-    | python3 -c "import json,sys; print(json.load(sys.stdin)['spec']['definition'])" > ${TMPDIR:-/tmp}/devhub-skills/api-version-diff/old.yaml
+  ground truth for what the Hub actually serves. On 1.19, use MCP:
+  ```jsonc
+  // catalog.get-catalog-entity
+  { "kind": "API", "namespace": "default", "name": "tibco-platform-api-118" }
   ```
-  Anonymous access works in local guest mode; all localhost curls need
-  `dangerouslyDisableSandbox: true`.
+  Write each entity's `spec.definition` to a file and diff the files. **`spec.definition` is large**,
+  so if you are searching for the pair rather than fetching a known one, shortlist with
+  `catalog.query-catalog-entities` *without* that field first, then fetch only the two you want.
+  If MCP is off, the REST equivalent is
+  `curl -s "$CATALOG/entities/by-name/api/default/<name>"` piped through
+  `python3 -c "import json,sys; print(json.load(sys.stdin)['spec']['definition'])"`, with
+  `dangerouslyDisableSandbox: true` on the curl.
 - **Two git refs of one file** — when the spec tracks a branch rather than a frozen copy:
   `git show v1.9.4:openapi.yaml > ${TMPDIR:-/tmp}/devhub-skills/api-version-diff/old.yaml`. If this is how the versions are kept, say so in
   the report: it means the older version is only reproducible from git, which the best-practices

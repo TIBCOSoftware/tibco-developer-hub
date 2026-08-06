@@ -175,3 +175,23 @@ When both respond, tell the user the app is ready at **http://localhost:3000/tib
 - Don't print or commit the GitHub token.
 - Don't block on `yarn install` / `yarn start` synchronously — run them in the background and react to completion / port readiness.
 - Don't try to start `yarn start` yourself if the user already has it running (a process already on `:3000`/`:7007`) — just verify and report.
+
+## Developer Hub 1.19 — enable the MCP server
+
+1.19 ships `@backstage/plugin-mcp-actions-backend`, already wired into `packages/backend/src/index.ts`.
+It is **off by default**. To let the rest of this skill set use it, add to `app-config.local.yaml`:
+
+```yaml
+tibco:
+  mcpActions:
+    enabled: true
+```
+
+Restart the backend, then register the server with your agent:
+
+```sh
+claude mcp add --transport http devhub http://localhost:7007/api/mcp-actions/v1
+```
+
+Verify the `catalog.*` and `scaffolder.*` tools are listed before relying on them. Full reference:
+`MCP-TOOLS.md` in this skill set.

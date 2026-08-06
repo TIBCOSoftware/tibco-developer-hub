@@ -508,3 +508,16 @@ Then suggest the `test-self-service-flow` skill for an actual run.
 - Don't tag the flow `devhub-marketplace` unless it really is a marketplace entry, and don't tag
   it `devhub-internal` — that suppresses it from the Self Service page.
 - Don't auto-restart `yarn start` yourself — the user controls their dev loop.
+
+## Developer Hub 1.19 — MCP shortcuts
+
+On 1.19 (see `MCP-TOOLS.md`):
+
+- `scaffolder.list-scaffolder-actions` — confirm `tibco:call-platform-api` and friends are registered
+  before writing steps against them.
+- `scaffolder.dry-run-template` — structural validation of the flow without touching the platform.
+- `catalog.query-catalog-entities` — verify the catalog entry a flow registers at the end.
+
+**MCP does not cover the TIBCO Platform APIs.** Control Plane and Data Plane calls are plain HTTP
+against the platform, exactly as on 1.18 — the MCP server fronts the Hub's own catalog and
+scaffolder, nothing else. Everything else in this skill is unchanged from 1.18.

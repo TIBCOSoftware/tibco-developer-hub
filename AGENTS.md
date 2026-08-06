@@ -3,6 +3,15 @@
 Project documentation for AI coding agents (Codex, Copilot, Cursor, Devin, etc.).
 Claude Code users: see `CLAUDE.md`, which imports this file and adds Claude-specific extras.
 
+## Which Developer Hub this targets
+
+**Developer Hub 1.19 — Backstage 1.51.0, MCP server enabled.** Catalog and scaffolder access goes
+through `@backstage/plugin-mcp-actions-backend` at `http://localhost:7007/api/mcp-actions/v1`
+(`tibco.mcpActions.enabled: true`; it ships `false`). `MCP-TOOLS.md` is the shared reference — the
+endpoint, the eleven tools, the predicate query syntax and the gotchas. Every workflow below keeps a
+REST fallback so the set still works with MCP off. For Developer Hub 1.18 (Backstage 1.41.1), use the
+`developer-hub-118` set.
+
 ## What this is
 
 TIBCO® Developer Hub — a Backstage.io-based portal. This is a Yarn 4 (Berry) monorepo with workspaces under `packages/*` (the `app` frontend and `backend`) and `plugins/*` (in-repo Backstage plugins, all published under the `@internal/*` scope and consumed via `workspace:^`). Build tooling is the Backstage CLI (`backstage-cli`), not Webpack/Vite/Next directly. Node 22 or 24 is required; the package manager is pinned to `yarn@4.4.1`.
@@ -43,12 +52,15 @@ Postgres is required. A `docker compose` setup in `docker/` is the default for l
 
 ## Architecture
 
-**Backend (`packages/backend/src/index.ts`)** — uses Backstage's `createBackend()` "new backend system." Plugins are registered via `backend.add(import('...'))`. The in-repo backend modules actually wired in are only these two:
+**Backend (`packages/backend/src/index.ts`)** — uses Backstage's `createBackend()` "new backend system." Plugins are registered via `backend.add(import('...'))`. The in-repo backend modules wired in are:
 
+- `@internal/backstage-plugin-scaffolder-backend-module-import-flow` — scaffolder actions for the Import Flow feature (`tibco:git:clone`, `tibco:extract-parameters`, `tibco:create-yaml`)
+- `@internal/plugin-scaffolder-backend-module-tibco-git-repositories` — git-repo scaffolder actions (`tibco:git:push`)
+- `@internal/plugin-scaffolder-backend-module-tibco-platform-actions` — additional TIBCO Platform actions
 - `@internal/plugin-scaffolder-backend-module-metrics-api` — metrics-API scaffolder action
-- `@internal/plugin-scaffolder-backend-module-platform-api` — the TIBCO Platform scaffolder actions (`tibco:call-platform-api`, `tibco:fetch-api-file`, `tibco:file:write`, …) that self service flows are built on
+- `@internal/plugin-scaffolder-backend-module-platform-api` — the core TIBCO Platform actions (`tibco:call-platform-api`, `tibco:fetch-api-file`, `tibco:file:write`, …) that self service flows are built on
 
-`scaffolder-backend-module-import-flow` and `scaffolder-backend-module-tibco-git-repositories` are declared as `workspace:^` dependencies in `packages/backend/package.json` but are **not** added to the backend in this version — if you need `tibco:git:clone` / `tibco:git:push` locally you have to add the `backend.add(...)` line yourself. Check `index.ts` before assuming an action is available; `http://localhost:3000/create/actions` is the authoritative list for a running instance.
+(1.18 wired in only the last two of these; if you are cross-checking against a 1.18 checkout, expect a shorter list.) `http://localhost:3000/create/actions` is the authoritative list for a running instance.
 
 Local backend services (sibling files in `packages/backend/src/`): `rootLoggerService`, `rootHttpRouterService`, `cachePlugin` / `cacheService`, `addEssentialLocation` (auto-registers catalog locations on startup and on a scheduler — see `essentialLocations` config), `authModuleOidcProvider` + `idmJwtMiddleware` + `authenticator` (TIBCO Control Plane OIDC SSO). HTTP traffic is routed through `undici`'s `EnvHttpProxyAgent` for corporate proxy support.
 
@@ -74,15 +86,15 @@ Tag-based grouping for these three pages is configured via `templateGroups`, `im
 | `tibco-platform-custom-form-fields` | `@internal/plugin-tibco-platform-custom-form-fields` | provides `CapabilitySelector` and `DataplaneSelector`, the platform-aware scaffolder form fields self service flows use |
 | `tibco-platform-plugin` | `@internal/plugin-tibco-platform-plugin` | |
 
-*Backend (`backstage.role: backend-plugin-module`)*
+*Backend (`backstage.role: backend-plugin-module`)* — all five are wired into `index.ts`:
 
-| Directory | Package | Wired into `index.ts`? |
-|---|---|---|
-| `scaffolder-backend-module-metrics-api` | `@internal/plugin-scaffolder-backend-module-metrics-api` | yes |
-| `scaffolder-backend-module-platform-api` | `@internal/plugin-scaffolder-backend-module-platform-api` | yes — the TIBCO Platform actions |
-| `scaffolder-backend-module-import-flow` | `@internal/backstage-plugin-scaffolder-backend-module-import-flow` | no |
-| `scaffolder-backend-module-tibco-git-repositories` | `@internal/plugin-scaffolder-backend-module-tibco-git-repositories` | no |
-| `scaffolder-backend-module-tibco-platform-actions` | `@internal/plugin-scaffolder-backend-module-tibco-platform-actions` | no |
+| Directory | Package |
+|---|---|
+| `scaffolder-backend-module-import-flow` | `@internal/backstage-plugin-scaffolder-backend-module-import-flow` |
+| `scaffolder-backend-module-metrics-api` | `@internal/plugin-scaffolder-backend-module-metrics-api` |
+| `scaffolder-backend-module-platform-api` | `@internal/plugin-scaffolder-backend-module-platform-api` |
+| `scaffolder-backend-module-tibco-git-repositories` | `@internal/plugin-scaffolder-backend-module-tibco-git-repositories` |
+| `scaffolder-backend-module-tibco-platform-actions` | `@internal/plugin-scaffolder-backend-module-tibco-platform-actions` |
 
 `scaffolder-backend-module-trigger-jenkins-job` also lives under `plugins/`, but its `backstage.role` is `backend-plugin` (not a module) and it is not wired in — example/optional.
 
@@ -147,7 +159,7 @@ A flow is recognised as self service by the **`self-service` tag** — that is t
 
 It uses TIBCO custom actions — `tibco:call-platform-api` (the core action), `tibco:file:write`, `tibco:fetch-api-file`, `tibco:extract-parameters` — plus the platform-aware form fields `CapabilitySelector` and `DataplaneSelector`, which query live Control Plane data while the user fills in the form.
 
-1. Read a reference flow first: `tibco-examples/developer-hub-marketplace-content/self-service-flows/build-deploy-flogo-app/` (build → deploy → expose → link → register) or the BW5CE variant alongside it
+1. Read a reference flow first: `tibco-examples/developer-hub-marketplace-content/self-service-flows/build-deploy-flogo-app/` (build → deploy → expose → link → register) or the BW5CE variant alongside it. If the folder is not in your checkout, install the **Build & Deploy Flogo App** Marketplace entry — it ships the same flow
 2. Gather: slug (conventionally `self-service-<name>`), title, description, goal, technology, required capabilities, whether the flow publishes and registers a catalog entry, owner (default `group:default/tibco-self-service`)
 3. Create `templates/<slug>/<slug>.yaml` with the `self-service` tag (and `spec.type: self-service` by convention); add a `skeleton-<tech>-app/` only if publishing to GitHub
 4. Follow the **check → provision-if-missing → act** step pattern, guarding every provisioning step with `if:` so re-runs are idempotent
@@ -205,7 +217,7 @@ Two-phase test for a self service flow. Heavier than the other test skills: Phas
 
 Answer *"do I need to build a new service, or can I re-use an existing one, to get `<information>`?"* from the **live** catalog — real contracts and definitions, not guesswork.
 
-Like `impact-analysis`, this Developer Hub is Backstage **1.41.1** with **no MCP server** — read the catalog through the **catalog REST API** at `http://localhost:7007/api/catalog` (spec: `tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-118/backstage-api-1.41.1.yaml`). Endpoints allow anonymous access in local guest mode.
+Like `impact-analysis`, this reads the **live catalog through the MCP server** — `catalog.query-catalog-entities` at `http://localhost:7007/api/mcp-actions/v1` (see `MCP-TOOLS.md`), with the **catalog REST API** at `http://localhost:7007/api/catalog` as the fallback when MCP is off. Both allow anonymous access in local guest mode.
 
 1. Pin down the information need: the concrete **fields** required, the **shape** (event-driven vs request/response), and the **consumer** team/component (ask via `AskUserQuestion` if ambiguous)
 2. Search for candidates: keyword search (`GET /entities/by-query?fullTextFilter[term]=…`), a full scan of `kind=api` (`GET /entities?filter=kind=api`), plus `kind=component` and `kind=resource`
@@ -217,7 +229,7 @@ Like `impact-analysis`, this Developer Hub is Backstage **1.41.1** with **no MCP
 
 Produce a change-impact ("blast radius") analysis for a catalog entity — answer *"what breaks if I change `<entity>`?"* from the **live** catalog graph, not guesswork.
 
-This Developer Hub is Backstage **1.41.1**, which has **no MCP server** — read the catalog through the **catalog REST API** at `http://localhost:7007/api/catalog` (spec: `tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-118/backstage-api-1.41.1.yaml`). Endpoints allow anonymous access in local guest mode (no token needed; pass `Authorization: Bearer <Backstage identity token>` only if auth is enforced).
+Read the catalog through the **MCP server** — `catalog.get-catalog-entity` and `catalog.query-catalog-entities` at `http://localhost:7007/api/mcp-actions/v1` (see `MCP-TOOLS.md`), falling back to the **catalog REST API** at `http://localhost:7007/api/catalog` when MCP is off. Anonymous access in local guest mode (no token needed; pass `Authorization: Bearer <Backstage identity token>` only if auth is enforced).
 
 1. Resolve the subject entity: `GET /entities/by-name/{kind}/default/{name}` — record kind, `spec.type`, `spec.lifecycle`, `spec.owner`, `spec.system`, and the full `relations` array
 2. Traverse the graph breadth-first: collect neighbour refs from `relations`, dedupe, and batch-fetch with `POST /entities/by-refs` (`{"entityRefs":[…]}`); stop at ~2–3 hops or the system boundary
@@ -228,7 +240,7 @@ This Developer Hub is Backstage **1.41.1**, which has **no MCP server** — read
 
 Answer *"where does this data come from, and where does it end up?"* for a message contract or a single field — provenance, audit, and governance, from the **live** catalog rather than tribal knowledge. Same catalog as `reuse-or-build` (where can I *get* it?) and `impact-analysis` (what *breaks*?), different question.
 
-Same access rules: Backstage **1.41.1**, **no MCP server** — the **catalog REST API** at `http://localhost:7007/api/catalog`, anonymous in local guest mode. The skill ships a helper, `.claude/skills/data-lineage/lineage.py`, which does the directed traversal and the dual-format (JSON Schema + XSD) field extraction over a one-off entity dump.
+Same access rules: the **MCP server** at `http://localhost:7007/api/mcp-actions/v1`, falling back to the **catalog REST API** at `http://localhost:7007/api/catalog`, anonymous in local guest mode. The skill ships a helper, `.claude/skills/data-lineage/lineage.py`, which does the directed traversal and the dual-format (JSON Schema + XSD) field extraction over a one-off entity dump.
 
 1. Pin down the **subject** (a contract `api:default/<name>`, or one field), the **direction** (upstream provenance / downstream reach / both) and the **boundary** (usually `spec.system`)
 2. Build the **directed** flow graph — the direction is already in the relations: `providesApi` = the component writes, `consumesApi` = it reads, so every hop is `API --consumed by--> Component --provides--> API`. Split `dependsOn` into transport (`topic`/`queue`/`message-broker` — an edge label, never a node) and systems of record (where lineage genuinely starts and ends)

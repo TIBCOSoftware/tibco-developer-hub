@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: mp-entry-doc-platform-apis-previous
   title: Platform APIs
-  description: Definitions of all the APIs in the TIBCO Platform - (version 1.7 - 1.17)
+  description: Definitions of all the APIs in the TIBCO Platform - (version 1.7 - 1.19)
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: false
@@ -59,6 +59,8 @@ spec:
             - '115'
             - '116'
             - '117'
+            - '118'
+            - '119'
           enumNames:
             - 'Version 1.7'
             - 'Version 1.8'
@@ -71,7 +73,9 @@ spec:
             - 'Version 1.15'
             - 'Version 1.16'
             - 'Version 1.17'
-          default: '117'
+            - 'Version 1.18'
+            - 'Version 1.19'
+          default: '119'
         accept:
           title: I Agree
           type: boolean

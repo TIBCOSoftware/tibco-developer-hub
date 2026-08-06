@@ -20,11 +20,17 @@ each neighbour into an impact tier → write a report + color-coded topology dia
 
 ## Key facts
 
-- **Data source**: the Backstage **catalog REST API** of the running Developer Hub, base URL
-  `http://localhost:7007/api/catalog` (or `/tibco/hub/api/catalog` behind the platform). The backend
-  must be running (`yarn start`). This Developer Hub is Backstage **1.41.1** — there is **no MCP
-  server**; use the REST endpoints below. Full spec:
-  `tibco-examples/developer-hub-marketplace-content/tibco-platform-apis/version-118/backstage-api-1.41.1.yaml`.
+- **Data source**: the **MCP server** of the running Developer Hub. This is Developer Hub **1.19**
+  (Backstage **1.51.0**), which exposes the catalog through `@backstage/plugin-mcp-actions-backend`
+  at `http://localhost:7007/api/mcp-actions/v1`. The backend must be running (`yarn start`) and
+  `tibco.mcpActions.enabled` must be `true` — see `MCP-TOOLS.md` in this skill set for the endpoint,
+  how to enable it, the full tool list and the query syntax.
+- **Tools this skill uses**: `catalog.get-catalog-entity` (the subject),
+  `catalog.query-catalog-entities` (traversal and neighbour fetches),
+  `catalog.get-catalog-model-description` (when unsure what to filter on).
+- **If MCP is unavailable** — the server is off and you cannot enable it — every step below has a
+  REST equivalent against `http://localhost:7007/api/catalog`; the fallback block under each step
+  gives it. The analysis and the report are identical either way; only the transport differs.
 - **Endpoints you need** (all return entities whose `relations` array is the graph):
   - `GET /entities/by-name/{kind}/{namespace}/{name}` — fetch one entity with its relations
     (e.g. `/entities/by-name/api/default/car-information-api`). The kebab subject of the analysis.

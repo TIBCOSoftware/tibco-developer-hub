@@ -5,6 +5,16 @@ Project documentation shared with all AI agents lives in `AGENTS.md` and is impo
 
 @AGENTS.md
 
+## Developer Hub 1.19
+
+This skill set targets **Developer Hub 1.19 (Backstage 1.51.0)** with the **MCP server enabled**.
+Catalog and scaffolder access goes through `@backstage/plugin-mcp-actions-backend` at
+`http://localhost:7007/api/mcp-actions/v1`; see `MCP-TOOLS.md` for the tool list, the query syntax
+and how to switch it on (`tibco.mcpActions.enabled: true` — it ships `false`).
+
+Every skill keeps a REST fallback, so the set still works with MCP off. If you are on Developer Hub
+1.18 (Backstage 1.41.1), use the `developer-hub-118` set instead.
+
 ## Claude Code-specific
 
 ### Skills
@@ -25,4 +35,6 @@ Twelve custom skills are available under `.claude/skills/` — invoke them with 
 | `impact-analysis` | Assess the change blast radius of a catalog entity via the catalog REST API |
 | `data-lineage` | Trace where a field or message comes from and where it ends up, via the catalog REST API |
 | `api-version-diff` | Diff two versions of an API specification and publish the differences as TechDocs |
+
+Catalog and scaffolder tools available to these skills are listed in `MCP-TOOLS.md`.
 

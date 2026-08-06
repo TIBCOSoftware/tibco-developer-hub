@@ -9,7 +9,14 @@ Render a Backstage scaffolder template via the dry-run API and persist the resul
 
 ## Key facts
 
-- **Endpoint**: `POST http://127.0.0.1:7007/api/scaffolder/v2/dry-run`
+- **Two dry-runs, and you want both.** Developer Hub 1.19 exposes `scaffolder.dry-run-template` over
+  MCP, which validates a template in one typed call — no base64, no gzip, no body-limit preflight.
+  But it returns **`{ valid, message, errors, log, output, steps }` only: it does not return the
+  rendered files.** Getting the rendered tree — the entire point of this skill — still needs the REST
+  dry-run. So: **MCP first as a fast structural gate, then REST for the output.** A template that
+  fails the MCP check will never render, and you find out in seconds instead of after a 1.5 MB upload.
+  See `MCP-TOOLS.md` for the endpoint and how to enable the server.
+- **Endpoint** (the rendering dry-run): `POST http://127.0.0.1:7007/api/scaffolder/v2/dry-run`
 - **Body shape**: `{ template, values, secrets, directoryContents }` — the endpoint **does not accept** a `templateRef`. The UI resolves the ref client-side; this skill does the same by reading the template YAML and walking the template directory on disk.
 - **`directoryContents`** is an array of `{ path, base64Content }` covering **the entire template directory** (including the `<slug>.yaml` and everything under `skeleton/`). Paths must be relative to the template root, and `skeleton/...` must be present because the template's `fetch:template` step uses `url: ./skeleton`.
 - **Compression**: The skeleton for a typical BWCE template is ~1.5 MB. Send the body gzipped (`Content-Encoding: gzip`) — but note that `raw-body` enforces the size limit on the **decompressed** stream, so the root `express.json()` limit still applies (see preflight below).
@@ -45,7 +52,33 @@ For each required param, propose a sensible default and ask the user via a singl
 
 Then show the final values blob back to the user as a single message and confirm before posting. If the user wants to skip prompting and use defaults, accept a one-shot invocation that fills everything (the `simplify`/automated path).
 
-### 3. Preflight: backend reachable + body limit high enough
+### 3. Fast validity gate via MCP
+
+Before assembling the upload, call `scaffolder.dry-run-template`:
+
+```jsonc
+{
+  "templateYaml": "<contents of templates/<slug>/<slug>.yaml>",
+  "values": { /* the values gathered in step 2 */ },
+  "files": [ { "path": "skeleton/catalog-info.yaml", "content": "..." } ]   // text files, plain content
+}
+```
+
+Read the result:
+
+- `valid: false` → **stop here.** `errors` and `message` name the problem (YAML parse error, unknown
+  action, missing required parameter). Fix the template and re-run this step; there is no reason to
+  build the base64 payload for a template that cannot parse.
+- `valid: true` → continue to the REST dry-run below for the rendered files. Keep `steps` and `log`
+  from the response — they are a useful cross-check against what actually renders.
+
+`files` takes plain text `content`, so this is cheap to assemble for the YAML in the template. You do
+not need to send binary skeleton assets to the MCP gate; it is a validity check, not a render.
+
+*Skip this step if the MCP server is not enabled (`tibco.mcpActions.enabled: false`) — the REST
+dry-run below is self-sufficient, you just lose the fast failure.*
+
+### 4. Preflight: backend reachable + body limit high enough
 
 ```sh
 lsof -nP -iTCP:7007 -sTCP:LISTEN
@@ -55,7 +88,7 @@ If nothing is listening, stop and tell the user to `yarn start`. Don't try to st
 
 Check `packages/backend/src/rootHttpRouterService.ts`. The root JSON middleware runs **before** scaffolder's own 10 MB middleware, so its limit governs the upload. This project already has `router.use(express.json({ limit: '10mb' }))` at line 20 — leave it alone. If you ever see the default `router.use(express.json())` without a limit, edit it to add `{ limit: '10mb' }` and wait a few seconds for Backstage CLI's watcher to auto-restart the backend.
 
-### 4. Compute next dry-run output directory
+### 5. Compute next dry-run output directory
 
 ```sh
 ls template-workspace/ | grep -E '^dry-run-[0-9]+$'
@@ -65,7 +98,7 @@ Find the highest `dry-run-<N>` integer, increment by 1. First run is `dry-run-1`
 
 The `template-workspace/` path is whatever `backend.workingDirectory` resolves to in `app-config.local.yaml` — read that config rather than hardcoding. In this repo it's set to `../../template-workspace` (relative to `packages/backend/`, so repo root + `/template-workspace`).
 
-### 5. Run the dry-run
+### 6. Run the rendering dry-run (REST)
 
 Write the canonical script below to `${TMPDIR:-/tmp}/devhub-skills/test-template/test-template.mjs`, substituting `TEMPLATE_DIR`, `OUTPUT_DIR`, and `VALUES`. Then `node ${TMPDIR:-/tmp}/devhub-skills/test-template/test-template.mjs` with `dangerouslyDisableSandbox: true`.
 
@@ -118,7 +151,7 @@ await writeFile(join(OUTPUT_DIR, '_dry-run-output.json'), JSON.stringify(result.
 console.log(`Wrote ${result.directoryContents?.length ?? 0} files to ${OUTPUT_DIR}`);
 ```
 
-### 6. Surface the result
+### 7. Surface the result
 
 After a successful run, read these from the output dir and summarize:
 

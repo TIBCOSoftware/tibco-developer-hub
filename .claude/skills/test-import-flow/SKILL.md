@@ -22,6 +22,18 @@ Two-phase end-to-end test for TIBCO Developer Hub import flow templates.
 ## Key facts
 
 - **Dry-run endpoint**: `POST http://127.0.0.1:7007/api/scaffolder/v2/dry-run`
+- **MCP first (Developer Hub 1.19).** The scaffolder is exposed over MCP, so the whole
+  submit-and-poll dance is three typed calls instead of hand-rolled HTTP:
+  - `scaffolder.dry-run-template` — `{ templateYaml, values, files }` → `{ valid, errors, log, steps }`.
+    Phase 1's structure check. Note it returns **no rendered files**; it is a validity gate, not a render.
+  - `scaffolder.execute-template` — `{ templateRef, values, secrets }` → `{ taskId }`. The live run.
+    **Side-effecting** — summarise what it will do and get the user's confirmation before calling it.
+  - `scaffolder.get-scaffolder-task-logs` — `{ taskId, after? }` → `{ events: [{ id, createdAt, type, body }] }`.
+    Poll with `after` set to the last event id you saw to tail the run.
+  - `scaffolder.list-scaffolder-tasks` — recover a `taskId` you lost.
+  - `catalog.query-catalog-entities` — the registration check at the end.
+  See `MCP-TOOLS.md` for the endpoint and how to enable the server. **If MCP is off, use the REST
+  endpoints below** — the phases, checks and verdicts are identical, only the transport changes.
 - **Task submit endpoint**: `POST http://127.0.0.1:7007/api/scaffolder/v2/tasks`
 - **Task status endpoint**: `GET http://127.0.0.1:7007/api/scaffolder/v2/tasks/{id}`
 - **Catalog entity endpoint**: `GET http://127.0.0.1:7007/api/catalog/entities?filter=kind=<Kind>,metadata.name=<name>`

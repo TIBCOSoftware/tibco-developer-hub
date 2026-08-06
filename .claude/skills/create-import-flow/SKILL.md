@@ -394,3 +394,17 @@ If the dev server isn't running, skip and tell the user to verify after `yarn st
 - Don't reference `tibco-examples/` files in `catalog.locations` — those are project examples, not user-owned templates.
 - Don't add absolute paths to `catalog.locations` — always relative to `packages/backend/` (`../../templates/...`).
 - Don't auto-restart `yarn start` yourself — the user controls their dev loop.
+
+## Developer Hub 1.19 — MCP shortcuts
+
+On 1.19 (see `MCP-TOOLS.md`):
+
+- `scaffolder.list-scaffolder-actions` — confirm the TIBCO custom actions (`tibco:git:clone`,
+  `tibco:extract-parameters`, `tibco:create-yaml`, `tibco:git:push`) are registered in *this* backend
+  before writing steps against them. A missing module is the most common cause of a flow that parses
+  but cannot run.
+- `catalog.validate-entity` — validate the entity YAML your Nunjucks skeleton renders, before running
+  the flow for real.
+- `catalog.query-catalog-entities` — after a run, confirm what was actually registered.
+
+Everything else in this skill is file authoring and is unchanged from 1.18.

@@ -33,17 +33,22 @@ Distinct from its two sibling skills — same catalog, different question:
 
 ## Key facts
 
-- **Data source**: the Backstage **catalog REST API** of the running Developer Hub, base URL
-  `http://localhost:7007/api/catalog` (or `/tibco/hub/api/catalog` behind the platform). The
-  backend must be running (`yarn start`). This Developer Hub is Backstage **1.41.1** — there is
-  **no MCP server**; use the REST endpoints below. Identical access rules to
-  `.claude/skills/reuse-or-build/SKILL.md` §"Catalog REST calls" — read that section rather than
-  duplicating it. In short: `GET /entities?filter=…` for a filtered scan (with a `fields`
-  projection), `POST /entities/by-refs` for batch fetches, `GET /entities/by-name/{kind}/{ns}/{name}`
-  for one entity in full. Endpoints allow anonymous access in local guest mode — try without a
-  token first, and add `Authorization: Bearer <Backstage identity token>` only on a 401/403.
-  Localhost curls need `dangerouslyDisableSandbox: true`. State the endpoints used in the report's
+- **Data source**: the **MCP server** of the running Developer Hub. This is Developer Hub **1.19**
+  (Backstage **1.51.0**), which exposes the catalog through `@backstage/plugin-mcp-actions-backend`
+  at `http://localhost:7007/api/mcp-actions/v1`. The backend must be running (`yarn start`) and
+  `tibco.mcpActions.enabled` must be `true` — see `MCP-TOOLS.md` in this skill set.
+  Identical access rules to `.claude/skills/reuse-or-build/SKILL.md` — read that rather than
+  duplicating it. In short: `catalog.query-catalog-entities` for a filtered scan (always with a
+  `fields` projection, and naming `spec.definition` when you need the contracts), and
+  `catalog.get-catalog-entity` for one entity in full. State which tools were used in the report's
   provenance section.
+- **If MCP is unavailable**, fall back to the catalog REST API at
+  `http://localhost:7007/api/catalog` — `GET /entities?filter=…`, `POST /entities/by-refs`,
+  `GET /entities/by-name/{kind}/{ns}/{name}`. Anonymous in local guest mode; add
+  `Authorization: Bearer <Backstage identity token>` only on a 401/403. Localhost curls need
+  `dangerouslyDisableSandbox: true`.
+- **`lineage.py` still applies.** It reads a one-off entity dump, so feed it the JSON from whichever
+  transport you used — the helper does not care which produced it.
 
 - **The graph is already directed — read the right half of each relation pair.** This is the whole
   trick, and what separates lineage from `impact-analysis`'s undirected walk:
