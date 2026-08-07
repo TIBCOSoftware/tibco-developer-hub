@@ -1,0 +1,8 @@
+site_name: 'developer-hub-api'
+site_description: 'APIs of the TIBCO Developer Hub'
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

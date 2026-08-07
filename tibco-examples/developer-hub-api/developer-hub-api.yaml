@@ -1,8 +1,25 @@
 apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: 'developer-hub-api-system'
+  title: 'Developer Hub API (System)'
+  description: 'System grouping the APIs of the TIBCO Developer Hub'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - tibco-platform
+    - customer-hosted
+    - capability
+spec:
+  owner: group:TIBCO
+---
+apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   name: 'developer-hub-api'
-  description: 'API of the TIBCO Developer Hub'
+  description: 'API of the TIBCO Developer Hub (Post 1.19)'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
   tags:
     - tibco-platform
     - customer-hosted
@@ -15,5 +32,30 @@ spec:
   type: openapi
   lifecycle: production
   owner: TIBCO
+  system: developer-hub-api-system
   definition:
-    $text: ./backstage-api.yaml
+    $text: ./backstage-api-1.51.0.yaml
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: 'developer-hub-api-pre-119'
+  description: 'API of the TIBCO Developer Hub (Pre 1.19)'
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - tibco-platform
+    - customer-hosted
+    - capability
+  links:
+    - url: https://backstage.io/
+      title: Backstage
+      icon: code
+spec:
+  type: openapi
+  lifecycle: production
+  owner: TIBCO
+  system: developer-hub-api-system
+  definition:
+    $text: ./backstage-api-1.41.1.yaml
+

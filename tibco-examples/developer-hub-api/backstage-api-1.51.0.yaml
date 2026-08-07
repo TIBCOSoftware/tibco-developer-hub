@@ -1,13 +1,14 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
-  title: catalog
-  version: '1'
+  title: TIBCO Developer Hub API (Post 1.19)
+  version: "1"
   description: |
     The API surface consists of a few distinct groups of functionality. Each has a
     dedicated section below.
 
-    > **Note:** This page only describes some of the most commonly used parts of the
-    > API, and is a work in progress.
+    :::note Note
+      This page only describes some of the most commonly used parts of the API, and is a work in progress.
+    :::
 
     All of the URL paths in this article are assumed to be on top of some base URL
     pointing at your catalog installation. For example, if the path given in a
@@ -19,11 +20,14 @@ info:
 
     Some or all of the endpoints may accept or require an `Authorization` header
     with a `Bearer` token, which should then be the Backstage token returned by the
-    [`identity API`](https://backstage.io/docs/reference/core-plugin-api.identityapiref).
+    [`identity API`](https://backstage.io/api/stable/variables/_backstage_core-plugin-api.index.identityApiRef.html).
   license:
     name: Apache-2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   contact: {}
+tags:
+  - name: Entity
+  - name: Locations
 servers:
   - url: /tibco/hub/api/catalog/
   - url: http://localhost:7007/api/catalog/
@@ -35,28 +39,24 @@ components:
       name: kind
       in: path
       required: true
-      allowReserved: true
       schema:
         type: string
     namespace:
       name: namespace
       in: path
       required: true
-      allowReserved: true
       schema:
         type: string
     name:
       name: name
       in: path
       required: true
-      allowReserved: true
       schema:
         type: string
     uid:
       name: uid
       in: path
       required: true
-      allowReserved: true
       schema:
         type: string
     cursor:
@@ -225,7 +225,6 @@ components:
           [reference](references.md) of the group is used):
 
           `/entities/by-query?filter=kind=user,relations.memberof=group:default/ops`
-
       required: false
       allowReserved: true
       schema:
@@ -286,6 +285,22 @@ components:
         Order descending by owner:
           value:
             - spec.owner,desc
+    totalItems:
+      name: totalItems
+      in: query
+      description: |
+        Controls whether the response's `totalItems` field is computed. Computing
+        the total may be expensive for large catalogs; pass `exclude` if the
+        caller does not need it (e.g. cursor-paginated UIs that only display the
+        count cosmetically). Defaults to `include`. New values may be added in
+        the future, such as an approximate mode.
+      required: false
+      allowReserved: true
+      schema:
+        type: string
+        enum:
+          - include
+          - exclude
   requestBodies: {}
   responses:
     ErrorResponse:
@@ -293,7 +308,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
   schemas:
     Error:
       type: object
@@ -369,7 +384,7 @@ components:
         links:
           type: array
           items:
-            $ref: '#/components/schemas/EntityLink'
+            $ref: "#/components/schemas/EntityLink"
           description: A list of external hyperlinks related to the entity.
         tags:
           type: array
@@ -379,9 +394,9 @@ components:
             A list of single-valued strings, to for example classify catalog entities in
             various ways.
         annotations:
-          $ref: '#/components/schemas/MapStringString'
+          $ref: "#/components/schemas/MapStringString"
         labels:
-          $ref: '#/components/schemas/MapStringString'
+          $ref: "#/components/schemas/MapStringString"
         description:
           type: string
           description: |-
@@ -458,12 +473,12 @@ components:
         relations:
           type: array
           items:
-            $ref: '#/components/schemas/EntityRelation'
+            $ref: "#/components/schemas/EntityRelation"
           description: The relations that this entity has with other entities.
         spec:
-          $ref: '#/components/schemas/JsonObject'
+          $ref: "#/components/schemas/JsonObject"
         metadata:
-          $ref: '#/components/schemas/EntityMeta'
+          $ref: "#/components/schemas/EntityMeta"
         kind:
           type: string
           description: The high level entity type being described.
@@ -478,31 +493,32 @@ components:
         - apiVersion
       description: The parts of the format that's common to all versions/kinds of entity.
     NullableEntity:
-      type: object
-      properties:
-        relations:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntityRelation'
-          description: The relations that this entity has with other entities.
-        spec:
-          $ref: '#/components/schemas/JsonObject'
-        metadata:
-          $ref: '#/components/schemas/EntityMeta'
-        kind:
-          type: string
-          description: The high level entity type being described.
-        apiVersion:
-          type: string
-          description: |-
-            The version of specification format for this particular entity that
-            this is written against.
-      required:
-        - metadata
-        - kind
-        - apiVersion
-      description: The parts of the format that's common to all versions/kinds of entity.
-      nullable: true
+      anyOf:
+        - type: object
+          properties:
+            relations:
+              type: array
+              items:
+                $ref: "#/components/schemas/EntityRelation"
+              description: The relations that this entity has with other entities.
+            spec:
+              $ref: "#/components/schemas/JsonObject"
+            metadata:
+              $ref: "#/components/schemas/EntityMeta"
+            kind:
+              type: string
+              description: The high level entity type being described.
+            apiVersion:
+              type: string
+              description: |-
+                The version of specification format for this particular entity that
+                this is written against.
+          required:
+            - metadata
+            - kind
+            - apiVersion
+          description: The parts of the format that's common to all versions/kinds of entity.
+        - type: "null"
     EntityAncestryResponse:
       type: object
       properties:
@@ -516,7 +532,7 @@ components:
                   type: string
                 type: array
               entity:
-                $ref: '#/components/schemas/Entity'
+                $ref: "#/components/schemas/Entity"
             required:
               - parentEntityRefs
               - entity
@@ -532,7 +548,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/NullableEntity'
+            $ref: "#/components/schemas/NullableEntity"
           description: |-
             The list of entities, in the same order as the refs in the request. Entries
             that are null signify that no entity existed with that ref.
@@ -558,7 +574,7 @@ components:
           additionalProperties:
             type: array
             items:
-              $ref: '#/components/schemas/EntityFacet'
+              $ref: "#/components/schemas/EntityFacet"
       required:
         - facets
       additionalProperties: false
@@ -571,10 +587,14 @@ components:
           type: string
         id:
           type: string
+        entityRef:
+          type: string
+          description: The entity ref of the corresponding Location kind entity, e.g. location:default/generated-<sha1hex>.
       required:
         - target
         - type
         - id
+        - entityRef
       description: Entity location for a specific entity.
       additionalProperties: false
     LocationSpec:
@@ -589,15 +609,36 @@ components:
         - type
       description: Holds the entity location information.
       additionalProperties: false
+    LocationsQueryResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Location"
+          description: The list of locations paginated by a specific query.
+        totalItems:
+          type: number
+        pageInfo:
+          type: object
+          properties:
+            nextCursor:
+              type: string
+              description: The cursor for the next batch of locations.
+      required:
+        - items
+        - totalItems
+        - pageInfo
+      additionalProperties: false
     AnalyzeLocationExistingEntity:
       type: object
       properties:
         entity:
-          $ref: '#/components/schemas/Entity'
+          $ref: "#/components/schemas/Entity"
         isRegistered:
           type: boolean
         location:
-          $ref: '#/components/schemas/LocationSpec'
+          $ref: "#/components/schemas/LocationSpec"
       required:
         - entity
         - isRegistered
@@ -621,13 +662,13 @@ components:
       additionalProperties: false
     RecursivePartialEntityMeta:
       allOf:
-        - $ref: '#/components/schemas/JsonObject'
+        - $ref: "#/components/schemas/JsonObject"
         - type: object
           properties:
             links:
               type: array
               items:
-                $ref: '#/components/schemas/EntityLink'
+                $ref: "#/components/schemas/EntityLink"
               description: A list of external hyperlinks related to the entity.
             tags:
               type: array
@@ -637,9 +678,9 @@ components:
                 A list of single-valued strings, to for example classify catalog entities in
                 various ways.
             annotations:
-              $ref: '#/components/schemas/MapStringString'
+              $ref: "#/components/schemas/MapStringString"
             labels:
-              $ref: '#/components/schemas/MapStringString'
+              $ref: "#/components/schemas/MapStringString"
             description:
               type: string
               description: |-
@@ -706,13 +747,13 @@ components:
           type: string
           description: The high level entity type being described.
         metadata:
-          $ref: '#/components/schemas/RecursivePartialEntityMeta'
+          $ref: "#/components/schemas/RecursivePartialEntityMeta"
         spec:
-          $ref: '#/components/schemas/JsonObject'
+          $ref: "#/components/schemas/JsonObject"
         relations:
           type: array
           items:
-            $ref: '#/components/schemas/RecursivePartialEntityRelation'
+            $ref: "#/components/schemas/RecursivePartialEntityRelation"
           description: The relations that this entity has with other entities.
       description: Makes all keys of an entire hierarchy optional.
       additionalProperties: false
@@ -727,8 +768,9 @@ components:
             field empty; which would currently make it owned by X" where X is taken from the
             codeowners file.
         value:
-          type: string
-          nullable: true
+          oneOf:
+            - type: string
+            - type: "null"
         state:
           type: string
           enum:
@@ -753,9 +795,9 @@ components:
         fields:
           type: array
           items:
-            $ref: '#/components/schemas/AnalyzeLocationEntityField'
+            $ref: "#/components/schemas/AnalyzeLocationEntityField"
         entity:
-          $ref: '#/components/schemas/RecursivePartialEntity'
+          $ref: "#/components/schemas/RecursivePartialEntity"
       required:
         - fields
         - entity
@@ -771,11 +813,11 @@ components:
       properties:
         generateEntities:
           items:
-            $ref: '#/components/schemas/AnalyzeLocationGenerateEntity'
+            $ref: "#/components/schemas/AnalyzeLocationGenerateEntity"
           type: array
         existingEntityFiles:
           items:
-            $ref: '#/components/schemas/AnalyzeLocationExistingEntity'
+            $ref: "#/components/schemas/AnalyzeLocationExistingEntity"
           type: array
       required:
         - generateEntities
@@ -798,7 +840,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Entity'
+            $ref: "#/components/schemas/Entity"
           description: The list of entities paginated by a specific filter.
         totalItems:
           type: number
@@ -829,12 +871,12 @@ paths:
         - Entity
       description: Refresh the entity related to entityRef.
       responses:
-        '200':
+        "200":
           description: Refreshed
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
@@ -862,27 +904,27 @@ paths:
         - Entity
       description: Get all entities matching a given filter.
       responses:
-        '200':
-          description: ''
+        "200":
+          description: ""
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Entity'
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+                  $ref: "#/components/schemas/Entity"
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
       parameters:
-        - $ref: '#/components/parameters/fields'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/filter'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/after'
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/filter"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/after"
         - name: order
           in: query
           allowReserved: true
@@ -898,38 +940,38 @@ paths:
         - Entity
       description: Get a single entity by the UID.
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Entity'
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+                $ref: "#/components/schemas/Entity"
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
       parameters:
-        - $ref: '#/components/parameters/uid'
+        - $ref: "#/components/parameters/uid"
     delete:
       operationId: DeleteEntityByUid
       tags:
         - Entity
       description: Delete a single entity by UID.
       responses:
-        '204':
+        "204":
           description: Deleted successfully.
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
       parameters:
-        - $ref: '#/components/parameters/uid'
+        - $ref: "#/components/parameters/uid"
   /entities/by-name/{kind}/{namespace}/{name}:
     get:
       operationId: GetEntityByName
@@ -937,23 +979,23 @@ paths:
         - Entity
       description: Get an entity by an entity ref.
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Entity'
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+                $ref: "#/components/schemas/Entity"
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
       parameters:
-        - $ref: '#/components/parameters/kind'
-        - $ref: '#/components/parameters/namespace'
-        - $ref: '#/components/parameters/name'
+        - $ref: "#/components/parameters/kind"
+        - $ref: "#/components/parameters/namespace"
+        - $ref: "#/components/parameters/name"
   /entities/by-name/{kind}/{namespace}/{name}/ancestry:
     get:
       operationId: GetEntityAncestryByName
@@ -961,23 +1003,23 @@ paths:
         - Entity
       description: Get an entity's ancestry by entity ref.
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EntityAncestryResponse'
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+                $ref: "#/components/schemas/EntityAncestryResponse"
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
       parameters:
-        - $ref: '#/components/parameters/kind'
-        - $ref: '#/components/parameters/namespace'
-        - $ref: '#/components/parameters/name'
+        - $ref: "#/components/parameters/kind"
+        - $ref: "#/components/parameters/namespace"
+        - $ref: "#/components/parameters/name"
   /entities/by-refs:
     post:
       operationId: GetEntitiesByRefs
@@ -985,16 +1027,16 @@ paths:
         - Entity
       description: Get a batch set of entities given an array of entityRefs.
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EntitiesBatchResponse'
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+                $ref: "#/components/schemas/EntitiesBatchResponse"
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
@@ -1015,6 +1057,8 @@ paths:
                   type: array
                   items:
                     type: string
+                query:
+                  $ref: "#/components/schemas/JsonObject"
             examples:
               Fetch Backstage entities:
                 value:
@@ -1028,7 +1072,7 @@ paths:
                   fields:
                     - metadata.annotations
       parameters:
-        - $ref: '#/components/parameters/filter'
+        - $ref: "#/components/parameters/filter"
   /entities/by-query:
     get:
       operationId: GetEntitiesByQuery
@@ -1036,26 +1080,27 @@ paths:
         - Entity
       description: Search for entities by a given query.
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EntitiesQueryResponse'
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+                $ref: "#/components/schemas/EntitiesQueryResponse"
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
       parameters:
-        - $ref: '#/components/parameters/fields'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/offset'
-        - $ref: '#/components/parameters/orderField'
-        - $ref: '#/components/parameters/cursor'
-        - $ref: '#/components/parameters/filter'
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+        - $ref: "#/components/parameters/orderField"
+        - $ref: "#/components/parameters/cursor"
+        - $ref: "#/components/parameters/filter"
+        - $ref: "#/components/parameters/totalItems"
         - name: fullTextFilterTerm
           in: query
           description: Text search term.
@@ -1074,6 +1119,77 @@ paths:
               type: string
           explode: false
           style: form
+    post:
+      operationId: QueryEntitiesByPredicate
+      tags:
+        - Entity
+      description: Query entities using predicate-based filters.
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntitiesQueryResponse"
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - {}
+        - JWT: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cursor:
+                  type: string
+                limit:
+                  type: number
+                offset:
+                  type: number
+                orderBy:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - field
+                      - order
+                    properties:
+                      field:
+                        type: string
+                      order:
+                        type: string
+                        enum:
+                          - asc
+                          - desc
+                fullTextFilter:
+                  type: object
+                  properties:
+                    term:
+                      type: string
+                    fields:
+                      type: array
+                      items:
+                        type: string
+                fields:
+                  type: array
+                  items:
+                    type: string
+                totalItems:
+                  type: string
+                  enum:
+                    - include
+                    - exclude
+                  description: |
+                    Controls whether the response's `totalItems` field is
+                    computed. Pass `exclude` to skip the count when the caller
+                    doesn't need it. Defaults to `include`.
+                query:
+                  $ref: "#/components/schemas/JsonObject"
   /entity-facets:
     get:
       operationId: GetEntityFacets
@@ -1081,16 +1197,16 @@ paths:
         - Entity
       description: Get all entity facets that match the given filters.
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EntityFacetsResponse'
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+                $ref: "#/components/schemas/EntityFacetsResponse"
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
@@ -1110,7 +1226,41 @@ paths:
             Entities by spec type:
               value:
                 - spec.type
-        - $ref: '#/components/parameters/filter'
+        - $ref: "#/components/parameters/filter"
+    post:
+      operationId: QueryEntityFacetsByPredicate
+      tags:
+        - Entity
+      description: Get entity facets using predicate-based filters.
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityFacetsResponse"
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - {}
+        - JWT: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - facets
+              properties:
+                facets:
+                  type: array
+                  items:
+                    type: string
+                query:
+                  $ref: "#/components/schemas/JsonObject"
   /locations:
     post:
       operationId: CreateLocation
@@ -1118,7 +1268,7 @@ paths:
         - Locations
       description: Create a location for a given target.
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/json:
@@ -1129,17 +1279,17 @@ paths:
                     type: boolean
                   entities:
                     items:
-                      $ref: '#/components/schemas/Entity'
+                      $ref: "#/components/schemas/Entity"
                     type: array
                   location:
-                    $ref: '#/components/schemas/Location'
+                    $ref: "#/components/schemas/Location"
                 required:
                   - entities
                   - location
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
@@ -1150,6 +1300,16 @@ paths:
           allowReserved: true
           schema:
             type: string
+        - in: query
+          name: onConflict
+          required: false
+          allowReserved: true
+          schema:
+            type: string
+            enum:
+              - refresh
+              - reject
+          description: Behavior when the location already exists. 'reject' (default) returns a 409 error, 'refresh' triggers a refresh of the existing location entity and returns 201.
       requestBody:
         required: true
         content:
@@ -1170,7 +1330,7 @@ paths:
         - Locations
       description: Get all locations
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
@@ -1180,15 +1340,46 @@ paths:
                   type: object
                   properties:
                     data:
-                      $ref: '#/components/schemas/Location'
+                      $ref: "#/components/schemas/Location"
                   required:
                     - data
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
       parameters: []
+  /locations/by-query:
+    post:
+      operationId: GetLocationsByQuery
+      tags:
+        - Locations
+      description: Query for locations
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LocationsQueryResponse"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - {}
+        - JWT: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cursor:
+                  type: string
+                limit:
+                  type: number
+                query:
+                  $ref: "#/components/schemas/JsonObject"
   /locations/{id}:
     get:
       operationId: GetLocation
@@ -1196,14 +1387,14 @@ paths:
         - Locations
       description: Get a location by id.
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Location'
+                $ref: "#/components/schemas/Location"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
@@ -1211,7 +1402,35 @@ paths:
         - in: path
           name: id
           required: true
-          allowReserved: true
+          schema:
+            type: string
+    put:
+      operationId: UpdateLocation
+      tags:
+        - Locations
+      description: Update the type and target of an existing location by id.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LocationInput"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Location"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+      security:
+        - {}
+        - JWT: []
+      parameters:
+        - in: path
+          name: id
+          required: true
           schema:
             type: string
     delete:
@@ -1220,12 +1439,12 @@ paths:
         - Locations
       description: Delete a location by id.
       responses:
-        '204':
+        "204":
           description: No content
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
@@ -1233,7 +1452,6 @@ paths:
         - in: path
           name: id
           required: true
-          allowReserved: true
           schema:
             type: string
   /locations/by-entity/{kind}/{namespace}/{name}:
@@ -1243,14 +1461,14 @@ paths:
         - Locations
       description: Get a location for entity.
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Location'
+                $ref: "#/components/schemas/Location"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
@@ -1258,19 +1476,16 @@ paths:
         - in: path
           name: kind
           required: true
-          allowReserved: true
           schema:
             type: string
         - in: path
           name: namespace
           required: true
-          allowReserved: true
           schema:
             type: string
         - in: path
           name: name
           required: true
-          allowReserved: true
           schema:
             type: string
   /analyze-location:
@@ -1280,16 +1495,16 @@ paths:
         - Locations
       description: Validate a given location.
       responses:
-        '200':
+        "200":
           description: Ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnalyzeLocationResponse'
-        '400':
-          $ref: '#/components/responses/ErrorResponse'
+                $ref: "#/components/schemas/AnalyzeLocationResponse"
+        "400":
+          $ref: "#/components/responses/ErrorResponse"
         default:
-          $ref: '#/components/responses/ErrorResponse'
+          $ref: "#/components/responses/ErrorResponse"
       security:
         - {}
         - JWT: []
@@ -1304,7 +1519,7 @@ paths:
                 catalogFileName:
                   type: string
                 location:
-                  $ref: '#/components/schemas/LocationInput'
+                  $ref: "#/components/schemas/LocationInput"
               required:
                 - location
   /validate-entity:
@@ -1314,9 +1529,9 @@ paths:
         - Entity
       description: Validate that a passed in entity has no errors in schema.
       responses:
-        '200':
+        "200":
           description: Ok
-        '400':
+        "400":
           description: Validation errors.
           content:
             application/json:
