@@ -1,0 +1,77 @@
+<svg width="720" height="280" viewBox="0 0 720 280" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MCP Catalog illustration">
+  <rect x="0" y="0" width="720" height="280" rx="16" fill="#EAF1FF"/>
+
+  <!-- top-left sunburst -->
+  <g stroke="#2E6FE6" stroke-width="3" stroke-linecap="round">
+    <line x1="120" y1="52" x2="120" y2="34"/>
+    <line x1="120" y1="88" x2="120" y2="70"/>
+    <line x1="102" y1="61" x2="87" y2="61"/>
+    <line x1="153" y1="61" x2="138" y2="61"/>
+    <line x1="107" y1="48" x2="97" y2="38"/>
+    <line x1="143" y1="74" x2="133" y2="64"/>
+    <line x1="107" y1="74" x2="97" y2="84"/>
+    <line x1="143" y1="48" x2="133" y2="58"/>
+  </g>
+
+  <!-- connecting graph edges -->
+  <g stroke="#9DBCF5" stroke-width="3" stroke-linecap="round">
+    <line x1="196" y1="150" x2="270" y2="120"/>
+    <line x1="196" y1="150" x2="262" y2="196"/>
+    <line x1="524" y1="130" x2="452" y2="120"/>
+    <line x1="524" y1="130" x2="470" y2="186"/>
+    <line x1="586" y1="176" x2="600" y2="120"/>
+  </g>
+
+  <!-- left graph nodes -->
+  <g fill="#FFFFFF" stroke="#2E6FE6" stroke-width="4">
+    <circle cx="188" cy="150" r="12"/>
+    <circle cx="280" cy="112" r="12"/>
+    <circle cx="256" cy="204" r="12"/>
+  </g>
+
+  <!-- right graph nodes -->
+  <g fill="#FFFFFF" stroke="#2E6FE6" stroke-width="4">
+    <circle cx="532" cy="126" r="12"/>
+    <circle cx="446" cy="114" r="12"/>
+    <circle cx="476" cy="194" r="12"/>
+  </g>
+
+  <!-- central chip -->
+  <g stroke="#1B4F9B" stroke-width="4" stroke-linecap="round">
+    <line x1="330" y1="70" x2="330" y2="52"/>
+    <line x1="360" y1="70" x2="360" y2="52"/>
+    <line x1="390" y1="70" x2="390" y2="52"/>
+    <line x1="330" y1="210" x2="330" y2="228"/>
+    <line x1="360" y1="210" x2="360" y2="228"/>
+    <line x1="390" y1="210" x2="390" y2="228"/>
+    <line x1="308" y1="112" x2="290" y2="112"/>
+    <line x1="308" y1="140" x2="290" y2="140"/>
+    <line x1="308" y1="168" x2="290" y2="168"/>
+    <line x1="412" y1="112" x2="430" y2="112"/>
+    <line x1="412" y1="140" x2="430" y2="140"/>
+    <line x1="412" y1="168" x2="430" y2="168"/>
+  </g>
+  <rect x="308" y="70" width="104" height="140" rx="14" fill="#FFFFFF" stroke="#1B4F9B" stroke-width="4"/>
+  <rect x="330" y="92" width="60" height="96" rx="8" fill="#EAF1FF" stroke="#2E6FE6" stroke-width="3"/>
+  <!-- sparkle inside chip -->
+  <path d="M360 108 C363 128 372 137 392 140 C372 143 363 152 360 172 C357 152 348 143 328 140 C348 137 357 128 360 108 Z" fill="#2E6FE6"/>
+
+  <!-- bottom-left cloud -->
+  <path d="M92 214 a24 24 0 0 1 24 -24 a28 28 0 0 1 53 6 a20 20 0 0 1 -4 40 h-69 a22 22 0 0 1 -4 -22 z"
+        fill="#FFFFFF" stroke="#2E6FE6" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- bottom-right bar chart -->
+  <g>
+    <rect x="572" y="196" width="18" height="40" rx="3" fill="#2E6FE6"/>
+    <rect x="598" y="176" width="18" height="60" rx="3" fill="#FFFFFF" stroke="#2E6FE6" stroke-width="3"/>
+    <rect x="624" y="206" width="18" height="30" rx="3" fill="#FFFFFF" stroke="#2E6FE6" stroke-width="3"/>
+  </g>
+
+  <!-- wrench badge top-right -->
+  <rect x="596" y="44" width="56" height="56" rx="14" fill="#FFFFFF" stroke="#2E6FE6" stroke-width="4"/>
+  <path d="M639 60 a12 12 0 0 0 -15 15 l-14 14 a4 4 0 0 0 0 6 l3 3 a4 4 0 0 0 6 0 l14 -14 a12 12 0 0 0 15 -15 l-8 8 l-6 -6 z"
+        fill="#2E6FE6"/>
+
+  <!-- top-right diamond sparkle -->
+  <path d="M690 150 l6 12 l12 6 l-12 6 l-6 12 l-6 -12 l-12 -6 l12 -6 z" fill="#9DBCF5"/>
+</svg>

@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "1.19.0",
+  "version": "1.20.0",
   "private": true,
   "bundled": true,
   "backstage": {
@@ -60,7 +60,8 @@
     "react-iframe": "^1.8.5",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
-    "react-use": "^17.2.4"
+    "react-use": "^17.2.4",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@backstage/test-utils": "^1.7.18",

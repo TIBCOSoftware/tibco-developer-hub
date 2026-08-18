@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PLACEHOLDER empty-state illustration for the MCP Catalog "no servers" view.
+  Replace this file with the final design asset (keep the same filename/path).
+-->
+<svg width="260" height="180" viewBox="0 0 260 180" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="No MCP servers">
+  <g stroke="#C9D3E0" stroke-width="2" fill="none">
+    <path d="M40 150 a90 90 0 0 1 180 0" opacity="0.5"/>
+    <path d="M65 150 a65 65 0 0 1 130 0" opacity="0.7"/>
+  </g>
+  <circle cx="196" cy="52" r="3" fill="#D6336C"/>
+  <circle cx="70" cy="70" r="3" fill="#845EF7"/>
+  <path d="M64 122 l18 -16 8 8 22 -22" stroke="#C9D3E0" stroke-width="2" fill="none" opacity="0.6"/>
+  <rect x="96" y="86" width="68" height="50" rx="6" fill="#FFFFFF" stroke="#4C6EF5" stroke-width="2"/>
+  <path d="M96 92 a6 6 0 0 1 6 -6 h18 l6 8 h32 a6 6 0 0 1 6 6" fill="#4C6EF5"/>
+  <line x1="108" y1="112" x2="152" y2="112" stroke="#C9D3E0" stroke-width="2"/>
+  <line x1="108" y1="122" x2="140" y2="122" stroke="#C9D3E0" stroke-width="2"/>
+</svg>

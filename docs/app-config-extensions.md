@@ -25,7 +25,7 @@ Example config:
 
 ```yaml
 app:
-  developerHubVersion: '1.19.0'
+  developerHubVersion: '1.20.0'
 ```
 
 ## Doc Url
@@ -34,7 +34,7 @@ Documentation url
 
 ```yaml
 app:
-  docUrl: 'https://docs.tibco.com/go/platform-cp/1.19.0/doc/html#cshid=developer_hub_overview'
+  docUrl: 'https://docs.tibco.com/go/platform-cp/1.20.0/doc/html#cshid=developer_hub_overview'
 ```
 
 The CI/CD pipeline automatically adds the build number to all docker images.
@@ -144,3 +144,21 @@ tibco:
 
 No need to provide this in configuration.
 This is filled automatically while provisioning TIBCO® Developer Hub for a data plane.
+
+## MCP Hub
+
+CP MCP Hub link for the MCP Catalog page. When `tibco.mcpHub` is configured and
+not disabled, a "CP MCP Hub" button is shown on the MCP Catalog page linking to
+`baseUrl + path`. When `baseUrl` is not set, it falls back to the configured
+`cpLink`. The button is hidden when `tibco.mcpHub` is not configured, or when
+`enabled` is set to `false`.
+
+Example config:
+
+```yaml
+tibco:
+  mcpHub:
+    enabled: true
+    baseUrl: 'https://control-plane.domain.com'
+    path: '/mcp-hub'
+```

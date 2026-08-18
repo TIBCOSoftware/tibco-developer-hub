@@ -4,6 +4,8 @@
 
 import './backstageGlobalProxy.ts';
 import { createBackend } from '@backstage/backend-defaults';
+import { provideStaticCatalogModel } from '@backstage/plugin-catalog-node/alpha';
+import { mcpServerApiEntityModel } from '@backstage/catalog-model/alpha';
 
 const backend = createBackend();
 
@@ -38,6 +40,9 @@ backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
 
 // catalog plugin
 backend.add(import('@backstage/plugin-catalog-backend'));
+// Register the MCP server model layer so the catalog accepts API entities with
+// `spec.type: mcp-server` (structured subtype carrying `spec.remotes`).
+backend.add(provideStaticCatalogModel({ layers: [mcpServerApiEntityModel] }));
 backend.add(
   import('@backstage/plugin-catalog-backend-module-scaffolder-entity-model'),
 );
@@ -69,6 +74,9 @@ backend.add(import('@backstage/plugin-signals-backend'));
 backend.add(import('@backstage/plugin-mcp-actions-backend'));
 backend.add(import('@internal/plugin-scaffolder-backend-module-metrics-api'));
 backend.add(import('@internal/plugin-scaffolder-backend-module-platform-api'));
+
+// MCP introspection: live tools/resources/prompts for MCP server catalog entities
+backend.add(import('@internal/plugin-mcp-introspection-backend'));
 backend.add(import('./addEssentialLocation'));
 backend.add(import('./cachePlugin.ts'));
 

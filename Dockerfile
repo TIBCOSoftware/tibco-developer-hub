@@ -22,7 +22,6 @@ RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 ENV NODE_VERSION="24.18.1-r0"
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
-    --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
     apk update && \
     apk add --no-cache nodejs=$NODE_VERSION yarn \
     cairo-dev pango-dev jpeg-dev giflib-dev librsvg-dev build-base
@@ -62,7 +61,6 @@ ENV NODE_VERSION="24.18.1-r0"
 ENV NODE_ENV=production
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
-    --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
     apk update && \
     apk add --no-cache nodejs=$NODE_VERSION yarn \
     cairo-dev pango-dev jpeg-dev giflib-dev librsvg-dev build-base
@@ -96,7 +94,6 @@ ENV PYTHON=/usr/bin/python3
 RUN apk upgrade --no-cache
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
-    --mount=type=cache,target=/var/lib/apk,sharing=locked,uid=65532,gid=65532 \
     apk update && \
     apk --no-cache add git \
     nodejs=$NODE_VERSION \
@@ -108,8 +105,34 @@ RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip3 install --upgrade pip
-RUN pip3 install mkdocs-techdocs-core==1.6.0
-RUN pip3 install setuptools
+RUN pip3 install mkdocs-techdocs-core==1.7.0
+# 1.7.0 already resolves Pygments 2.20.0 and pymdown-extensions 10.21.3; these
+# floors keep the CVE fixes explicit and guard against transitive resolver drift:
+#   pygments            CVE-2026-4539  (-> >=2.20.0)
+#   pymdown-extensions  CVE-2026-46338 (-> >=10.21.3)
+# ACCEPTED RISK — pymdown-extensions CVE-2026-61632 (MEDIUM) and CVE-2026-67422
+# (HIGH) are both fixed only in 11.x, but mkdocs-techdocs-core==1.7.0 (latest)
+# hard-pins pymdown-extensions==10.21.3 (and mkdocs-material==9.7.6). Forcing 11.x
+# would break techdocs-core's pin and risk techdocs rendering (11.0 was a major
+# API bump). Deferred until techdocs-core ships a release that allows 11.x.
+RUN pip3 install 'pygments>=2.20.0' 'pymdown-extensions>=10.21.3'
+# Patched setuptools (CVE-2025-47273, CVE-2026-59890); kept for mkdocs/pkg_resources.
+RUN pip3 install 'setuptools>=78.1.1'
+
+# pip is only needed at build time to populate the venv — techdocs runs the
+# `mkdocs` CLI at runtime (builder/generator: local), not pip. pip's vendored
+# deps (msgpack, setuptools in pip/_vendor/bom.cdx.json) trip the image scanner
+# even though they are unreachable. Remove pip from BOTH places: the venv copy
+# (pip3 uninstall) AND the system copy owned by the py3-pip APK package, which
+# lives at /usr/lib/pythonX.Y/site-packages/pip and carries pip/_vendor. Also
+# drop ensurepip's bundled wheels and purge caches. rm -rf is a backstop in
+# case apk's DB does not track the files.
+RUN pip3 cache purge || true; \
+    pip3 uninstall -y pip || true; \
+    apk del py3-pip || true; \
+    rm -rf /usr/lib/python*/site-packages/pip \
+           /usr/lib/python*/ensurepip \
+           "$VIRTUAL_ENV"/lib/python*/site-packages/pip
 
 WORKDIR /app
 

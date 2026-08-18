@@ -156,3 +156,6 @@ essentialLocations:
 tibco:
   mcpActions:
     enabled: false
+  mcpHub:
+    enabled: true
+    path: /cp/mcphub
