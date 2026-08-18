@@ -78,8 +78,7 @@ auth:
   # # on local developer setups only github and guest auth providers are available
   # # Oauthproxy will only be available in Dataplane deployments.
   enableAuthProviders: [guest]
-mcpActions:
-  enabled: false
+
 
 essentialLocations:
   runScheduler: true # Set to false to disable periodic updates
@@ -87,3 +86,7 @@ essentialLocations:
   locations:
     - type: url
       target: https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/tibco-examples/tibco-essentials.yaml
+
+tibco:
+  mcpActions:
+    enabled: false
