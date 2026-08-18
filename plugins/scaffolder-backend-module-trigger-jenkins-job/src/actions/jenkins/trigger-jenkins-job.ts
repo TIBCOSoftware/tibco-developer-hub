@@ -60,6 +60,10 @@ export function triggerJenkinsJobAction(config: Config) {
     jenkinsInstructions?: string;
   }>({
     id: 'tibco:trigger-jenkins-job',
+    // Triggers an external Jenkins job, so during a dry-run the trigger is
+    // suppressed and the intent is logged instead (see the isDryRun guard in
+    // the handler).
+    supportsDryRun: true,
     schema: {
       input: {
         required: ['job'],
@@ -106,6 +110,16 @@ export function triggerJenkinsJobAction(config: Config) {
       },
     },
     async handler(ctx) {
+      if (ctx.isDryRun) {
+        const jobLink = `${jenkinsBaseUrl}/job/${ctx.input.job}/`;
+        ctx.logger.info(
+          `[dry-run] Would trigger Jenkins job "${ctx.input.job}" at ${jenkinsBaseUrl}. ` +
+            `Trigger suppressed, no external job started. ` +
+            `Emitting synthetic jobLink=${jobLink}.`,
+        );
+        ctx.output('jobLink', jobLink);
+        return;
+      }
       ctx.logger.info(`Jenkins BASE URL: ${jenkinsBaseUrl}`);
       ctx.logger.info(`Jenkins Username: ${jenkinsUser}`);
       const jenkinsJobToken = ctx.input.jobAuthToken || jenkinsJobAuthToken;

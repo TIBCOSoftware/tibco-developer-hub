@@ -276,6 +276,9 @@ export function ExtractParametersAction() {
     id: 'tibco:extract-parameters',
     description:
       'Tibco platform extract parameters action, refer to examples for extractParameters and output schema',
+    // Read-only over the workspace, so it is safe — and meaningful — to run
+    // unchanged during a dry-run.
+    supportsDryRun: true,
     examples,
     schema: {
       input: {

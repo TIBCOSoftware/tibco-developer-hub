@@ -15,6 +15,9 @@ export function gitPushAction(config: RootConfigService) {
   return createTemplateAction({
     id: 'tibco:git:push',
     description: 'Commits and push to a git repository.',
+    // Mutates a remote, so during a dry-run the push is suppressed and the
+    // intent is logged instead (see the isDryRun guard in the handler).
+    supportsDryRun: true,
     examples,
     schema: {
       input: {
@@ -43,6 +46,16 @@ export function gitPushAction(config: RootConfigService) {
       },
     },
     async handler(ctx) {
+      if (ctx.isDryRun) {
+        ctx.logger.info(
+          `[dry-run] Would commit and push to branch "${
+            ctx.input.branch ?? 'current'
+          }" with message "${
+            ctx.input.commitMessage ?? 'Committed by TIBCO Developer Hub'
+          }". No remote changes made.`,
+        );
+        return;
+      }
       try {
         ctx.logger.info(
           `Source path relative to workspace: ${ctx.input.sourcePath || ''}`,

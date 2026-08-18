@@ -128,6 +128,9 @@ export const gitCloneAction = (config: RootConfigService) => {
   return createTemplateAction({
     id: 'tibco:git:clone',
     description: 'Clones a git repository.',
+    // Remote read into the workspace only (no remote mutation), so it is safe —
+    // and meaningful — to run unchanged during a dry-run.
+    supportsDryRun: true,
     examples,
     schema: {
       input: {

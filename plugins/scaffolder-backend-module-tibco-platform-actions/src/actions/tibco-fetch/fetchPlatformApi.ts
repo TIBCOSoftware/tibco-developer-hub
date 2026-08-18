@@ -236,6 +236,10 @@ export const fetchPlatformApiAction = (config: Config) => {
     id: 'tibco:call-platform-api',
     description:
       'Calls an external API with authentication. Can use direct URL or Backstage proxy.',
+    // Read-only verbs (GET/HEAD/OPTIONS) run unchanged during a dry-run since
+    // they carry no risk; mutating verbs are suppressed and logged instead
+    // (see the isDryRun guard in the handler).
+    supportsDryRun: true,
     examples: fetchPlatformApiExamples,
     schema: {
       input: z =>
@@ -329,6 +333,31 @@ export const fetchPlatformApiAction = (config: Config) => {
         requireAuth = true,
         cpToken: inputToken,
       } = ctx.input;
+
+      // During a dry-run, suppress mutating calls (anything other than the
+      // read-only verbs) so no real platform change is made. Read-only calls
+      // fall through and execute normally, which is what makes the dry-run
+      // meaningful. The emitted outputs here are SYNTHETIC placeholders, not a
+      // real API response.
+      const isMutating = !['GET', 'HEAD', 'OPTIONS'].includes(
+        (method ?? 'GET').toUpperCase(),
+      );
+      if (ctx.isDryRun && isMutating) {
+        ctx.logger.info(
+          `[dry-run] Would call ${method} ${endpoint}. Request suppressed. ` +
+            `Emitting synthetic status=200 and empty data.`,
+        );
+        ctx.output('status', 200);
+        ctx.output('data', {});
+        ctx.output('headers', {});
+        ctx.output('cpUrl', baseUrl ?? getCpBaseUrl(config) ?? '');
+        ctx.output(
+          'appBaseUrl',
+          config.getString('app.baseUrl').replace(/\/$/, ''),
+        );
+        ctx.output('cpBrowserUrl', getCpBrowserUrl(config));
+        return;
+      }
 
       // URL resolution
       const resolvedBaseUrl = baseUrl ?? getCpBaseUrl(config);
