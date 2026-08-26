@@ -1,0 +1,17 @@
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: tibco-developer-hub-mcp-server
+  title: TIBCO Developer Hub MCP Server
+  description: MCP server for TIBCO Developer Hub.
+  tags:
+    - model-context-protocol
+spec:
+  type: mcp-server
+  lifecycle: production
+  owner: TIBCO
+  remotes:
+    - type: streamable-http
+      url: /api/mcp-actions/v1
+  definition:
+    $text: ./backstage-mcp-definition.yaml

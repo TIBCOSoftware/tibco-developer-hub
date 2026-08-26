@@ -28,7 +28,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { TibcoIcon } from '../../icons/TibcoIcon';
 import { constructCplink } from '../Root/Root';
-import CpMcpHubIcon from '../../icons/subtract.svg';
+import CpMcpHubIcon from '../../icons/mcp-hub.svg';
 import {
   countDeclaredCapabilities,
   readDeclaredCapabilities,

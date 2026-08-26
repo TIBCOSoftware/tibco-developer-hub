@@ -36,7 +36,7 @@ import DocumentsIcon from '../../icons/documents.svg';
 import SelfServiceIcon from '../../icons/selfservice.svg';
 import TemplatesIcon from '../../icons/templates.svg';
 import RegisterIcon from '../../icons/register.svg';
-import McpCatalogIcon from '../../icons/mcpcatalog.svg';
+import CpMcpHubIcon from '../../icons/mcp-hub.svg';
 import { useAdvancedView } from '../settings/CustomAppearanceCard.tsx';
 import { ThemeCSSVars } from './ThemeCSSVars';
 
@@ -583,7 +583,13 @@ const SidebarCustom = ({
             className={cpClicked ? classes.itemNotSelected : ''}
             onClick={() => setCpClicked(false)}
             icon={() => (
-              <img src={McpCatalogIcon} height={24} width={24} alt="logo" />
+              <img
+                src={CpMcpHubIcon}
+                height={24}
+                width={24}
+                alt="logo"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
             )}
             to="mcp-catalog"
             text="MCP Catalog"

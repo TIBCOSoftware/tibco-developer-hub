@@ -1,0 +1,343 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: TIBCO
+  description: TIBCO
+spec:
+  type: organization
+  profile:
+    displayName: TIBCO
+    email: info@acme.com
+  children: []
+---
+# Copyright (c) 2023-2026. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
+#
+# Scaffolder template: register an MCP server into the MCP Catalog.
+#
+# The author supplies the MCP server endpoint + authentication. The template
+# connects to the server with `tibco:mcp:introspect` to discover its tools,
+# resources and prompts, renders a catalog `API` entity (`spec.type: mcp-server`)
+# with `tibco:create-yaml`, commits it to GitHub — either a brand-new repository
+# (`publish:github`) or an existing one (`tibco:git:clone` + `tibco:git:push`) —
+# and registers the resulting catalog-info.yaml so it shows up in the MCP Catalog.
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: import-mcp-definition
+  title: Import MCP Definition
+  description: >-
+    Connect to an MCP server, discover its tools / resources / prompts, and
+    register it in the MCP Catalog as an API entity (spec.type: mcp-server) —
+    stored in a new or an existing GitHub repository.
+  tags:
+    - import-flow
+    - tibco
+    - template
+    - developer-hub
+    - model-context-protocol
+spec:
+  owner: tibco-templates
+  type: import-flow
+
+  parameters:
+    - title: MCP server
+      required:
+        - name
+        - url
+      properties:
+        name:
+          title: Name
+          type: string
+          description: >-
+            Unique catalog name for this MCP server (lowercase letters, digits
+            and dashes).
+          pattern: '^[a-z0-9]([-a-z0-9]*[a-z0-9])?$'
+          maxLength: 63
+          ui:autofocus: true
+          ui:placeholder: my-mcp-server
+          default: my-mcp-server
+        title:
+          title: Display title
+          type: string
+          description: Human-friendly title shown in the catalog.
+          default: My MCP Server
+        description:
+          title: Description
+          type: string
+          description: Short description of what this MCP server provides.
+          ui:widget: textarea
+        url:
+          title: MCP server URL
+          type: string
+          description: The MCP endpoint URL (e.g. https://host/mcp).
+          ui:placeholder: https://mcp.deepwiki.com/mcp
+        transport:
+          title: Transport
+          type: string
+          description: Transport type of the endpoint.
+          default: streamable-http
+          enum:
+            - streamable-http
+            - sse
+          enumNames:
+            - Streamable HTTP
+            - Server-Sent Events (SSE)
+        lifecycle:
+          title: Lifecycle
+          type: string
+          default: production
+          enum:
+            - experimental
+            - production
+            - deprecated
+        tags:
+          title: Tags
+          type: array
+          description: Optional catalog tags.
+          default:
+            - model-context-protocol
+          items:
+            type: string
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the MCP server entity.
+          ui:field: OwnerPicker
+          default: TIBCO
+          ui:options:
+            catalogFilter:
+              kind:
+                - Group
+                - User
+
+    - title: Authentication
+      description: >-
+        Optional. Leave blank for public servers. Provide a bearer token, or
+        custom headers for non-bearer authentication (e.g. an API key).
+      properties:
+        token:
+          title: Bearer token
+          type: string
+          description: 'Sent as `Authorization: Bearer <token>`.'
+          ui:field: Secret
+        headers:
+          title: Custom headers
+          type: object
+          description: Additional request headers for non-bearer authentication.
+          additionalProperties:
+            type: string
+          ui:options:
+            addable: true
+            removable: true
+
+    - title: Destination
+      required:
+        - storageType
+      properties:
+        storageType:
+          title: Where to store the definition
+          type: string
+          default: new
+          enum:
+            - new
+            - existing
+          enumNames:
+            - Create a new GitHub repository
+            - Use an existing GitHub repository
+        catalogFileName:
+          title: Catalog file name
+          type: string
+          description: >-
+            Base name (without the .yaml extension) for the catalog entity file.
+          default: catalog-info
+        definitionFileName:
+          title: Definition file name
+          type: string
+          description: >-
+            Base name (without the .yaml extension) for the full MCP definition
+            file referenced by the catalog entity.
+          default: definition
+      dependencies:
+        storageType:
+          oneOf:
+            # --- New repository: uses publish:github. ---
+            - required:
+                - repoUrl
+              properties:
+                storageType:
+                  enum:
+                    - new
+                repoUrl:
+                  title: New repository location
+                  type: string
+                  ui:field: RepoUrlPicker
+                  ui:options:
+                    allowedHosts:
+                      - github.com
+                subPath:
+                  title: Folder in the repository
+                  type: string
+                  description: >-
+                    Folder (relative to the repo root) where catalog-info.yaml
+                    and definition.yaml are written. Both files always live
+                    together in this folder.
+                  default: mcp-servers
+            # --- Existing repository: uses tibco:git:clone + tibco:git:push. ---
+            - required:
+                - existingRepoUrl
+              properties:
+                storageType:
+                  enum:
+                    - existing
+                existingRepoUrl:
+                  title: Existing repository URL
+                  type: string
+                  description: HTTPS web URL of the repository (e.g. https://github.com/org/repo).
+                  ui:placeholder: https://github.com/org/repo
+                branch:
+                  title: Branch
+                  type: string
+                  description: Branch to commit the definition to.
+                  default: main
+                subPath:
+                  title: Folder in the repository
+                  type: string
+                  description: >-
+                    Folder (relative to the repo root) where catalog-info.yaml
+                    and definition.yaml are written. Both files always live
+                    together in this folder (e.g. mcp-servers).
+                  default: mcp-servers
+
+  steps:
+    # 1. Discover the server's tools / resources / prompts.
+    - id: introspect
+      name: Introspect MCP server
+      action: tibco:mcp:introspect
+      input:
+        url: ${{ parameters.url }}
+        transport: ${{ parameters.transport }}
+        token: ${{ secrets.token }}
+        headers: ${{ parameters.headers }}
+
+    # 2a. Existing repository: clone it first so the entity is added alongside
+    #     whatever is already there.
+    - id: clone
+      name: Clone existing repository
+      if: ${{ parameters.storageType === 'existing' }}
+      action: tibco:git:clone
+      input:
+        repoUrl: ${{ parameters.existingRepoUrl }}
+        branch: ${{ parameters.branch }}
+        sourcePath: existing-repo
+        failOnError: true
+
+    # 3. Write the FULL introspection result (serverInfo, capabilities, tools,
+    #    resources, prompts, counts, errors) to
+    #    `<subPath>/<definitionFileName>.yaml` — the SAME folder as the catalog
+    #    entity — so the entity's `spec.definition.$text` resolves next to it.
+    #    Both files derive from the single `subPath` folder, so they cannot
+    #    diverge.
+    - id: createDefinition
+      name: Write MCP definition file
+      action: tibco:create-yaml
+      input:
+        failOnError: true
+        sourcePath: ${{ 'existing-repo' if parameters.storageType === 'existing' else '' }}
+        outputFile: ${{ parameters.subPath }}/${{ parameters.definitionFileName }}.yaml
+        outputStructure: ${{ steps.introspect.output }}
+
+    # 4. Render the MCP server API entity, referencing the definition file with
+    #    the catalog `$text` placeholder (inlined at load time from the GitHub
+    #    `type: url` location the register step creates). For a new repo it is
+    #    written to the workspace root (published as-is); for an existing repo it
+    #    is written into the freshly cloned checkout.
+    - id: createYaml
+      name: Create MCP server catalog entity
+      action: tibco:create-yaml
+      input:
+        failOnError: true
+        sourcePath: ${{ 'existing-repo' if parameters.storageType === 'existing' else '' }}
+        outputFile: ${{ parameters.subPath }}/${{ parameters.catalogFileName }}.yaml
+        outputStructure:
+          apiVersion: backstage.io/v1alpha1
+          kind: API
+          metadata:
+            name: ${{ parameters.name }}
+            title: ${{ parameters.title if parameters.title else parameters.name }}
+            description: >-
+              ${{ parameters.description if parameters.description else steps.introspect.output.serverInfo.name }}
+            tags: ${{ parameters.tags }}
+          spec:
+            type: mcp-server
+            lifecycle: ${{ parameters.lifecycle }}
+            owner: ${{ parameters.owner }}
+            remotes:
+              - type: ${{ parameters.transport }}
+                url: ${{ parameters.url }}
+            # `$$text` (doubled dollar) is intentional: it escapes the catalog
+            # `$text` placeholder so registering THIS template.yaml does not try
+            # to resolve it (which 404s — the definition file only exists after
+            # the template runs). The tibco:create-yaml action strips the extra
+            # `$`, so the GENERATED catalog-info.yaml gets a real
+            # `$text: ./<definitionFileName>.yaml`, resolved (from the GitHub
+            # type:url location) against the definition file written next to it.
+            definition:
+              $$text: ./${{ parameters.definitionFileName }}.yaml
+
+    # 5a. New repository: publish the workspace (catalog file + definition file).
+    - id: publish
+      name: Publish new repository
+      if: ${{ parameters.storageType === 'new' }}
+      action: publish:github
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        description: >-
+          MCP server definition for ${{ steps.introspect.output.serverInfo.name
+          if steps.introspect.output.serverInfo.name else parameters.name }}
+
+    # 5b. Existing repository: commit and push the catalog + definition files.
+    - id: push
+      name: Commit and push to existing repository
+      if: ${{ parameters.storageType === 'existing' }}
+      action: tibco:git:push
+      input:
+        sourcePath: existing-repo
+        branch: ${{ parameters.branch }}
+        commitMessage: 'Register MCP server ${{ parameters.name }}'
+        failOnError: true
+
+    # 6a. Register the catalog-info.yaml from the newly created repository.
+    - id: registerNew
+      name: Register in catalog
+      if: ${{ parameters.storageType === 'new' }}
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: /${{ parameters.subPath }}/${{ parameters.catalogFileName }}.yaml
+
+    # 6b. Register the catalog-info.yaml from the existing repository.
+    - id: registerExisting
+      name: Register in catalog
+      if: ${{ parameters.storageType === 'existing' }}
+      action: catalog:register
+      input:
+        catalogInfoUrl: ${{ parameters.existingRepoUrl }}/blob/${{ parameters.branch }}/${{ parameters.subPath }}/${{ parameters.catalogFileName }}.yaml
+
+  output:
+    text:
+      - title: MCP server
+        content: |
+          **${{ parameters.name }}**
+          ${{ steps.introspect.output.serverInfo.name }}
+          (${{ steps.introspect.output.serverInfo.version }})
+      - title: Discovered capabilities
+        content: |
+          - Tools: **${{ steps.introspect.output.toolCount }}**
+          - Resources: **${{ steps.introspect.output.resourceCount }}**
+          - Prompts: **${{ steps.introspect.output.promptCount }}**
+    links:
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.registerNew.output.entityRef if parameters.storageType === 'new' else steps.registerExisting.output.entityRef }}
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl if parameters.storageType === 'new' else parameters.existingRepoUrl }}
