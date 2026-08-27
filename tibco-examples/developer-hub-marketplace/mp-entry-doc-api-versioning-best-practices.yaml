@@ -1,17 +1,19 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-dh-create-self-service-flow
-  title: Self Service Flow Tutorial
-  description: Documentation on how to create Self Service Flows in TIBCO
-    Developer Hub. Self Service Flows perform a series of actions on the TIBCO
-    Platform through platform APIs, as an alternative to traditional pipeline
-    workflows. This documentation provides a step-by-step guide covering the
-    custom platform actions and form fields, and how to build, register and run
-    your own Self Service Flow.
+  name: mp-entry-doc-api-versioning-best-practices
+  title: API Versioning Guide
+  description: A best practices guide for modelling API versions in the TIBCO
+    Developer Hub catalog. Backstage has no built-in concept of API versions, so
+    version has to be modelled explicitly — this guide gives ten conventions for
+    doing it, worked through the TIBCO Platform APIs, which publish thirteen
+    releases side by side. Covers entity naming, freezing specifications,
+    registering a release as a unit, lifecycle and succession metadata, grouping
+    versions in the API Explorer, per-version TechDocs, consumer relations, CI
+    enforcement, and the anti-patterns to avoid.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
@@ -19,10 +21,15 @@ metadata:
       - text: TIBCO Developer Hub
         url: https://github.com/TIBCOSoftware/tibco-developer-hub
         icon: github
+      - icon: docs
+        text: Backstage API entity model
+        url: https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
   tags:
     - devhub-marketplace
-    - tibco-developer-hub
-    - create-self-service-flow
+    - api
+    - best-practices
+    - versioning
+    - governance
 spec:
   owner: group:default/marketplace-entries-group
   type: document
@@ -38,11 +45,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  Self Service Flow Tutorial added to your TIBCO Developer Hub
+            ## Get  API Versioning Guide added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-dh-create-self-service-flow
+            **ID:** mp-entry-doc-api-versioning-best-practices
 
-            **Description:** Documentation on how to create Self Service Flows in TIBCO Developer Hub. Self Service Flows perform a series of actions on the TIBCO Platform through platform APIs, as an alternative to traditional pipeline workflows. This documentation provides a step-by-step guide covering the custom platform actions and form fields, and how to build, register and run your own Self Service Flow. 
+            **Description:** A best practices guide for modelling API versions in the TIBCO Developer Hub catalog. Backstage has no built-in concept of API versions, so version has to be modelled explicitly — this guide gives ten conventions for doing it, worked through the TIBCO Platform APIs, which publish thirteen releases side by side. Covers entity naming, freezing specifications, registering a release as a unit, lifecycle and succession metadata, grouping versions in the API Explorer, per-version TechDocs, consumer relations, CI enforcement, and the anti-patterns to avoid. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
@@ -60,7 +67,7 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/tutorials/create-self-service-flow/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/best-practices/api-versioning/catalog-info.yaml
   output:
     links:
       - title: Open in catalog
@@ -71,8 +78,8 @@ spec:
         url: /docs?filters%5Buser%5D=all&limit=20
         icon: techdocs
       - icon: docs
-        title: Open Self Service Flow Tutorial Docs
-        url: /docs/default/System/create-self-service-flows
+        title: Open API Versioning Best Practices
+        url: /docs/default/system/api-versioning-best-practices
         type: openButton
       - title: Back to Marketplace
         url: /marketplace

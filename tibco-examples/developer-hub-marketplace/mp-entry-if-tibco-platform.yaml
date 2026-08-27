@@ -1,31 +1,35 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: mp-entry-doc-dh-create-self-service-flow
-  title: Self Service Flow Tutorial
-  description: Documentation on how to create Self Service Flows in TIBCO
-    Developer Hub. Self Service Flows perform a series of actions on the TIBCO
-    Platform through platform APIs, as an alternative to traditional pipeline
-    workflows. This documentation provides a step-by-step guide covering the
-    custom platform actions and form fields, and how to build, register and run
-    your own Self Service Flow.
+  name: mp-entry-if-tibco-platform
+  title: TIBCO Platform Import
+  description: An Import Flow that reflects a live TIBCO Platform in the TIBCO
+    Developer Hub catalog. The Control Plane becomes a Component, its Data
+    Planes become sub-components, and every application becomes a sub-component
+    of the Data Plane it runs on. Import the entire control plane or a single
+    data plane, and commit the topology snapshot to GitHub so the catalog stays
+    in sync on re-import.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
-    isNew: false
+    isNew: true
     popularity: 0
     isMultiInstall: false
     imageURL: ""
     moreInfo:
+      - text: TIBCO Platform
+        url: https://www.tibco.com/platform
+        icon: star
       - text: TIBCO Developer Hub
         url: https://github.com/TIBCOSoftware/tibco-developer-hub
         icon: github
   tags:
     - devhub-marketplace
-    - tibco-developer-hub
-    - create-self-service-flow
+    - tibco-platform
+    - control-plane
+    - data-plane
 spec:
   owner: group:default/marketplace-entries-group
-  type: document
+  type: import-flow
   presentation:
     buttonLabels:
       createButtonText: Get
@@ -38,11 +42,11 @@ spec:
         description:
           type: "null"
           description: |
-            ## Get  Self Service Flow Tutorial added to your TIBCO Developer Hub
+            ## Get  TIBCO Platform Import added to your TIBCO Developer Hub
 
-            **ID:** mp-entry-doc-dh-create-self-service-flow
+            **ID:** mp-entry-if-tibco-platform
 
-            **Description:** Documentation on how to create Self Service Flows in TIBCO Developer Hub. Self Service Flows perform a series of actions on the TIBCO Platform through platform APIs, as an alternative to traditional pipeline workflows. This documentation provides a step-by-step guide covering the custom platform actions and form fields, and how to build, register and run your own Self Service Flow. 
+            **Description:** An Import Flow that reflects a live TIBCO Platform in the TIBCO Developer Hub catalog. The Control Plane becomes a Component, its Data Planes become sub-components, and every application becomes a sub-component of the Data Plane it runs on. Import the entire control plane or a single data plane, and commit the topology snapshot to GitHub so the catalog stays in sync on re-import. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
@@ -60,20 +64,23 @@ spec:
       name: Getting Marketplace Entry...
       action: catalog:register
       input:
-        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/developer-hub/tutorials/create-self-service-flow/catalog-info.yaml
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/platform/import-flows/import-tibco-platform/catalog-info.yaml
   output:
     links:
       - title: Open in catalog
         type: catalog
         icon: catalog
         entityRef: ${{ steps.registerItem.output.entityRef }}
-      - title: Documents
-        url: /docs?filters%5Buser%5D=all&limit=20
-        icon: techdocs
-      - icon: docs
-        title: Open Self Service Flow Tutorial Docs
-        url: /docs/default/System/create-self-service-flows
+      - title: Import Flows
+        url: /import-flow?filters%5Bkind%5D=template&filters%5Buser%5D=all&limit=20
+        icon: kind:template
+      - icon: kind:template
+        title: Run import flow for the TIBCO Platform
+        url: /create/templates/default/import-tibco-platform
         type: openButton
+      - icon: docs
+        title: Import Flow Documentation
+        url: /docs/default/template/import-tibco-platform
       - title: Back to Marketplace
         url: /marketplace
         icon: dashboard
