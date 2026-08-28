@@ -34,7 +34,7 @@ metadata:
   tags:
     - store
     - rest
-  tibco.developer.hub/topology: #optional
+  tibco.developer.hub/topology: #optional  
     theme:
       name: yellow
     entityIcon:
