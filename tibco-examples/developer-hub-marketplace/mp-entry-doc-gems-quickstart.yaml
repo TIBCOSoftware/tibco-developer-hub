@@ -3,14 +3,15 @@ kind: Template
 metadata:
   name: mp-entry-doc-gems-quickstart
   title: TIBCO GEMS Quickstart
-  description: "Get TIBCO GEMS 1.1.0 — the monitoring, observability and
-    management solution for TIBCO Enterprise Message Service — running and
-    connected to your EMS servers. Covers the gemsctl command-line tool and its
-    configuration file, how the container image is resolved at start-up,
-    securing the UI with basic authentication and TLS, and the EMS registration
-    YAML in full: required fields, TLS and mutual TLS, registering several
-    server groups at once, and what to check when validation fails. Condensed
-    from the official GEMS 1.1.0 documentation, which every page links back to."
+  description: |-
+    Get **TIBCO GEMS**, a comprehensive monitoring and management solution for TIBCO Enterprise Message Service. TIBCO GEMS is available as a standalone installation package and is delivered as part of the TIBCO Enterprise Message Service software.
+
+    **TIBCO GEMS features:**
+
+    - A straightforward command line interface for installing, running, managing, and uninstalling TIBCO GEMS environments.
+    - An intuitive registration interface for the EMS Server Estate.
+    - A modern graphical interface for viewing all servers, clients, and key metrics in the registered EMS estate.
+    - Access to all EMS Server properties and the Admin CLI.
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: true
@@ -53,7 +54,14 @@ spec:
 
             **ID:** mp-entry-doc-gems-quickstart
 
-            **Description:** Get TIBCO GEMS 1.1.0 — the monitoring, observability and management solution for TIBCO Enterprise Message Service — running and connected to your EMS servers. Covers the gemsctl command-line tool and its configuration file, how the container image is resolved at start-up, securing the UI with basic authentication and TLS, and the EMS registration YAML in full: required fields, TLS and mutual TLS, registering several server groups at once, and what to check when validation fails. Condensed from the official GEMS 1.1.0 documentation, which every page links back to. 
+            **Description:** Get **TIBCO GEMS**, a comprehensive monitoring and management solution for TIBCO Enterprise Message Service. TIBCO GEMS is available as a standalone installation package and is delivered as part of the TIBCO Enterprise Message Service software.
+
+            **TIBCO GEMS features:**
+
+            - A straightforward command line interface for installing, running, managing, and uninstalling TIBCO GEMS environments.
+            - An intuitive registration interface for the EMS Server Estate.
+            - A modern graphical interface for viewing all servers, clients, and key metrics in the registered EMS estate.
+            - Access to all EMS Server properties and the Admin CLI. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).

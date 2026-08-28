@@ -1,0 +1,98 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-doc-grv-quickstart
+  title: Graphical RV Quickstart
+  description: |-
+    Get ***TIBCO Graphical Rendezvous***, a comprehensive monitoring package featuring a modern user interface, seamless auto-discovery registration, and an enhanced AI-driven Operational Agent.
+
+    The new AI capability delivers real-time and historical insights into the architecture, health, and optimization opportunities within Rendezvous deployments. Key features include:
+
+    - An AI-driven Operational Agent generates detailed usage reports and conducts in-depth operational analysis across your registered Rendezvous estate.
+    - AI-assisted operational report generation automatically produces reports with intelligent analysis of the Rendezvous environment.
+    - A conversational natural language interface allows you to interact with your deployment using natural-language prompts, simplifying analysis and information retrieval.
+    - An intelligent recommendation engine provides actionable recommendations and operational guidance based on TIBCO engineering best practices and domain expertise.
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: TIBCO Developer Hub
+        url: https://github.com/TIBCOSoftware/tibco-developer-hub
+        icon: github
+      - icon: docs
+        text: TIBCO Graphical Rendezvous 1.1.0 documentation
+        url: https://docs.tibco.com/pub/grv/1.1.0/doc/html/
+      - icon: docs
+        text: TIBCO Rendezvous
+        url: https://docs.tibco.com/products/tibco-rendezvous
+  tags:
+    - devhub-marketplace
+    - rendezvous
+    - grv
+    - messaging
+    - monitoring
+    - observability
+spec:
+  owner: group:default/marketplace-entries-group
+  type: document
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  Graphical RV Quickstart added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-doc-grv-quickstart
+
+            **Description:** Get ***TIBCO Graphical Rendezvous***, a comprehensive monitoring package featuring a modern user interface, seamless auto-discovery registration, and an enhanced AI-driven Operational Agent.
+
+            The new AI capability delivers real-time and historical insights into the architecture, health, and optimization opportunities within Rendezvous deployments. Key features include:
+
+            - An AI-driven Operational Agent generates detailed usage reports and conducts in-depth operational analysis across your registered Rendezvous estate.
+            - AI-assisted operational report generation automatically produces reports with intelligent analysis of the Rendezvous environment.
+            - A conversational natural language interface allows you to interact with your deployment using natural-language prompts, simplifying analysis and information retrieval.
+            - An intelligent recommendation engine provides actionable recommendations and operational guidance based on TIBCO engineering best practices and domain expertise. 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/messaging/grv-quickstart/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Documents
+        url: /docs?filters%5Buser%5D=all&limit=20
+        icon: techdocs
+      - icon: docs
+        title: Open Graphical RV Quickstart
+        url: /docs/default/system/grv-quickstart
+        type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard

@@ -53,6 +53,7 @@ spec:
     - ./mp-entry-developer-hub-skill-library.yaml
     - ./mp-entry-doc-api-versioning-best-practices.yaml
     - ./mp-entry-doc-gems-quickstart.yaml
+    - ./mp-entry-doc-grv-quickstart.yaml
     - ./mp-entry-bw6-skill-library.yaml
     - ./mp-entry-bw6-design-assistant-prompt-library.yaml
     - ./mp-entry-tessa-prompt-library.yaml
