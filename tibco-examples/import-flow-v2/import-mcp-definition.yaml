@@ -26,6 +26,8 @@ metadata:
   name: import-mcp-definition
   title: Import MCP Definition
   description: >-
+    ⚠️ Requires TIBCO Developer Hub 1.20.0 or later — this flow uses the
+    `tibco:mcp:introspect` action, which is only available from 1.20.0 onward.
     Connect to an MCP server, discover its tools / resources / prompts, and
     register it in the MCP Catalog as an API entity (spec.type: mcp-server) —
     stored in a new or an existing GitHub repository.
