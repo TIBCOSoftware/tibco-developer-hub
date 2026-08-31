@@ -145,5 +145,26 @@ export interface Config {
     mcpActions?: {
       enabled?: boolean;
     };
+    /**
+     * CP MCP Hub link configuration for the MCP Catalog page
+     */
+    mcpHub?: {
+      /**
+       * Show the CP MCP Hub button. Defaults to true when `mcpHub` is
+       * configured; set to false to hide the button.
+       * @visibility frontend
+       */
+      enabled?: boolean;
+      /**
+       * Base URL of the CP MCP Hub. Falls back to `cpLink` when not set.
+       * @visibility frontend
+       */
+      baseUrl?: string;
+      /**
+       * Path appended to the base URL to build the CP MCP Hub link.
+       * @visibility frontend
+       */
+      path?: string;
+    };
   };
 }

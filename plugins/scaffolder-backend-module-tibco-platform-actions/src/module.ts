@@ -11,6 +11,7 @@ import { catalogServiceRef } from '@backstage/plugin-catalog-node';
 import { writeFileAction } from './actions/tibco-fetch';
 import { fetchApiFileAction } from './actions/tibco-fetch';
 import { fetchPlatformApiAction } from './actions/tibco-fetch';
+import { introspectMcpServerAction } from './actions/mcp';
 
 export const scaffolderModuleTibcoPlatformActions = createBackendModule({
   pluginId: 'scaffolder',
@@ -27,6 +28,7 @@ export const scaffolderModuleTibcoPlatformActions = createBackendModule({
           writeFileAction,
           fetchApiFileAction(catalog),
           fetchPlatformApiAction(config),
+          introspectMcpServerAction,
         );
       },
     });

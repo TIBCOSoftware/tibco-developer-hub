@@ -4,8 +4,31 @@
 
 import http from 'http';
 import https from 'https';
+import net from 'net';
 import { setGlobalDispatcher, EnvHttpProxyAgent } from 'undici';
-import { isV4Format, isV6Format, cidrSubnet } from 'ip';
+import { Address4, Address6 } from 'ip-address';
+
+// Small IP helpers backed by node:net + ip-address. Replaces the unmaintained
+// `ip` package (CVE-2024-29415). `net.isIPv4`/`isIPv6` reject CIDR notation
+// (unlike Address4.isValid), preserving the original bare-IP vs CIDR branching.
+const isV4Format = (value: string): boolean => net.isIPv4(value);
+const isV6Format = (value: string): boolean => net.isIPv6(value);
+
+// True when `ip` falls inside the CIDR `range` (matching ip.cidrSubnet().contains).
+// Mismatched families or non-IP inputs return false instead of throwing.
+function cidrContains(range: string, ip: string): boolean {
+  try {
+    if (net.isIPv4(ip) && range.includes('.')) {
+      return new Address4(ip).isInSubnet(new Address4(range));
+    }
+    if (net.isIPv6(ip) && range.includes(':')) {
+      return new Address6(ip).isInSubnet(new Address6(range));
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
 
 /*
  * Disable HTTP keep-alive on Node's global agents.
@@ -48,11 +71,7 @@ function isNoProxy(host: string, noProxy: string) {
 
     if (rule.includes('/')) {
       // CIDR range
-      try {
-        return cidrSubnet(rule).contains(hostname);
-      } catch {
-        return false;
-      }
+      return cidrContains(rule, hostname);
     }
 
     // Wildcard subdomain e.g., *.example.com or *.example.com*

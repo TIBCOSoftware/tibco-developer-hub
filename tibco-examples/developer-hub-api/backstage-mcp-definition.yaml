@@ -1,0 +1,607 @@
+serverInfo:
+  name: TIBCO® Developer Hub
+  version: 0.1.14
+capabilities:
+  tools: {}
+tools:
+  - name: auth.who-am-i
+    description: >-
+      Returns the catalog entity and user info for the currently authenticated
+      user. This action requires user credentials and cannot be used with
+      service or unauthenticated credentials.
+    inputSchema:
+      type: object
+      properties: {}
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: catalog.get-catalog-model-description
+    description: >-
+      Returns a markdown formatted description of the current catalog model,
+      including all registered entity kinds, annotations, labels, tags, and
+      relations.
+    inputSchema:
+      type: object
+      properties: {}
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: catalog.get-catalog-entity
+    description: >-
+
+      This allows you to get a single entity from the software catalog.
+
+      Each entity in the software catalog has a unique name, kind, and
+      namespace. The default namespace is "default".
+
+      Each entity is identified by a unique entity reference, which is a string
+      of the form "kind:namespace/name".
+
+    inputSchema:
+      type: object
+      properties:
+        kind:
+          type: string
+          description: >-
+            The kind of the entity to query. If the kind is unknown it can be
+            omitted.
+        namespace:
+          type: string
+          description: >-
+            The namespace of the entity to query. If the namespace is unknown it
+            can be omitted.
+        name:
+          type: string
+          description: The name of the entity to query
+      required:
+        - name
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: catalog.validate-entity
+    description: |2-
+
+            This action can be used to validate catalog-info.yaml file contents meant to be used with the software catalog.
+            It checks both that the YAML syntax is correct, and that the entity content is valid according to the catalog's rules.
+
+    inputSchema:
+      type: object
+      properties:
+        entity:
+          type: string
+          description: Entity YAML content to validate
+        location:
+          type: string
+          format: uri
+          description: Location to validate
+      required:
+        - entity
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: catalog.register-entity
+    description: >
+      Registers one or more entities in the Backstage catalog by creating a
+      Location entity that points to a remote catalog-info.yaml file.
+
+
+      This action is similar to the "Register existing component" flow in the
+      Backstage UI, where you provide a URL to a catalog-info.yaml file
+      describing catalog entities such as Components, Systems, Resources, APIs,
+      Users, and Groups. The action will create a new Location entity that
+      references the provided file; all entities defined within that file will
+      be imported into the catalog.
+
+
+      A unique identifier (locationId) will be returned for the newly created
+      Location. You can use this identifier in the future to unregister or
+      delete the Location and all entities it owns.
+    inputSchema:
+      type: object
+      properties:
+        locationUrl:
+          type: string
+          description: >-
+            URL reference to the catalog-info.yaml file that describes the
+            entity to register. For example:
+            https://github.com/backstage/demo/blob/master/catalog-info.yaml
+      required:
+        - locationUrl
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: catalog.unregister-entity
+    description: >
+      Unregisters a Location entity and all entities it owns from the Backstage
+      catalog.
+
+
+      This action is similar to the "Unregister location" function in the
+      Backstage UI, where you provide the unique identifier (locationId) of a
+      Location entity. Alternatively, you can provide the URL used to register
+      the location. The action will remove the specified Location from the
+      catalog as well as all entities that were created when the Location was
+      imported.
+
+
+      Once completed, all entities associated with the Location will be deleted
+      from the catalog.
+    inputSchema:
+      type: object
+      properties:
+        type:
+          anyOf:
+            - type: object
+              properties:
+                locationId:
+                  type: string
+                  description: Location ID of the Entity to unregister
+              required:
+                - locationId
+              additionalProperties: false
+            - type: object
+              properties:
+                locationUrl:
+                  type: string
+                  description: >-
+                    URL of the catalog-info.yaml file to unregister for example:
+                    https://github.com/backstage/demo/blob/master/catalog-info.yaml
+              required:
+                - locationUrl
+              additionalProperties: false
+          description: >-
+            Identifies the entity to unregister. Provide either locationId or
+            locationUrl.
+      required:
+        - type
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: catalog.query-catalog-entities
+    description: >
+
+      Query entities from the Backstage Software Catalog using predicate
+      filters.
+
+
+      ## Catalog Model
+
+
+      The catalog contains entities of different kinds. Every entity has "kind",
+      "apiVersion", "metadata", and optionally "spec" and "relations". Fields
+      use dot notation for querying.
+
+
+      Common metadata fields on all entities: name, namespace (default:
+      "default"), title, description, labels, annotations, tags (string array),
+      links.
+
+
+      Entity references use the format "kind:namespace/name", e.g.
+      "component:default/my-service" or "user:default/jane.doe".
+
+
+      ### Entity Kinds
+
+
+      **Component** - A piece of software such as a service, website, or
+      library.
+        spec fields: type (e.g. "service", "website", "library"), lifecycle (e.g. "production", "experimental", "deprecated"), owner (entity ref), system, subcomponentOf, providesApis, consumesApis, dependsOn, dependencyOf.
+
+      **API** - An interface that components expose, such as REST APIs or event
+      streams.
+        spec fields: type (e.g. "openapi", "asyncapi", "graphql", "grpc"), lifecycle, owner (entity ref), definition (the API spec content), system.
+
+      **System** - A collection of components, APIs, and resources that together
+      expose some functionality.
+        spec fields: owner (entity ref), domain, type.
+
+      **Domain** - A grouping of systems that share terminology, domain models,
+      and business purpose.
+        spec fields: owner (entity ref), subdomainOf, type.
+
+      **Resource** - Infrastructure required to operate a component, such as
+      databases or storage buckets.
+        spec fields: type, owner (entity ref), system, dependsOn, dependencyOf.
+
+      **Group** - An organizational entity such as a team or business unit.
+        spec fields: type (e.g. "team", "business-unit"), children (entity refs), parent (entity ref), members (entity refs), profile (displayName, email, picture).
+
+      **User** - A person, such as an employee or contractor.
+        spec fields: memberOf (entity refs), profile (displayName, email, picture).
+
+      **Location** - A marker that references other catalog descriptor files to
+      be ingested.
+        spec fields: type, target, targets, presence.
+
+      ### Relations
+
+
+      Entities have bidirectional relations stored in the "relations" array.
+      Common relation types: ownedBy/ownerOf, dependsOn/dependencyOf,
+      providesApi/apiProvidedBy, consumesApi/apiConsumedBy, parentOf/childOf,
+      memberOf/hasMember, partOf/hasPart.
+
+
+      Relations can be queried via "relations.<type>" e.g. "relations.ownedby:
+      user:default/jane-doe". The value there must always be a valid entity
+      reference.
+
+
+      When querying for entity relationships, prefer using relations over spec
+      fields. For example, use "relations.ownedby" instead of "spec.owner" to
+      find entities owned by a particular group or user.
+
+
+      ## Query Syntax
+
+
+      The query uses predicate expressions with dot-notation field paths.
+
+
+      Simple matching:
+        { query: { kind: "Component" } }
+        { query: { kind: "Component", "spec.type": "service" } }
+
+      Value operators:
+        { query: { kind: { "$in": ["API", "Component"] } } }
+        { query: { "metadata.annotations.backstage.io/techdocs-ref": { "$exists": true } } }
+        { query: { "metadata.tags": { "$contains": "java" } } }
+        { query: { "metadata.name": { "$hasPrefix": "team-" } } }
+
+      Logical operators:
+        { query: { "$all": [{ kind: "Component" }, { "spec.lifecycle": "production" }] } }
+        { query: { "$any": [{ "spec.type": "service" }, { "spec.type": "website" }] } }
+        { query: { "$not": { kind: "Group" } } }
+
+      Querying relations - find all entities owned by a specific group:
+        { query: { "relations.ownedby": "group:default/team-alpha" } }
+
+      Combined example - find production services or websites with TechDocs:
+        { query: { "$all": [
+          { kind: "Component", "spec.lifecycle": "production" },
+          { "$any": [{ "spec.type": "service" }, { "spec.type": "website" }] },
+          { "metadata.annotations.backstage.io/techdocs-ref": { "$exists": true } }
+        ] } }
+
+      ## Other Options
+
+
+      Limit returned fields: { fields: ["kind", "metadata.name",
+      "metadata.namespace"] }
+
+      Sort results: { orderFields: { field: "metadata.name", order: "asc" } }
+
+      Full text search: { fullTextFilter: { term: "auth", fields:
+      ["metadata.name", "metadata.title"] } }
+
+      Pagination: Use limit (e.g. 20) and the returned nextPageCursor for
+      subsequent requests via cursor.
+    inputSchema:
+      type: object
+      properties:
+        query:
+          anyOf:
+            - anyOf:
+                - type: object
+                  additionalProperties:
+                    anyOf:
+                      - type:
+                          - string
+                          - number
+                          - boolean
+                      - type: object
+                        properties:
+                          $exists:
+                            type: boolean
+                        required:
+                          - $exists
+                        additionalProperties: false
+                      - type: object
+                        properties:
+                          $in:
+                            type: array
+                            items:
+                              $ref: >-
+                                #/properties/query/anyOf/0/anyOf/0/additionalProperties/anyOf/0
+                        required:
+                          - $in
+                        additionalProperties: false
+                      - type: object
+                        properties:
+                          $contains:
+                            $ref: '#/properties/query'
+                        required:
+                          - $contains
+                        additionalProperties: false
+                      - type: object
+                        properties:
+                          $hasPrefix:
+                            type: string
+                        required:
+                          - $hasPrefix
+                        additionalProperties: false
+                  propertyNames:
+                    pattern: ^(?!\$).*$
+                - type: object
+                  additionalProperties:
+                    not: {}
+                  propertyNames:
+                    pattern: ^\$
+            - $ref: '#/properties/query/anyOf/0/anyOf/0/additionalProperties/anyOf/0'
+            - type: object
+              properties:
+                $all:
+                  type: array
+                  items:
+                    $ref: '#/properties/query'
+              required:
+                - $all
+              additionalProperties: false
+            - type: object
+              properties:
+                $any:
+                  type: array
+                  items:
+                    $ref: '#/properties/query'
+              required:
+                - $any
+              additionalProperties: false
+            - type: object
+              properties:
+                $not:
+                  $ref: '#/properties/query'
+              required:
+                - $not
+              additionalProperties: false
+          description: >-
+            Entity predicate query. Supports field matching, $all, $any, $not,
+            $exists, $in, $contains, and $hasPrefix operators.
+        fields:
+          type: array
+          items:
+            type: string
+          description: >-
+            Specific fields to include in the response. If not provided, all
+            fields are returned. Each entry is a dot separated path into an
+            entity, e.g. `spec.type`.
+        limit:
+          type: integer
+          exclusiveMinimum: 0
+          description: Maximum number of entities to return at a time.
+        offset:
+          type: integer
+          minimum: 0
+          description: Number of entities to skip before returning results.
+        orderFields:
+          anyOf:
+            - type: object
+              properties:
+                field:
+                  type: string
+                  description: >-
+                    Field to order by. The format is a dot separated path into
+                    an entity, e.g. `spec.type`.
+                order:
+                  type: string
+                  enum:
+                    - asc
+                    - desc
+                  description: Sort order
+              required:
+                - field
+                - order
+              additionalProperties: false
+            - type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                    description: >-
+                      Field to order by. The format is a dot separated path into
+                      an entity, e.g. `spec.type`.
+                  order:
+                    type: string
+                    enum:
+                      - asc
+                      - desc
+                    description: Sort order
+                required:
+                  - field
+                  - order
+                additionalProperties: false
+          description: >-
+            Ordering criteria for the results. Can be a single order directive
+            or an array for multi-field sorting.
+        fullTextFilter:
+          type: object
+          properties:
+            term:
+              type: string
+              description: Full text search term
+            fields:
+              type: array
+              items:
+                type: string
+              description: >-
+                Fields to search within. Each entry is a dot separated path into
+                an entity, e.g. `spec.type`.
+          required:
+            - term
+          additionalProperties: false
+          description: Full text search criteria
+        cursor:
+          type: string
+          description: >-
+            Cursor for pagination. This can be used only after the first request
+            with a response containing a cursor. If a cursor is given it takes
+            precedence over `offset`.
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: scaffolder.list-scaffolder-tasks
+    description: >-
+
+      This allows you to list scaffolder tasks that have been created.
+
+      Each task has a unique id, specification, and status (one of open,
+      processing, completed, failed, cancelled, skipped).
+
+      Each task includes a timestamp for when it was created, and an optional
+      last heartbeat timestamp indicating the most recent activity.
+
+      Set owned to true to return only tasks created by the current user; omit
+      or set to false for all tasks the credentials can see.
+
+      Filtering by one or multiple statuses is supported. Pagination is
+      supported via limit and offset.
+
+    inputSchema:
+      type: object
+      properties:
+        owned:
+          type: boolean
+          default: false
+          description: >-
+            If true, return only tasks created by the current user. Requires a
+            user identity.
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          description: The maximum number of tasks to return for pagination
+        offset:
+          type: integer
+          minimum: 0
+          description: The offset to start from for pagination
+        status:
+          anyOf:
+            - type: string
+              enum:
+                - open
+                - processing
+                - completed
+                - failed
+                - cancelled
+                - skipped
+            - type: array
+              items:
+                $ref: '#/properties/status/anyOf/0'
+              minItems: 1
+          description: Filter tasks by status, or an array of statuses
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: scaffolder.dry-run-template
+    description: >-
+      Dry-runs a scaffolder template to validate it without making changes.
+      Returns success with execution logs, or errors for validation failures.
+    inputSchema:
+      type: object
+      properties:
+        templateYaml:
+          type: string
+          description: The YAML content of the scaffolder template to validate
+        values:
+          type: object
+          additionalProperties: {}
+          description: Input values for template parameters
+        files:
+          type: array
+          items:
+            type: object
+            properties:
+              path:
+                type: string
+                description: File path relative to template root
+              content:
+                type: string
+                description: File content
+            required:
+              - path
+              - content
+            additionalProperties: false
+          description: Files required for running the template
+      required:
+        - templateYaml
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: scaffolder.list-scaffolder-actions
+    description: |-
+      Lists all installed Scaffolder actions.
+      Each action includes:
+      - id: The action identifier
+      - description: What the action does
+      - schema: Input and output JSON schemas
+      - examples: Usage examples when available
+    inputSchema:
+      type: object
+      properties: {}
+      additionalProperties: false
+      description: No input is required
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: scaffolder.execute-template
+    description: >-
+      Executes a Scaffolder template with its template ref and input parameter
+      values.
+
+      The template is run using the credentials provided to this action, and
+      respects any RBAC permissions associated with those credentials.
+
+      Returns a taskId that can be used to track execution progress.
+
+      Use the catalog.get-catalog-entity action to fetch the Template entity and
+      discover its parameter schema and secrets definition before calling this
+      action.
+    inputSchema:
+      type: object
+      properties:
+        templateRef:
+          type: string
+          description: >-
+            The template entity reference to execute, e.g.
+            "template:default/my-template"
+        values:
+          type: object
+          additionalProperties: {}
+          description: >-
+            Input parameter values required by the template. Use
+            catalog.get-catalog-entity to discover the required parameters for
+            the template.
+        secrets:
+          type: object
+          additionalProperties:
+            type: string
+          description: >-
+            Optional secrets to pass to the template execution. Use
+            catalog.get-catalog-entity to discover the secrets definition on the
+            Template entity.
+      required:
+        - templateRef
+        - values
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+  - name: scaffolder.get-scaffolder-task-logs
+    description: >-
+
+      Retrieve the log events for a scaffolder task.
+
+      Each log event has a type (log, completion, cancelled, or recovered), a
+      body containing a message and optional step ID and status.
+
+      Use the after parameter to fetch only events after a specific event ID for
+      incremental polling.
+
+    inputSchema:
+      type: object
+      properties:
+        taskId:
+          type: string
+          description: The ID of the scaffolder task
+        after:
+          type: integer
+          minimum: 0
+          description: Return only log events after this event ID for incremental polling
+      required:
+        - taskId
+      additionalProperties: false
+      $schema: http://json-schema.org/draft-07/schema#
+resources: []
+prompts: []
+toolCount: 12
+resourceCount: 0
+promptCount: 0
+errors: []

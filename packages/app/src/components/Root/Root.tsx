@@ -2,8 +2,9 @@
  * Copyright (c) 2023-2025. Cloud Software Group, Inc. All Rights Reserved. Confidential & Proprietary
  */
 
-import { PropsWithChildren, useEffect, useState } from 'react';
-import { Popover, makeStyles } from '@material-ui/core';
+import { ComponentProps, PropsWithChildren, useEffect, useState } from 'react';
+import { Popover, makeStyles, useMediaQuery } from '@material-ui/core';
+import type { Theme } from '@material-ui/core/styles';
 import { SidebarSearchModal } from '@backstage/plugin-search';
 import {
   Sidebar,
@@ -35,6 +36,7 @@ import DocumentsIcon from '../../icons/documents.svg';
 import SelfServiceIcon from '../../icons/selfservice.svg';
 import TemplatesIcon from '../../icons/templates.svg';
 import RegisterIcon from '../../icons/register.svg';
+import CpMcpHubIcon from '../../icons/mcp-hub.svg';
 import { useAdvancedView } from '../settings/CustomAppearanceCard.tsx';
 import { ThemeCSSVars } from './ThemeCSSVars';
 
@@ -216,6 +218,16 @@ const useSidebarStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
   },
+  // On mobile the sidebar is rendered inside Backstage's bottom overlay Drawer,
+  // where absolute positioning detaches the footer and overlaps the menu items.
+  // Let it flow in-line at the end of the list instead.
+  versionContainerMobile: {
+    position: 'static',
+    bottom: 'auto',
+    left: 'auto',
+    width: '100%',
+    marginTop: '16px',
+  },
   itemSelected: {
     backgroundColor: `${theme.palette.primary.main} !important`,
   },
@@ -250,7 +262,7 @@ const secondaryControlPlanesValue = (
   return out;
 };
 
-const constructCplink = (config: Config) => {
+export const constructCplink = (config: Config) => {
   let cpLink = config.getOptionalString('cpLink') as string;
   if (cpLink) {
     const pattern = /^((http|https|ftp):\/\/)/;
@@ -412,6 +424,31 @@ const SidebarLogo = () => {
   );
 };
 
+/**
+ * Wraps nav items in Backstage's <SidebarGroup> on desktop, but renders them
+ * flat (no wrapper) on mobile.
+ *
+ * Why: on mobile <SidebarGroup> collapses to a single bottom-nav icon and DROPS
+ * its children (see SidebarGroup: it only renders children as a Fragment on
+ * desktop). Backstage's MobileSidebar normally hoists top-level groups into its
+ * bottom bar and re-renders their children in the overlay — but it discovers
+ * groups via useElementFilter, which cannot see through this custom component,
+ * so it finds none, dumps all of SidebarCustom into one overlay, and every
+ * SidebarGroup inside then collapses to just its icon. The result is an overlay
+ * with a couple of icons and no actual menu. Rendering the items flat on mobile
+ * makes the full list show inside that overlay.
+ */
+const NavGroup = ({
+  mobile,
+  children,
+  ...groupProps
+}: ComponentProps<typeof SidebarGroup> & { mobile: boolean }) =>
+  mobile ? (
+    <>{children}</>
+  ) : (
+    <SidebarGroup {...groupProps}>{children}</SidebarGroup>
+  );
+
 const SidebarCustom = ({
   setIsExtendedNavOpen,
   setIsNavOpen,
@@ -421,6 +458,16 @@ const SidebarCustom = ({
 }) => {
   const classes = useSidebarStyles();
   const { isOpen } = useSidebarOpenState();
+  // Matches Backstage's own `isMobile` (SidebarPage): below the `sm` breakpoint
+  // the Sidebar is replaced by the MobileSidebar bottom overlay. In that overlay
+  // the desktop-oriented chrome (logo/hamburger row, absolute footer) renders
+  // poorly, so we drop it on mobile.
+  const isMobile = useMediaQuery(
+    (theme: Theme) => theme.breakpoints.down('xs'),
+    {
+      noSsr: true,
+    },
+  );
   const config = useApi(configApiRef);
   const errorApi = useApi(errorApiRef);
   const identityApi = useApi(identityApiRef);
@@ -466,16 +513,19 @@ const SidebarCustom = ({
         isOpen ? `${classes.root} ${classes.sidebarOpen}` : classes.root
       }
     >
-      <SidebarLogo />
-      <SidebarGroup
+      {/* The mobile overlay Drawer supplies its own header + close button, so the
+          logo/hamburger row is redundant (and its toggle is a no-op there). */}
+      {!isMobile && <SidebarLogo />}
+      <NavGroup
+        mobile={isMobile}
         label="Search"
         icon={<TibcoIcon iconName="pl-icon-search" />}
         to="/search"
       >
         <SidebarSearchModal />
-      </SidebarGroup>
+      </NavGroup>
       <SidebarDivider className={classes.divider} />
-      <SidebarGroup label="Menu" icon={<MenuIcon />}>
+      <NavGroup mobile={isMobile} label="Menu" icon={<MenuIcon />}>
         {/* Global nav, not org-specific */}
 
         <SidebarItem
@@ -527,6 +577,24 @@ const SidebarCustom = ({
           className={cpClicked ? classes.itemNotSelected : ''}
           onClick={() => setCpClicked(false)}
         />
+
+        {isAdvancedView && (
+          <SidebarItem
+            className={cpClicked ? classes.itemNotSelected : ''}
+            onClick={() => setCpClicked(false)}
+            icon={() => (
+              <img
+                src={CpMcpHubIcon}
+                height={24}
+                width={24}
+                alt="logo"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
+            )}
+            to="mcp-catalog"
+            text="MCP Catalog"
+          />
+        )}
 
         <SidebarItem
           className={cpClicked ? classes.itemNotSelected : ''}
@@ -606,9 +674,9 @@ const SidebarCustom = ({
           </div>
         )}
         {/* End global nav */}
-      </SidebarGroup>
+      </NavGroup>
       <SidebarDivider className={classes.divider} />
-      <SidebarGroup>
+      <NavGroup mobile={isMobile}>
         <SidebarItem
           className={cpClicked ? classes.itemNotSelected : ''}
           onClick={() => setCpClicked(false)}
@@ -621,7 +689,13 @@ const SidebarCustom = ({
           text="Sign out"
           onClick={() => redirectToCP()}
         />
-        <div className={classes.versionContainer}>
+        <div
+          className={
+            isMobile
+              ? `${classes.versionContainer} ${classes.versionContainerMobile}`
+              : classes.versionContainer
+          }
+        >
           <div>
             {developerHubVersion ? `Version : ${developerHubVersion}` : ''}
           </div>
@@ -631,7 +705,7 @@ const SidebarCustom = ({
               : ''}
           </div>
         </div>
-      </SidebarGroup>
+      </NavGroup>
     </div>
   );
 };

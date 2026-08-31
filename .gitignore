@@ -55,6 +55,9 @@ e2e-test-report/
 # Cache
 .cache/
 
+# Local file-based dev database (better-sqlite3)
+.data/
+
 # vscode
 .vscode/*
 !.vscode/tasks.json

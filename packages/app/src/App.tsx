@@ -69,6 +69,7 @@ import {
 import { CustomScaffolderPage } from './components/scaffolder/plugin.ts';
 import { MarketplacePage } from '@internal/plugin-marketplace';
 import { IntegrationTopologyPage } from '@internal/plugin-integration-topology';
+import { McpCatalogPage } from './components/mcp-catalog/McpCatalogPage';
 import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
 
 export const generateProviders = (providerConfig: string[]): any[] => {
@@ -307,6 +308,7 @@ export const routes = (
       <HomePage />
     </Route>
     <Route path="/catalog" element={<CatalogIndexPage />} />
+    <Route path="/mcp-catalog" element={<McpCatalogPage />} />
     <Route
       path="/catalog/:namespace/:kind/:name"
       element={<CatalogEntityPage />}
