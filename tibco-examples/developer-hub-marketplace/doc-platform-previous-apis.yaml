@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: mp-entry-doc-platform-apis-previous
   title: Platform APIs
-  description: Definitions of all the APIs in the TIBCO Platform - (version 1.7 - 1.19)
+  description: Definitions of all the APIs in the TIBCO Platform - (version 1.7 - 1.20)
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: false
@@ -61,6 +61,7 @@ spec:
             - '117'
             - '118'
             - '119'
+            - '120'
           enumNames:
             - 'Version 1.7'
             - 'Version 1.8'
@@ -75,7 +76,8 @@ spec:
             - 'Version 1.17'
             - 'Version 1.18'
             - 'Version 1.19'
-          default: '119'
+            - 'Version 1.20'
+          default: '120'
         accept:
           title: I Agree
           type: boolean
@@ -103,7 +105,7 @@ spec:
         title: Open TIBCO Platform API
         url: ${{ "/catalog/default/api/tibco-platform-api-" + parameters.platformVersion + "/definition" }}
       - icon: kind:api
-        title: Open BWCE Capability API
+        title: Open BW6 Capability API
         url: ${{ "/catalog/default/api/bwce-capability-api-" + parameters.platformVersion + "/definition" }}
       - icon: kind:api
         title: Open Flogo Capability API

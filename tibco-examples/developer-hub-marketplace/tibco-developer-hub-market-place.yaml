@@ -21,7 +21,7 @@ spec:
     - ./mp-entry-ssf-build-deploy-flogo-app.yaml
     - ./mp-entry-ssf-build-deploy-bw5ce-app.yaml
     - ./mp-entry-ssf-publish-markdown-doc.yaml
-    - ./mp-entry-doc-platform-apis-119.yaml
+    - ./mp-entry-doc-platform-apis-120.yaml
     - ./mp-entry-sample-flogo-mcp-customer360.yaml
     - ./mp-entry-platform-cli-provisioning-example.yaml
     - ./mp-entry-doc-platform-provisioner.yaml
