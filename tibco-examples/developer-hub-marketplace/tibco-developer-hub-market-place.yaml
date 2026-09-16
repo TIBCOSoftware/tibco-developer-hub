@@ -35,6 +35,7 @@ spec:
     - ./mp-entry-template-flogo-unit-testing.yaml
     - ./mp-entry-template-flogo-unit-testing-debug.yaml
     - ./mp-entry-doc-example-makedoc.yaml
+    - ./mp-entry-doc-biztalk-to-tibco-platform-migration.yaml
     - ./mp-entry-flogo-ml-if-anomaly-detection-sample.yaml
     - ./mp-entry-ai-powered-visual-prompt-engine-flogo.yaml
     - ./mp-entry-flogo-extension-generators.yaml
