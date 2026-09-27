@@ -6,6 +6,7 @@ import { configApiRef, useApi } from '@backstage/core-plugin-api';
 import { TemplateEntityV1beta3 } from '@backstage/plugin-scaffolder-common';
 import { ScaffolderPage } from '@backstage/plugin-scaffolder';
 import { CustomTemplatePage } from '@internal/backstage-plugin-custom-template-flow';
+import { useRunFlowKind } from './RunFlowContext.tsx';
 
 export interface TemplateGroups {
   name: string;
@@ -42,6 +43,33 @@ export const templateGroupsValue = (
 
 export const CustomScaffolderComponent = () => {
   const config = useApi(configApiRef);
+  // Tailor the run-page header to the flow the running template belongs to
+  // (import flow / self service / marketplace) instead of the generic
+  // "Create a new component". The flow kind is resolved once and shared by
+  // RunFlowKindProvider so the header matches the sidebar and never flickers.
+  const runFlowKind = useRunFlowKind();
+  let headerOptions:
+    | { pageTitleOverride: string; title: string; subtitle: string }
+    | undefined;
+  if (runFlowKind === 'import') {
+    headerOptions = {
+      pageTitleOverride: 'Import Flow',
+      title: 'Import Flow',
+      subtitle: 'Import new software components using import flows',
+    };
+  } else if (runFlowKind === 'self-service') {
+    headerOptions = {
+      pageTitleOverride: 'Self Service',
+      title: 'Self Service',
+      subtitle: 'Set up new software components using self service flows',
+    };
+  } else if (runFlowKind === 'marketplace') {
+    headerOptions = {
+      pageTitleOverride: 'Marketplace',
+      title: 'Marketplace',
+      subtitle: 'Install new software components using the marketplace',
+    };
+  }
   const templateGroups: undefined | TemplateGroups[] = templateGroupsValue(
     config.getOptional('templateGroups'),
   );
@@ -66,6 +94,7 @@ export const CustomScaffolderComponent = () => {
   }
   return (
     <ScaffolderPage
+      headerOptions={headerOptions}
       components={{
         EXPERIMENTAL_TemplateListPageComponent: () => (
           <CustomTemplatePage

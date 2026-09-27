@@ -446,6 +446,9 @@ describe('tibco:call-platform-api', () => {
         baseUrl: 'https://custom.host',
         endpoint: '/api/test',
         method: 'GET',
+        // The config-sourced service token is only sent to the trusted CP host,
+        // so an unauthenticated call is used here to isolate the URL override.
+        requireAuth: false,
       },
       tmpDir,
     );
@@ -455,6 +458,209 @@ describe('tibco:call-platform-api', () => {
       expect.stringContaining('custom.host'),
       expect.anything(),
     );
+  });
+
+  it('does NOT attach the config TIBCOPlatformToken to a non-Control-Plane host', async () => {
+    const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => ({}),
+      headers: new Headers(),
+    } as Response);
+
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+      TIBCOPlatformToken: 'service-token',
+    });
+    const action = fetchPlatformApiAction(config);
+
+    // Caller redirects the request to an attacker-controlled host. The ambient
+    // service credential must NOT be leaked there.
+    const ctx = createMockContext(
+      {
+        baseUrl: 'https://evil.example',
+        endpoint: '/steal',
+        method: 'GET',
+        requireAuth: false,
+      },
+      tmpDir,
+    );
+    await action.handler(ctx as any);
+
+    const calledHeaders = fetchSpy.mock.calls[0][1]?.headers as Record<
+      string,
+      string
+    >;
+    expect(calledHeaders.authorization).toBeUndefined();
+  });
+
+  it('refuses when auth is required for a non-Control-Plane host with only the config token', async () => {
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+      TIBCOPlatformToken: 'service-token',
+    });
+    const action = fetchPlatformApiAction(config);
+
+    const ctx = createMockContext(
+      {
+        baseUrl: 'https://evil.example',
+        endpoint: '/steal',
+        method: 'GET',
+      },
+      tmpDir,
+    );
+
+    await expect(action.handler(ctx as any)).rejects.toThrow(
+      /Authentication required/i,
+    );
+  });
+
+  it('attaches the config TIBCOPlatformToken to the trusted Control Plane host', async () => {
+    const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => ({}),
+      headers: new Headers(),
+    } as Response);
+
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+      TIBCOPlatformToken: 'service-token',
+    });
+    const action = fetchPlatformApiAction(config);
+
+    const ctx = createMockContext(
+      { endpoint: '/api/v1/test', method: 'GET' },
+      tmpDir,
+    );
+    await action.handler(ctx as any);
+
+    const calledHeaders = fetchSpy.mock.calls[0][1]?.headers as Record<
+      string,
+      string
+    >;
+    expect(calledHeaders.authorization).toBe('Bearer service-token');
+  });
+
+  it('attaches an explicit input cpToken even to a non-Control-Plane host', async () => {
+    const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => ({}),
+      headers: new Headers(),
+    } as Response);
+
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+      TIBCOPlatformToken: 'service-token',
+    });
+    const action = fetchPlatformApiAction(config);
+
+    const ctx = createMockContext(
+      {
+        baseUrl: 'https://dataplane.example',
+        endpoint: '/api/test',
+        method: 'GET',
+        cpToken: 'caller-token',
+      },
+      tmpDir,
+    );
+    await action.handler(ctx as any);
+
+    const calledHeaders = fetchSpy.mock.calls[0][1]?.headers as Record<
+      string,
+      string
+    >;
+    expect(calledHeaders.authorization).toBe('Bearer caller-token');
+  });
+
+  it('rejects a target host outside the configured allowlist', async () => {
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+      TIBCOPlatformToken: 'service-token',
+      scaffolder: {
+        tibcoCallPlatformApi: { allowedHosts: ['dataplane.allowed'] },
+      },
+    });
+    const action = fetchPlatformApiAction(config);
+
+    const ctx = createMockContext(
+      {
+        baseUrl: 'https://evil.example',
+        endpoint: '/steal',
+        method: 'GET',
+        requireAuth: false,
+      },
+      tmpDir,
+    );
+
+    await expect(action.handler(ctx as any)).rejects.toThrow(/not permitted/i);
+  });
+
+  it('allows a target host present in the configured allowlist', async () => {
+    const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => ({}),
+      headers: new Headers(),
+    } as Response);
+
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+      TIBCOPlatformToken: 'service-token',
+      scaffolder: {
+        tibcoCallPlatformApi: { allowedHosts: ['dataplane.allowed'] },
+      },
+    });
+    const action = fetchPlatformApiAction(config);
+
+    const ctx = createMockContext(
+      {
+        baseUrl: 'https://dataplane.allowed',
+        endpoint: '/api/test',
+        method: 'GET',
+        requireAuth: false,
+      },
+      tmpDir,
+    );
+    await action.handler(ctx as any);
+
+    expect(fetchSpy).toHaveBeenCalledWith(
+      expect.stringContaining('dataplane.allowed'),
+      expect.anything(),
+    );
+  });
+
+  it('rejects a target that resolves to a different host via embedded credentials', async () => {
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+      TIBCOPlatformToken: 'service-token',
+      scaffolder: {
+        tibcoCallPlatformApi: { allowedHosts: ['dataplane.allowed'] },
+      },
+    });
+    const action = fetchPlatformApiAction(config);
+
+    // `dataplane.allowed@evil.example` has hostname `evil.example`, not the
+    // allowlisted host — URL parsing must not be fooled by the userinfo prefix.
+    const ctx = createMockContext(
+      {
+        baseUrl: 'https://dataplane.allowed@evil.example',
+        endpoint: '/steal',
+        method: 'GET',
+        requireAuth: false,
+      },
+      tmpDir,
+    );
+
+    await expect(action.handler(ctx as any)).rejects.toThrow(/not permitted/i);
   });
 
   it('uses cpToken from input over secrets and config', async () => {

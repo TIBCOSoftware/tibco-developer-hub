@@ -248,7 +248,7 @@ const CustomSelfServicePage = () => {
               pageTitleOverride: 'Self Service',
               title: 'Self Service',
               subtitle:
-                'Setup new software components using self service flows',
+                'Set up new software components using self service flows',
             }}
           />
         ),
@@ -295,7 +295,7 @@ const CustomMarketPlacePage = () => {
       headerOptions={{
         pageTitleOverride: 'Marketplace',
         title: 'Marketplace',
-        subtitle: 'Install new software components using marketplace',
+        subtitle: 'Install new software components using the marketplace',
       }}
     />
   );

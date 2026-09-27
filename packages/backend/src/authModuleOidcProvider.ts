@@ -38,12 +38,16 @@ export default createBackendModule({
             factory: createOAuthProviderFactory({
               authenticator: oidcAuthenticator(config),
               async signInResolver(info, ctx) {
-                if (!info.result.fullProfile.userinfo.email?.split('@')[0]) {
-                  throw new Error('Email not found in OIDC response');
+                const sub = info.result.fullProfile.userinfo.sub;
+                if (!sub) {
+                  throw new Error('Subject (sub) not found in OIDC response');
                 }
+                // CP IdM issues `sub` as a plain lowercase UUID, which is
+                // already a valid, stable and unique Backstage entity name, so
+                // it is used directly as the identity anchor.
                 const userRef = stringifyEntityRef({
                   kind: 'User',
-                  name: info.result.fullProfile.userinfo.email.split('@')[0],
+                  name: sub,
                   namespace: DEFAULT_NAMESPACE,
                 });
                 return ctx.issueToken({
