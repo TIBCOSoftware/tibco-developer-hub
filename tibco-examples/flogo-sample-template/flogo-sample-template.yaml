@@ -15,7 +15,7 @@ spec:
   parameters:
     - title: Fill in some steps
       required:
-        - name
+        - name Surya
         - description
       properties:
         name:
