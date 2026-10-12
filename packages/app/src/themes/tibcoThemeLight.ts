@@ -96,6 +96,18 @@ export const tibcoThemeLight = createUnifiedTheme({
     other: genPageTheme({ colors: ['#0E4F9E'], shape: 'none' }),
   },
   components: {
+    // Break long unbreakable words (e.g. URLs) in rendered markdown so they
+    // wrap instead of overflowing their container — e.g. the template
+    // description on the scaffolder run page (/create/templates/...).
+    // overflow-wrap and word-break are inherited, so this flows to child <p>.
+    BackstageMarkdownContent: {
+      styleOverrides: {
+        markdown: {
+          overflowWrap: 'anywhere',
+          wordBreak: 'break-word',
+        },
+      },
+    },
     MuiMenuItem: {
       styleOverrides: {
         root: {

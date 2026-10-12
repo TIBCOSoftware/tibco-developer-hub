@@ -800,7 +800,7 @@ describe('Should render all the routes correctly', () => {
       },
     );
     expect(
-      getByText('Setup new software components using self service flows'),
+      getByText('Set up new software components using self service flows'),
     ).toBeInTheDocument();
     expect(
       getByText('Register Existing Self Service Flow').closest('a'),

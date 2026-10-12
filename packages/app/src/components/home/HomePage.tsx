@@ -141,6 +141,18 @@ export const HomePage = () => {
                       );
                     });
                   }
+                  if (card.type === HomeCardType.SelfService) {
+                    items = items.filter((item: any) => {
+                      const tags = item.metadata.tags?.map((v: string) =>
+                        v.toLowerCase(),
+                      );
+                      return (
+                        tags?.includes('self-service') &&
+                        !tags?.includes('devhub-marketplace') &&
+                        !tags?.includes('devhub-internal')
+                      );
+                    });
+                  }
                   if (card.type === HomeCardType.Template) {
                     items = items.filter((item: any) => {
                       const tags = item.metadata.tags?.map((v: string) =>
@@ -149,7 +161,8 @@ export const HomePage = () => {
                       return !(
                         tags?.includes('import-flow') ||
                         tags?.includes('devhub-marketplace') ||
-                        tags?.includes('devhub-internal')
+                        tags?.includes('devhub-internal') ||
+                        tags?.includes('self-service')
                       );
                     });
                   }

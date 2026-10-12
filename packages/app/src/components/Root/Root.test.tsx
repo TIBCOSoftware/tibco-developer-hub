@@ -9,6 +9,7 @@ import {
   mockApis,
 } from '@backstage/test-utils';
 import { configApiRef, identityApiRef } from '@backstage/core-plugin-api';
+import { catalogApiRef } from '@backstage/plugin-catalog-react';
 import { ConfigReader } from '@backstage/core-app-api';
 import { Root } from './Root';
 
@@ -20,9 +21,40 @@ const baseConfig = new ConfigReader({
   backend: { baseUrl: 'http://localhost:7007' },
 });
 
+// The run-page routes (/create/templates/:namespace/:name) look up the running
+// template's tags to decide which sidebar entry to highlight. Resolve tags from
+// the requested name so tests can drive each flow.
+const TEMPLATE_TAGS: Record<string, string[]> = {
+  'import-tpl': ['import-flow'],
+  'selfservice-tpl': ['self-service'],
+  'marketplace-tpl': ['devhub-marketplace'],
+  'plain-tpl': ['some-other-tag'],
+};
+const catalogApi = {
+  getEntityByRef: async (ref: any) => {
+    const name = typeof ref === 'string' ? ref.split('/').pop() : ref.name;
+    // Simulate an entity that can't be found: the catalog resolves to undefined
+    // (rather than throwing), which must still fall back to a sensible highlight.
+    if (name === 'missing-tpl') {
+      return undefined;
+    }
+    return {
+      apiVersion: 'scaffolder.backstage.io/v1beta3',
+      kind: 'Template',
+      metadata: {
+        name,
+        namespace: 'default',
+        tags: TEMPLATE_TAGS[name] ?? [],
+      },
+      spec: {},
+    };
+  },
+};
+
 const baseApis: any[] = [
   [configApiRef, baseConfig],
   [identityApiRef, mockApis.identity()],
+  [catalogApiRef, catalogApi],
 ];
 
 const renderSidebar = (routeEntry = '/') =>
@@ -176,6 +208,78 @@ describe('Root sidebar - Advanced View toggle', () => {
       await waitFor(() => {
         const taskListAnchor = getByText('Task list').closest('a');
         expect(taskListAnchor?.className).toMatch(/itemNotSelected/);
+      });
+    });
+  });
+
+  describe('Run-page highlighting (/create/templates/...) with Advanced View enabled', () => {
+    beforeEach(() => {
+      localStorage.setItem(ADVANCED_VIEW_KEY, 'true');
+    });
+
+    it('on an import-flow run - suppresses "Templates" and force-selects "Import..."', async () => {
+      const { getByText } = await renderSidebar(
+        '/create/templates/default/import-tpl',
+      );
+      await waitFor(() => {
+        expect(getByText('Templates').closest('a')?.className).toMatch(
+          /itemNotSelected/,
+        );
+        expect(getByText('Import...').closest('a')?.className).toMatch(
+          /itemSelected/,
+        );
+      });
+    });
+
+    it('on a self-service run - suppresses "Templates" and force-selects "Self Service"', async () => {
+      const { getByText } = await renderSidebar(
+        '/create/templates/default/selfservice-tpl',
+      );
+      await waitFor(() => {
+        expect(getByText('Templates').closest('a')?.className).toMatch(
+          /itemNotSelected/,
+        );
+        expect(getByText('Self Service').closest('a')?.className).toMatch(
+          /itemSelected/,
+        );
+      });
+    });
+
+    it('on a marketplace run - suppresses "Templates" and force-selects "Marketplace"', async () => {
+      const { getByText } = await renderSidebar(
+        '/create/templates/default/marketplace-tpl',
+      );
+      await waitFor(() => {
+        expect(getByText('Templates').closest('a')?.className).toMatch(
+          /itemNotSelected/,
+        );
+        expect(getByText('Marketplace').closest('a')?.className).toMatch(
+          /itemSelected/,
+        );
+      });
+    });
+
+    it('on a plain template run - does not suppress "Templates"', async () => {
+      const { getByText } = await renderSidebar(
+        '/create/templates/default/plain-tpl',
+      );
+      await waitFor(() => {
+        expect(getByText('Templates').closest('a')?.className).not.toMatch(
+          /itemNotSelected/,
+        );
+      });
+    });
+
+    it('on a run whose template lookup resolves undefined - falls back to plain template highlight', async () => {
+      const { getByText } = await renderSidebar(
+        '/create/templates/default/missing-tpl',
+      );
+      // Not found -> fall back to the neutral "template" kind, so Templates is
+      // highlighted normally rather than being left blank.
+      await waitFor(() => {
+        expect(getByText('Templates').closest('a')?.className).not.toMatch(
+          /itemNotSelected/,
+        );
       });
     });
   });

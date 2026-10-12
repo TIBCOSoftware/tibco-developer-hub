@@ -51,6 +51,11 @@ backend:
     host: 0.0.0.0
   csp:
     connect-src: ["'self'", 'http:', 'https:']
+    # Allow the YouTube embed domains to load in <iframe> frames. Backstage's
+    # default CSP falls back to `default-src 'self'` for frames, which would
+    # otherwise block TechDocs video embeds even after the sanitizer allows them.
+    frame-src:
+      ["'self'", 'https://www.youtube.com', 'https://www.youtube-nocookie.com']
   # config options: https://node-postgres.com/api/client
   database:
     client: pg
@@ -72,6 +77,7 @@ backend:
       - auth
       - catalog
       - scaffolder
+      - techdocs-mcp
 
 integrations:
   github:
@@ -87,7 +93,24 @@ integrations:
     #   token: ${GHE_TOKEN}
 
 catalog:
-  locations: []
+  # Overrides the default list locations from app-config.yaml as these contain example data.
+  # See https://backstage.io/docs/features/software-catalog/#adding-components-to-the-catalog for more details
+  # on how to get entities into the catalog.
+  locations:
+    - type: url
+      target: https://github.com/TIBCOSoftware/tibco-developer-hub/tree/main/tibco-examples/tibco-examples.yaml
+      rules:
+        - allow:
+            [
+              Group,
+              Template,
+              System,
+              Domain,
+              Location,
+              Component,
+              API,
+              Resource,
+            ]
   rules:
     - allow:
         [Group, Template, System, Domain, Location, Component, API, Resource]
@@ -99,6 +122,13 @@ techdocs:
     # dockerImage: 'mkdocs:local-dev'
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+  sanitizer:
+    # Hosts permitted in <iframe> tags inside TechDocs pages.
+    # Without this the TechDocs HTML sanitizer strips all iframes, so video
+    # embeds (e.g. YouTube) never render. Keep this list restrictive.
+    allowedIframeHosts:
+      - www.youtube.com
+      - www.youtube-nocookie.com
 enableExperimentalRedirectFlow: true
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers

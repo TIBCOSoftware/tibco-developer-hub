@@ -106,16 +106,23 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN pip3 install --upgrade pip
 RUN pip3 install mkdocs-techdocs-core==1.7.0
-# 1.7.0 already resolves Pygments 2.20.0 and pymdown-extensions 10.21.3; these
-# floors keep the CVE fixes explicit and guard against transitive resolver drift:
+# 1.7.0 already resolves Pygments 2.20.0, pymdown-extensions 10.21.3 and
+# mkdocs-material 9.7.6; these floors keep the CVE fixes explicit and guard
+# against transitive resolver drift:
 #   pygments            CVE-2026-4539  (-> >=2.20.0)
-#   pymdown-extensions  CVE-2026-46338 (-> >=10.21.3)
+#   pymdown-extensions  CVE-2026-46338 (-> >=10.21.3,<11)
+#   mkdocs-material     (-> >=9.7.7,<9.8) patch fix; techdocs-core pins ==9.7.6 but
+#                       a patch bump is API-compatible and safe to force. Capped
+#                       to the validated 9.7 patch line so a later rebuild cannot
+#                       silently drift onto an unvalidated 9.8+ minor or a future
+#                       major that techdocs-core==1.7.0 was never validated against.
 # ACCEPTED RISK — pymdown-extensions CVE-2026-61632 (MEDIUM) and CVE-2026-67422
 # (HIGH) are both fixed only in 11.x, but mkdocs-techdocs-core==1.7.0 (latest)
-# hard-pins pymdown-extensions==10.21.3 (and mkdocs-material==9.7.6). Forcing 11.x
-# would break techdocs-core's pin and risk techdocs rendering (11.0 was a major
-# API bump). Deferred until techdocs-core ships a release that allows 11.x.
-RUN pip3 install 'pygments>=2.20.0' 'pymdown-extensions>=10.21.3'
+# hard-pins pymdown-extensions==10.21.3. Forcing 11.x would break techdocs-core's
+# pin and risk techdocs rendering (11.0 was a major API bump), so the floor is
+# capped to <11 to keep it on the validated 10.x line. Deferred until techdocs-core
+# ships a release that allows 11.x.
+RUN pip3 install 'pygments>=2.20.0' 'pymdown-extensions>=10.21.3,<11' 'mkdocs-material>=9.7.7,<9.8'
 # Patched setuptools (CVE-2025-47273, CVE-2026-59890); kept for mkdocs/pkg_resources.
 RUN pip3 install 'setuptools>=78.1.1'
 

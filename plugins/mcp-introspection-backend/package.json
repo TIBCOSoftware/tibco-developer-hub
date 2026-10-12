@@ -1,6 +1,6 @@
 {
   "name": "@internal/plugin-mcp-introspection-backend",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "license": "Apache-2.0",
   "private": true,
   "description": "Backend plugin that introspects MCP servers at runtime, listing their tools, resources and prompts by connecting to the entity's spec.remotes.",

@@ -80,6 +80,7 @@ backend:
       - auth
       - catalog
       - scaffolder
+      - techdocs-mcp
 
 integrations:
   github:
@@ -106,6 +107,13 @@ techdocs:
     # dockerImage: 'mkdocs:local-dev'
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+  sanitizer:
+    # Hosts permitted in <iframe> tags inside TechDocs pages.
+    # Without this the TechDocs HTML sanitizer strips all iframes, so video
+    # embeds (e.g. YouTube) never render. Keep this list restrictive.
+    allowedIframeHosts:
+      - www.youtube.com
+      - www.youtube-nocookie.com
 enableExperimentalRedirectFlow: true
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers

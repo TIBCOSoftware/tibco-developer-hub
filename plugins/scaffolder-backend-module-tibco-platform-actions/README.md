@@ -86,11 +86,46 @@ The base URL is resolved in the following priority order:
 
 #### Authentication Token Resolution
 
-| Priority | Source                                     |
-| -------- | ------------------------------------------ |
-| 1        | `cpToken` in action input                  |
-| 2        | `cpToken` in template secrets              |
-| 3        | `TIBCOPlatformToken` from Backstage config |
+| Priority | Source                                     | Sent to                              |
+| -------- | ------------------------------------------ | ------------------------------------ |
+| 1        | `cpToken` in action input                  | Any allowed target host              |
+| 2        | `cpToken` in template secrets              | Any allowed target host              |
+| 3        | `TIBCOPlatformToken` from Backstage config | **Trusted Control Plane hosts only** |
+
+Caller-supplied tokens (`cpToken`, priorities 1–2) are owned and provided
+per-call, so they are attached for any allowed target host. `TIBCOPlatformToken`
+(priority 3) is an **ambient backend service credential**, not caller-supplied;
+to prevent a caller-chosen `baseUrl` from exfiltrating it via SSRF, it is
+attached **only when the target host is a trusted Control Plane host**. When the
+target is not a trusted CP host and no `cpToken` is provided, no token is sent —
+and if `requireAuth` is `true` (the default) the action fails with a message
+noting that `TIBCOPlatformToken` is CP-scoped and that a `cpToken` must be passed
+explicitly for other hosts.
+
+Trusted Control Plane hosts are derived exclusively from operator-controlled
+configuration (`CP_DOMAIN` / `cpLink` / `CP_URL`), never from caller input.
+
+#### Outbound Host Restrictions
+
+`baseUrl` is caller-controlled, so the target host can be any address. Two
+guards limit where requests (and credentials) can go:
+
+1. **Ambient-credential scoping** (always on) — `TIBCOPlatformToken` is only
+   sent to trusted CP hosts, as described above.
+2. **Operator host allowlist** (optional, defense-in-depth) — set
+   `scaffolder.tibcoCallPlatformApi.allowedHosts` to a list of permitted
+   hostnames. When configured, any target host that is neither a trusted CP host
+   nor in the allowlist is **rejected** (fail closed). When it is not configured,
+   a caller-supplied non-CP target is allowed but logged as a warning.
+
+```yaml
+# app-config.yaml
+scaffolder:
+  tibcoCallPlatformApi:
+    allowedHosts:
+      - api.example.com
+      - files.internal.example.net
+```
 
 #### Input
 
@@ -225,7 +260,8 @@ cpLink: 'https://cphost.cp1-my.localhost.dataplanes.pro'
 TIBCOPlatformToken: '<your-bearer-token>'
 ```
 
-| Key                  | Required | Description                                                      |
-| -------------------- | -------- | ---------------------------------------------------------------- |
-| `cpLink`             | Yes      | Default Control Plane base URL used by `tibco:call-platform-api` |
-| `TIBCOPlatformToken` | Yes      | Static bearer token for local development                        |
+| Key                                            | Required | Description                                                                                                 |
+| ---------------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------- |
+| `cpLink`                                       | Yes      | Default Control Plane base URL used by `tibco:call-platform-api`                                            |
+| `TIBCOPlatformToken`                           | Yes      | Static bearer token for local development; only sent to trusted Control Plane hosts (see token resolution)  |
+| `scaffolder.tibcoCallPlatformApi.allowedHosts` | No       | Allowlist of non-CP hostnames `tibco:call-platform-api` may call; when set, other non-CP hosts are rejected |

@@ -1,4 +1,4 @@
-define: &docUrl https://docs.tibco.com/go/platform-cp/1.20.0/doc/html#cshid=developer_hub_overview
+define: &docUrl https://docs.tibco.com/go/platform-cp/1.21.0/doc/html#cshid=developer_hub_overview
 app:
   title: TIBCO® Developer Hub
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.
@@ -45,6 +45,11 @@ backend:
     host: 0.0.0.0
   csp:
     connect-src: ["'self'", 'http:', 'https:']
+    # Allow the YouTube embed domains to load in <iframe> frames. Backstage's
+    # default CSP falls back to `default-src 'self'` for frames, which would
+    # otherwise block TechDocs video embeds even after the sanitizer allows them.
+    frame-src:
+      ["'self'", 'https://www.youtube.com', 'https://www.youtube-nocookie.com']
   # config options: https://node-postgres.com/api/client
   database:
     client: better-sqlite3
@@ -105,6 +110,13 @@ techdocs:
     # dockerImage: 'mkdocs:local-dev'
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+  sanitizer:
+    # Hosts permitted in <iframe> tags inside TechDocs pages.
+    # Without this the TechDocs HTML sanitizer strips all iframes, so video
+    # embeds (e.g. YouTube) never render. Keep this list restrictive.
+    allowedIframeHosts:
+      - www.youtube.com
+      - www.youtube-nocookie.com
 enableExperimentalRedirectFlow: true
 auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers

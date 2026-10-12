@@ -148,19 +148,33 @@ async function buildFormData(
 }
 
 /**
- * Resolves the authentication token with the following priority order:
+ * Resolves the authentication token to attach to the outbound request.
+ *
+ * Priority for caller-supplied tokens (honoured for any allowed target host,
+ * because the caller explicitly owns and provides them for this call):
  *   1. `cpToken` from template input (explicit per-invocation override)
  *   2. `cpToken` from template secrets
- *   3. `TIBCOPlatformToken` from Backstage configuration
  *
- * Returns `undefined` when no token is found.
+ * The `TIBCOPlatformToken` from Backstage configuration is an *ambient backend
+ * service credential*, not something the caller supplies per call. It is only
+ * attached when the request targets the trusted Control Plane host
+ * (`isTrustedCpTarget`). This prevents a caller-chosen `baseUrl` from causing
+ * the service credential to be sent — and thereby exfiltrated — to an arbitrary
+ * host via SSRF.
+ *
+ * Returns `undefined` when no applicable token is found.
  */
 function resolveAuthToken(
   inputToken: string | undefined,
   secretToken: string | undefined,
   configToken: string | undefined,
+  isTrustedCpTarget: boolean,
 ): string | undefined {
-  return inputToken ?? secretToken ?? configToken;
+  const callerToken = inputToken ?? secretToken;
+  if (callerToken) {
+    return callerToken;
+  }
+  return isTrustedCpTarget ? configToken : undefined;
 }
 
 /**
@@ -229,6 +243,39 @@ function ensureHttps(url: string): string {
 function buildUrl(baseUrl: string, endpoint: string): string {
   const joined = `${baseUrl.replace(/\/$/, '')}/${endpoint.replace(/^\//, '')}`;
   return ensureHttps(joined);
+}
+
+/**
+ * Extracts the lowercased hostname from a URL string, or `undefined` when it
+ * cannot be parsed. Parsing with `URL().hostname` (rather than string matching)
+ * defeats authority-confusion tricks such as embedded credentials
+ * (`https://trusted-host@evil.example`) that would otherwise fool a naive
+ * "does the URL contain the trusted host" check.
+ */
+function safeHostname(url: string): string | undefined {
+  try {
+    return new URL(url).hostname.toLowerCase();
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Returns the set of hostnames that are considered the trusted Control Plane
+ * endpoints for this deployment. These are derived exclusively from
+ * operator-controlled configuration (`CP_DOMAIN`/`cpLink`/`CP_URL`), never from
+ * caller input, so they are safe to treat as the destinations allowed to
+ * receive the ambient platform service credential.
+ */
+function getTrustedCpHosts(config: Config): Set<string> {
+  const hosts = new Set<string>();
+  for (const url of [getCpBaseUrl(config), getCpBrowserUrl(config)]) {
+    const host = url ? safeHostname(url) : undefined;
+    if (host) {
+      hosts.add(host);
+    }
+  }
+  return hosts;
 }
 
 export const fetchPlatformApiAction = (config: Config) => {
@@ -339,6 +386,50 @@ export const fetchPlatformApiAction = (config: Config) => {
       }
       const finalUrl = buildUrl(resolvedBaseUrl, endpoint);
 
+      // SSRF / credential-exfil guard.
+      //
+      // `baseUrl` is caller-controlled, so `finalUrl` can point at any host. Two
+      // protections are applied here:
+      //
+      //  1. Ambient-credential scoping (root cause): the ambient backend service
+      //     credential (`TIBCOPlatformToken` from config) is only attached when
+      //     the target host is a trusted Control Plane host — see
+      //     `resolveAuthToken`. This stops a caller-chosen `baseUrl` from
+      //     exfiltrating the service token.
+      //
+      //  2. Optional operator host allowlist (defense-in-depth): when
+      //     `scaffolder.tibcoCallPlatformApi.allowedHosts` is configured, any
+      //     target host outside the trusted CP hosts + that allowlist is
+      //     rejected (fail closed). When it is not configured, existing behaviour
+      //     is preserved but a caller-supplied non-CP target is logged.
+      const targetHost = safeHostname(finalUrl);
+      if (!targetHost) {
+        throw new Error(
+          `Refusing to call platform API: '${finalUrl}' is not a valid URL.`,
+        );
+      }
+
+      const trustedCpHosts = getTrustedCpHosts(config);
+      const isTrustedCpTarget = trustedCpHosts.has(targetHost);
+
+      const allowedHosts = (
+        config.getOptionalStringArray(
+          'scaffolder.tibcoCallPlatformApi.allowedHosts',
+        ) ?? []
+      ).map(host => host.toLowerCase());
+
+      if (allowedHosts.length > 0) {
+        if (!isTrustedCpTarget && !allowedHosts.includes(targetHost)) {
+          throw new Error(
+            `Refusing to call platform API: host '${targetHost}' is not permitted. Add it to 'scaffolder.tibcoCallPlatformApi.allowedHosts' to allow it.`,
+          );
+        }
+      } else if (baseUrl && !isTrustedCpTarget) {
+        ctx.logger.warn(
+          `tibco:call-platform-api is targeting non-Control-Plane host '${targetHost}'. Configure 'scaffolder.tibcoCallPlatformApi.allowedHosts' to restrict outbound targets.`,
+        );
+      }
+
       // Output platform URLs (config-derived, available regardless of API call outcome)
       ctx.output(
         'appBaseUrl',
@@ -351,10 +442,14 @@ export const fetchPlatformApiAction = (config: Config) => {
         inputToken,
         ctx.secrets?.cpToken,
         config.getOptionalString('TIBCOPlatformToken'),
+        isTrustedCpTarget,
       );
       if (requireAuth && !cptoken) {
+        const cpTokenScopingHint = !isTrustedCpTarget
+          ? " The configured 'TIBCOPlatformToken' is only sent to the trusted Control Plane host, so for other hosts you must pass cpToken explicitly."
+          : '';
         throw new Error(
-          'Authentication required but no token found. Provide cpToken in the action input, template secrets, or as TIBCOPlatformToken in Backstage configuration.',
+          `Authentication required but no token found. Provide cpToken in the action input, template secrets, or as TIBCOPlatformToken in Backstage configuration.${cpTokenScopingHint}`,
         );
       }
 

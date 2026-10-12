@@ -9,7 +9,7 @@ import { DevHubConfig } from './config.ts';
 import { idmJwtMiddlewareFunction } from './idmJwtMiddleware.ts';
 import { KeyvStore } from './cacheService.ts';
 import cookieParser from 'cookie-parser';
-import { jwtDecode } from 'jwt-decode';
+import { getLogoutVerifier, verifyLogoutToken } from './backchannelLogout.ts';
 
 export default rootHttpRouterServiceFactory({
   configure: async ({ app, middleware, routes, logger, config }) => {
@@ -78,25 +78,64 @@ export default rootHttpRouterServiceFactory({
     ) {
       router.post(
         '/api/oidc/backchannel-logout',
+        // OIDC Back-Channel Logout 1.0 requires the OP to POST the logout_token
+        // as an application/x-www-form-urlencoded parameter. Parse that first,
+        // and also accept JSON for compatibility with other callers/tests.
+        // The payload is a single flat `logout_token` field, so `extended: false`
+        // (classic querystring parsing, no nested `qs` objects) is sufficient,
+        // and tight `limit`/`parameterLimit` bounds keep the attack surface small.
+        express.urlencoded({
+          extended: false,
+          limit: '100kb',
+          parameterLimit: 10,
+        }),
         express.json(),
         async (request: Request, response: Response) => {
           try {
             const logout_token = request.body?.logout_token;
-            if (!logout_token) {
-              logger.error('No logout_token found in payload');
-              response.status(500).send(`No logout_token found in payload`);
-            }
-            const decoded: { secondaryKeys: string[] } =
-              jwtDecode(logout_token);
-            if (
-              !(decoded.secondaryKeys && Array.isArray(decoded.secondaryKeys))
-            ) {
-              logger.error('No secondaryKeys array in decoded payload');
+            // With form-urlencoded bodies, a duplicated logout_token parameter
+            // is parsed as an array. Anything that is not a non-empty string is
+            // a malformed request; reject it before verification.
+            if (typeof logout_token !== 'string' || logout_token.length === 0) {
+              // Malformed client request (400), not a server fault — log at warn
+              // so it doesn't inflate error-rate alerting.
+              logger.warn('No valid logout_token found in payload');
               response
-                .status(500)
-                .send(`No secondaryKeys array in decoded payload`);
+                .status(400)
+                .send(`No valid logout_token found in payload`);
+              return;
             }
-            const keys = decoded.secondaryKeys;
+            // Resolve the verifier separately from verifying the token so that
+            // backend-side failures (CP misconfiguration, OIDC discovery
+            // outage, jwks_uri origin mismatch) are reported as 503 — a
+            // retryable condition — rather than 401. Returning 401 here would
+            // tell the IdP the token is bad, so it would not retry and the
+            // session could be left un-evicted.
+            let verifier: Awaited<ReturnType<typeof getLogoutVerifier>>;
+            try {
+              verifier = await getLogoutVerifier();
+            } catch (discoveryErr) {
+              logger.error(
+                'Backchannel logout unavailable: could not resolve logout verifier',
+                discoveryErr as Error,
+              );
+              response.status(503).send('Logout verification unavailable');
+              return;
+            }
+            // Verify the token's signature and issuer BEFORE acting on it.
+            // Without this any unauthenticated caller could supply an arbitrary
+            // `secondaryKeys` array and evict other users' cached sessions.
+            let keys: string[];
+            try {
+              keys = await verifyLogoutToken(logout_token, verifier);
+            } catch (verifyErr) {
+              logger.error(
+                'Rejected backchannel logout: token verification failed',
+                verifyErr as Error,
+              );
+              response.status(401).send('Invalid logout_token');
+              return;
+            }
             for (const key of keys) {
               const token = await KeyvStore.keyv.get(key);
               if (token) {

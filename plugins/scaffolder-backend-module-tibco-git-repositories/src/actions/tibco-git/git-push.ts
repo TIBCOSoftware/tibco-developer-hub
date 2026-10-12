@@ -9,6 +9,12 @@ import {
   RootConfigService,
 } from '@backstage/backend-plugin-api';
 import { existsSync } from 'fs';
+import { ScmIntegrations } from '@backstage/integration';
+import {
+  redactUrlUserinfo,
+  resolveGitAuthHeaders,
+  toExtraHeaderConfig,
+} from './gitAuth.ts';
 import { examples } from './git-push.examples.ts';
 
 export function gitPushAction(config: RootConfigService) {
@@ -40,6 +46,7 @@ export function gitPushAction(config: RootConfigService) {
           z.string().optional().describe('Default author email'),
         branch: z =>
           z.string().optional().describe('The name of the branch to push'),
+        token: z => z.string().optional().describe('Authentication token'),
       },
     },
     async handler(ctx) {
@@ -62,8 +69,44 @@ export function gitPushAction(config: RootConfigService) {
           throw new Error('Source path relative to workspace do not exist');
         }
         ctx.logger.info(`Final workspace path: ${relativeWorkspacePath}`);
-        const git = simpleGit();
-        await git.cwd(relativeWorkspacePath);
+
+        // Resolve credentials fresh at push time and pass them as command-scoped
+        // `git -c http.extraHeader=...` overrides. The clone action no longer
+        // persists secrets into `.git/config`, so we re-derive them here from the
+        // repo's `origin` URL (or an explicit token) rather than reusing a
+        // credential left on disk.
+        let extraHeaderConfig: string[] = [];
+        try {
+          const originUrl = (
+            await simpleGit(relativeWorkspacePath).remote(['get-url', 'origin'])
+          )
+            ?.toString()
+            .trim();
+          if (originUrl) {
+            const integrations = ScmIntegrations.fromConfig(config);
+            const integration = integrations.byUrl(originUrl);
+            const authHeaders = await resolveGitAuthHeaders(
+              originUrl,
+              integration,
+              integrations,
+              ctx.input.token,
+            );
+            extraHeaderConfig = toExtraHeaderConfig(authHeaders);
+            if (extraHeaderConfig.length === 0) {
+              ctx.logger.warn(
+                `No credentials resolved for origin '${redactUrlUserinfo(
+                  originUrl,
+                )}'. Push will proceed unauthenticated and may fail.`,
+              );
+            }
+          }
+        } catch (err) {
+          ctx.logger.warn(`Unable to resolve push credentials: ${err}`);
+        }
+
+        const git = simpleGit(relativeWorkspacePath, {
+          config: extraHeaderConfig,
+        });
         let pushToBranch = false;
         if (ctx.input.branch) {
           const currentBranch = await git.branchLocal();

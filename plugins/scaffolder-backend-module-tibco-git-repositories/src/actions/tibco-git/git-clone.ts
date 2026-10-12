@@ -9,120 +9,13 @@ import {
   RootConfigService,
 } from '@backstage/backend-plugin-api';
 import { existsSync, mkdirSync } from 'fs';
+import { ScmIntegrations } from '@backstage/integration';
 import {
-  BitbucketCloudIntegration,
-  BitbucketServerIntegration,
-  DefaultAzureDevOpsCredentialsProvider,
-  DefaultGithubCredentialsProvider,
-  DefaultGitlabCredentialsProvider,
-  GerritIntegration,
-  GiteaIntegration,
-  getBitbucketCloudRequestOptions,
-  getBitbucketServerRequestOptions,
-  getGerritRequestOptions,
-  getGiteaRequestOptions,
-  getHarnessRequestOptions,
-  HarnessIntegration,
-  ScmIntegration,
-  ScmIntegrationRegistry,
-  ScmIntegrations,
-} from '@backstage/integration';
+  redactUrlUserinfo,
+  resolveGitAuthHeaders,
+  toExtraHeaderConfig,
+} from './gitAuth.ts';
 import { examples } from './git-clone.examples.ts';
-
-/**
- * Builds an HTTP Basic `Authorization` header value from a username/password
- * pair. Used for the providers that authenticate git over HTTPS via basic auth.
- */
-const basicAuth = (username: string, password: string): string =>
-  `Basic ${Buffer.from(`${username}:${password}`, 'utf8').toString('base64')}`;
-
-/**
- * Resolves the HTTP headers needed to authenticate a git clone over HTTPS for
- * whatever SCM provider the repository URL belongs to. The provider is detected
- * from the `integrations.*` configuration (by host), so any self-hosted instance
- * works as long as it is configured. The returned headers are injected into git
- * via `http.extraHeader`, which supports every auth scheme uniformly (Basic,
- * Bearer and custom headers such as Harness' `x-api-key`).
- *
- * An explicitly supplied `token` always takes precedence and is applied using
- * the convention expected by the matched provider.
- */
-const resolveGitAuthHeaders = async (
-  repoUrl: string,
-  integration: ScmIntegration | undefined,
-  integrations: ScmIntegrationRegistry,
-  token?: string,
-): Promise<Record<string, string>> => {
-  switch (integration?.type) {
-    case 'github': {
-      const authToken =
-        token ??
-        (
-          await DefaultGithubCredentialsProvider.fromIntegrations(
-            integrations,
-          ).getCredentials({ url: repoUrl })
-        )?.token;
-      return authToken
-        ? { Authorization: basicAuth('x-access-token', authToken) }
-        : {};
-    }
-    case 'gitlab': {
-      const authToken =
-        token ??
-        (
-          await DefaultGitlabCredentialsProvider.fromIntegrations(
-            integrations,
-          ).getCredentials({ url: repoUrl })
-        )?.token;
-      return authToken ? { Authorization: basicAuth('oauth2', authToken) } : {};
-    }
-    case 'azure': {
-      if (token) {
-        // Azure DevOps personal access token: any username, PAT as password.
-        return { Authorization: basicAuth('pat', token) };
-      }
-      const credentials =
-        await DefaultAzureDevOpsCredentialsProvider.fromIntegrations(
-          integrations,
-        ).getCredentials({ url: repoUrl });
-      return credentials?.headers ?? {};
-    }
-    case 'bitbucketCloud': {
-      if (token) {
-        return { Authorization: basicAuth('x-token-auth', token) };
-      }
-      const { config } = integration as BitbucketCloudIntegration;
-      return (await getBitbucketCloudRequestOptions(config)).headers ?? {};
-    }
-    case 'bitbucketServer': {
-      if (token) {
-        // Bitbucket Data Center HTTP access token uses bearer auth.
-        return { Authorization: `Bearer ${token}` };
-      }
-      const { config } = integration as BitbucketServerIntegration;
-      return getBitbucketServerRequestOptions(config).headers ?? {};
-    }
-    case 'gerrit': {
-      const { config } = integration as GerritIntegration;
-      return getGerritRequestOptions(config).headers ?? {};
-    }
-    case 'gitea': {
-      const { config } = integration as GiteaIntegration;
-      return getGiteaRequestOptions(config).headers ?? {};
-    }
-    case 'harness': {
-      if (token) {
-        return { 'x-api-key': token };
-      }
-      const { config } = integration as HarnessIntegration;
-      return getHarnessRequestOptions(config).headers ?? {};
-    }
-    default:
-      // Unknown / unconfigured host: honour an explicitly provided token using
-      // the most widely accepted convention (token as the basic-auth username).
-      return token ? { Authorization: basicAuth(token, '') } : {};
-  }
-};
 
 export const gitCloneAction = (config: RootConfigService) => {
   return createTemplateAction({
@@ -161,7 +54,7 @@ export const gitCloneAction = (config: RootConfigService) => {
           `Fail on error: ${ctx.input.failOnError ? 'True' : 'False'}`,
         );
         ctx.logger.info(`Branch: ${ctx.input.branch || ''}`);
-        ctx.logger.info(`repoUrl: ${ctx.input.repoUrl}`);
+        ctx.logger.info(`repoUrl: ${redactUrlUserinfo(ctx.input.repoUrl)}`);
 
         const { repoUrl, token, branch } = ctx.input;
         const repoUrlObj = new URL(repoUrl);
@@ -189,7 +82,11 @@ export const gitCloneAction = (config: RootConfigService) => {
         );
         if (Object.keys(authHeaders).length === 0) {
           throw new Error(
-            `No credentials available for git repository ${repoUrl}. Configure an integration for host '${repoUrlObj.host}' under 'integrations' or pass a token.`,
+            `No credentials available for git repository ${redactUrlUserinfo(
+              repoUrl,
+            )}. Configure an integration for host '${
+              repoUrlObj.host
+            }' under 'integrations' or pass a token.`,
           );
         }
 
@@ -202,22 +99,21 @@ export const gitCloneAction = (config: RootConfigService) => {
         }
         ctx.logger.info(`Final workspace path: ${relativeWorkspacePath}`);
 
-        const git = simpleGit();
+        // Inject the auth as HTTP headers via `http.extraHeader` so the secret
+        // never ends up in the clone URL and every auth scheme is supported
+        // (Basic, Bearer, custom). The headers are passed as command-scoped
+        // `git -c ...` overrides (simple-git's `config` option), NOT with
+        // `git clone --config`, so the credential is never persisted into the
+        // cloned repo's `.git/config` on disk. tibco:git:push re-resolves its
+        // own credentials at push time instead of relying on persisted secrets.
+        const git = simpleGit({ config: toExtraHeaderConfig(authHeaders) });
         const options = ['--single-branch'];
         if (branch) {
           options.push('--branch');
           options.push(branch);
         }
-        // Inject the auth as HTTP headers via `http.extraHeader` so the secret
-        // never ends up in the clone URL and every auth scheme is supported
-        // (Basic, Bearer, custom). Passing them with `--config` persists the
-        // headers into the cloned repo's config, so a subsequent push/fetch
-        // (e.g. the tibco:git:push action) reuses the same credentials.
-        for (const [name, value] of Object.entries(authHeaders)) {
-          options.push('--config', `http.extraHeader=${name}: ${value}`);
-        }
         await git.clone(repoUrl, relativeWorkspacePath, options);
-        ctx.logger.info(`Finished cloning ${repoUrl}`);
+        ctx.logger.info(`Finished cloning ${redactUrlUserinfo(repoUrl)}`);
       } catch (err) {
         ctx.logger.error(`Error while cloning the git repository`);
         ctx.logger.error(`${err}`);

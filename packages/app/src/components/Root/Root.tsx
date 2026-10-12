@@ -27,6 +27,10 @@ import {
   useApi,
 } from '@backstage/core-plugin-api';
 import { Link, useLocation } from 'react-router-dom';
+import {
+  RunFlowKindProvider,
+  useRunFlowKind,
+} from '../scaffolder/RunFlowContext.tsx';
 import DevHubLogo from './images/devhub-logo.svg';
 import { Config } from '@backstage/config';
 import Typography from '@material-ui/core/Typography';
@@ -474,6 +478,18 @@ const SidebarCustom = ({
   const { isAdvancedView } = useAdvancedView();
   const location = useLocation();
   const isOnTasksRoute = location.pathname.includes('/create/tasks');
+  // Which flow the current /create/templates/... run belongs to (resolved and
+  // shared by RunFlowKindProvider). Used to keep the right sidebar entry lit
+  // instead of always flashing "Templates" for any /create subpath.
+  const runFlowKind = useRunFlowKind();
+  const isRunPage = location.pathname.startsWith('/create/templates/');
+  const isImportFlowRun = runFlowKind === 'import';
+  const isSelfServiceRun = runFlowKind === 'self-service';
+  const isMarketplaceRun = runFlowKind === 'marketplace';
+  // "Templates" owns the /create prefix, so suppress its auto-highlight while a
+  // run under it belongs to (or might still resolve to) another flow — that way
+  // it never flashes selected before the correct entry lights up.
+  const suppressTemplatesHighlight = isRunPage && runFlowKind !== 'template';
   const secondaryControlPlanes: undefined | SecondaryControlPlanes[] =
     secondaryControlPlanesValue(config.getOptional('secondaryControlPlanes'));
   const developerHubVersion = config.getOptional('app.developerHubVersion');
@@ -506,6 +522,15 @@ const SidebarCustom = ({
   const openSecNavBar = () => {
     setIsExtendedNavOpen(true);
     setCpClicked(true);
+  };
+  // Class for a nav item that can be force-selected while its flow's template is
+  // running under /create (the URL wouldn't otherwise match its `to`). A control
+  // plane click always wins and deselects everything else.
+  const navItemClass = (forceSelected: boolean) => {
+    if (cpClicked) {
+      return classes.itemNotSelected;
+    }
+    return forceSelected ? classes.itemSelected : '';
   };
   return (
     <div
@@ -562,7 +587,7 @@ const SidebarCustom = ({
           onClick={() => setCpClicked(false)}
         />
         <SidebarItem
-          className={cpClicked ? classes.itemNotSelected : ''}
+          className={navItemClass(isMarketplaceRun)}
           icon={() => (
             <img src={MarketplaceIcon} height={24} width={24} alt="logo" />
           )}
@@ -625,7 +650,9 @@ const SidebarCustom = ({
             <SidebarDivider className={classes.divider} />
             <SidebarItem
               className={
-                cpClicked || isOnTasksRoute ? classes.itemNotSelected : ''
+                cpClicked || isOnTasksRoute || suppressTemplatesHighlight
+                  ? classes.itemNotSelected
+                  : ''
               }
               onClick={() => setCpClicked(false)}
               icon={() => (
@@ -635,7 +662,7 @@ const SidebarCustom = ({
               text="Templates"
             />
             <SidebarItem
-              className={cpClicked ? classes.itemNotSelected : ''}
+              className={navItemClass(isSelfServiceRun)}
               onClick={() => setCpClicked(false)}
               icon={() => (
                 <img src={SelfServiceIcon} height={24} width={24} alt="logo" />
@@ -644,7 +671,7 @@ const SidebarCustom = ({
               text="Self Service"
             />
             <SidebarItem
-              className={cpClicked ? classes.itemNotSelected : ''}
+              className={navItemClass(isImportFlowRun)}
               onClick={() => setCpClicked(false)}
               icon={() => (
                 <img src={ImportFlowIcon} height={24} width={24} alt="logo" />
@@ -721,19 +748,21 @@ export const Root = ({ children }: PropsWithChildren<{}>) => {
   return (
     <div onMouseUp={onMouseUp} role="presentation">
       <ThemeCSSVars />
-      <SidebarPage>
-        <Sidebar disableExpandOnHover>
-          <SidebarCustom
-            setIsExtendedNavOpen={setExtendedNavOpen}
-            setIsNavOpen={setNavOpen}
+      <RunFlowKindProvider>
+        <SidebarPage>
+          <Sidebar disableExpandOnHover>
+            <SidebarCustom
+              setIsExtendedNavOpen={setExtendedNavOpen}
+              setIsNavOpen={setNavOpen}
+            />
+          </Sidebar>
+          <SecondarySidebar
+            isExtendedNavOpen={extendedNavOpen}
+            navOpen={navOpen}
           />
-        </Sidebar>
-        <SecondarySidebar
-          isExtendedNavOpen={extendedNavOpen}
-          navOpen={navOpen}
-        />
-        {children}
-      </SidebarPage>
+          {children}
+        </SidebarPage>
+      </RunFlowKindProvider>
     </div>
   );
 };
