@@ -23,7 +23,7 @@ metadata:
         background: 'lightblue'
         iconColor: 'darkblue'
     entityIcon:
-      icon: https://www.tibco.com/blog/wp-content/uploads/2018/06/flogo_light-02.png
+      icon: https://raw.githubusercontent.com/TIBCOSoftware/flogo/refs/heads/master/branding/flynn.svg
       iconTooltip: flogo_light
     statusIcons:
       - icon: VerifiedUser
