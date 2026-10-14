@@ -1,6 +1,6 @@
 {
   "name": "@internal/plugin-scaffolder-backend-module-tibco-git-repositories",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "license": "Apache-2.0",
   "private": true,
   "description": "The tibco-git-repositories module for @backstage/plugin-scaffolder-backend",
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@backstage/cli": "^0.36.2",
+    "@backstage/config": "^1.3.8",
     "@backstage/plugin-scaffolder-node-test-utils": "^0.3.11",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

@@ -1,4 +1,4 @@
-define: &docUrl https://docs.tibco.com/go/platform-cp/1.21.0/doc/html#cshid=developer_hub_overview
+define: &docUrl https://docs.tibco.com/go/platform-cp/1.22.0/doc/html#cshid=developer_hub_overview
 app:
   title: TIBCO® Developer Hub
   # Should be the same as backend.baseUrl when using the `app-backend` plugin.

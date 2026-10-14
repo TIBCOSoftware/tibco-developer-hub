@@ -7,6 +7,7 @@ import { promises as fs } from 'fs';
 import os from 'os';
 import path from 'path';
 
+/** Creates a minimal scaffolder action context for testing. */
 function createMockContext(
   input: Record<string, unknown>,
   workspacePath: string,
@@ -29,6 +30,8 @@ function createMockContext(
     logStream: { write: jest.fn() },
     createTemporaryDirectory: jest.fn(),
     checkpoint: jest.fn(),
+    getInitiatorCredentials: jest.fn(),
+    secrets: {},
   };
 }
 
@@ -44,8 +47,64 @@ describe('tibco:extract-parameters', () => {
   });
 
   it('has the correct action id', () => {
+    expect(ExtractParametersAction().id).toBe('tibco:extract-parameters');
+  });
+
+  it('declares dry-run support', () => {
+    expect(ExtractParametersAction().supportsDryRun).toBe(true);
+  });
+
+  it('extracts parameters during a dry-run (read-only, runs unchanged)', async () => {
+    await fs.writeFile(
+      path.join(tmpDir, 'data.json'),
+      JSON.stringify({ name: 'hello' }),
+      'utf8',
+    );
+
     const action = ExtractParametersAction();
-    expect(action.id).toBe('tibco:extract-parameters');
+    const ctx = createMockContext(
+      {
+        extractParameters: {
+          appName: {
+            type: 'json',
+            filePath: 'data.json',
+            jsonPath: '$.name',
+          },
+        },
+      },
+      tmpDir,
+    );
+    (ctx as any).isDryRun = true;
+
+    await action.handler(ctx as any);
+
+    expect(ctx.output).toHaveBeenCalledWith('appName', ['hello']);
+  });
+
+  it('extracts parameters during a normal (non-dry-run) run', async () => {
+    await fs.writeFile(
+      path.join(tmpDir, 'data.json'),
+      JSON.stringify({ name: 'world' }),
+      'utf8',
+    );
+
+    const action = ExtractParametersAction();
+    const ctx = createMockContext(
+      {
+        extractParameters: {
+          appName: {
+            type: 'json',
+            filePath: 'data.json',
+            jsonPath: '$.name',
+          },
+        },
+      },
+      tmpDir,
+    );
+
+    await action.handler(ctx as any);
+
+    expect(ctx.output).toHaveBeenCalledWith('appName', ['world']);
   });
 
   it('extracts matches from a file using a string regex', async () => {

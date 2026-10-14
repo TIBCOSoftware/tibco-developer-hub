@@ -152,6 +152,126 @@ describe('tibco:call-platform-api', () => {
     expect(action.id).toBe('tibco:call-platform-api');
   });
 
+  it('declares dry-run support', () => {
+    const config = new ConfigReader({});
+    const action = fetchPlatformApiAction(config);
+    expect(action.supportsDryRun).toBe(true);
+  });
+
+  it('performs a GET call during a dry-run (read-only verb runs unchanged)', async () => {
+    const responseData = { items: [1, 2, 3] };
+    const fetchSpy = jest.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => responseData,
+      headers: new Headers(),
+    } as Response);
+
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+      TIBCOPlatformToken: 'tok',
+    });
+    const action = fetchPlatformApiAction(config);
+
+    const ctx = createMockContext(
+      { endpoint: '/api/v1/resources', method: 'GET' },
+      tmpDir,
+    );
+    (ctx as any).isDryRun = true;
+    await action.handler(ctx as any);
+
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(ctx.outputs.status).toBe(200);
+    expect(ctx.outputs.data).toEqual(responseData);
+  });
+
+  it('suppresses a mutating call during a dry-run and emits synthetic output', async () => {
+    const fetchSpy = jest.spyOn(globalThis, 'fetch');
+
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+      TIBCOPlatformToken: 'tok',
+    });
+    const action = fetchPlatformApiAction(config);
+
+    const ctx = createMockContext(
+      { endpoint: '/api/v1/resources', method: 'POST', body: { a: 1 } },
+      tmpDir,
+    );
+    (ctx as any).isDryRun = true;
+    await action.handler(ctx as any);
+
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(ctx.outputs.status).toBe(200);
+    expect(ctx.outputs.data).toEqual({});
+    expect(ctx.logger.info).toHaveBeenCalledWith(
+      expect.stringContaining('[dry-run]'),
+    );
+  });
+
+  it('surfaces missing baseUrl during a mutating dry-run (config validated before suppression)', async () => {
+    const fetchSpy = jest.spyOn(globalThis, 'fetch');
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+    });
+    const action = fetchPlatformApiAction(config);
+
+    const ctx = createMockContext(
+      { endpoint: '/api/v1/resources', method: 'POST', body: { a: 1 } },
+      tmpDir,
+    );
+    (ctx as any).isDryRun = true;
+
+    await expect(action.handler(ctx as any)).rejects.toThrow(/No baseUrl/);
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('normalizes the verb in the dry-run log (lowercase method)', async () => {
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+      TIBCOPlatformToken: 'tok',
+    });
+    const action = fetchPlatformApiAction(config);
+
+    const ctx = createMockContext(
+      { endpoint: '/api/v1/resources', method: 'post', body: { a: 1 } },
+      tmpDir,
+    );
+    (ctx as any).isDryRun = true;
+    await action.handler(ctx as any);
+
+    expect(ctx.logger.info).toHaveBeenCalledWith(
+      expect.stringContaining('Would call POST'),
+    );
+  });
+
+  it('surfaces missing auth during a mutating dry-run (auth validated before suppression)', async () => {
+    const fetchSpy = jest.spyOn(globalThis, 'fetch');
+    // requireAuth defaults to true; no cpToken input/secret and no
+    // TIBCOPlatformToken configured, so a real run would throw. The dry-run
+    // must surface the same misconfiguration rather than emit synthetic output.
+    const config = new ConfigReader({
+      app: { baseUrl: 'http://localhost:3000' },
+      cpLink: 'https://cp.test',
+    });
+    const action = fetchPlatformApiAction(config);
+
+    const ctx = createMockContext(
+      { endpoint: '/api/v1/resources', method: 'POST', body: { a: 1 } },
+      tmpDir,
+    );
+    (ctx as any).isDryRun = true;
+
+    await expect(action.handler(ctx as any)).rejects.toThrow(
+      /Authentication required/i,
+    );
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(ctx.outputs.status).toBeUndefined();
+  });
+
   it('throws when no baseUrl and no cpLink configured', async () => {
     const config = new ConfigReader({});
     const action = fetchPlatformApiAction(config);
