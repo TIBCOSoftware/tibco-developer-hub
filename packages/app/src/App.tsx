@@ -190,11 +190,12 @@ const CustomImportFlowPage = () => {
               const tags = entity.metadata.tags?.map(v => v.toLowerCase());
               return !!(
                 tags?.includes('import-flow') &&
+                !tags?.includes('devhub-marketplace') &&
                 !tags?.includes('devhub-internal')
               );
             }}
             requiredTags={['import-flow']}
-            excludedTags={['devhub-internal']}
+            excludedTags={['devhub-marketplace', 'devhub-internal']}
             groups={groups}
             headerOptions={{
               pageTitleOverride: 'Import Flow',
@@ -238,11 +239,12 @@ const CustomSelfServicePage = () => {
               const tags = entity.metadata.tags?.map(v => v.toLowerCase());
               return !!(
                 tags?.includes('self-service') &&
-                !tags?.includes('devhub-marketplace')
+                !tags?.includes('devhub-marketplace') &&
+                !tags?.includes('devhub-internal')
               );
             }}
             requiredTags={['self-service']}
-            excludedTags={['devhub-marketplace']}
+            excludedTags={['devhub-marketplace', 'devhub-internal']}
             groups={groups}
             headerOptions={{
               pageTitleOverride: 'Self Service',

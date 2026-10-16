@@ -20,7 +20,10 @@ import { examples } from './git-push.examples.ts';
 export function gitPushAction(config: RootConfigService) {
   return createTemplateAction({
     id: 'tibco:git:push',
-    description: 'Commits and push to a git repository.',
+    description: 'Commits and pushes to a git repository.',
+    // Mutates a remote, so during a dry-run the push is suppressed and the
+    // intent is logged instead (see the isDryRun guard in the handler).
+    supportsDryRun: true,
     examples,
     schema: {
       input: {
@@ -50,6 +53,34 @@ export function gitPushAction(config: RootConfigService) {
       },
     },
     async handler(ctx) {
+      if (ctx.isDryRun) {
+        // Validate the workspace/sourcePath during the dry-run too, mirroring the
+        // real path's checks and failOnError semantics, so a misconfigured
+        // sourcePath surfaces instead of the dry-run silently "succeeding".
+        try {
+          const relativeWorkspacePath = resolveSafeChildPath(
+            ctx.workspacePath,
+            ctx.input.sourcePath || '',
+          );
+          if (!existsSync(relativeWorkspacePath)) {
+            throw new Error('Source path relative to workspace does not exist');
+          }
+          ctx.logger.info(
+            `[dry-run] Would commit and push to branch "${
+              ctx.input.branch ?? 'current'
+            }" with message "${
+              ctx.input.commitMessage ?? 'Committed by TIBCO Developer Hub'
+            }". No remote changes made.`,
+          );
+        } catch (err) {
+          ctx.logger.error('Error while pushing to the git repository');
+          ctx.logger.error(`${err}`);
+          if (ctx.input.failOnError) {
+            throw err;
+          }
+        }
+        return;
+      }
       try {
         ctx.logger.info(
           `Source path relative to workspace: ${ctx.input.sourcePath || ''}`,
@@ -66,7 +97,7 @@ export function gitPushAction(config: RootConfigService) {
           ctx.input.sourcePath || '',
         );
         if (!existsSync(relativeWorkspacePath)) {
-          throw new Error('Source path relative to workspace do not exist');
+          throw new Error('Source path relative to workspace does not exist');
         }
         ctx.logger.info(`Final workspace path: ${relativeWorkspacePath}`);
 
