@@ -12,6 +12,18 @@ The TIBCO Developer Hub is a comprehensive developer portal that addresses one o
 
 First of all the TIBCO Developer Hub is a **portal** that acts as a **single pane of glass** for everything related to your TIBCO Development. It is not the intention to replace any of your existing systems it rather brings it all together in one place.
 
+<div style="position:relative;padding-top:56.25%;max-width:880px;margin:1.5rem auto;">
+  <a href="https://www.youtube.com/watch?v=bNzv4f4gUPw"><img src="https://img.youtube.com/vi/bNzv4f4gUPw/maxresdefault.jpg" alt="See Your Entire Integration Estate in One Place — TIBCO Developer Hub" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:8px;"></a>
+  <iframe
+    src="https://www.youtube.com/embed/bNzv4f4gUPw"
+    title="See Your Entire Integration Estate in One Place — TIBCO Developer Hub"
+    loading="lazy"
+    style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:8px;"
+  ></iframe>
+</div>
+
+<p style="text-align:center;"><a href="https://www.youtube.com/watch?v=bNzv4f4gUPw">Watch on YouTube</a></p>
+
 ## Core Concepts
 
 ### 🔍 **Find Resources**
