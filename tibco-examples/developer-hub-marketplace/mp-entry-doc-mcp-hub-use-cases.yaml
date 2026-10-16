@@ -1,0 +1,96 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: mp-entry-doc-mcp-hub-use-cases
+  title: MCP Hub Scenarios & Policies
+  description: |-
+    A scenario library for **TIBCO MCP Hub** — the Control Plane console that deploys MCP Gateways, connects MCP servers, composes Virtual Servers and governs every agent tool call.
+
+    Each scenario starts from a real business problem and shows which capability or policy plugin answers it, where it sits in the pipeline, the exact configuration, what the agent and the operator see, the traps teams hit, and where the control stops.
+
+    - **Capabilities:** bulk import from API specs, BW5 WSDL, registry auto-discovery, Flogo federation, runtime tool lifecycle, bring-your-own IdP and external policy, on-prem, call accountability
+    - **Plugin pipeline & business compositions:** hooks, order and cost of a governance stack; five end-to-end compositions such as safe customer support and controlled fulfillment
+    - **Integration:** Flogo agents on the Hub, reason-vs-execute, BW5 SOAP services as MCP tools
+    - **37 policy plugins** across access & credentials, data protection, content safety, reliability & cost, validation, response shaping and observability
+  backstage.io/techdocs-ref: dir:.
+  tibco.developer.hub/marketplace:
+    isNew: true
+    popularity: 0
+    isMultiInstall: false
+    imageURL: ""
+    moreInfo:
+      - text: TIBCO Platform
+        url: https://www.tibco.com/platform
+        icon: star
+      - icon: docs
+        text: Model Context Protocol
+        url: https://modelcontextprotocol.io/
+  tags:
+    - devhub-marketplace
+    - mcp
+    - mcp-hub
+    - ai-governance
+    - security
+    - tibco-platform
+    - agentic-ai
+spec:
+  owner: group:default/marketplace-entries-group
+  type: document
+  presentation:
+    buttonLabels:
+      createButtonText: Get
+  parameters:
+    - title: Accept the Marketplace Entry
+      required:
+        - accept
+      errorMessage: Please accept the Marketplace Entry
+      properties:
+        description:
+          type: "null"
+          description: |
+            ## Get  MCP Hub Scenarios & Policies added to your TIBCO Developer Hub
+
+            **ID:** mp-entry-doc-mcp-hub-use-cases
+
+            **Description:** A scenario library for **TIBCO MCP Hub** — the Control Plane console that deploys MCP Gateways, connects MCP servers, composes Virtual Servers and governs every agent tool call.
+
+            Each scenario starts from a real business problem and shows which capability or policy plugin answers it, where it sits in the pipeline, the exact configuration, what the agent and the operator see, the traps teams hit, and where the control stops.
+
+            - **Capabilities:** bulk import from API specs, BW5 WSDL, registry auto-discovery, Flogo federation, runtime tool lifecycle, bring-your-own IdP and external policy, on-prem, call accountability
+            - **Plugin pipeline & business compositions:** hooks, order and cost of a governance stack; five end-to-end compositions such as safe customer support and controlled fulfillment
+            - **Integration:** Flogo agents on the Hub, reason-vs-execute, BW5 SOAP services as MCP tools
+            - **37 policy plugins** across access & credentials, data protection, content safety, reliability & cost, validation, response shaping and observability 
+
+            Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
+            This item is subject to the following [license](https://github.com/TIBCOSoftware/tibco-developer-hub/blob/main/LICENSE.TXT).
+
+            **By accessing or using this item, you agree to assume full responsibility for its proper use and compliance with all applicable license terms.**
+        accept:
+          title: I Agree
+          type: boolean
+          default: null
+          enum:
+            - null
+            - true
+  steps:
+    - id: registerItem
+      name: Getting Marketplace Entry...
+      action: catalog:register
+      input:
+        catalogInfoUrl: https://github.com/TIBCOSoftware/tibco-developer-hub-marketplace/blob/main/platform/mcp-hub-use-cases/catalog-info.yaml
+  output:
+    links:
+      - title: Open in catalog
+        type: catalog
+        icon: catalog
+        entityRef: ${{ steps.registerItem.output.entityRef }}
+      - title: Documents
+        url: /docs?filters%5Buser%5D=all&limit=20
+        icon: techdocs
+      - icon: docs
+        title: Open MCP Hub Scenarios & Policies
+        url: /docs/default/system/mcp-hub-use-cases
+        type: openButton
+      - title: Back to Marketplace
+        url: /marketplace
+        icon: dashboard
