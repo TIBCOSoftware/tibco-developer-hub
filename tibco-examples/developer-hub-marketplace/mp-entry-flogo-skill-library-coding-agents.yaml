@@ -3,13 +3,19 @@ kind: Template
 metadata:
   name: mp-entry-flogo-skill-library-coding-agents
   title: Flogo Skill Library
-  description: Skills for AI coding agents (such as Claude Code) to design, build,
-    test, and deploy TIBCO Flogo integration applications. Drop these skills
-    into any project to give your coding agent step-by-step recipes and CLI
-    references for the Flogo Design Assistant, Flogo build CLI, and TIBCO
-    Platform CLI — including ready-to-use patterns like REST-to-database APIs
-    and Excel-driven mappings. Install the documentation, then run the included
-    template to scaffold a new project pre-seeded with the skills.
+  description: "Skills for AI coding agents (Claude Code, GitHub Copilot, AWS
+    Kiro, and more) to design, build, test, and deploy TIBCO Flogo integration
+    applications. Nine skills give your coding agent step-by-step recipes and
+    CLI references for the Flogo Design Assistant, the Flogo App Build CLI, and
+    the TIBCO Platform CLI — mappings, unit tests, Excel-driven flows,
+    REST-to-database APIs, and deployment. Includes the Agentic AI Use Case
+    Builder: describe a use case in plain English and the agent designs, builds,
+    and tests a governed Flogo agentic app (MCP Server + A2A reasoning agents +
+    WebSocket AI orchestrator, backed by PostgreSQL) with scoped reads, two-step
+    guarded writes, and a human-in-the-loop reviewer — the same pattern behind
+    14 ready-to-run industry use cases across 10 verticals. Install the
+    documentation, then run the included template to scaffold a new project
+    pre-seeded with the skills."
   backstage.io/techdocs-ref: dir:.
   tibco.developer.hub/marketplace:
     isNew: false
@@ -26,6 +32,12 @@ metadata:
       - icon: github
         text: Flogo Skills
         url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/skills-library
+      - icon: github
+        text: Agentic AI Use Case Builder
+        url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/skills-library/.claude/skills/agentic-ai-use-case-builder
+      - icon: github
+        text: Agentic AI Industry Use Cases
+        url: https://github.com/TIBCOSoftware/flogo-enterprise-hub/tree/master/samples/Agentic_AI/Industry_Use_Cases
       - icon: docs
         text: Skills
         url: https://agentskills.io/home
@@ -34,7 +46,10 @@ metadata:
     - artificial-intelligence
     - coding-agents
     - claude-code
+    - github-copilot
     - skills
+    - agentic-ai
+    - mcp
     - flogo
     - developer-productivity
 spec:
@@ -56,7 +71,7 @@ spec:
 
             **ID:** mp-entry-flogo-skill-library-coding-agents
 
-            **Description:** Skills for AI coding agents (such as Claude Code) to design, build, test, and deploy TIBCO Flogo integration applications. Drop these skills into any project to give your coding agent step-by-step recipes and CLI references for the Flogo Design Assistant, Flogo build CLI, and TIBCO Platform CLI — including ready-to-use patterns like REST-to-database APIs and Excel-driven mappings. Install the documentation, then run the included template to scaffold a new project pre-seeded with the skills. 
+            **Description:** Skills for AI coding agents (Claude Code, GitHub Copilot, AWS Kiro, and more) to design, build, test, and deploy TIBCO Flogo integration applications. Nine skills give your coding agent step-by-step recipes and CLI references for the Flogo Design Assistant, the Flogo App Build CLI, and the TIBCO Platform CLI — mappings, unit tests, Excel-driven flows, REST-to-database APIs, and deployment. Includes the Agentic AI Use Case Builder: describe a use case in plain English and the agent designs, builds, and tests a governed Flogo agentic app (MCP Server + A2A reasoning agents + WebSocket AI orchestrator, backed by PostgreSQL) with scoped reads, two-step guarded writes, and a human-in-the-loop reviewer — the same pattern behind 14 ready-to-run industry use cases across 10 verticals. Install the documentation, then run the included template to scaffold a new project pre-seeded with the skills. 
 
             Each item made available to you in the TIBCO® Developer Hub Marketplace is subject to its own individual license. You are responsible for reviewing the specific license terms that apply to each item that you access or use. Cloud Software Group, Inc. and its affiliates: (1) do not make any representation, promises, or guarantees about these items; and (2) are making these items available to you "AS IS," without any warranties or indemnities.
             This item is subject to the following [license](https://github.com/TIBCOSoftware/flogo-enterprise-hub//blob/master/LICENSE).
@@ -84,6 +99,9 @@ spec:
       - title: Documents
         url: /docs?filters%5Buser%5D=all&limit=20
         icon: techdocs
+      - icon: kind:template
+        title: Run Flogo Skill Library Template
+        url: /create/templates/default/flogo-skill-library-template
       - icon: docs
         title: Open Flogo Skill Library Docs
         url: /docs/default/system/flogo-skill-library
