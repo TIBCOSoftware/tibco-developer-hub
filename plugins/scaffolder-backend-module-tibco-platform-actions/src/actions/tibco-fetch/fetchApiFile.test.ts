@@ -54,6 +54,43 @@ describe('tibco:fetch-api-file', () => {
     expect(action.id).toBe('tibco:fetch-api-file');
   });
 
+  it('declares dry-run support', () => {
+    const mockCatalog: Partial<CatalogService> = {
+      getEntityByRef: jest.fn(),
+    };
+    const action = fetchApiFileAction(mockCatalog as CatalogService);
+    expect(action.supportsDryRun).toBe(true);
+  });
+
+  it('writes the API definition during a dry-run (reads catalog, runs unchanged)', async () => {
+    const apiEntity = {
+      apiVersion: 'backstage.io/v1alpha1',
+      kind: 'API',
+      metadata: { name: 'my-api', namespace: 'default' },
+      spec: {
+        type: 'openapi',
+        definition: '{"openapi":"3.0.0"}',
+      },
+    };
+
+    const mockCatalog: Partial<CatalogService> = {
+      getEntityByRef: jest.fn().mockResolvedValue(apiEntity),
+    };
+    const action = fetchApiFileAction(mockCatalog as CatalogService);
+
+    const ctx = createMockContext(
+      { kind: 'API', name: 'my-api', path: 'spec.json' },
+      tmpDir,
+    );
+    (ctx as any).isDryRun = true;
+
+    await action.handler(ctx as any);
+
+    const written = await fs.readFile(path.join(tmpDir, 'spec.json'), 'utf8');
+    expect(written).toBe('{"openapi":"3.0.0"}');
+    expect(ctx.outputs.apiType).toBe('openapi');
+  });
+
   it('writes API definition from a direct API entity', async () => {
     const apiEntity = {
       apiVersion: 'backstage.io/v1alpha1',

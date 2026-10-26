@@ -16,6 +16,7 @@ import SampleDetailIcon from '../../images/sample-detail-image.svg';
 import TemplateDetailIcon from '../../images/template-detail-image.svg';
 import ImportFlowDetailIcon from '../../images/import-flow-detail-image.svg';
 import SelfServiceDetailIcon from '../../images/self-service-detail-image.svg';
+import SolutionsDetailIcon from '../../images/solutions-detail-image.svg';
 import BlankDetailIcon from '../../images/blank-detail-image.svg';
 import AIDetailIcon from '../../images/ai-detail-image.svg';
 import { MarkdownContent } from '@backstage/core-components';
@@ -202,6 +203,9 @@ export const MarketplaceDetailPage = (props: MarketplaceDetailPageProps) => {
         break;
       case 'self-service':
         defaultIcon = SelfServiceDetailIcon;
+        break;
+      case 'solutions':
+        defaultIcon = SolutionsDetailIcon;
         break;
       default:
         defaultIcon = BlankDetailIcon;

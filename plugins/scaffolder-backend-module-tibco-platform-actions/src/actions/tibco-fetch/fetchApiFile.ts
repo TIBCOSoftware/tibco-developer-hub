@@ -15,6 +15,10 @@ export const fetchApiFileAction = (catalog: CatalogService) => {
     id: 'tibco:fetch-api-file',
     description:
       'Fetches an API definition from an Entity and writes it to a file.',
+    // Reads the catalog and writes to the workspace only (no external
+    // mutation), so it is safe — and meaningful — to run unchanged during a
+    // dry-run.
+    supportsDryRun: true,
     examples: fetchApiFileExamples,
     schema: {
       input: z =>

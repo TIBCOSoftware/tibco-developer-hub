@@ -7,6 +7,9 @@ import { writeFileExamples } from './writeFile.examples';
 export const writeFileAction = createTemplateAction({
   id: 'tibco:file:write',
   description: 'Writes content to a file',
+  // Workspace-only operation (sandboxed via resolveSafeChildPath), so it is
+  // safe — and meaningful — to run unchanged during a dry-run.
+  supportsDryRun: true,
   examples: writeFileExamples,
   schema: {
     input: z =>

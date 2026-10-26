@@ -45,6 +45,9 @@ export function createYamlAction() {
     id: 'tibco:create-yaml',
     description:
       'Tibco platform create yaml action, refer to examples for outputStructure schema',
+    // Workspace-only operation (sandboxed via resolveSafeChildPath), so it is
+    // safe — and meaningful — to run unchanged during a dry-run.
+    supportsDryRun: true,
     examples,
     schema: {
       input: {

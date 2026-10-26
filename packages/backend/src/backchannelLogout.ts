@@ -22,46 +22,9 @@ export const MAX_SECONDARY_KEYS = 1000;
 export type LogoutVerifier = {
   /** JWKS key resolver bound to the IdP's signing keys. */
   keySet: JWTVerifyGetKey;
-  /** Expected `iss` claim (the CP IdM's canonical issuer). */
-  issuer: string;
 };
 
 let verifierPromise: Promise<LogoutVerifier> | undefined;
-
-/**
- * Derives the region-level admin-plane issuer from the tenant OIDC issuer.
- *
- * The CP admin plane mints back-channel logout tokens for every tenant in a
- * region from a single `admin.<region>` host, whereas the OIDC discovery
- * document advertises the per-tenant issuer (`<tenant>.<region>`). They share
- * everything after the first host label, so we drop the tenant label and prefix
- * `admin.` — e.g. `https://ptdev.us-west.cp-dev-my.tcie.pro` yields
- * `https://admin.us-west.cp-dev-my.tcie.pro`.
- *
- * Returns `undefined` when no meaningful admin issuer can be derived (e.g. the
- * issuer host has no region portion, such as `localhost`), in which case only
- * the tenant issuer is accepted.
- */
-export function deriveAdminIssuer(issuer: string): string | undefined {
-  let url: URL;
-  try {
-    url = new URL(issuer);
-  } catch {
-    return undefined;
-  }
-  const labels = url.hostname.split('.');
-  // Need at least a tenant label plus a region portion to strip and rebuild.
-  if (labels.length < 2) {
-    return undefined;
-  }
-  // Replace the tenant label with `admin`, preserving any port and path so a
-  // discovered issuer that carries either (e.g. local/dev, or a path-based
-  // issuer) still matches the `iss` in logout tokens.
-  labels[0] = 'admin';
-  url.hostname = labels.join('.');
-  const path = url.pathname === '/' ? '' : url.pathname.replace(/\/+$/, '');
-  return `${url.origin}${path}`;
-}
 
 async function discoverLogoutVerifier(): Promise<LogoutVerifier> {
   const cpUrl = getCPUrl();
@@ -104,12 +67,12 @@ async function discoverLogoutVerifier(): Promise<LogoutVerifier> {
   const keySet = createRemoteJWKSet(new URL(jwksUri), {
     headers: { 'x-cp-host': cpUrl.host },
   });
-  return { keySet, issuer: metadata.issuer };
+  return { keySet };
 }
 
 /**
- * Lazily discovers (and caches) the issuer + JWKS used to verify back-channel
- * logout tokens. A failed discovery is not cached so the next request retries.
+ * Lazily discovers (and caches) the JWKS used to verify back-channel logout
+ * tokens. A failed discovery is not cached so the next request retries.
  */
 export function getLogoutVerifier(): Promise<LogoutVerifier> {
   if (!verifierPromise) {
@@ -122,34 +85,83 @@ export function getLogoutVerifier(): Promise<LogoutVerifier> {
 }
 
 /**
- * Cryptographically verifies a CP back-channel logout token's signature and
- * issuer, then returns the (bounded) list of secondary cache keys it authorises
- * for eviction. The previous implementation decoded the token WITHOUT verifying
- * its signature, letting any unauthenticated caller supply an arbitrary
- * `secondaryKeys` array and evict other users' cached sessions.
+ * OIDC back-channel logout event URI. A genuine logout token carries this under
+ * its `events` claim; access/id tokens the same JWKS could sign do not.
+ */
+const BACKCHANNEL_LOGOUT_EVENT =
+  'http://schemas.openid.net/event/backchannel-logout';
+
+/**
+ * Max accepted age of a logout token, in seconds. Enforced via jose's
+ * `maxTokenAge` against the `iat` claim to bound replay of a captured token
+ * (and the repeated bounded cache work it would trigger). The CP delivers
+ * logout tokens promptly server-to-server, so a short window is safe.
+ */
+const LOGOUT_TOKEN_MAX_AGE_SECONDS = 600;
+
+/**
+ * Clock-skew tolerance (seconds) applied to the `iat`/`maxTokenAge` check. These
+ * tokens are verified immediately on receipt, so a small tolerance absorbs
+ * ordinary clock drift between CP and this backend without meaningfully widening
+ * the replay window.
+ */
+const LOGOUT_TOKEN_CLOCK_TOLERANCE_SECONDS = 60;
+
+/**
+ * Cryptographically verifies a CP back-channel logout token, then returns the
+ * (bounded) list of secondary cache keys it authorises for eviction. The
+ * previous implementation decoded the token WITHOUT verifying its signature,
+ * letting any unauthenticated caller supply an arbitrary `secondaryKeys` array
+ * and evict other users' cached sessions.
  *
- * The token's signature is always verified against the CP's JWKS (whose origin
- * is pinned during discovery). In addition to the tenant issuer, the region
- * admin-plane issuer is accepted, since the CP admin plane signs logout tokens
- * for the whole region with a key served by that same trusted JWKS — see
- * {@link deriveAdminIssuer}. This does not widen the trust anchor, only the set
- * of legitimate `iss` strings.
+ * Validation, in order:
+ * 1. **Signature** against the CP's JWKS (origin pinned during discovery) — the
+ *    trust anchor; only tokens genuinely signed by the CP are honoured.
+ * 2. **Audience** (when `expectedAudience` is configured) must equal our OIDC
+ *    `client_id`, so another CP client's token cannot be replayed here
+ *    (cross-client token confusion).
+ * 3. **Freshness** — `iat` is required and the token must be no older than
+ *    {@link LOGOUT_TOKEN_MAX_AGE_SECONDS} (`maxTokenAge`), bounding replay of a
+ *    captured token.
+ * 4. **`events` claim** must carry the back-channel-logout event, so a
+ *    different CP-signed token type (access/id token) is not accepted here.
  *
- * @throws if the signature is invalid, the issuer does not match, or the token
- * is otherwise malformed — callers should treat any throw as a 401.
+ * The `iss` claim is intentionally NOT checked — the CP mints logout tokens for
+ * a whole region from an admin-plane host whose exact `iss` is not reliably
+ * derivable from the per-tenant discovery issuer; the signature + audience +
+ * freshness + event checks establish authenticity and purpose without it.
+ *
+ * @throws if the signature is invalid, the audience/freshness/event checks fail,
+ * or the token is otherwise malformed — callers should treat any throw as a 401.
  */
 export async function verifyLogoutToken(
   logoutToken: string,
   verifier: LogoutVerifier,
+  expectedAudience?: string,
 ): Promise<string[]> {
-  const adminIssuer = deriveAdminIssuer(verifier.issuer);
-  const acceptedIssuers =
-    adminIssuer && adminIssuer !== verifier.issuer
-      ? [verifier.issuer, adminIssuer]
-      : [verifier.issuer];
   const { payload } = await jwtVerify(logoutToken, verifier.keySet, {
-    issuer: acceptedIssuers,
+    maxTokenAge: LOGOUT_TOKEN_MAX_AGE_SECONDS,
+    clockTolerance: LOGOUT_TOKEN_CLOCK_TOLERANCE_SECONDS,
+    ...(expectedAudience ? { audience: expectedAudience } : {}),
   });
+  const events = (payload as JWTPayload & { events?: unknown }).events;
+  // Per OIDC Back-Channel Logout, `events` is a JSON object whose member for the
+  // logout event is itself a JSON object ({}). Require the member's value to be a
+  // (non-array) object, not merely present, so a malformed scalar value does not
+  // pass the purpose check.
+  const eventValue =
+    typeof events === 'object' && events !== null
+      ? (events as Record<string, unknown>)[BACKCHANNEL_LOGOUT_EVENT]
+      : undefined;
+  if (
+    typeof eventValue !== 'object' ||
+    eventValue === null ||
+    Array.isArray(eventValue)
+  ) {
+    throw new Error(
+      'Not a back-channel logout token (missing or malformed back-channel-logout event)',
+    );
+  }
   const secondaryKeys = (payload as JWTPayload & { secondaryKeys?: unknown })
     .secondaryKeys;
   if (!Array.isArray(secondaryKeys)) {

@@ -20,6 +20,8 @@ import AIBgIcon from '../../images/ai-bg.svg';
 import AIIcon from '../../images/ai-icon.svg';
 import SelfServiceBgIcon from '../../images/self-service-bg.svg';
 import SelfServiceIcon from '../../images/self-service-icon.svg';
+import SolutionsBgIcon from '../../images/solutions-bg.svg';
+import SolutionsIcon from '../../images/solutions-icon.svg';
 import { MarketplaceEntity } from '../MarketplaceListPage/MarketplaceListPage.tsx';
 import Highlighter from 'react-highlight-words';
 import { HighlightContext } from '../Filtering/HighlightContext.tsx';
@@ -160,6 +162,10 @@ const HeaderImage = ({ template }: CardHeaderProps) => {
     case 'self-service':
       bg = SelfServiceBgIcon;
       icon = SelfServiceIcon;
+      break;
+    case 'solutions':
+      bg = SolutionsBgIcon;
+      icon = SolutionsIcon;
       break;
     default:
       bg = BlankBgIcon;

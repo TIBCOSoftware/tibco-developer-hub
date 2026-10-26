@@ -1,6 +1,6 @@
 {
   "name": "@internal/plugin-techdocs-mcp-backend",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "license": "Apache-2.0",
   "private": true,
   "description": "Exposes TechDocs component documentation as MCP tools via the actions registry.",
