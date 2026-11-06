@@ -124,6 +124,38 @@ describe('MarketplaceDetailPage Component', () => {
     expect(screen.getByTestId('detail-default-image')).toBeInTheDocument();
   });
 
+  it('renders the Solutions detail banner for the solutions type', async () => {
+    const solutionsTemplate = {
+      ...mockTemplate,
+      metadata: {
+        ...mockTemplate.metadata,
+        'tibco.developer.hub/marketplace': {},
+      },
+      spec: {
+        type: 'solutions',
+        steps: [],
+      },
+    };
+    await renderInTestApp(
+      <TestApiProvider
+        apis={[
+          [permissionApiRef, mockApis.permission()],
+          [starredEntitiesApiRef, mockStarredApi],
+          [catalogApiRef, mockCatalogApi],
+        ]}
+      >
+        <MarketplaceDetailPage
+          onSetTemplate={jest.fn()}
+          template={solutionsTemplate}
+          onCloseDetailPage={jest.fn()}
+        />
+      </TestApiProvider>,
+    );
+    const banner = screen.getByTestId('detail-default-image');
+    expect(banner).toBeInTheDocument();
+    expect(banner).toHaveAttribute('src', 'solutions-detail-image.svg');
+  });
+
   it('renders external links when links are provided', async () => {
     await renderInTestApp(
       <TestApiProvider

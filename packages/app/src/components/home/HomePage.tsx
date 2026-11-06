@@ -137,6 +137,7 @@ export const HomePage = () => {
                       );
                       return (
                         tags?.includes('import-flow') &&
+                        !tags?.includes('devhub-marketplace') &&
                         !tags?.includes('devhub-internal')
                       );
                     });

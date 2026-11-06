@@ -195,6 +195,25 @@ describe('CardHeader Component', () => {
     expect(screen.getByAltText('document')).toBeInTheDocument();
   });
 
+  it('renders Solutions type correctly with its own artwork', async () => {
+    const solutionsTemplate = {
+      ...mockTemplate,
+      spec: {
+        type: 'solutions',
+        steps: [],
+      },
+    };
+    await renderInTestApp(
+      <TestApiProvider apis={[[starredEntitiesApiRef, mockStarredEntitiesApi]]}>
+        <CardHeader template={solutionsTemplate} />
+      </TestApiProvider>,
+    );
+    expect(screen.getByText('Solutions')).toBeInTheDocument();
+    const icon = screen.getByAltText('solutions');
+    expect(icon).toBeInTheDocument();
+    expect(icon).toHaveAttribute('src', 'solutions-icon.svg');
+  });
+
   it('handles unknown types by using blank icon and fallback formatting', async () => {
     const unknownTemplate = {
       ...mockTemplate,

@@ -13,15 +13,14 @@ import {
 } from 'jose';
 import {
   MAX_SECONDARY_KEYS,
-  deriveAdminIssuer,
   verifyLogoutToken,
   type LogoutVerifier,
 } from './backchannelLogout';
 
 const ISSUER = 'https://cp.example.com';
-// Region admin-plane issuer derived from ISSUER (drop first label, prefix admin.).
-const ADMIN_ISSUER = 'https://admin.example.com';
-const OTHER_ISSUER = 'https://evil.example.com';
+const AUDIENCE = 'client-123';
+const BACKCHANNEL_LOGOUT_EVENT =
+  'http://schemas.openid.net/event/backchannel-logout';
 const ALG = 'RS256';
 
 type TestKeys = {
@@ -40,13 +39,32 @@ async function makeKeys(): Promise<TestKeys> {
 async function signToken(
   privateKey: KeyLike,
   payload: Record<string, unknown>,
-  issuer = ISSUER,
+  {
+    issuer = ISSUER,
+    audience = AUDIENCE,
+    includeEvent = true,
+    iat,
+  }: {
+    issuer?: string;
+    audience?: string;
+    includeEvent?: boolean;
+    iat?: number;
+  } = {},
 ): Promise<string> {
-  return new SignJWT(payload)
+  const claims: Record<string, unknown> = { ...payload };
+  // A genuine back-channel logout token carries the logout event; include it by
+  // default so the happy-path tests exercise a realistic token.
+  if (includeEvent && claims.events === undefined) {
+    claims.events = { [BACKCHANNEL_LOGOUT_EVENT]: {} };
+  }
+  const builder = new SignJWT(claims)
     .setProtectedHeader({ alg: ALG })
     .setIssuer(issuer)
-    .setIssuedAt()
-    .sign(privateKey);
+    .setIssuedAt(iat);
+  if (audience !== undefined) {
+    builder.setAudience(audience);
+  }
+  return builder.sign(privateKey);
 }
 
 describe('verifyLogoutToken', () => {
@@ -55,7 +73,7 @@ describe('verifyLogoutToken', () => {
 
   beforeEach(async () => {
     keys = await makeKeys();
-    verifier = { keySet: keys.keySet, issuer: ISSUER };
+    verifier = { keySet: keys.keySet };
   });
 
   it('returns the secondaryKeys from a validly-signed token', async () => {
@@ -78,13 +96,14 @@ describe('verifyLogoutToken', () => {
     await expect(verifyLogoutToken(token, verifier)).rejects.toThrow();
   });
 
-  it('accepts a validly-signed token from the region admin issuer', async () => {
-    // The CP admin plane signs logout tokens with a key from the same trusted
-    // JWKS but sets iss to the region admin host, not the tenant issuer.
+  it('accepts a validly-signed token regardless of its iss claim', async () => {
+    // The signature (against the pinned CP JWKS) is the trust anchor; the iss
+    // claim is intentionally not checked, so a token from the region admin-plane
+    // host (a different iss than the per-tenant discovery issuer) is honoured.
     const token = await signToken(
       keys.privateKey,
       { secondaryKeys: ['x', 'y'] },
-      ADMIN_ISSUER,
+      { issuer: 'https://admin.us-west.cp-dev-my.tcie.pro' },
     );
     await expect(verifyLogoutToken(token, verifier)).resolves.toEqual([
       'x',
@@ -92,30 +111,59 @@ describe('verifyLogoutToken', () => {
     ]);
   });
 
-  it('accepts an admin-issuer token when the tenant issuer carries a port', async () => {
-    // Local/dev: discovered issuer has an explicit port; the derived admin
-    // issuer must keep it so the logout token's iss still matches.
-    const portVerifier: LogoutVerifier = {
-      keySet: keys.keySet,
-      issuer: 'https://ptdev.us-west.example.com:8443',
-    };
-    const token = await signToken(
-      keys.privateKey,
-      { secondaryKeys: ['z'] },
-      'https://admin.us-west.example.com:8443',
+  it('accepts a token addressed to the expected audience', async () => {
+    const token = await signToken(keys.privateKey, {
+      secondaryKeys: ['x'],
+    });
+    await expect(verifyLogoutToken(token, verifier, AUDIENCE)).resolves.toEqual(
+      ['x'],
     );
-    await expect(verifyLogoutToken(token, portVerifier)).resolves.toEqual([
-      'z',
-    ]);
   });
 
-  it('rejects a validly-signed token from the wrong issuer', async () => {
+  it('rejects a token addressed to a different audience', async () => {
     const token = await signToken(
       keys.privateKey,
       { secondaryKeys: ['x'] },
-      OTHER_ISSUER,
+      { audience: 'some-other-client' },
     );
-    await expect(verifyLogoutToken(token, verifier)).rejects.toThrow();
+    await expect(
+      verifyLogoutToken(token, verifier, AUDIENCE),
+    ).rejects.toThrow();
+  });
+
+  it('rejects a token without the back-channel-logout event claim', async () => {
+    // A different CP-signed token type (e.g. an access/id token) would verify by
+    // signature but must not be accepted as a logout token.
+    const token = await signToken(
+      keys.privateKey,
+      { secondaryKeys: ['x'] },
+      { includeEvent: false },
+    );
+    await expect(
+      verifyLogoutToken(token, verifier, AUDIENCE),
+    ).rejects.toThrow();
+  });
+
+  it('rejects a token whose back-channel-logout event value is not an object', async () => {
+    const token = await signToken(keys.privateKey, {
+      secondaryKeys: ['x'],
+      events: { [BACKCHANNEL_LOGOUT_EVENT]: 'not-an-object' },
+    });
+    await expect(
+      verifyLogoutToken(token, verifier, AUDIENCE),
+    ).rejects.toThrow();
+  });
+
+  it('rejects a token older than the max allowed age (replay)', async () => {
+    // iat one hour ago -> beyond the 10-minute maxTokenAge window.
+    const token = await signToken(
+      keys.privateKey,
+      { secondaryKeys: ['x'] },
+      { iat: Math.floor(Date.now() / 1000) - 3600 },
+    );
+    await expect(
+      verifyLogoutToken(token, verifier, AUDIENCE),
+    ).rejects.toThrow();
   });
 
   it('rejects a syntactically invalid token', async () => {
@@ -146,42 +194,5 @@ describe('verifyLogoutToken', () => {
     const result = await verifyLogoutToken(token, verifier);
     expect(result).toHaveLength(MAX_SECONDARY_KEYS);
     expect(result[0]).toBe('k0');
-  });
-});
-
-describe('deriveAdminIssuer', () => {
-  it('drops the tenant label and prefixes admin. for a region issuer', () => {
-    expect(deriveAdminIssuer('https://ptdev.us-west.cp-dev-my.tcie.pro')).toBe(
-      'https://admin.us-west.cp-dev-my.tcie.pro',
-    );
-  });
-
-  it('preserves the scheme', () => {
-    expect(deriveAdminIssuer('http://cp.example.com')).toBe(
-      'http://admin.example.com',
-    );
-  });
-
-  it('preserves an explicit port', () => {
-    expect(deriveAdminIssuer('https://ptdev.us-west.example.com:8443')).toBe(
-      'https://admin.us-west.example.com:8443',
-    );
-  });
-
-  it('preserves a non-root path without adding a trailing slash', () => {
-    expect(deriveAdminIssuer('https://ptdev.example.com/idm')).toBe(
-      'https://admin.example.com/idm',
-    );
-    expect(deriveAdminIssuer('https://ptdev.example.com/')).toBe(
-      'https://admin.example.com',
-    );
-  });
-
-  it('returns undefined when the host has no region portion', () => {
-    expect(deriveAdminIssuer('https://localhost')).toBeUndefined();
-  });
-
-  it('returns undefined for a non-URL issuer', () => {
-    expect(deriveAdminIssuer('not-a-url')).toBeUndefined();
   });
 });

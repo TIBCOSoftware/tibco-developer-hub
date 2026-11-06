@@ -283,6 +283,10 @@ export const fetchPlatformApiAction = (config: Config) => {
     id: 'tibco:call-platform-api',
     description:
       'Calls an external API with authentication. Can use direct URL or Backstage proxy.',
+    // Read-only verbs (GET/HEAD/OPTIONS) run unchanged during a dry-run since
+    // they carry no risk; mutating verbs are suppressed and logged instead
+    // (see the isDryRun guard in the handler).
+    supportsDryRun: true,
     examples: fetchPlatformApiExamples,
     schema: {
       input: z =>
@@ -377,7 +381,13 @@ export const fetchPlatformApiAction = (config: Config) => {
         cpToken: inputToken,
       } = ctx.input;
 
-      // URL resolution
+      // Normalize the verb once so mutating-detection and the dry-run log agree
+      // on casing.
+      const normalizedMethod = (method ?? 'GET').toUpperCase();
+
+      // URL resolution — validated BEFORE the dry-run guard so a dry-run surfaces
+      // the same misconfiguration (missing baseUrl/cpLink) a real run would,
+      // instead of silently succeeding with synthetic output.
       const resolvedBaseUrl = baseUrl ?? getCpBaseUrl(config);
       if (!resolvedBaseUrl) {
         throw new Error(
@@ -430,14 +440,9 @@ export const fetchPlatformApiAction = (config: Config) => {
         );
       }
 
-      // Output platform URLs (config-derived, available regardless of API call outcome)
-      ctx.output(
-        'appBaseUrl',
-        config.getString('app.baseUrl').replace(/\/$/, ''),
-      );
-      ctx.output('cpBrowserUrl', getCpBrowserUrl(config));
-
-      // Authentication
+      // Authentication — resolved and validated BEFORE the dry-run guard so a
+      // dry-run surfaces the same auth misconfiguration a real run would (e.g.
+      // requireAuth with no token available) instead of silently succeeding.
       const cptoken = resolveAuthToken(
         inputToken,
         ctx.secrets?.cpToken,
@@ -453,8 +458,40 @@ export const fetchPlatformApiAction = (config: Config) => {
         );
       }
 
+      // During a dry-run, suppress mutating calls (anything other than the
+      // read-only verbs) so no real platform change is made. Read-only calls
+      // fall through and execute normally, which is what makes the dry-run
+      // meaningful. The emitted outputs here are SYNTHETIC placeholders, not a
+      // real API response. The SSRF/host guard and auth validation above still
+      // run first, so a misconfigured target or missing token surfaces during a
+      // dry-run too.
+      const isMutating = !['GET', 'HEAD', 'OPTIONS'].includes(normalizedMethod);
+      if (ctx.isDryRun && isMutating) {
+        ctx.logger.info(
+          `[dry-run] Would call ${normalizedMethod} ${endpoint}. Request suppressed. ` +
+            `Emitting synthetic status=200 and empty data.`,
+        );
+        ctx.output('status', 200);
+        ctx.output('data', {});
+        ctx.output('headers', {});
+        ctx.output('cpUrl', resolvedBaseUrl);
+        ctx.output(
+          'appBaseUrl',
+          config.getString('app.baseUrl').replace(/\/$/, ''),
+        );
+        ctx.output('cpBrowserUrl', getCpBrowserUrl(config));
+        return;
+      }
+
+      // Output platform URLs (config-derived, available regardless of API call outcome)
+      ctx.output(
+        'appBaseUrl',
+        config.getString('app.baseUrl').replace(/\/$/, ''),
+      );
+      ctx.output('cpBrowserUrl', getCpBrowserUrl(config));
+
       ctx.logger.info(
-        `tibco:call-platform-api — ${method} ${finalUrl} (contentType=${contentType}, requireAuth=${requireAuth})`,
+        `tibco:call-platform-api — ${normalizedMethod} ${finalUrl} (contentType=${contentType}, requireAuth=${requireAuth})`,
       );
 
       // Build request body

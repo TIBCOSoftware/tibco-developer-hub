@@ -50,6 +50,27 @@ describe('tibco:file:write', () => {
     expect(writeFileAction.id).toBe('tibco:file:write');
   });
 
+  it('declares dry-run support', () => {
+    expect(writeFileAction.supportsDryRun).toBe(true);
+  });
+
+  it('writes the file during a dry-run (workspace-only, runs unchanged)', async () => {
+    const ctx = createMockContext(
+      { filePath: 'dry-run.txt', content: 'dry run content' },
+      tmpDir,
+    );
+    (ctx as any).isDryRun = true;
+
+    await writeFileAction.handler(ctx as any);
+
+    const written = await fs.readFile(path.join(tmpDir, 'dry-run.txt'), 'utf8');
+    expect(written).toBe('dry run content');
+    expect(ctx.output).toHaveBeenCalledWith(
+      'filePath',
+      expect.stringContaining('dry-run.txt'),
+    );
+  });
+
   it('writes content to a new file', async () => {
     const ctx = createMockContext(
       { filePath: 'output.txt', content: 'hello world' },
