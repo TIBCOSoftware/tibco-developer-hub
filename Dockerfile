@@ -19,7 +19,7 @@ FROM alpine:3.24.3 as build
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
-ENV NODE_VERSION="24.22.1-r0"
+ENV NODE_VERSION="24.22.1-r1"
 
 # git is required by yarn test:all below: the simple-git v4 runtime smoke test
 # (scaffolder-backend-module-tibco-git-repositories) shells out to a real git.
@@ -59,7 +59,7 @@ FROM alpine:3.24.3 as node-builder
 
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
-ENV NODE_VERSION="24.22.1-r0"
+ENV NODE_VERSION="24.22.1-r1"
 ENV NODE_ENV=production
 
 RUN --mount=type=cache,target=/var/cache/apk,sharing=locked,uid=65532,gid=65532 \
@@ -89,7 +89,7 @@ FROM alpine:3.24.3
 RUN addgroup -g 65532 -S nonroot && adduser -u 65532 -S -G nonroot nonroot
 
 ENV PYTHON_VERSION="~3.14"
-ENV NODE_VERSION="24.22.1-r0"
+ENV NODE_VERSION="24.22.1-r1"
 ENV NODE_ENV=production
 ENV PYTHON=/usr/bin/python3
 
